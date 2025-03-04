@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml" href="../img/face.jpg">
+    <link rel="icon" type="image/svg+xml" href="../img/oldTV.png">
 
     <!-- Help auto scale for desktop & mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,7 +32,6 @@
     <header>
         <div class="logo">
             <!-- alt text can be blank since the logo is purely decorative and putting something like logo isn't actually helpful -->
-            <img src="img/cout.jpg" alt="">
         </div>
         <button class="nav-toggle" aria-label="toggle navigation">
             <span class="hamburger"></span>
@@ -48,7 +47,9 @@
         </nav>
     </header>
 
-    <!-- Introduction -->
+
+    
+    <!-- Main -->
 
     <section class="intro" id="#home">
         <!-- TODO put in a mouse based interactive shader visualization page-->
@@ -56,74 +57,71 @@
             <iframe src="webgl/for_fun.html"></iframe>
         </div> -->
         <h1 class="section__title section__title--intro">
-            Hi, I am <strong>TODO TODO</strong>
+            <strong> SEOHYEON MIN </strong>
         </h1>
-        <p class="section__subtitle section__subtitle--intro">Game Programmer/Designer/Developer/Player/TODO/TODO</p>
+        <p class="section__subtitle section__subtitle--intro">Game Programmer/Designer/Developer/Producer/TODO/TODO</p>
         <img src="img/face.jpg" alt="a picture of TODO TODO smiling" class="intro__img" />
     </section>
 
-    <!-- My Services -->
-    <section class="my-services" id="skills">
-        <h2 class="section__title section__title--services">SKLILZ</h2>
-        <div class="services">
-            <div class="service">
-                <h3>SKILL TODO</h3>
-                <p> TODO
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat.
-                </p>
-            </div>
 
-            <div class="service">
-                <h3>SKILL TODO</h3>
-                <p> TODO
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat.
-                </p>
-            </div>
 
-            <div class="service">
-                <h3>SKILL TODO</h3>
-                <p> TODO
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat.
-                </p>
-            </div>
-        </div>
-
-        <a href="#projects" class="btn">Projects</a>
-    </section>
-
-    <!-- About Me -->
+    <!-- Overview -->
     <section class="about-me" id="about">
-        <h2 class="section__title section__title--about">Who I am</h2>
-        <p class="section__subtitle section__subtitle--about">
-            Student Game Programmer TODO TODO
-        </p>
+        <h2 class="section__title section__title--about">Overview</h2>
 
         <div class="about-me__body">
             <p>
-                TODO Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
+                Creative developer with a strong passion for <strong>graphics programming, engine development, and tool programming</strong>.  
+                Proficient in <strong>OpenGL, SDL, and shader development</strong>, and experienced in <strong>building efficient and innovative systems</strong>  
+                to enhance workflow. A reliable and collaborative <strong>team player</strong> with leadership experience and an artistic sense.
             </p>
-            <p>
-                TODO Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
-            </p>
+            
         </div>
         <img src="img/tall.jpg" alt="picture of TODO TODO" class="about-me__img" />
     </section>
 
+
+
+
+    <!-- Skills -->
+    <section class="my-services" id="skills">
+        <h2>Skills</h2>
+        <ul>
+            <li><strong>Programming Languages:</strong> C++, C, GLSL</li>
+            <li><strong>Graphics & Game Development:</strong> OpenGL, SDL, Unreal Engine</li>
+            <li><strong>Tools & IDEs:</strong> Visual Studio, VS Code, Git</li>
+            <li><strong>Languages:</strong> English (Fluent), Korean (Native), Japanese (Basic)</li>
+        </ul>
+    </section>
+
+
     <!-- My Portfolio -->
     <section class="my-projects" id="projects">
-        <h2 class="section__title section__title--projects">My Projects</h2>
+        <h2 class="section__title section__title--projects">Projects: Game</h2>
         <p class="section__subtitle section__subtitle--projects">
-            A selection of my range of projects
+        </p>
+        <div class="portfolio">
+            <a href="game_portfolio/01_Manzo.html" class="portfolio__item">
+                <img src="img/portfolio_thumbnails/01_hello.jpg" alt="" class="portfolio__img" />
+            </a>
+            <a href="portfolio/02_meshes.html" class="portfolio__item">
+                <img src="img/portfolio_thumbnails/02_meshes.jpg" alt="" class="portfolio__img" />
+            </a>
+            <a href="portfolio/03_fog.html" class="portfolio__item">
+                <img src="img/portfolio_thumbnails/03_fog.jpg" alt="" class="portfolio__img" />
+            </a>
+            <a href="portfolio/04_toon.html" class="portfolio__item">
+                <img src="img/portfolio_thumbnails/04_toon.jpg" alt="" class="portfolio__img" />
+            </a>
+
+        </div>
+    </section>
+
+
+    <!-- My Portfolio -->
+    <section class="my-projects" id="projects">
+        <h2 class="section__title section__title--projects">Projects: Tech</h2>
+        <p class="section__subtitle section__subtitle--projects">
         </p>
         <div class="portfolio">
             <a href="portfolio/01_hello.html" class="portfolio__item">

@@ -39,26 +39,44 @@
 
 /* General Styles */
 
-html {
-  scroll-behavior: smooth;
+
+/* 모든 section 요소를 화면 중앙에 배치하는 스타일 */
+section {
+  display: flex; /* Flexbox를 사용하여 내부 요소를 정렬 */
+  justify-content: center; /* 가로 방향(수평) 중앙 정렬 */
+  align-items: center; /* 세로 방향(수직) 중앙 정렬 */
+  text-align: center; /* 텍스트를 중앙 정렬 */
 }
 
-body {
+body { 
   background: var(--clr-light);
   color: var(--clr-dark);
   margin: 0;
+  padding: 0;
   font-family: var(--ff-primary);
   font-size: var(--fs-body);
   line-height: 1.6;
+  height: 100%;
+  overflow: hidden;
 }
 
 section {
-  padding: 5em 2em;
+  height: 100vh;  /* 한 섹션이 화면 전체 높이를 차지 */
 }
 
 img {
   display: block;
   max-width: 100%;
+}
+
+.wrap {
+  position:relative;
+  top:0;
+  width:100%;height:100%;
+  transition: 0.5s;
+}
+.container {
+  width:100%;height:100%;
 }
 
 strong {
@@ -310,53 +328,6 @@ header {
   }
 }
 
-/* my services section */
-
-.my-services {
-  background-color: var(--clr-dark);
-  background-image: url(../img/skills-bg.jpg);
-  background-size: cover;
-  background-blend-mode: overlay;
-  color: var(--clr-light);
-  text-align: center;
-}
-
-.section__title--services {
-  color: var(--clr-accent);
-  position: relative;
-}
-
-.section__title--services::after {
-  content: "";
-  display: block;
-  width: 2em;
-  height: 1px;
-  margin: 0.5em auto 1em;
-  background: var(--clr-light);
-  opacity: 0.25;
-}
-
-.services {
-  margin-bottom: 4em;
-}
-
-.service {
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-@media (min-width: 800px) {
-  .services {
-    display: flex;
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .service + .service {
-    margin-left: 2em;
-  }
-}
 
 /* About Me */
 
@@ -401,6 +372,57 @@ header {
   }
 }
 
+
+/* Skills */
+
+.my-services {
+  background-color: var(--clr-dark); /* 배경색 (어두운 색상) */
+  background-image: url(../img/skills-bg.jpg); /* 배경 이미지 */
+  background-size: cover; /* 이미지를 전체 크기에 맞춤 */
+  background-blend-mode: overlay; /* 배경색과 이미지 혼합 */
+  color: var(--clr-light); /* 텍스트 색상 (밝은 색) */
+  text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+.section__title--services {
+  color: var(--clr-accent); /* 강조 색상 */
+  position: relative; /* 아래 선(`::after`) 추가하기 위해 위치 설정 */
+}
+
+.section__title--services::after {
+  content: "";
+  display: block;
+  width: 2em; /* 선의 길이 */
+  height: 1px; /* 선의 두께 */
+  margin: 0.5em auto 1em; /* 위아래 간격 조정 */
+  background: var(--clr-light); /* 선의 색상 */
+  opacity: 0.25; /* 투명도 */
+}
+
+
+.services {
+  margin-bottom: 4em; /* 하단 여백 */
+}
+
+.service {
+  max-width: 500px; /* 개별 서비스 최대 너비 */
+  margin: 0 auto; /* 가운데 정렬 */
+}
+
+
+@media (min-width: 800px) {
+  .services {
+    display: flex; /* 가로 정렬 */
+    max-width: 1000px; /* 최대 너비 제한 */
+    margin-left: auto;
+    margin-right: auto; /* 중앙 정렬 */
+  }
+
+  .service + .service {
+    margin-left: 2em; /* 각 서비스 간 여백 */
+  }
+}
+
 /* Portfolio / My projects */
 
 .my-projects {
@@ -418,7 +440,6 @@ header {
 
 .portfolio__item {
   background: var(--clr-dark);
-  overflow: hidden;
 }
 
 .portfolio__img {
