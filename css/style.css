@@ -305,54 +305,53 @@ header {
 
 /*main*/
 
-/* TV 컨테이너 */
+/* oldTV 컨테이너 설정 */
 .oldTV-container {
   position: relative;
   width: 200px;
-  height: 150px;
-  overflow: hidden; /* 영역 밖 숨김 */
-  border: 2px solid #999; /* 확인용 테두리 */
+  height: 150px;  /* TV 이미지 높이에 맞게 명시적 설정 */
+  margin: 0 auto;
+  overflow: hidden;
+  transition: opacity 0.5s ease-out;
 }
 
-/* TV 이미지 (테스트용 더미) */
+/* TV 이미지 스타일 */
 .oldTV__img {
   width: 100%;
   height: auto;
   display: block;
+  position: absolute;
+  z-index: 1;
 }
 
-/* 마우스 위치를 따라다니는 컬러 오버레이 */
+/* 컬러 오버레이 (마우스 커서 주변만 보임) */
 .color_overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: url("https://dummyimage.com/300x300/16e0bd/ffffff.png") center/cover no-repeat;
-  clip-path: circle(50px at 50% 50%);
+  background: url("../img/color_ocean.gif") center/cover no-repeat;
+  clip-path: circle(80px at 50% 50%);
   pointer-events: none;
-  z-index: 4;
-
-  /* 기본적으로 짧은 시간에 따라다니는 애니메이션 */
+  z-index: 2;
+  transition: clip-path 0.1s ease-out;
 }
 
-/* 파티클 기본 스타일 */
+/* 파티클 스타일 및 애니메이션 */
 .particle {
-  position: absolute;
   width: 6px;
   height: 6px;
-  background: #16e0bd;  /* 파란 계열 색상 (원하는 색상으로 변경 가능) */
+  background: #16e0bd;
   border-radius: 50%;
   pointer-events: none;
   opacity: 1;
   animation: particleExplosion 1s ease-out forwards;
 }
-
-/* 파티클 폭발 애니메이션 */
 @keyframes particleExplosion {
   from {
     opacity: 1;
-    transform: translate(0, 0) scale(3);
+    transform: translate(0, 0) scale(1);
   }
   to {
     opacity: 0;
@@ -360,22 +359,28 @@ header {
   }
 }
 
-.section__title__MAIN {
-  position: absolute;
-  top: -20%; 
-  left: 50%;
-  transform: translate(-50%, -90%);
+/* 메뉴 컨테이너: 풍선 메뉴들을 감싸는 역할 (필요 시) */
+.bubble-menu {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none; /* 개별 메뉴가 클릭 가능하도록 할 것 */
 }
 
-  .section__subtitle--intro {
-    align-self: start;
-    grid-column: -1/1;
-    grid-row: 2;
-    text-align: right;
-    position: relative;
-    left: -1.5em;
-    width: calc(100% + 1.5em);
-  }
+/* 개별 메뉴 버튼 (풍선) 스타일 */
+.bubble {
+  display: inline-block;
+  background: #16e0bd;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  transition: transform 0.3s;
+}
+.bubble:hover {
+  transform: scale(1.2);
 }
 
 
@@ -421,7 +426,7 @@ header {
     z-index: 2;
   }
 }
-
+}
 
 /* Skills */
 
