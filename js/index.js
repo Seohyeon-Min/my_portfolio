@@ -34,26 +34,29 @@ const portfolioContainer = document.querySelector(".portfolio"); // 내부 스�
 let currentIndex = 0;
 let isScrolling = false;
 
-// 마우스 휠 이벤트 감지하여 섹션 변경
-window.addEventListener("wheel", (event) => {
-    // 🟢 포트폴리오 내부에서는 한 페이지 넘김 적용 안 함
-    if (event.target.closest(".portfolio")) return;
+document.addEventListener("DOMContentLoaded", () => {
+    const sections = document.querySelectorAll("section");
+    let currentIndex = 0;
+    let isScrolling = false;
 
-    if (isScrolling) return;
+    window.addEventListener("wheel", (event) => {
+        if (isScrolling) return;
 
-    if (event.deltaY > 0) {
-        currentIndex = Math.min(currentIndex + 1, sections.length - 1);
-    } else {
-        currentIndex = Math.max(currentIndex - 1, 0);
-    }
+        if (event.deltaY > 0) {
+            currentIndex = Math.min(currentIndex + 1, sections.length - 1);
+        } else {
+            currentIndex = Math.max(currentIndex - 1, 0);
+        }
 
-    sections[currentIndex].scrollIntoView({ behavior: "smooth" });
+        sections[currentIndex].scrollIntoView({ behavior: "smooth" });
 
-    isScrolling = true;
-    setTimeout(() => {
-        isScrolling = false;
-    }, 1000);
+        isScrolling = true;
+        setTimeout(() => {
+            isScrolling = false;
+        }, 1000);
+    });
 });
+
 
 
 // 내비게이션 메뉴 클릭 시 해당 섹션으로 이동
