@@ -37,6 +37,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // 파티클 폭발 효과 (전체 화면 기준)
     createParticles(e.clientX, e.clientY);
 
+    // 물결 상승 효과 추가
+    showWaterRise();
+
     // 일정 시간 후 oldTV 컨테이너 사라지게 (fade out 후 display none)
     setTimeout(() => {
       container.style.transition = "opacity 0.5s ease-out";
@@ -59,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
       particle.style.position = "fixed";
       particle.style.left = x + "px";
       particle.style.top = y + "px";
-      const size = Math.random() * 10 + 10;
+      const size = Math.random() * 20 + 10;
       particle.style.width = size + "px";
       particle.style.height = size + "px";
       
@@ -124,6 +127,25 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 0 + Math.random() * 200);  // 각 메뉴가 약간씩 다른 딜레이로 나타남
     });
   }
+  
+  // 물결 상승 효과 함수
+  function showWaterRise() {
+    // 기존 water-rise 요소가 있다면 제거
+    let waterRise = document.querySelector(".water-rise");
+    if (waterRise) waterRise.remove();
+    
+    waterRise = document.createElement("div");
+    waterRise.className = "water-rise";
+    document.body.appendChild(waterRise);
+    
+    // 약간의 딜레이 후 상승 효과 시작
+    setTimeout(() => {
+      waterRise.classList.add("show");
+    }, 50);
+    
+    // 일정 시간 후 제거 (예: 2초 후)
+
+  }
 });
 
 
@@ -142,8 +164,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       window.addEventListener("scroll", () => {
         const bubbleMenu = document.querySelector(".bubble-menu");
+        const waterRise = document.querySelector(".water-rise");
         if (bubbleMenu && bubbleMenu.classList.contains("show")) {
           bubbleMenu.classList.remove("show");
+        }
+        if (waterRise && waterRise.classList.contains("show")) {
+          waterRise.classList.remove("show");
         }
         if (window.scrollY > 500) {
           const container = document.querySelector(".oldTV-container");
