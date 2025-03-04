@@ -11,59 +11,56 @@ navLinks.forEach((link) => {
     })
 })
 
-// Help iframe of webgl demos get access to the keyboard by giving them focus when clicked
-document.addEventListener("DOMContentLoaded", function () {
-    const iframe = document.getElementById("demo");
-    if (!iframe) {
-        return;
-    }
-    iframe.addEventListener("load", function () {
-        try {
-            const iframeDoc = iframe.contentWindow.document;
-            iframeDoc.addEventListener("mousedown", function () {
-                iframe.contentWindow.Module.canvas.focus();
-            });
-        } catch (e) {
-            console.error(e);
-        }
-    });
-});
-
-const sections = document.querySelectorAll("section");
-const portfolioContainer = document.querySelector(".portfolio"); // 내부 스크롤 예외 처리할 요소
-let currentIndex = 0;
-let isScrolling = false;
-
 document.addEventListener("DOMContentLoaded", () => {
-    const sections = document.querySelectorAll("section");
-    let currentIndex = 0;
-    let isScrolling = false;
-
-    window.addEventListener("wheel", (event) => {
-        if (isScrolling) return;
-
-        if (event.deltaY > 0) {
-            currentIndex = Math.min(currentIndex + 1, sections.length - 1);
-        } else {
-            currentIndex = Math.max(currentIndex - 1, 0);
-        }
-
-        sections[currentIndex].scrollIntoView({ behavior: "smooth" });
-
-        isScrolling = true;
-        setTimeout(() => {
-            isScrolling = false;
-        }, 1000);
+    const container = document.querySelector(".oldTV-container");
+    const overlay = document.querySelector(".color_overlay");
+  
+    // 마우스 좌표를 저장할 변수
+    let mouseX = 0, mouseY = 0;
+  
+    // (1) 마우스 이동 시 clip-path 갱신
+    container.addEventListener("mousemove", (e) => {
+      const rect = container.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+      overlay.style.clipPath = `circle(80px at ${mouseX}px ${mouseY}px)`;
     });
-});
-
-
-
-// 내비게이션 메뉴 클릭 시 해당 섹션으로 이동
-document.querySelectorAll(".nav__link").forEach((link, index) => {
-    link.addEventListener("click", (event) => {
-        event.preventDefault(); // 기본 링크 동작 방지
-        currentIndex = index; // 현재 인덱스 업데이트
-        sections[currentIndex].scrollIntoView({ behavior: "smooth" });
+  
+    // (2) 클릭 시 팝 이펙트 & 페이지 이동
+    container.addEventListener("click", () => {
+      // clip-path를 크게 확장하여 터지는 듯한 애니메이션
+      overlay.style.transition = "clip-path 0.6s ease-out";
+      overlay.style.clipPath = `circle(3000px at ${mouseX}px ${mouseY}px)`;
+  
+      // 애니메이션 후 페이지 이동
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 600);
     });
+  });
+
+
+  // 마우스 휠 이벤트 감지하여 섹션 변경
+window.addEventListener("wheel", (event) => {
+    // 🟢 포트폴리오 내부에서는 한 페이지 넘김 적용 안 함
+    if (event.target.closest(".portfolio")) return; // 전체 포트폴리오 내부에서는 한 페이지 넘김 X
+
+    if (isScrolling) return;
+
+    if (event.deltaY > 0) { 
+        // 아래로 스크롤 → 다음 섹션
+        currentIndex = Math.min(currentIndex + 1, sections.length - 1);
+    } else {
+        // 위로 스크롤 → 이전 섹션
+        currentIndex = Math.max(currentIndex - 1, 0);
+    }
+
+    // 섹션으로 부드럽게 스크롤 이동
+    sections[currentIndex].scrollIntoView({ behavior: "smooth" });
+
+    // 중복 실행 방지 (애니메이션 중 추가 휠 이벤트 방지)
+    isScrolling = true;
+    setTimeout(() => {
+        isScrolling = false;
+    }, 1000);
 });

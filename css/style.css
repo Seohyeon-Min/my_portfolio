@@ -303,17 +303,19 @@ header {
     grid-template-columns: min-content max-content;
   }
 
-  .oldTV-container {
-    position: relative; /* 부모 요소를 기준으로 자식 위치 조정 */
-    width: 200px; /* 이미지 크기와 동일하게 설정 */
-    margin: 0 auto; /* 중앙 정렬 */
+/*main*/
+
+  .oldTV_container {
+    position: relative;
+    width: 200px; 
+    height: 150px; 
+    margin: 0 auto;
   }
 
   .oldTV__img {
-    width: 100%; /* 부모 크기에 맞게 자동 조정 */
+    width: 100%;
     height: auto;
     display: block;
-    position: absolute;
   }
 
   .section__title__MAIN {
@@ -322,6 +324,25 @@ header {
     left: 50%;
     transform: translate(-50%, -90%);
   }
+
+  /* 커서 위치에만 컬러 바다 보이게 */
+  .color_overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url(../img/color_ocean.gif) center/cover no-repeat;
+    clip-path: circle(30px at 50% 50%);
+    transition: clip-path 0.1s ease-out;
+    pointer-events: none;
+    z-index: 4;
+  }
+
+.section__title__MAIN {
+  position: absolute;
+  top: -20%; 
+  left: 50%;
+  transform: translate(-50%, -90%);
+}
 
   .section__subtitle--intro {
     align-self: start;
