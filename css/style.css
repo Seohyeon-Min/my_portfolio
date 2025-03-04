@@ -127,9 +127,6 @@ h3 {
   font-size: var(--fs-h3);
 }
 
-.section__title {
-  margin-bottom: 0.25rem;
-}
 
 .section__title--intro {
   font-weight: var(--fw-reg);
@@ -290,10 +287,6 @@ header {
   left: 0;
 }
 
-.intro__img {
-  box-shadow: var(--bs);
-}
-
 .section__subtitle--intro {
   display: inline-block;
 }
@@ -310,11 +303,24 @@ header {
     grid-template-columns: min-content max-content;
   }
 
-  .intro__img {
-    grid-area: img;
-    min-width: 250px;
-    position: relative;
-    z-index: 2;
+  .oldTV-container {
+    position: relative; /* 부모 요소를 기준으로 자식 위치 조정 */
+    width: 200px; /* 이미지 크기와 동일하게 설정 */
+    margin: 0 auto; /* 중앙 정렬 */
+  }
+
+  .oldTV__img {
+    width: 100%; /* 부모 크기에 맞게 자동 조정 */
+    height: auto;
+    display: block;
+    position: absolute;
+  }
+
+  .section__title__MAIN {
+    position: absolute;
+    top: -20%; /* 이미지의 상단에 배치 */
+    left: 50%;
+    transform: translate(-50%, -90%);
   }
 
   .section__subtitle--intro {
