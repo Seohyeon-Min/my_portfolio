@@ -334,22 +334,30 @@ header {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url("../img/color_ocean.gif") center/cover no-repeat;
-  clip-path: circle(0 at 50% 50%);
-  pointer-events: none;
+  clip-path: circle(50px at 50% 50%);
+  pointer-events: none; /* 확장 전까지 마우스 클릭 막음 */
   z-index: 2;
   transition: clip-path 0.1s ease-out;
+}
+
+.color_overlay iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  position: absolute; /* 오버레이 내부를 가득 채움 */
+  top: 0; left: 0;
 }
 
 /* 파티클 스타일 및 애니메이션 */
 .particle {
   width: 6px;
   height: 6px;
-  background: #16e0bd;
+  background: #ffffff;
   border-radius: 50%;
   pointer-events: none;
   opacity: 1;
   animation: particleExplosion 1s ease-out forwards;
+  z-index: 10;
 }
 @keyframes particleExplosion {
   from {
@@ -394,13 +402,69 @@ header {
   width: 100%;
   height: 100%;
   background: url('../img/water_ripple.gif') center/cover no-repeat;
-  opacity: 0.7;
+  opacity: 0.0;
   z-index: 900;
   transition: bottom 0.48s ease-out;
   z-index: 3;
 }
 .water-rise.show {
   bottom: 0;
+}
+
+/* 파티클 담는 컨테이너 (화면 전체) */
+.rising-particle-container {
+  position: fixed;
+  left: 0; right: 0;
+  top: 0; bottom: 0;
+  pointer-events: none;
+  overflow: visible;
+  mix-blend-mode:luminosity;
+  z-index: 10; 
+}
+
+/* 개별 파티클 스타일 (업데이트됨) */
+.rising-particle {
+  position: absolute;
+  bottom: 0;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.7;
+  filter: brightness(4) drop-shadow(0px 0px 10px rgba(255, 255, 255, 0.9));
+  mix-blend-mode:luminosity; /* CSS 발광 닷지 */
+  
+  /* 애니메이션 */
+  animation: riseParticle var(--duration, 4s) linear forwards;
+}
+
+
+/* 올라가는 동안 30%까지는 불투명, 30~60% 사이에서 서서히 투명, 60%~100%는 완전투명 */
+@keyframes riseParticle {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+  }
+  44% {
+    opacity: 0;
+  }
+  100% {
+    transform: translate(var(--particle-x, 0px), var(--particle-y, -100vh));
+    opacity: 0;
+  }
+}
+
+
+/* (D) 파티클 반짝임(트윙클) */
+@keyframes flickerParticle {
+  0%   { opacity: 1; }
+  30%  { opacity: 0.6; }
+  45%  { opacity: 1; }
+  60%  { opacity: 0.7; }
+  100% { opacity: 1; }
 }
 
 /* About Me */
