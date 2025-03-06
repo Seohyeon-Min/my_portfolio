@@ -1,233 +1,169 @@
-const navToggle = document.querySelector(".nav-toggle")
-const navLinks = document.querySelectorAll(".nav__link")
+// WebGL을 초기화하고 GLSL 셰이더를 로드하여 텍스처 적용
 
-navToggle.addEventListener("click", () => {
-    document.body.classList.toggle("nav-open");
-})
-
-navLinks.forEach((link) => {
-    link.addEventListener("click", () => {
-        document.body.classList.remove('nav-open')
-    })
-})
-
-document.addEventListener("DOMContentLoaded", () => {
-  const container = document.querySelector(".oldTV-container");
-  const overlay = document.querySelector(".color_overlay");
-
-  let mouseX = 0, mouseY = 0;
-
-  // (1) 마우스 이동 시 clip-path 갱신 (컨테이너 내부 좌표)
-  container.addEventListener("mousemove", (e) => {
-    const rect = container.getBoundingClientRect();
-    mouseX = e.clientX - rect.left;
-    mouseY = e.clientY - rect.top;
-    overlay.style.clipPath = `circle(50px at ${mouseX}px ${mouseY}px)`;
-  });
-
-  // (2) 클릭 시 파티클 폭발, 메뉴 팝업 & oldTV 사라짐
-  container.addEventListener("click", (e) => {
-    // 오버레이 확장 애니메이션
-    overlay.style.transition = "clip-path 0.6s ease-out";
-    overlay.style.clipPath = `circle(3000px at ${mouseX}px ${mouseY}px)`;
-
-    // 메뉴 팝업 효과: 동그란 메뉴들을 생성하여 표시
-    showMenuBubbles();
-
-    // 파티클 폭발 효과 (전체 화면 기준)
-    createParticles(e.clientX, e.clientY);
-
-    // 물결 상승 효과 추가
-    showWaterRise();
-
-    // 일정 시간 후 oldTV 컨테이너 사라지게 (fade out 후 display none)
-    setTimeout(() => {
-      container.style.transition = "opacity 0.5s ease-out";
-      container.style.opacity = "0";
-    });
-
-    // 완전히 사라지게 하기 위해 1초 후 display none 적용
-    setTimeout(() => {
-      container.style.display = "none";
-    }, 150);
-  });
-
-  // 파티클 폭발 효과 함수 (문서 전체에 생성)
-  function createParticles(x, y) {
-    const numParticles = 50;
-    for (let i = 0; i < numParticles; i++) {
-      const particle = document.createElement("div");
-      particle.classList.add("particle");
-      // 파티클을 화면 전체에 표시하도록 fixed로 배치
-      particle.style.position = "fixed";
-      particle.style.left = x + "px";
-      particle.style.top = y + "px";
-      const size = Math.random() * 20 + 10;
-      particle.style.width = size + "px";
-      particle.style.height = size + "px";
-      
-      // 랜덤한 방향과 거리 계산
-      const angle = Math.random() * Math.PI * 2;
-      const distance = Math.random() * 1100 + 100; // 50 ~ 250px 범위
-      const dx = Math.cos(angle) * distance;
-      const dy = Math.sin(angle) * distance;
-      particle.style.setProperty('--dx', dx + 'px');
-      particle.style.setProperty('--dy', dy + 'px');
-      document.body.appendChild(particle);
+const vertexShaderSource = `
+    attribute vec2 a_position;
+    attribute vec2 a_texCoord;
+    varying vec2 vTexCoord;
+    void main() {
+        vTexCoord = a_texCoord;
+        gl_Position = vec4(a_position, 0.0, 1.0);
     }
-    setTimeout(() => {
-      document.querySelectorAll(".particle").forEach(p => p.remove());
-    }, 800);
-  }
+`;
 
-  // 메뉴 팝업 효과 함수: 동그란 메뉴들을 생성 후 슬라이드 애니메이션 적용
-  function showMenuBubbles() {
-    // 메뉴 아이템 설정 (원하는 대로 수정 가능)
-    const menuItems = [
-      { label: "Overview", href: "#overview", size: 180, finalLeft: "12%", finalBottom: "20%" },
-      { label: "Portfolio: Game", href: "#portfolio", size: 200, finalLeft: "20%", finalBottom: "50%" },
-      { label: "Tech", href: "#tech", size: 150, finalLeft: "60%", finalBottom: "45%" },
-      { label: "Education", href: "#education", size: 90, finalLeft: "80%", finalBottom: "55%" },
-      { label: "Contact", href: "#contact", size: 65, finalLeft: "50%", finalBottom: "60%" }
-    ];
+const fragmentShaderSource = `
+    precision mediump float;
+    varying vec2 vTexCoord;
+    uniform sampler2D uTexture;
+    uniform vec2 iResolution;
+    uniform float iTime;
 
-    // 메뉴 컨테이너 생성 (없으면 새로 생성)
-    let bubbleMenu = document.querySelector(".bubble-menu");
-    if (!bubbleMenu) {
-      bubbleMenu = document.createElement("div");
-      bubbleMenu.className = "bubble-menu";
-      document.body.appendChild(bubbleMenu);
+    const mat2 myt = mat2(.12121212, .13131313, -.13131313, .12121212);
+    const vec2 mys = vec2(1e4, 1e6);
+
+    vec2 rhash(vec2 uv) {
+        uv *= myt;
+        uv *= mys;
+        return fract(fract(uv / mys) * uv);
     }
-    // 메뉴 컨테이너 초기 상태
-    bubbleMenu.innerHTML = "";
-    bubbleMenu.style.pointerEvents = "auto"; // 메뉴 클릭 가능
 
-    // 각 메뉴 아이템(풍선) 생성
-    menuItems.forEach(item => {
-      const bubble = document.createElement("a");
-      bubble.className = "bubble";
-      bubble.href = item.href;
-      bubble.textContent = item.label;
-      bubble.style.width = item.size + "px";
-      bubble.style.height = item.size + "px";
-      bubble.style.lineHeight = item.size + "px";
-      bubble.style.position = "fixed";
-      // 초기 위치: 화면 중앙 아래 (보이지 않는 위치)
-      bubble.style.left = "50%";
-      bubble.style.bottom = "-100px";
-      bubble.style.opacity = "0";
-      bubbleMenu.appendChild(bubble);
-      
-      // 애니메이션: 약간의 딜레이 후 최종 위치로 이동
-      setTimeout(() => {
-        bubble.style.transition = "all 0.8s ease-out";
-        bubble.style.left = item.finalLeft;       // 커스텀 최종 좌측 위치
-        bubble.style.bottom = item.finalBottom;     // 커스텀 최종 하단 위치
-        bubble.style.opacity = "1";
-      }, 0 + Math.random() * 200);  // 각 메뉴가 약간씩 다른 딜레이로 나타남
-    });
-  }
-  
-  // 물결 상승 효과 함수
-  function showWaterRise() {
-    // 기존 water-rise 요소가 있다면 제거
-    let waterRise = document.querySelector(".water-rise");
-    if (waterRise) waterRise.remove();
-    
-    waterRise = document.createElement("div");
-    waterRise.className = "water-rise";
-    document.body.appendChild(waterRise);
-    
-    // 약간의 딜레이 후 상승 효과 시작
-    setTimeout(() => {
-      waterRise.classList.add("show");
-    }, 50);
-    
-    // 일정 시간 후 제거 (예: 2초 후)
+    float voronoi2d(const in vec2 point) {
+        vec2 p = floor(point);
+        vec2 f = fract(point);
+        float res = 0.0;
+        for (int j = -1; j <= 1; j++) {
+            for (int i = -1; i <= 1; i++) {
+                vec2 b = vec2(i, j);
+                vec2 r = vec2(b) - f + rhash(p + b);
+                res += 1.0 / pow(dot(r, r), 8.0);
+            }
+        }
+        return pow(1.0 / res, 0.0625);
+    }
 
-  }
+    vec2 cart2polar(vec2 uv) {
+        float phi = atan(uv.y, uv.x);
+        float r = length(uv);
+        return vec2(phi, r);
+    }
+
+    void main() {
+        vec2 uv = vTexCoord;
+
+        // UV 변환
+        vec2 p = uv;
+        p.x *= iResolution.x / iResolution.y;
+
+        uv = (uv - 0.7) * 2.0;
+        uv.x *= iResolution.x / iResolution.y;
+
+        uv.y -= 2.0;
+        uv /= 50.0;
+        uv = cart2polar(uv);
+
+        // Voronoi 효과
+        float n1 = voronoi2d((vec2(uv.x, 0.0) + 0.04 * iTime) * 1.0);
+        float n2 = voronoi2d((vec2(0.1, uv.x) + 0.04 * iTime * 1.5) * 4.0);
+        float n3 = min(n1, n2);
+
+        // Alpha 마스크
+        float mask = smoothstep(.05, .96, p.y);
+        float brightness = n3 * mask * 0.4;     
+        float alpha = n3 * mask * 1.;           
+
+        // 기본 텍스처 로드
+        vec3 baseColor = texture2D(uTexture, vTexCoord).rgb;
+        vec3 glowColor = vec3(1.0, 0.9, 0.8) * brightness;
+
+        // 최종 색상 적용
+        gl_FragColor = vec4(baseColor + glowColor, 1.0);
+    }
+`;
+
+window.addEventListener("load", () => {
+    const canvas = document.getElementById("glCanvas");
+    const gl = canvas.getContext("webgl");
+
+    if (!gl) {
+        alert("WebGL not supported!");
+        return;
+    }
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        gl.viewport(0, 0, canvas.width, canvas.height);
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    function createShader(gl, type, source) {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            console.error("Shader compile error:", gl.getShaderInfoLog(shader));
+            gl.deleteShader(shader);
+            return null;
+        }
+        return shader;
+    }
+
+    function createProgram(gl, vsSource, fsSource) {
+        const vShader = createShader(gl, gl.VERTEX_SHADER, vsSource);
+        const fShader = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+        const prog = gl.createProgram();
+        gl.attachShader(prog, vShader);
+        gl.attachShader(prog, fShader);
+        gl.linkProgram(prog);
+        if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+            console.error("Program link error:", gl.getProgramInfoLog(prog));
+            return null;
+        }
+        return prog;
+    }
+
+    const program = createProgram(gl, vertexShaderSource, fragmentShaderSource);
+
+    const quadVerts = new Float32Array([
+        -1, -1,  0, 0,
+         1, -1,  1, 0,
+        -1,  1,  0, 1,
+         1,  1,  1, 1
+    ]);
+
+    const vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, quadVerts, gl.STATIC_DRAW);
+
+    const aPosition = gl.getAttribLocation(program, "a_position");
+    const aTexCoord = gl.getAttribLocation(program, "a_texCoord");
+
+    gl.enableVertexAttribArray(aPosition);
+    gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 4 * 4, 0);
+    
+    gl.enableVertexAttribArray(aTexCoord);
+    gl.vertexAttribPointer(aTexCoord, 2, gl.FLOAT, false, 4 * 4, 2 * 4);
+
+    const uTexture = gl.getUniformLocation(program, "uTexture");
+
+    const texture = gl.createTexture();
+    const bgImage = new Image();
+    bgImage.src = "img/skills-bg.jpg"; // **배경 이미지 경로**
+    bgImage.onload = () => {
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, bgImage);
+        gl.generateMipmap(gl.TEXTURE_2D);
+    };
+
+    function render(time) {
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.useProgram(program);
+        gl.uniform1i(uTexture, 0);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        requestAnimationFrame(render);
+    }
+
+    render();
 });
-
-
-
-/////////////////////////////////////////////////////////////////////////////////
-
-  const sections = document.querySelectorAll("section");
-  const portfolioContainer = document.querySelector(".portfolio"); // 내부 스크롤 예외 처리할 요소
-  let currentIndex = 0;
-  let isScrolling = false;
-  
-  document.addEventListener("DOMContentLoaded", () => {
-      const sections = document.querySelectorAll("section");
-      let currentIndex = 0;
-      let isScrolling = false;
-
-      window.addEventListener("scroll", () => {
-        const bubbleMenu = document.querySelector(".bubble-menu");
-        const waterRise = document.querySelector(".water-rise");
-        if (bubbleMenu && bubbleMenu.classList.contains("show")) {
-          bubbleMenu.classList.remove("show");
-        }
-        if (waterRise && waterRise.classList.contains("show")) {
-          waterRise.classList.remove("show");
-        }
-        if (window.scrollY > 500) {
-          const container = document.querySelector(".oldTV-container");
-          if (container) {
-            container.style.display = "block";
-            container.style.opacity = "1";
-            // 필요하다면 transition도 다시 설정
-            container.style.transition = "opacity 0.5s ease-out";
-          }
-        }
-      });
-
-      window.addEventListener("wheel", (event) => {
-        const bubbleMenu = document.querySelector(".bubble-menu");
-  if (bubbleMenu) {
-    const bubbles = bubbleMenu.querySelectorAll(".bubble");
-    bubbles.forEach(bubble => {
-      // 각 버블을 랜덤한 방향으로 던집니다.
-      const angle = Math.random() * Math.PI * 2;
-      // 화면 크기의 1.5배 정도의 거리를 이동하면 확실히 화면 밖으로 나감
-      const distance = Math.max(window.innerWidth, window.innerHeight) * 1.5;
-      const dx = Math.cos(angle) * distance;
-      const dy = Math.sin(angle) * distance;
-      
-      // 0.8초 동안 버블을 이동시키고 크기를 줄이며 투명하게 만듭니다.
-      bubble.style.transition = "transform 0.8s ease-out, opacity 0.8s ease-out";
-      bubble.style.transform = `translate(${dx}px, ${dy}px) scale(0)`;
-      bubble.style.opacity = "0";
-    });
-    // 애니메이션이 끝난 후 bubbleMenu 자체도 제거
-    setTimeout(() => {
-      bubbleMenu.remove();
-    }, 800);
-  }
-          if (isScrolling) return;
-  
-          if (event.deltaY > 0) {
-              currentIndex = Math.min(currentIndex + 1, sections.length - 1);
-          } else {
-              currentIndex = Math.max(currentIndex - 1, 0);
-          }
-  
-          sections[currentIndex].scrollIntoView({ behavior: "smooth" });
-  
-          isScrolling = true;
-          setTimeout(() => {
-              isScrolling = false;
-          }, 1000);
-      });
-  });
-  
-  
-  
-  // 내비게이션 메뉴 클릭 시 해당 섹션으로 이동
-  document.querySelectorAll(".nav__link").forEach((link, index) => {
-      link.addEventListener("click", (event) => {
-          event.preventDefault(); // 기본 링크 동작 방지
-          currentIndex = index; // 현재 인덱스 업데이트
-          sections[currentIndex].scrollIntoView({ behavior: "smooth" });
-      });
-  });
