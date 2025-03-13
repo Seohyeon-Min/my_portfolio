@@ -30,10 +30,6 @@
 
 <body>
     <header>
-        <div class="logo">
-            <!-- alt text can be blank since the logo is purely decorative and putting something like logo isn't actually helpful -->
-            <img src="img/cout.jpg" alt="">
-        </div>
         <button class="nav-toggle" aria-label="toggle navigation">
             <span class="hamburger"></span>
         </button>
@@ -48,19 +44,159 @@
         </nav>
     </header>
 
+    <header class="navbar">
+        <div class="navbar-logo">LOGO</div>
+        <nav class="navbar-menu">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#education">Edu</a>
+            <a href="#projects">Projects</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+
+
+
+
+
+    <!-- Introduction -->
+    <!-- Introduction -->
     <!-- Introduction -->
 
-    <section class="intro" id="#home">
+    <section class="intro" id="home">
         <!-- TODO put in a mouse based interactive shader visualization page-->
         <!-- <div class="intro-bg">
             <iframe src="webgl/for_fun.html"></iframe>
         </div> -->
-        <h1 class="section__title section__title--intro">
-            Hi, I am <strong>TODO TODO</strong>
-        </h1>
-        <p class="section__subtitle section__subtitle--intro">Game Programmer/Designer/Developer/Player/TODO/TODO</p>
-        <img src="img/face.jpg" alt="a picture of TODO TODO smiling" class="intro__img" />
+        <div class="spotlight_container">
+            <h1 class="spotlight_text">SEOHYEON MIN</h1>
+        </div>
     </section>
+
+
+
+
+
+
+    <!-- About Me -->
+    <!-- About Me -->    
+    <!-- About Me -->
+
+    <section class="about-me" id="about">
+        <div class="ticket">
+            <img src="img/ticket.png" alt="Ticket Background" class="ticket-bg">
+
+            <div class="ticket-content">
+                <!-- 프로필 사진 -->
+                <div class="profile">
+                    <img src="img/face.jpg" alt="Profile Image">
+                </div>
+
+                <!-- 자기소개 -->
+                <div class="ticket-info">
+                    <h2>Seohyeon Min</h2>
+                    <p><strong>감독:</strong> 민서현 | <strong>장르:</strong> 창의적 개발 & 디렉팅</p>
+                    <p><strong>경력 연차:</strong> 6년 | <strong>좌석:</strong> TL-2024</p>
+                    <p class="bio">
+                        Technical Lead & Graphics Programmer specializing in engine development & rendering optimization.
+                        Built high-performance game engines, achieving a 50% performance boost using OpenGL & SDL.
+                        Passionate about scalable rendering pipelines & GLSL/HLSL shaders.
+                    </p>
+                </div>
+
+                <!-- QR 코드 -->
+                <div class="qr-code">
+                    <img src="qr-code.png" alt="QR Code for Resume">
+                    <p>이력서 다운로드</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+    <!-- My EDU -->
+    <!-- My EDU -->
+    <!-- My EDU -->
+
+        <section class="my-education" id="education">
+            <h2 class="section__title section__title--services">SKLILZ</h2>
+            <div class="services">
+
+            </div>
+            <!-- <a href="#projects" class="btn">Projects</a> -->
+        </section>
+
+
+
+
+
+
+
+    <!-- My Portfolio -->
+    <!-- My Portfolio -->  
+    <!-- My Portfolio -->
+    <!-- My Portfolio -->
+
+<section class="my-projects" id="projects">
+    <h2 class="section__title section__title--projects">Projects</h2>
+    <p class="section__subtitle section__subtitle--projects">
+      A selection of my range of projects
+    </p>
+  
+    <!-- 필터 버튼 -->
+    <div class="filter-buttons">
+      <!-- game 태그 기본 활성화 -->
+      <button class="filter-btn active" data-filter="game">Game</button>
+      <button class="filter-btn" data-filter="tech">Tech</button>
+    </div>
+  
+    <div class="portfolio">
+      <!-- [game] 폴더: portfolio_game/ (4개만 표시) -->
+      <a href="portfolio_game/01_hello.html" class="portfolio__item game">
+        <img src="img/portfolio_thumbnails/01_hello.jpg" alt="" class="portfolio__img" />
+      </a>
+      <a href="portfolio_game/02_meshes.html" class="portfolio__item game">
+        <img src="img/portfolio_thumbnails/02_meshes.jpg" alt="" class="portfolio__img" />
+      </a>
+      <a href="portfolio_game/03_fog.html" class="portfolio__item game">
+        <img src="img/portfolio_thumbnails/03_fog.jpg" alt="" class="portfolio__img" />
+      </a>
+      <a href="portfolio_game/04_toon.html" class="portfolio__item game">
+        <img src="img/portfolio_thumbnails/04_toon.jpg" alt="" class="portfolio__img" />
+      </a>
+  
+      <!-- [tech] 폴더: portfolio/ (원래 7개 이상이면 그대로) -->
+      <a href="portfolio/01_hello.html" class="portfolio__item tech">
+        <img src="img/portfolio_thumbnails/01_hello.jpg" alt="" class="portfolio__img" />
+      </a>
+      <a href="portfolio/02_meshes.html" class="portfolio__item tech">
+        <img src="img/portfolio_thumbnails/02_meshes.jpg" alt="" class="portfolio__img" />
+      </a>
+      <a href="portfolio/03_fog.html" class="portfolio__item tech">
+        <img src="img/portfolio_thumbnails/03_fog.jpg" alt="" class="portfolio__img" />
+      </a>
+      <a href="portfolio/04_toon.html" class="portfolio__item tech">
+        <img src="img/portfolio_thumbnails/04_toon.jpg" alt="" class="portfolio__img" />
+      </a>
+      <a href="portfolio/05_shadow.html" class="portfolio__item tech">
+        <img src="img/portfolio_thumbnails/05_shadow.jpg" alt="" class="portfolio__img" />
+      </a>
+      <a href="portfolio/06_value.html" class="portfolio__item tech">
+        <img src="img/portfolio_thumbnails/06_value.jpg" alt="" class="portfolio__img" />
+      </a>
+      <a href="portfolio/07_gradient.html" class="portfolio__item tech">
+        <img src="img/portfolio_thumbnails/07_gradient.jpg" alt="" class="portfolio__img" />
+      </a>
+    </div>
+  </section>
+  
+
 
     <!-- My Services -->
     <section class="my-services" id="skills">
@@ -97,129 +233,17 @@
         <a href="#projects" class="btn">Projects</a>
     </section>
 
-    <!-- About Me -->
-    <section class="about-me" id="about">
-        <h2 class="section__title section__title--about">Who I am</h2>
-        <p class="section__subtitle section__subtitle--about">
-            Student Game Programmer TODO TODO
-        </p>
-
-        <div class="about-me__body">
-            <p>
-                TODO Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
-            </p>
-            <p>
-                TODO Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
-            </p>
-        </div>
-        <img src="img/tall.jpg" alt="picture of TODO TODO" class="about-me__img" />
-    </section>
-
-    <!-- My Portfolio -->
-    <section class="my-projects" id="projects">
-        <h2 class="section__title section__title--projects">My Projects</h2>
-        <p class="section__subtitle section__subtitle--projects">
-            A selection of my range of projects
-        </p>
-        <div class="portfolio">
-            <a href="portfolio/01_hello.html" class="portfolio__item">
-                <img src="img/portfolio_thumbnails/01_hello.jpg" alt="" class="portfolio__img" />
-            </a>
-            <a href="portfolio/02_meshes.html" class="portfolio__item">
-                <img src="img/portfolio_thumbnails/02_meshes.jpg" alt="" class="portfolio__img" />
-            </a>
-            <a href="portfolio/03_fog.html" class="portfolio__item">
-                <img src="img/portfolio_thumbnails/03_fog.jpg" alt="" class="portfolio__img" />
-            </a>
-            <a href="portfolio/04_toon.html" class="portfolio__item">
-                <img src="img/portfolio_thumbnails/04_toon.jpg" alt="" class="portfolio__img" />
-            </a>
-            <a href="portfolio/05_shadow.html" class="portfolio__item">
-                <img src="img/portfolio_thumbnails/05_shadow.jpg" alt="" class="portfolio__img" />
-            </a>
-            <a href="portfolio/06_value.html" class="portfolio__item">
-                <img src="img/portfolio_thumbnails/06_value.jpg" alt="" class="portfolio__img" />
-            </a>
-            <a href="portfolio/07_gradient.html" class="portfolio__item">
-                <img src="img/portfolio_thumbnails/07_gradient.jpg" alt="" class="portfolio__img" />
-            </a>
-
-        </div>
-    </section>
-
     <!-- Resume Section -->
     <section class="my-resume" id="resume">
         <h2 class="section__title section__title--resume">Resume</h2>
         <a target="_blank" href="docs/Resume.pdf"><i class="far fa-file-pdf"></i> PDF</a>
 
-        <div class="resume-section">
-            <h3>Experience</h3>
-            <div class="resume-item">
-                <p>
-                    <b>Title, Company</b></br>
-                    Month Year - Present</br>
-                    <em>City, State, Country</em></br>
-                    What you did, how you did it, result. Quantify your achievement(s) try to have at least one like
-                    this. Look at the example below.
-                </p>
-            </div>
-            <div class="resume-item">
-                <p>
-                    <b>Software Test Engineer Intern, Qualtrics</b></br>
-                    Month Year - Month Year </br>
-                    <em>Seattle, WA</em></br>
-                    Implemented an extensible script in Python to automate project creation with static data on tests to
-                    improve pass rates and duration, ultimately speeding up software releases. Improved test times
-                    across 3 teams by nearly 400% with more stability. Reviewed design docs and prototypes of an
-                    upcoming feature release to create nearly 50 test cases. Performed manual testing and triaged 15
-                    bugs with engineers.
-                </p>
-            </div>
-            <h3>Projects</h3>
-            <div class="resume-item">
-                <p>
-                    <b>Role, Name of Project</b></br>
-                    Month Year - Month Year</br>
-                    <em>Redmond, WA</em></br>
-                    Type of game, (2D Platformer, FPS) and describe its genre (Horror, Adventure, etc.).
-                    Collaborated with a team of x and developed a ...
-                    Designed most of the front end & debugged PHP.
-                    Awarded the Most Creative Award by Appian and Best Innovation in Collaboration Award by Red
-                    Ventures.
-                </p>
-            </div>
 
-            <h3>Leadership Experience</h3>
-            <div class="resume-item">
-                <p>
-                    <b>Role, DigiPen Institute of Technology</b></br>
-                    Month Year - Month Year</br>
-                    <em>Redmond, WA</em></br>
-                    A lot of you do many things on campus.
-                    For example, did you manage/host a game jam?
-                    Brainstorm initiatives you have worked on.
-                </p>
-            </div>
-
-            <h3>Education</h3>
-            <div class="resume-item">
-                <p>
-                    <b>Bachelor of Science in Computer Science in Real-Time Interactive Simulation</b></br>
-                    Year-Year</br>
-                    <em>Daegu, Korea & Redmond, WA, USA</em></br>
-                    Relevant Courses: Name the courses that would draw attention, significant, relevant to the job.
-                </p>
-            </div>
-        </div>
     </section>
     <!-- /Resume Section -->
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer"id="contact">
         <a href="mailto:my.email@digipen.edu" class="footer__link">my.email@digipen.edu</a>
         <ul class="social-list">
             <li class="social-list__item">

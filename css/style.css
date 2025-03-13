@@ -15,7 +15,7 @@
   --fw-bold: 900;
 
   --clr-light: #ffffff;
-  --clr-dark: #303030;
+  --clr-dark: #0a0912;
   --clr-accent: #16e0bd;
 
   --fs-h1: 3rem;
@@ -44,8 +44,8 @@ html {
 }
 
 body {
-  background: var(--clr-light);
-  color: var(--clr-dark);
+  background: var(--clr-dark);
+  color: var(--clr-light);
   margin: 0;
   font-family: var(--ff-primary);
   font-size: var(--fs-body);
@@ -280,35 +280,220 @@ header {
   display: inline-block;
 }
 
-@media (min-width: 600px) {
-  .intro {
-    display: grid;
-    width: min-content;
-    margin: 0 auto;
-    column-gap: 1em;
-    grid-template-areas:
-      "img title"
-      "img subtitle";
-    grid-template-columns: min-content max-content;
+
+
+/* 고정된 반투명 네비게이션 바 */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+  backdrop-filter: blur(10px); /* 블러 효과 */
+  color: white;
+  font-size: 1rem;
+  z-index: 1000; /* 다른 요소 위에 위치 */
+}
+
+/* 네비게이션 로고 */
+.navbar-logo {
+  font-weight: bold;
+}
+
+/* 네비게이션 메뉴 */
+.navbar-menu {
+  display: flex;
+  gap: 20px;
+}
+
+/* 네비게이션 링크 스타일 */
+.navbar-menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar-menu a:hover {
+  color: #16e0bd; /* 호버 시 색상 변경 */
+}
+
+
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+
+
+
+  @media (min-width: 0px) {
+    .intro {
+      display: flex;             /* Flexbox로 중앙 정렬 */
+      justify-content: center;
+      align-items: center;
+      height: 100vh;             /* 화면 전체 높이 */
+      margin: 0;
+      padding: 0;
+    }
+  }
+  
+  /* 조명 효과 컨테이너 */
+  .spotlight_container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+  }
+  
+  /* 텍스트 스타일 - 배경 그라데이션을 텍스트 클리핑으로 효과 적용 */
+  .spotlight_text {
+    font-size: 5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    /* 기본 배경: radial-gradient의 중심(빛의 위치)는 CSS 변수 --light-x, --light-y 로 지정 (기본값은 중앙) */
+    background: radial-gradient(
+        circle at var(--light-x, 50%) var(--light-y, 50%),
+        white 0%, 
+        white 30%, 
+        #252527 80%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: background 0.2s ease-in-out;
   }
 
-  .intro__img {
-    grid-area: img;
-    min-width: 250px;
-    position: relative;
-    z-index: 2;
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+
+
+/* About Me 티켓 스타일 */
+.about-me {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 140px; /* 전체 패딩 증가 */
+}
+
+/* 티켓 디자인 */
+.ticket {
+  position: relative; /* 티켓 내부 요소들이 절대 위치할 수 있도록 설정 */
+  width: 750px; /* 전체 크기 확대 */
+  max-width: 95%;
+  height: auto;
+}
+
+.ticket img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 티켓 내용 (이미지 위에 올리기) */
+.ticket-content {
+  position: absolute; /* 이미지 위에 배치 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* 티켓 크기에 맞추기 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+}
+
+/* 프로필 이미지 */
+.profile img {
+  width: 140px; /* 크기 확대 */
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 텍스트 정보 */
+.ticket-info {
+  flex: 1;
+  margin-left: 30px;
+}
+
+.ticket-info h2 {
+  font-size: 2rem; /* 크기 확대 */
+  color: #fff;
+}
+
+.ticket-info p {
+  font-size: 1.1rem; /* 가독성을 높이기 위해 확대 */
+  margin: 8px 0;
+  color: #ddd;
+}
+
+/* 자기소개 */
+.bio {
+  font-size: 1rem; /* 글씨 크기 증가 */
+  color: #ccc;
+  margin-top: 15px;
+  line-height: 1.5;
+}
+
+/* QR 코드 */
+.qr-code {
+  text-align: center;
+}
+
+.qr-code img {
+  width: 100px; /* 크기 증가 */
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+.qr-code p {
+  font-size: 1rem;
+  color: #fff;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 500px) {
+  .ticket-content {
+      flex-direction: column;
+      text-align: center;
+      padding: 15px;
+      
   }
 
-  .section__subtitle--intro {
-    align-self: start;
-    grid-column: -1/1;
-    grid-row: 2;
-    text-align: right;
-    position: relative;
-    left: -1.5em;
-    width: calc(100% + 1.5em);
+  .profile img {
+      width: 80px;
+      height: 80px;
+  }
+
+  .ticket-info {
+      margin-left: 0;
+      margin-top: 10px;
+      
   }
 }
+
+
+
+
+
+
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
 
 /* my services section */
 
@@ -358,50 +543,54 @@ header {
   }
 }
 
-/* About Me */
 
-.about-me {
-  max-width: 1000px;
-  margin: 0 auto;
+
+
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+
+  /* Portfolio / My projects */
+
+.filter-buttons {
+  text-align: center;
+  margin-bottom: 2em;
 }
 
-.about-me__img {
-  box-shadow: var(--bs);
+.filter-btn {
+  display: inline-block;
+  margin: 0 1em;
+  padding: 0.5em 1em;
+  background-color: #ddd;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
 }
 
-@media (min-width: 600px) {
-  .about-me {
-    display: grid;
-    grid-template-columns: 1fr 200px;
-    grid-template-areas:
-      "title img"
-      "subtitle img"
-      "text img";
-    column-gap: 2em;
-  }
-
-  .section__title--about {
-    grid-area: title;
-  }
-
-  .section__subtitle--about {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    position: relative;
-    left: -1em;
-    width: calc(100% + 2em);
-    padding-left: 1em;
-    padding-right: calc(200px + 2.5em);
-  }
-
-  .about-me__img {
-    grid-area: img;
-    position: relative;
-    z-index: 2;
-  }
+.filter-btn.active,
+.filter-btn:hover {
+  background-color: #16e0bd;
+  color: #fff;
 }
 
-/* Portfolio / My projects */
+.portfolio {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5em;
+}
+
+.portfolio__item {
+  display: block; /* 기본은 보이도록 */
+}
+
+/* 숨길 때 사용될 클래스 (JS에서 토글) */
+.hidden {
+  display: none !important;
+}
+
 
 .my-projects {
   background-color: var(--clr-dark);
@@ -409,22 +598,23 @@ header {
   text-align: center;
 }
 
-.portfolio {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  max-width: 1200px;
-  margin: 0 auto;
-}
 
 .portfolio__item {
-  background: var(--clr-dark);
+  position: relative;
+  width: 100%;
+  /* 2:3 비율 → 세로가 가로의 1.5배이므로 padding-top: 150% */
+  padding-top: 150%;
   overflow: hidden;
 }
 
 .portfolio__img {
-  transition: transform 750ms cubic-bezier(0.5, 0, 0.5, 1), opacity 250ms linear;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
-
 .portfolio__item:focus {
   position: relative;
   z-index: 2;
