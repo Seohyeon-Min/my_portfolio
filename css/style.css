@@ -16,7 +16,7 @@
 
   --clr-light: #ffffff;
   --clr-dark: #0a0912;
-  --clr-accent: #16e0bd;
+  --clr-accent: #b12616;
 
   --fs-h1: 3rem;
   --fs-h2: 2.25rem;
@@ -110,8 +110,11 @@ h3 {
 }
 
 .section__title {
-  margin-bottom: 0.25rem;
+  margin-bottom: 2rem;
+  font-size: 3rem; /* 원하는 크기로 조정 */
 }
+
+
 
 .section__title--intro {
   font-weight: var(--fw-reg);
@@ -361,9 +364,9 @@ header {
     /* 기본 배경: radial-gradient의 중심(빛의 위치)는 CSS 변수 --light-x, --light-y 로 지정 (기본값은 중앙) */
     background: radial-gradient(
         circle at var(--light-x, 50%) var(--light-y, 50%),
-        white 0%, 
-        white 30%, 
-        #252527 80%
+        white 40%, 
+        white 20%, 
+        #252527 60%
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -375,115 +378,348 @@ header {
   /*============================================================================================================================= */
   /*============================================================================================================================= */
   /*============================================================================================================================= */
+  :root {
+    --holo-color1: #f0f; /* 보라 */
+    --holo-color2: #0ff; /* 하늘색 */
+  }
+  
+  .section__title--about {
+    text-align: center; 
+    /* 혹은 상위 요소에 text-align: center; 적용 */
+  }
 
+  /* 전체 섹션 스타일 (배경 등은 기존과 동일) */
+  .about-me {
+    position: relative; /* 버튼을 절대 배치하려면 필요 */
+    justify-content: center;
+    align-items: center;
+    background: #19161c;
+    padding: 170px 20px;
 
-/* About Me 티켓 스타일 */
-.about-me {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 140px; /* 전체 패딩 증가 */
-}
-
-/* 티켓 디자인 */
-.ticket {
-  position: relative; /* 티켓 내부 요소들이 절대 위치할 수 있도록 설정 */
-  width: 750px; /* 전체 크기 확대 */
-  max-width: 95%;
-  height: auto;
-}
-
-.ticket img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* 티켓 내용 (이미지 위에 올리기) */
-.ticket-content {
-  position: absolute; /* 이미지 위에 배치 */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%; /* 티켓 크기에 맞추기 */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 30px;
-}
-
-/* 프로필 이미지 */
-.profile img {
-  width: 140px; /* 크기 확대 */
-  height: 140px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 5px solid #fff;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* 텍스트 정보 */
-.ticket-info {
-  flex: 1;
-  margin-left: 30px;
-}
-
-.ticket-info h2 {
-  font-size: 2rem; /* 크기 확대 */
-  color: #fff;
-}
-
-.ticket-info p {
-  font-size: 1.1rem; /* 가독성을 높이기 위해 확대 */
-  margin: 8px 0;
-  color: #ddd;
-}
-
-/* 자기소개 */
-.bio {
-  font-size: 1rem; /* 글씨 크기 증가 */
-  color: #ccc;
-  margin-top: 15px;
-  line-height: 1.5;
-}
-
-/* QR 코드 */
-.qr-code {
-  text-align: center;
-}
-
-.qr-code img {
-  width: 100px; /* 크기 증가 */
-  height: 100px;
-  margin-bottom: 10px;
-}
-
-.qr-code p {
-  font-size: 1rem;
-  color: #fff;
-}
-
-/* 반응형 디자인 */
-@media (max-width: 500px) {
+  }
+  
+  /* 티켓 박스 */
+  .ticket {
+    margin: 0 auto; /* 티켓 자체를 가로 중앙 배치 */
+    width: 600px;   /* 예시 */
+    position: relative;
+    width: 750px;
+    max-width: 95%;
+    border-radius: 5% / 3.5%;
+    background-color: #040712;
+    box-shadow:
+      -5px -5px 5px -5px var(--holo-color1),
+       5px  5px 5px -5px var(--holo-color2),
+       0 55px 35px -20px rgba(0, 0, 0, 0.5);
+    isolation: isolate; /* 블렌딩 격리 */
+    overflow: hidden;
+    transition: transform 0.5s ease, box-shadow 0.2s ease;
+    will-change: transform, filter;
+  }
+  
+  /* 티켓 배경 */
+  .ticket > img.ticket-bg {
+    width: 100%;
+    display: block;
+  }
+  
+  /* 티켓 내부 컨텐츠 배치 */
   .ticket-content {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;               /* 가로 배치 */
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  /* 왼쪽 검정박스 */
+  .profile-box {
+    width: 25%;
+    position: relative;
+    margin: 20px auto;  /* 수평 중앙 + 위아래 20px 간격 */
+    overflow: hidden;
+  }
+  
+  /* 프로필 이미지를 전체에 채움 */
+  .profile-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+  }
+  
+  /* 오른쪽 텍스트/QR 영역 */
+  .info-box {
+    margin: 20px auto;  /* 수평 중앙 + 위아래 20px 간격 */
+    width: 60%; /* 나머지 공간 */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* 박스 간 간격 */
+  }
+  
+  /* 텍스트 스타일 */
+  .info-box h2 {
+    font-size: 1.8rem;
+    color: #000000;
+  }
+  .info-box p {
+    color: #000000;
+    margin: 5px 0;
+  }
+  .bio {
+    color: #000000;
+    line-height: 1.5;
+  }
+  
+  .ticket-info h2 {
+    font-size: 2rem;
+    color: #000000;
+  }
+  .ticket-info p {
+    font-size: 1.1rem;
+    margin: 8px 0;
+    color: #000000;
+  }
+  .bio {
+    font-size: 1rem;
+    color: #000000;
+    margin-top: 15px;
+    line-height: 1.5;
+  }
+
+  
+  /* 홀로그램 가상 요소 */
+  .ticket::before,
+  .ticket::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    transition: all 0.3s ease;
+    mix-blend-mode: color-dodge; /* 홀로그램 반사 효과 */
+    z-index: 3; /* 텍스트, 이미지와 겹치는 위치 */
+  }
+  
+  /* ::before → 무지개 그라데이션 */
+  .ticket::before {
+    background: linear-gradient(
+      115deg,
+      transparent 0%,
+      var(--holo-color1) 25%,
+      transparent 47%,
+      transparent 53%,
+      var(--holo-color2) 75%,
+      transparent 100%
+    );
+    opacity: 0.5;
+    filter: brightness(0.7) contrast(1.2);
+  }
+  
+  /* ::after → 스파클, 홀로그램 텍스처 */
+  .ticket::after {
+    background-image:
+      url("https://assets.codepen.io/13471/sparkles.gif"),
+      url("https://assets.codepen.io/13471/holo.png"),
+      linear-gradient(125deg,
+        #ff008450 15%, #fca40040 30%, #ffff0030 40%,
+        #00ff8a20 60%, #00cfff40 70%, #cc4cfa50 85%
+      );
+    background-size: 160%;
+    background-blend-mode: overlay;
+    opacity: 0.7;
+    filter: brightness(1) contrast(1);
+  }
+  
+  /* 티켓 호버 시 홀로그램 강조 */
+  .ticket:hover {
+    box-shadow:
+      -20px -20px 30px -25px var(--holo-color1),
+      20px 20px 30px -25px var(--holo-color2),
+      0 0 13px 4px rgba(255,255,255,0.3),
+      0 55px 35px -20px rgba(0, 0, 0, 0.5);
+  }
+  .ticket:hover::before {
+    opacity: 0.9;
+    filter: brightness(1) contrast(1.2);
+  }
+  .ticket:hover::after {
+    opacity: 1;
+    filter: brightness(1.2) contrast(1.2);
+  }
+  
+/* 원형 버튼 (기본 상태: 작은 원) */
+.resume-button {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #16e0bd;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+
+  /* 애니메이션/전환 효과 */
+  transition: width 0.3s ease, border-radius 0.3s ease, padding 0.3s ease;
+  overflow: hidden;    /* 확장 시 텍스트가 부드럽게 나타나도록 */
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+/* 버튼 안의 아이콘 */
+.resume-button .icon {
+  font-size: 1.2rem;
+}
+
+/* 버튼 안의 텍스트 (기본 숨김) */
+.resume-button .text {
+  display: none;  
+  margin-left: 8px;
+  font-size: 1rem;
+}
+
+/* 마우스 오버 시 버튼 확장 & 텍스트 표시 */
+.resume-button:hover {
+  width: 120px;         /* 버튼 가로 길이 확장 */
+  border-radius: 25px;  /* 살짝 둥근 직사각형 형태 */
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  padding-left: 10px;   /* 아이콘과 텍스트 사이 여백 */
+}
+
+/* 확장된 상태에서 텍스트 보이기 */
+.resume-button:hover .text {
+  display: inline;
+}
+
+  /* 반응형 디자인 */
+  @media (max-width: 500px) {
+    .ticket-content {
       flex-direction: column;
       text-align: center;
       padding: 15px;
-      
-  }
-
-  .profile img {
+    }
+    .profile img {
       width: 80px;
       height: 80px;
-  }
-
-  .ticket-info {
+    }
+    .ticket-info {
       margin-left: 0;
       margin-top: 10px;
-      
+    }
   }
+  
+
+
+  
+
+
+
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+
+  /* Portfolio / My projects */
+
+  .filter-buttons {
+    display: inline-flex;            /* 버튼들을 가로로 나란히 */
+    justify-content: center;         /* 가운데 정렬 */
+    align-items: center;
+    background-color: #fff;          /* 흰색 배경 */
+    padding: 0.5em 0.1em;              /* 안쪽 여백 */
+    border-radius: 8px;              /* 둥근 모서리 */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* 살짝 그림자 */
+    margin: 0 auto 2em auto;         /* 가운데 정렬 + 하단 여백 */
+    /* width: fit-content;           / 필요하면 너비를 내용물에 맞출 수도 있음 */
+  }
+.filter-btn {
+  display: inline-block;
+  margin: 0 0.4em;
+  padding: 0.5em 1em;
+  background-color: #ffffff;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  overflow: hidden;  /* 둥근 모서리 안에서 이미지가 잘리도록 함 */
+  border-radius: 6px; /* 원하는 둥근 값 (ex: 8px, 10px 등) */
 }
 
+.filter-btn.active,
+.filter-btn:hover {
+  background-color: #b12616;;
+  color: #fff;
+  overflow: hidden;  /* 둥근 모서리 안에서 이미지가 잘리도록 함 */
+  border-radius: 6px; /* 원하는 둥근 값 (ex: 8px, 10px 등) */
+}
+
+
+.portfolio {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5em;
+  padding: 3em 12em;  /* 상하 2em, 좌우 4em 패딩 추가 */
+}
+
+
+
+.portfolio__item {
+  display: block; /* 기본은 보이도록 */
+  overflow: hidden;  /* 둥근 모서리 안에서 이미지가 잘리도록 함 */
+  border-radius: 8px; /* 원하는 둥근 값 (ex: 8px, 10px 등) */
+}
+
+/* 숨길 때 사용될 클래스 (JS에서 토글) */
+.hidden {
+  display: none !important;
+}
+
+
+.my-projects {
+  background-color: var(--clr-dark);
+  color: var(--clr-light);
+  text-align: center;
+}
+
+
+.portfolio__item {
+  position: relative;
+  width: 100%;
+  /* 2:3 비율 → 세로가 가로의 1.5배이므로 padding-top: 150% */
+  padding-top: 150%;
+  overflow: hidden;
+}
+
+.portfolio__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+}
+.portfolio__item:focus {
+  position: relative;
+  z-index: 2;
+}
+
+.portfolio__img:hover,
+.portfolio__item:focus .portfolio__img {
+  transform: scale(1.2);
+  opacity: 0.75;
+}
 
 
 
@@ -545,86 +781,138 @@ header {
 
 
 
-
   /*============================================================================================================================= */
   /*============================================================================================================================= */
   /*============================================================================================================================= */
   /*============================================================================================================================= */
   /*============================================================================================================================= */
 
-  /* Portfolio / My projects */
 
-.filter-buttons {
-  text-align: center;
+
+/* 2단 레이아웃 컨테이너 */
+
+.resume-container {
+  display: flex;
+  align-items: stretch; /* 좌우 컬럼 높이를 맞춤 */
+  gap: 2em;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2em;
+  background: #19161c;
+}
+
+/* 좌우 컬럼 */
+.left-column.timeline,
+.right-column.timeline {
+  position: relative;
+  flex: 1; /* 양쪽 컬럼이 균등하게 늘어남 */
+}
+
+/* 선을 컬럼 전체 높이에 맞춤 */
+.left-column.timeline::before,
+.right-column.timeline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0; /* 선을 위에서 아래까지 */
+  left: 1em;
+  width: 2px;
+  background: #ccc;
+}
+
+/* 섹션 제목 스타일 */
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+/* 요약 섹션 스타일 */
+.summary {
   margin-bottom: 2em;
 }
 
-.filter-btn {
-  display: inline-block;
-  margin: 0 1em;
-  padding: 0.5em 1em;
-  background-color: #ddd;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s;
-}
-
-.filter-btn.active,
-.filter-btn:hover {
-  background-color: #16e0bd;
-  color: #fff;
-}
-
-.portfolio {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5em;
-}
-
-.portfolio__item {
-  display: block; /* 기본은 보이도록 */
-}
-
-/* 숨길 때 사용될 클래스 (JS에서 토글) */
-.hidden {
-  display: none !important;
-}
-
-
-.my-projects {
-  background-color: var(--clr-dark);
-  color: var(--clr-light);
-  text-align: center;
-}
-
-
-.portfolio__item {
+/* 타임라인 기본 스타일 */
+.timeline {
   position: relative;
-  width: 100%;
-  /* 2:3 비율 → 세로가 가로의 1.5배이므로 padding-top: 150% */
-  padding-top: 150%;
-  overflow: hidden;
+  padding-left: 2em; /* 타임라인 선이 들어갈 공간 확보 */
 }
 
-.portfolio__img {
+/* 타임라인 아이템 */
+.timeline-item {
+  position: relative;
+  margin-bottom: 2em;
+}
+
+/* 타임라인 선 (가상 요소) */
+.timeline::before {
+  content: "";
   position: absolute;
+  left: 1em; /* 선이 표시될 위치 */
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.portfolio__item:focus {
-  position: relative;
-  z-index: 2;
+  width: 2px;
+  height: 80%;
+  background: #ccc;
 }
 
-.portfolio__img:hover,
-.portfolio__item:focus .portfolio__img {
-  transform: scale(1.2);
-  opacity: 0.75;
+/* 원형 아이콘(점) */
+.timeline-icon {
+  position: absolute;
+  left: 0.7em; /* 선 중앙에 위치하도록 조정 */
+  width: 12px;
+  height: 12px;
+  background: #ccc;
+  border-radius: 50%;
+  margin-top: 0.5em;
 }
+
+/* 타임라인 컨텐츠 */
+.timeline-content {
+  margin-left: 1.5em; /* 점(icon)과 글자 사이 간격 */
+}
+
+/* 기관명/직장명 이탤릭체 */
+.timeline-content h3 em {
+  font-style: italic;
+  color: #ffffff;
+}
+
+/* 기간, 역할 등 중요한 포인트는 굵게 */
+.timeline-content h3 strong,
+.timeline-content ul li strong {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+/* 목록 스타일 */
+.timeline-content ul {
+  list-style: disc;
+  margin-left: 1.5em;
+  margin-top: 0.5em;
+  color: #f4efef;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .resume-container {
+    flex-direction: column;
+    gap: 1em;
+  }
+  .left-column,
+  .right-column {
+    width: 100%;
+  }
+  .timeline::before {
+    /* 모바일에서는 선 길이가 자동으로 늘어나도록 */
+    height: auto;
+  }
+}
+
+
+
+
+
+
 
 /*--------------------------------------------------------------
 # Resume Section

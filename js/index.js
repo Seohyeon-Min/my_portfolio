@@ -46,7 +46,7 @@ document.addEventListener("mousemove", (e) => {
     `;
 
     // 화면 크기의 절반을 빼서 중심점 보정
-    spotlight.style.setProperty("--light-x", `${x - (window.innerWidth / 2)}px`);
+    spotlight.style.setProperty("--light-x", `${x - (window.innerWidth / 3)}px`);
     spotlight.style.setProperty("--light-y", `${y - (window.innerHeight / 2)}px`);
 });
 

@@ -85,56 +85,54 @@
     <!-- About Me -->
 
     <section class="about-me" id="about">
-        <div class="ticket">
-            <img src="img/ticket.png" alt="Ticket Background" class="ticket-bg">
-
-            <div class="ticket-content">
-                <!-- 프로필 사진 -->
-                <div class="profile">
-                    <img src="img/face.jpg" alt="Profile Image">
-                </div>
-
-                <!-- 자기소개 -->
-                <div class="ticket-info">
-                    <h2>Seohyeon Min</h2>
-                    <p><strong>감독:</strong> 민서현 | <strong>장르:</strong> 창의적 개발 & 디렉팅</p>
-                    <p><strong>경력 연차:</strong> 6년 | <strong>좌석:</strong> TL-2024</p>
-                    <p class="bio">
-                        Technical Lead & Graphics Programmer specializing in engine development & rendering optimization.
-                        Built high-performance game engines, achieving a 50% performance boost using OpenGL & SDL.
-                        Passionate about scalable rendering pipelines & GLSL/HLSL shaders.
-                    </p>
-                </div>
-
-                <!-- QR 코드 -->
-                <div class="qr-code">
-                    <img src="qr-code.png" alt="QR Code for Resume">
-                    <p>이력서 다운로드</p>
-                </div>
+      <h2 class="section__title section__title--about">About Me</h2>
+      
+      <div class="ticket">
+        <!-- 기존 배경 이미지 -->
+        <img src="img/ticket.png" alt="Ticket Background" class="ticket-bg">
+    
+        <div class="ticket-content">
+          <!-- 왼쪽 검정 박스: 프로필 전체(배경) -->
+          <div class="profile-box">
+            <!-- face.png가 가득 차도록 -->
+            <img src="img/face.jpg" alt="Profile Image">
+          </div>
+    
+          <!-- 오른쪽 영역: 빨간, 초록, 파란, 보라 박스 순서 -->
+          <div class="info-box">
+            <!-- 빨간박스: 이름 -->
+            <div class="red-box">
+              <h2>Min Seohyeon</h2>
             </div>
+            
+            <!-- 초록박스: 감독, 장르 등 간단 설명 -->
+            <div class="green-box">
+              <p>DigiPen | Creative Development & Directing</p>
+              <p>C++, OpenGL, GLSL</p>
+            </div>
+    
+            <!-- 파란박스: 상세 내용(자기소개) -->
+            <div class="blue-box">
+              <p class="bio">
+                Technical Lead & Graphics Programmer specializing in engine development & rendering optimization.
+                Built high-performance game engines, achieving a 50% performance boost using OpenGL & SDL.
+                Passionate about scalable rendering pipelines & GLSL/HLSL shaders.
+              </p>
+            </div>
+          </div>
+
+
         </div>
+      </div>
+        <!-- 원형 버튼 (Resume) -->
+        <a href="docs/Resume.pdf" class="resume-button" target="_blank" rel="noopener">
+          <span class="icon">
+            <i class="">R</i>
+          </span>
+          <span class="text">Resume</span>
+        </a>
     </section>
-
-
-
-
-
-
-    <!-- My EDU -->
-    <!-- My EDU -->
-    <!-- My EDU -->
-
-        <section class="my-education" id="education">
-            <h2 class="section__title section__title--services">SKLILZ</h2>
-            <div class="services">
-
-            </div>
-            <!-- <a href="#projects" class="btn">Projects</a> -->
-        </section>
-
-
-
-
+    
 
 
 
@@ -145,9 +143,6 @@
 
 <section class="my-projects" id="projects">
     <h2 class="section__title section__title--projects">Projects</h2>
-    <p class="section__subtitle section__subtitle--projects">
-      A selection of my range of projects
-    </p>
   
     <!-- 필터 버튼 -->
     <div class="filter-buttons">
@@ -159,16 +154,16 @@
     <div class="portfolio">
       <!-- [game] 폴더: portfolio_game/ (4개만 표시) -->
       <a href="portfolio_game/01_hello.html" class="portfolio__item game">
-        <img src="img/portfolio_thumbnails/01_hello.jpg" alt="" class="portfolio__img" />
+        <img src="img/portfolio_thumbnails/Manzo.png" alt="" class="portfolio__img" />
       </a>
       <a href="portfolio_game/02_meshes.html" class="portfolio__item game">
-        <img src="img/portfolio_thumbnails/02_meshes.jpg" alt="" class="portfolio__img" />
+        <img src="img/portfolio_thumbnails/EdgeDrive2.png" alt="" class="portfolio__img" />
       </a>
       <a href="portfolio_game/03_fog.html" class="portfolio__item game">
-        <img src="img/portfolio_thumbnails/03_fog.jpg" alt="" class="portfolio__img" />
+        <img src="img/portfolio_thumbnails/DoubleHit.png" alt="" class="portfolio__img" />
       </a>
       <a href="portfolio_game/04_toon.html" class="portfolio__item game">
-        <img src="img/portfolio_thumbnails/04_toon.jpg" alt="" class="portfolio__img" />
+        <img src="img/portfolio_thumbnails/BirdStrike.png" alt="" class="portfolio__img" />
       </a>
   
       <!-- [tech] 폴더: portfolio/ (원래 7개 이상이면 그대로) -->
@@ -196,6 +191,89 @@
     </div>
   </section>
   
+
+  
+
+
+
+    <!-- My EDU -->
+    <!-- My EDU -->
+    <!-- My EDU -->
+
+    <section class="my-education" id="education">
+      <div class="resume-container">
+          <!-- 왼쪽 컬럼: Summary, Education -->
+          <div class="left-column">
+
+      
+            <section class="education timeline">
+              <h2>Education</h2>
+      
+              <!-- 타임라인 아이템 1 -->
+              <div class="timeline-item">
+                <div class="timeline-icon"></div>
+                <div class="timeline-content">
+                  <h3>
+                    <em>Digipen Institute of Technology</em>
+                    <h4><p></p><strong>(2023 - present)</strong></h4>
+                  </h3>
+                  <ul>
+                    <li><strong>B.S.</strong> Real-Time Interactive Simulation</li>
+                    <li>GPA 3.72/4.0</li>
+                  </ul>
+                </div>
+              </div>
+      
+              <!-- 타임라인 아이템 2 -->
+              <div class="timeline-item">
+              </div>
+            </section>
+          </div>
+      
+          <!-- 오른쪽 컬럼: Professional Experience -->
+          <div class="right-column">
+            <section class="experience timeline">
+              <h2>Experience</h2>
+      
+              <!-- 타임라인 아이템 1 -->
+              <div class="timeline-item">
+                <div class="timeline-icon"></div>
+                <div class="timeline-content">
+                  <h3>
+                    <em>DigiPen Institute of Technology | Teaching Assistant – Game Development Project I </em>
+                    <h4><strong></p>(2025 - Present)</strong></h4>
+                  </h3>
+                  <ul>
+                    <li>
+                      <strong>Assisted students</strong> in game development projects, providing guidance on C++
+                    </li>
+                    <li>Reviewed and debugged student code, ensuring best coding practices.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+      
+              <!-- 타임라인 아이템 2 -->
+              <div class="timeline-item">
+              </div>
+            </section>
+          </div>
+        </div>
+      
+        <!-- (선택) JavaScript로 상세 펼치기/접기 기능 등 추가 가능 -->
+        <script>
+          // 예: 클릭 시 상세 내용을 펼치는 기능
+          // document.querySelectorAll('.timeline-item').forEach(item => {
+          //   item.addEventListener('click', () => {
+          //     // 토글 기능
+          //   });
+          // });
+        </script>
+  </section>
+
+
+
+
 
 
     <!-- My Services -->
@@ -229,17 +307,15 @@
                 </p>
             </div>
         </div>
-
-        <a href="#projects" class="btn">Projects</a>
     </section>
 
     <!-- Resume Section -->
-    <section class="my-resume" id="resume">
+    <!-- <section class="my-resume" id="resume">
         <h2 class="section__title section__title--resume">Resume</h2>
         <a target="_blank" href="docs/Resume.pdf"><i class="far fa-file-pdf"></i> PDF</a>
 
 
-    </section>
+    </section> -->
     <!-- /Resume Section -->
 
     <!-- Footer -->
