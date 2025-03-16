@@ -10,7 +10,7 @@
 
     <!-- Help auto scale for desktop & mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>STUDENT TODO Website</title>
+    <title>MSH PORTFOLIO</title>
 
     <!-- Normalize the difference across browsers  https://necolas.github.io/normalize.css/ -->
     <link rel="stylesheet" href="external/normalize.css" />
@@ -49,9 +49,9 @@
         <nav class="navbar-menu">
             <a href="#home">Home</a>
             <a href="#about">About</a>
-            <a href="#education">Edu</a>
-            <a href="#projects">Projects</a>
             <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#education">Edu</a>
             <a href="#contact">Contact</a>
         </nav>
     </header>
@@ -123,16 +123,112 @@
 
 
         </div>
+                <!-- 원형 버튼 (Resume) -->
+                <a href="docs/Resume.pdf" class="resume-button" target="_blank" rel="noopener">
+                  <span class="icon">
+                    <i class="">R</i>
+                  </span>
+                  <span class="text">Resume</span>
+                </a>
       </div>
-        <!-- 원형 버튼 (Resume) -->
-        <a href="docs/Resume.pdf" class="resume-button" target="_blank" rel="noopener">
-          <span class="icon">
-            <i class="">R</i>
-          </span>
-          <span class="text">Resume</span>
-        </a>
+
     </section>
     
+
+
+
+    <!-- My Skills -->
+    <!-- My Skills -->
+    <!-- My Skills -->
+    <section class="skills-section" id="skills">
+      <!-- 상단 타이틀 (</Skills> 또는 Tech Stack) -->
+      <h2 class="section-title">Skills</h2>
+      
+      <!-- 전체 스택을 담는 래퍼 -->
+      <div class="tech-sections">
+        
+        <!-- 섹션 1: Programming -->
+        <div class="tech-category">
+          <h3 class="category-title">Programming</h3>
+          <div class="icons-row">
+            <!-- C -->
+            <div class="icon-card" data-tooltip="C">
+              <!-- 실제 아이콘 경로로 수정 필요 -->
+              <img src="icons/c.png" alt="C Icon">
+            </div>
+            <!-- C++ -->
+            <div class="icon-card" data-tooltip="C++">
+              <img src="icons/cpp.png" alt="C++ Icon">
+            </div>
+            <!-- Python -->
+            <div class="icon-card" data-tooltip="Python">
+              <img src="icons/python.png" alt="Python Icon">
+            </div>
+            <!-- GLSL (아이콘이 모호하다면 텍스트 형태로 만들거나 직접 제작) -->
+            <div class="icon-card" data-tooltip="GLSL">
+              <img src="icons/glsl.png" alt="GLSL Icon">
+            </div>
+            <!-- HTML -->
+            <div class="icon-card" data-tooltip="HTML">
+              <img src="icons/html5.png" alt="HTML Icon">
+            </div>
+            <!-- JavaScript -->
+            <div class="icon-card" data-tooltip="JavaScript">
+              <img src="icons/javascript.png" alt="JavaScript Icon">
+            </div>
+          </div>
+        </div>
+        
+        <!-- 섹션 2: Rendering & Engines -->
+        <div class="tech-category">
+          <h3 class="category-title">Rendering & Engines</h3>
+          <div class="icons-row">
+            <!-- OpenGL -->
+            <div class="icon-card" data-tooltip="OpenGL">
+              <img src="icons/opengl.png" alt="OpenGL Icon">
+            </div>
+            <!-- SDL -->
+            <div class="icon-card" data-tooltip="SDL">
+              <img src="icons/sdl.png" alt="SDL Icon">
+            </div>
+            <!-- Unreal Engine 5 -->
+            <div class="icon-card" data-tooltip="Unreal Engine 5">
+              <img src="icons/unreal.png" alt="Unreal Engine Icon">
+            </div>
+          </div>
+        </div>
+        
+        <!-- 섹션 3: Tools & Workflow -->
+        <div class="tech-category">
+          <h3 class="category-title">Tools & Workflow</h3>
+          <div class="icons-row">
+            <!-- Visual Studio -->
+            <div class="icon-card" data-tooltip="Visual Studio">
+              <img src="icons/vs.png" alt="Visual Studio Icon">
+            </div>
+            <!-- Visual Studio Code -->
+            <div class="icon-card" data-tooltip="Visual Studio Code">
+              <img src="icons/vscode.png" alt="Visual Studio Code Icon">
+            </div>
+            <!-- Git -->
+            <div class="icon-card" data-tooltip="Git">
+              <img src="icons/git.png" alt="Git Icon">
+            </div>
+            <!-- CMake -->
+            <div class="icon-card" data-tooltip="CMake">
+              <img src="icons/cmake.png" alt="CMake Icon">
+            </div>
+            <!-- WSL -->
+            <div class="icon-card" data-tooltip="WSL">
+              <img src="icons/wsl.png" alt="WSL Icon">
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </section>
+
+
 
 
 
@@ -153,16 +249,16 @@
   
     <div class="portfolio">
       <!-- [game] 폴더: portfolio_game/ (4개만 표시) -->
-      <a href="portfolio_game/01_hello.html" class="portfolio__item game">
+      <a href="portfolio_game/01_Manzo.html" class="portfolio__item game">
         <img src="img/portfolio_thumbnails/Manzo.png" alt="" class="portfolio__img" />
       </a>
-      <a href="portfolio_game/02_meshes.html" class="portfolio__item game">
+      <a href="portfolio_game/02_EdgeDirve.html" class="portfolio__item game">
         <img src="img/portfolio_thumbnails/EdgeDrive2.png" alt="" class="portfolio__img" />
       </a>
-      <a href="portfolio_game/03_fog.html" class="portfolio__item game">
+      <a href="portfolio_game/03_DoubleHit.html" class="portfolio__item game">
         <img src="img/portfolio_thumbnails/DoubleHit.png" alt="" class="portfolio__img" />
       </a>
-      <a href="portfolio_game/04_toon.html" class="portfolio__item game">
+      <a href="portfolio_game/04_BirdStrike.html" class="portfolio__item game">
         <img src="img/portfolio_thumbnails/BirdStrike.png" alt="" class="portfolio__img" />
       </a>
   
@@ -202,138 +298,123 @@
 
     <section class="my-education" id="education">
       <div class="resume-container">
-          <!-- 왼쪽 컬럼: Summary, Education -->
-          <div class="left-column">
-
-      
-            <section class="education timeline">
-              <h2>Education</h2>
-      
-              <!-- 타임라인 아이템 1 -->
-              <div class="timeline-item">
-                <div class="timeline-icon"></div>
-                <div class="timeline-content">
-                  <h3>
-                    <em>Digipen Institute of Technology</em>
-                    <h4><p></p><strong>(2023 - present)</strong></h4>
-                  </h3>
-                  <ul>
-                    <li><strong>B.S.</strong> Real-Time Interactive Simulation</li>
-                    <li>GPA 3.72/4.0</li>
-                  </ul>
-                </div>
+    
+        <!-- 왼쪽: Education -->
+        <section class="column education-column">
+          <h2 class="column-title">Education</h2>
+          <div class="timeline">
+            <!-- 타임라인 항목 1 -->
+            <div class="timeline-item">
+              <!-- 원형 아이콘 -->
+              <div class="timeline-icon"></div>
+              <!-- 항목 내용 -->
+              <div class="timeline-content">
+                <h3>
+                  <em>Digipen Institute of Technology</em> 
+                  <strong>(2023 - present)</strong>
+                </h3>
+                <ul><li>B.S. Real-Time Interactive Simulation</p></li></ul>
+                <ul><li>GPA 4.18/4.5</p></li></ul>
               </div>
-      
-              <!-- 타임라인 아이템 2 -->
-              <div class="timeline-item">
-              </div>
-            </section>
+            </div>
           </div>
-      
-          <!-- 오른쪽 컬럼: Professional Experience -->
-          <div class="right-column">
-            <section class="experience timeline">
-              <h2>Experience</h2>
-      
-              <!-- 타임라인 아이템 1 -->
-              <div class="timeline-item">
-                <div class="timeline-icon"></div>
-                <div class="timeline-content">
-                  <h3>
-                    <em>DigiPen Institute of Technology | Teaching Assistant – Game Development Project I </em>
-                    <h4><strong></p>(2025 - Present)</strong></h4>
-                  </h3>
-                  <ul>
-                    <li>
-                      <strong>Assisted students</strong> in game development projects, providing guidance on C++
-                    </li>
-                    <li>Reviewed and debugged student code, ensuring best coding practices.
-                    </li>
-                  </ul>
-                </div>
+        </section>
+        
+        <!-- 오른쪽: Experience -->
+        <section class="column experience-column">
+          <h2 class="column-title">Experience</h2>
+          <div class="timeline">
+            <!-- 타임라인 항목 1 -->
+            <div class="timeline-item">
+              <div class="timeline-icon"></div>
+              <div class="timeline-content">
+                <h3>
+                  <em>DigiPen Institute of Technology | Teaching Assistant – Game Development Project I</em>
+                  <strong>(2025 - Present)</strong>
+                </h3>
+                <ul><li>Assisted students in game development projects, providing guidance on C++</p></li></ul>
+                <ul><li>Reviewed and debugged student code, ensuring best coding practices.</p></li></ul>
               </div>
-      
-              <!-- 타임라인 아이템 2 -->
-              <div class="timeline-item">
-              </div>
-            </section>
+            </div>
           </div>
-        </div>
-      
-        <!-- (선택) JavaScript로 상세 펼치기/접기 기능 등 추가 가능 -->
-        <script>
-          // 예: 클릭 시 상세 내용을 펼치는 기능
-          // document.querySelectorAll('.timeline-item').forEach(item => {
-          //   item.addEventListener('click', () => {
-          //     // 토글 기능
-          //   });
-          // });
-        </script>
+        </section>
+        
+      </div>
   </section>
 
 
 
 
-
-
-    <!-- My Services -->
-    <section class="my-services" id="skills">
-        <h2 class="section__title section__title--services">SKLILZ</h2>
-        <div class="services">
-            <div class="service">
-                <h3>SKILL TODO</h3>
-                <p> TODO
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat.
-                </p>
-            </div>
-
-            <div class="service">
-                <h3>SKILL TODO</h3>
-                <p> TODO
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat.
-                </p>
-            </div>
-
-            <div class="service">
-                <h3>SKILL TODO</h3>
-                <p> TODO
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat.
-                </p>
-            </div>
-        </div>
+  
+    <!-- Contact ME -->
+    <!-- Contact ME -->
+    <!-- Contact ME -->
+    <!-- Contact ME -->
+    <section class="hero-section"id="contact">
+      <!-- 상단 큰 문구 -->
+      <h1 class="hero-title">Keep going, keep growing.</h1>
+  
+      <!-- 하단 문구 -->
+      <p class="hero-subtitle">Get in touch</p>
+  
+      <!-- 소셜 아이콘 영역 -->
+      <div class="social-icons">
+        <!-- GitHub 아이콘 (예시) -->
+        <a href="https://github.com/Seohyeon-Min" class="social-icon" aria-label="GitHub" title="GitHub">
+          <svg width="24" height="24" fill="currentColor" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 .297c-6.627 0-12 5.373-12 12 
+            0 5.302 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 
+            0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61 
+            -.546-1.387-1.333-1.757-1.333-1.757-1.09-.745.084-.73.084-.73 
+            1.205.084 1.84 1.236 1.84 1.236 1.07 1.835 2.807 1.304 
+            3.492.997.107-.776.417-1.304.76-1.604-2.665-.305-5.466-1.332-5.466-5.93 
+            0-1.31.47-2.38 1.236-3.22-.124-.303-.536-1.524.116-3.176 0 0 
+            1.01-.323 3.3 1.23a11.5 11.5 0 0 1 3-.404c1.02.005 2.045.137 
+            3 .404 2.29-1.553 3.3-1.23 3.3-1.23.653 1.652.242 2.873.118 3.176 
+            .77.84 1.235 1.91 1.235 3.22 0 4.61-2.804 5.62-5.476 5.92.43.372.81 
+            1.103.81 2.222 0 1.606-.015 2.898-.015 3.293 0 .319.216.694.825.576 
+            C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+          </svg>
+        </a>
+  
+        <!-- LinkedIn 아이콘 (예시) -->
+        <a href="https://www.linkedin.com/in/seohyeon-min-781362250/" class="social-icon" aria-label="LinkedIn" title="LinkedIn">
+          <svg width="24" height="24" fill="currentColor" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M4.98 3.5c0 1.38-1.11 
+            2.5-2.48 2.5S0 4.88 0 3.5 1.11 1 2.48 
+            1s2.48 1.12 2.48 2.5zM.22 8.4h4.92v15H.22v-15zm7.98 
+            0h4.72v2.06h.07c.66-1.24 2.27-2.56 
+            4.67-2.56 5 0 5.92 3.29 5.92 7.57v8.03h-4.92v-7.13c0-1.7 
+            0-3.88-2.37-3.88-2.38 0-2.74 1.85-2.74 
+            3.76v7.25H8.2v-15z"/>
+          </svg>
+        </a>
+  
+        <!-- Email 아이콘 (예시) -->
+        <a href="mailto:weare1842@gmail.com?subject=%ED%95%9C%EA%B8%80%20%EC%9D%B4%EB%A9%94%EC%9D%BC&body=%EC%95%88%EB%85%95%ED%95%A9%EB%8B%88%EB%8B%A4."  class="social-icon" aria-label="Email" title="Email">
+          <svg width="24" height="24" fill="currentColor" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M20 4H4C2.9 4 2 4.9 
+            2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 
+            2-2V6c0-1.1-.9-2-2-2zm0 4l-8 
+            5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+        </a>
+      </div>
+  
+      <!-- 아바타(혹은 일러스트) 이미지 -->
+      <!-- <div class="avatar-container"> -->
+        <!-- <img class="avatar-img" src="path/to/avatar.png" alt="Avatar Image (예시)">
+      </div> -->
     </section>
 
-    <!-- Resume Section -->
-    <!-- <section class="my-resume" id="resume">
-        <h2 class="section__title section__title--resume">Resume</h2>
-        <a target="_blank" href="docs/Resume.pdf"><i class="far fa-file-pdf"></i> PDF</a>
 
 
-    </section> -->
-    <!-- /Resume Section -->
+
+
 
     <!-- Footer -->
-    <footer class="footer"id="contact">
-        <a href="mailto:my.email@digipen.edu" class="footer__link">my.email@digipen.edu</a>
-        <ul class="social-list">
-            <li class="social-list__item">
-                <a class="social-list__link" href="https://linkedin.com/in/mylinkedinid">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-            </li>
-            <li class="social-list__item">
-                <a class="social-list__link" href="https://github.com/mygithubid">
-                    <i class="fab fa-github"></i>
-                </a>
-            </li>
-            <!-- Want to list more? search : https://fontawesome.com/v5/search?ic=brands -->
-        </ul>
+    <footer class="footer">
+        <a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a>
     </footer>
 
     <script src="js/index.js"></script>

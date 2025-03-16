@@ -16,7 +16,7 @@
 
   --clr-light: #ffffff;
   --clr-dark: #0a0912;
-  --clr-accent: #b12616;
+  --clr-accent: #025fac;
 
   --fs-h1: 3rem;
   --fs-h2: 2.25rem;
@@ -323,7 +323,7 @@ header {
 }
 
 .navbar-menu a:hover {
-  color: #16e0bd; /* 호버 시 색상 변경 */
+  color: var(--clr-accent);
 }
 
 
@@ -426,6 +426,7 @@ header {
   /* 티켓 내부 컨텐츠 배치 */
   .ticket-content {
     position: absolute;
+
     top: 0; left: 0;
     width: 100%; height: 100%;
     display: flex;               /* 가로 배치 */
@@ -554,8 +555,8 @@ header {
 /* 원형 버튼 (기본 상태: 작은 원) */
 .resume-button {
   position: absolute;
-  bottom: 20px;
-  left: 20px;
+  bottom: 6%;    /* 부모(ticket-card)의 하단에 맞춤 */
+  left: 36%;      /* 부모(ticket-card)의 왼쪽에 맞춤 */
 
   display: flex;
   align-items: center;
@@ -564,7 +565,7 @@ header {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #16e0bd;
+  background-color: var(--clr-accent);
   color: #fff;
   text-decoration: none;
   font-weight: bold;
@@ -658,7 +659,7 @@ header {
 
 .filter-btn.active,
 .filter-btn:hover {
-  background-color: #b12616;;
+  background-color: var(--clr-accent);
   color: #fff;
   overflow: hidden;  /* 둥근 모서리 안에서 이미지가 잘리도록 함 */
   border-radius: 6px; /* 원하는 둥근 값 (ex: 8px, 10px 등) */
@@ -731,233 +732,338 @@ header {
   /*============================================================================================================================= */
   /*============================================================================================================================= */
 
-/* my services section */
+/* my skills section */
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: sans-serif;
+  background: #1e1e1e; /* 어두운 배경 */
+  color: #fff;         /* 텍스트 흰색 */
+}
 
-.my-services {
-  background-color: var(--clr-dark);
-  background-image: url(../img/skills-bg.jpg);
-  background-size: cover;
-  background-blend-mode: overlay;
-  color: var(--clr-light);
+/* 전체 스킬 섹션 */
+.skills-section {
+  /* min-height: 100vh;  -> 필요 없다면 제거 */
+  /* height: 100vh;      -> 제거 */
+  padding: 8rem;
   text-align: center;
 }
 
-.section__title--services {
-  color: var(--clr-accent);
-  position: relative;
+/* 상단 타이틀 스타일 */
+.section-title {
+  font-size: 2.3rem;
+  margin-bottom: 3rem;
 }
 
-.section__title--services::after {
-  content: "";
-  display: block;
-  width: 2em;
-  height: 1px;
-  margin: 0.5em auto 1em;
-  background: var(--clr-light);
-  opacity: 0.25;
+/* 세 개 섹션(Programming / Rendering & Engines / Tools & Workflow)을 묶는 컨테이너 */
+.tech-sections {
+  display: flex; /* 가로로 배치, 지우면 세로됨 */
+  justify-content: center; /* 가로로 분산 */
+  flex-wrap: wrap;               /* 화면이 좁아지면 줄바꿈 */
+  gap: 1rem;
 }
 
-.services {
-  margin-bottom: 4em;
+/* 각 섹션 */
+.tech-category {
+  flex: 0.2;           /* 가로 공간을 균등 분배 */
+  min-width: 250px;  /* 너무 작아지지 않도록 최소 너비 설정 */
 }
 
-.service {
-  max-width: 500px;
-  margin: 0 auto;
+/* 섹션 타이틀 (예: "Programming") */
+.category-title {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
 }
 
-@media (min-width: 800px) {
-  .services {
-    display: flex;
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .service + .service {
-    margin-left: 2em;
-  }
-}
-
-
-
-  /*============================================================================================================================= */
-  /*============================================================================================================================= */
-  /*============================================================================================================================= */
-  /*============================================================================================================================= */
-  /*============================================================================================================================= */
-
-
-
-/* 2단 레이아웃 컨테이너 */
-
-.resume-container {
+/* 아이콘들을 가로로 배치 */
+.icons-row {
   display: flex;
-  align-items: stretch; /* 좌우 컬럼 높이를 맞춤 */
-  gap: 2em;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2em;
-  background: #19161c;
+  flex-wrap: wrap; /* 아이콘이 많으면 자동 줄바꿈 */
+  gap: 1rem;       /* 아이콘 간격 */
+  justify-content: center;
 }
 
-/* 좌우 컬럼 */
-.left-column.timeline,
-.right-column.timeline {
-  position: relative;
-  flex: 1; /* 양쪽 컬럼이 균등하게 늘어남 */
+/* 아이콘 박스(카드) */
+.icon-card {
+  position: relative;     /* 툴팁 위치 조정을 위해 relative */
+  width: 64px;
+  height: 64px;
+  background: #2c2c2c;    /* 어두운 박스 배경 */
+  border-radius: 12px;    /* 라운드 처리 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  cursor: pointer;
 }
 
-/* 선을 컬럼 전체 높이에 맞춤 */
-.left-column.timeline::before,
-.right-column.timeline::before {
+/* 호버 시 약간 확대 */
+.icon-card:hover {
+  transform: scale(1.05);
+}
+
+/* 아이콘 이미지 */
+.icon-card img {
+  max-width: 36px;
+  max-height: 36px;
+}
+
+/* 툴팁 (CSS만으로 구현) */
+.icon-card::after {
+  /* data-tooltip 속성 값이 컨텐츠로 들어감 */
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px); /* 아이콘 카드 위에 툴팁이 위치하도록 */
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;  /* 텍스트가 줄바꿈되지 않도록 */
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* 툴팁의 작은 화살표 부분 */
+.icon-card::before {
   content: "";
   position: absolute;
-  top: 0;
-  bottom: 0; /* 선을 위에서 아래까지 */
-  left: 1em;
-  width: 2px;
-  background: #ccc;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
-/* 섹션 제목 스타일 */
-h2 {
+/* 호버 시 툴팁 표시 */
+.icon-card:hover::after {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+
+.icon-card:hover::before {
+  opacity: 1;
+}
+
+
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+
+
+
+/* EDUCATION */
+
+/* 2단 레이아웃을 위한 컨테이너 */
+.resume-container {
+  display: flex;
+  flex-wrap: wrap;           /* 화면이 좁아지면 자동 줄바꿈 */
+  justify-content: space-between;
+  max-width: 1200px;         /* 필요 시 최대 너비 설정 */
+  margin: 0 auto;            /* 수평 중앙 정렬 */
+  padding: 2rem 1rem;        /* 여백 */
+}
+
+/* 공통: Education / Experience 컬럼 */
+.column {
+  width: 48%;                /* 2단 분할 (약 50%씩) */
+  position: relative;        /* 타임라인 position 계산을 위해 relative */
+  margin-bottom: 2rem;       /* 하단 여백 */
+}
+
+/* 반응형: 화면이 작아지면 세로 정렬 */
+@media (max-width: 768px) {
+  .column {
+    width: 100%;
+  }
+}
+
+/* 컬럼 제목 스타일 */
+.column-title {
   font-size: 1.8rem;
-  margin-bottom: 1rem;
   font-weight: bold;
+  margin-bottom: 1rem;
 }
 
-/* 요약 섹션 스타일 */
-.summary {
-  margin-bottom: 2em;
-}
-
-/* 타임라인 기본 스타일 */
+/* 타임라인 전체를 감싸는 컨테이너 */
 .timeline {
   position: relative;
-  padding-left: 2em; /* 타임라인 선이 들어갈 공간 확보 */
+  padding-left: 2rem; /* 왼쪽 공간 확보 (수직선, 아이콘) */
+}
+
+/* 타임라인 수직선 (하나의 큰 줄) */
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 20px;      /* 아이콘과 수직선 정렬 */
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #ccc;
 }
 
 /* 타임라인 아이템 */
 .timeline-item {
   position: relative;
-  margin-bottom: 2em;
+  margin-bottom: 20px; /* 각 항목 간 간격 */
 }
 
-/* 타임라인 선 (가상 요소) */
-.timeline::before {
-  content: "";
-  position: absolute;
-  left: 1em; /* 선이 표시될 위치 */
-  top: 0;
-  width: 2px;
-  height: 80%;
-  background: #ccc;
-}
-
-/* 원형 아이콘(점) */
+/* 아이템 왼쪽의 원형 아이콘 */
 .timeline-icon {
   position: absolute;
-  left: 0.7em; /* 선 중앙에 위치하도록 조정 */
-  width: 12px;
-  height: 12px;
-  background: #ccc;
+  left: -20px;         /* 수직선 중앙에 맞춤 */
+  width: 18px;
+  height: 18px;
+  background: #fff;   /* 아이콘 배경 */
+  border: 2px solid #000; 
   border-radius: 50%;
-  margin-top: 0.5em;
+  z-index: 1;         /* 수직선보다 위에 위치 */
 }
 
-/* 타임라인 컨텐츠 */
+/* 아이템 내용 */
 .timeline-content {
-  margin-left: 1.5em; /* 점(icon)과 글자 사이 간격 */
+  margin-left: 2rem;  /* 아이콘 오른쪽에 내용 */
 }
 
-/* 기관명/직장명 이탤릭체 */
-.timeline-content h3 em {
+/* 항목 제목 예: 학교명, 회사명 */
+.timeline-content h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+/* 이탤릭체(학교·회사명), 굵은 날짜 */
+.timeline-content em {
   font-style: italic;
-  color: #ffffff;
 }
-
-/* 기간, 역할 등 중요한 포인트는 굵게 */
-.timeline-content h3 strong,
-.timeline-content ul li strong {
+.timeline-content strong {
   font-weight: bold;
-  color: #ffffff;
 }
 
-/* 목록 스타일 */
-.timeline-content ul {
-  list-style: disc;
-  margin-left: 1.5em;
-  margin-top: 0.5em;
-  color: #f4efef;
-}
-
-/* 반응형 디자인 */
-@media (max-width: 768px) {
-  .resume-container {
-    flex-direction: column;
-    gap: 1em;
-  }
-  .left-column,
-  .right-column {
-    width: 100%;
-  }
-  .timeline::before {
-    /* 모바일에서는 선 길이가 자동으로 늘어나도록 */
-    height: auto;
-  }
+/* 일반 설명 */
+.timeline-content p {
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
 }
 
 
 
 
 
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
 
 
 /*--------------------------------------------------------------
-# Resume Section
+# Contact ME Section
 --------------------------------------------------------------*/
 
-.section__title--resume {
-  text-align: center;
+body, html {
+  width: 100%;
+  height: 100%;
+  font-family: sans-serif;
+  background: #000; /* 혹시 그라디언트가 깨질 때 대비한 기본색 */
 }
 
-.my-resume {
+/* 섹션 래퍼 */
+.hero-section {
+  min-height: 100vh; /* 화면 전체 높이 채움 */
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.resume-section h3 {
-  color: var(--clr-dark);
+  justify-content: center;
+  /* 상단은 검정(#000)에 가깝게, 하단은 보라색 계열(#4B0082) */
+  background: linear-gradient(to bottom, #000, var(--clr-accent)  );
+  color: #fff;
   text-align: center;
+  padding: 2rem;
 }
 
-.resume-section .resume-item {
-  padding: 0 0 20px 20px;
-  margin-top: -18px;
-  border-left: 2px solid var(--clr-accent);
-  position: relative;
-  max-width: 1000px;
+/* 상단 큰 문구 */
+.hero-title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
 }
 
-.resume-section .resume-item b {
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--clr-accent), transparent 5%);
-  position: sticky;
+/* 하단 문구 */
+.hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.resume-section .resume-item::before {
-  content: "";
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  border-radius: 50px;
-  left: -9px;
-  top: 0;
-  background: var(--clr-light);
-  border: 2px solid var(--clr-accent);
+/* 소셜 아이콘 컨테이너 */
+.social-icons {
+  display: flex;
+  gap: 1rem; /* 아이콘 간격 */
+  margin-bottom: 2rem;
 }
+
+/* 원형 아이콘 공통 스타일 */
+.social-icon {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none; /* 링크 밑줄 제거 */
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+/* 호버 시 애니메이션 */
+.social-icon:hover {
+  background-color: #fff; /* 배경을 흰색으로 */
+  color: var(--clr-accent);         /* 아이콘 색을 보라색 계열로 */
+  transform: scale(1.1);  /* 약간 확대 */
+}
+
+/* 아바타 이미지 컨테이너 */
+.avatar-container {
+  margin-top: 2rem;
+}
+
+/* 아바타 이미지 */
+.avatar-img {
+  max-width: 200px; /* 필요 시 크기 조절 */
+  border-radius: 50%; /* 둥근 형태(선택 사항) */
+}
+
+/* 반응형 처리: 화면이 600px 이하로 좁아질 때 */
+@media (max-width: 600px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+  .social-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+
+
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
 
 /* Footer */
 
@@ -965,8 +1071,9 @@ h2 {
   background: #111;
   color: var(--clr-accent);
   text-align: center;
-  padding: 2.5em 0;
+  padding: 1.5em 0;
   font-size: var(--fs-h3);
+  font-size: 1rem;
 }
 
 .footer a {
@@ -1028,3 +1135,396 @@ h2 {
   margin: 0 auto; /* Centering */
   border: none;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+  /*============================================================================================================================= */
+
+
+
+/* 상단 고정 영상 섹션 (header) */
+.video-hero {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;   /* 화면 전체 높이 */
+  
+  overflow: hidden;
+  z-index: -1;     /* 메인 콘텐츠가 위로 스크롤되어 올라오도록 음수 z-index */
+}
+
+/* 영상 자체 */
+.video-hero video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 가로세로 비율 유지하면서 꽉 채우기 */
+}
+
+/* 영상 위에 겹쳐질 오버레이 */
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* 텍스트나 아이콘을 중앙 배치 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff; /* 텍스트 색상 */
+  text-align: center;
+  padding: 1rem;
+}
+
+.game-title {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.game-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+/* 소셜 아이콘 컨테이너 */
+.social-icons a {
+  margin: 0 0.5rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* 메인 콘텐츠 (영상 아래로 스크롤) */
+.main-content {
+  position: relative;
+  z-index: 1;            /* 영상보다 위에 위치 */
+  margin-top: 100vh;     /* 영상 높이만큼 아래로 내용이 시작되게 함 */
+  background: #090909;      /* 필요 시 배경색 변경 */
+}
+
+/* 큰 배경 섹션 */
+.main-background-section {
+  min-height: 100vh;     /* 화면을 가득 채우는 효과 */
+  padding: 0;            /* 패딩 없음 */
+  background: #0e0e12;   /* 예시: 연한 색, 또는 background-image 사용 */
+}
+
+/* About Vigor / Features 섹션 */
+.info-section {
+  display: flex;
+  flex-wrap: wrap;       /* 반응형: 화면이 좁아지면 줄바꿈 */
+  max-width: 1200px;
+  margin: 0 auto;        /* 중앙 정렬 */
+  padding: 2rem;
+  gap: 2rem;
+}
+
+/* 왼쪽 캐릭터 이미지 */
+.left-image {
+  flex: 1;
+  margin-top: -120px; /* 원하는 만큼 위로 뺄 수 있음 (값 조절) */
+  min-width: 300px; /* 너무 작아지지 않도록 최소 너비 설정 */
+  display: flex;
+  bottom: 0;    /* 섹션의 바닥에 맞춰 붙임 */
+  justify-content: center;
+  align-items: center;
+}
+.left-image img {
+  max-width: 60%; /* 부모 너비의 50% 정도로 제한 */
+  height: auto;   /* 비율 유지 */
+}
+
+/* 오른쪽 About / Features */
+.right-text {
+  flex: 1;
+  min-width: 300px;
+}
+
+.right-text h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.right-text ul {
+  list-style: disc;
+  margin-left: 1.5rem;
+}
+
+/* 둥근 모서리 섹션 */
+.rounded-section {
+  width: 90%;           /* 화면이 작으면 90% 폭, 크면 1200px 고정 */
+  background: #31363f;
+  border-radius: 16px;    /* 둥근 모서리 */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 4rem;
+  flex-wrap: wrap;        /* 반응형 줄바꿈 */
+  gap: 2rem;
+}
+
+
+
+
+
+
+
+
+.experience-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.experience-section h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.timeline-item2 {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+/* 수직선 (타임라인) */
+.timeline-item2::before {
+  content: "";
+  position: absolute;
+  left: 10px;        /* 아이콘 위치에 맞춰 조정 */
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #ccc;
+}
+
+/* 원형 아이콘 */
+.timeline-icon2 {
+  position: absolute;
+  left: 0;           
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 50%;
+  z-index: 1;        /* 수직선보다 위 */
+}
+
+/* 콘텐츠 박스 */
+.timeline-content2 {
+  margin-left: 40px; /* 아이콘 오른쪽으로 여백 */
+  background: #201e24;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.timeline-content2 h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.timeline-content2 p {
+  margin: 0;
+}
+
+
+
+
+
+
+
+.highlighted-title {
+  color: #a9f6fa; /* 원하는 색상 코드 */
+}
+
+.Contributions {
+  margin-top: 2rem; /* 섹션 간격 예시 */
+}
+
+/* 큰 섹션 제목 (h3) */
+.Contributions h3 {
+  font-size: 1.8rem; /* 폰트 크기 조정 */
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* 중간 섹션 제목 (h4) - Rendering & Optimization, Graphics & Art 등 */
+.Contributions h4 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 1.5rem;  /* 위쪽 간격 */
+  margin-bottom: 0.5rem;
+}
+
+/* 더 작은 섹션 제목 (h5) - Rendering System, Game Art 등 */
+.Contributions h5 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* 불릿 목록 */
+.Contributions ul {
+  list-style: disc;
+  margin-left: 1.5rem; /* 들여쓰기 */
+  margin-bottom: 1rem;
+}
+.Contributions li {
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+
+
+
+/* gallery gallery gallery gallery gallery gallery gallery gallery gallery gallery gallery gallery gallery  */
+.gallery {
+  flex: 1;
+  gap: 2rem;
+}
+
+.gallery h3 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  
+}
+
+/* 갤러리 그리드 예시 */
+.gallery-grid {
+  display: grid;
+  
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+}
+.gallery-grid img {
+  width: 100%;
+  display: block;
+  
+  border-radius: 4px; /* 미묘하게 둥근 모서리 */
+}
+
+
+
+/* details details details details details details details details details details details details details details*/
+.project-details {
+  text-align: center;
+}
+.project-details h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+
+
+
+/* source source source source source source source source source source source source source source source */
+.source-section {
+  text-align: center;
+
+}
+
+.source-section h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.source-section p {
+  font-size: 1rem;
+  color: #e2e2e2;
+}
+
+.source-section a {
+  color: #00a2ff;     /* 링크 색상 */
+  text-decoration: none;
+}
+
+.source-section a:hover {
+  text-decoration: underline; /* 호버 시 밑줄 */
+}
+
+
+
+
+
+.return-button {
+  position: fixed;
+  bottom: 1rem;       /* 화면 하단에서 1rem */
+  left: 1rem;         /* 화면 왼쪽에서 1rem */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;        /* 아이콘과 텍스트 사이 간격 */
+
+  background-color: #fff;
+  color: #333;
+  border: none;
+  border-radius: 9999px; /* 둥근 형태 */
+  padding: 0.5rem 1rem;  /* 버튼 안쪽 여백 */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  font-size: 1rem;
+  cursor: pointer;
+
+  /* 부드러운 배경/그림자 전환 */
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.return-button:hover {
+  background-color: #f0f0f0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* 화살표 아이콘 (←) 크기 */
+.arrow-icon {
+  font-size: 1.2rem;
+}
+
+/* 모바일 환경에서 작은 원형 버튼 + 텍스트 숨김 */
+@media (max-width: 600px) {
+  .return-button {
+    width: 40px;
+    height: 40px;
+    padding: 0;               /* 내부 여백 제거 */
+    justify-content: center;  /* 아이콘만 중앙에 배치 */
+  }
+  .return-button .button-text {
+    display: none;            /* 텍스트 숨김 */
+  }
+  .return-button .arrow-icon {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+}
+
+
