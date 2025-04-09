@@ -69,17 +69,19 @@
 
     <div class="portfolio-item-individual">
         <h2>Project Overview</h2>
-        <p>Provide a brief description of the project, its purpose, and what you aimed to achieve.</p>
-
+        <p>This project focused on implementing vertex and fragment shaders in GLSL (OpenGL ES 3.0) to apply exponential fog effects to 3D models. The goal was to deepen my understanding of the graphics pipeline and enhance realism by simulating atmospheric depth in 3D scenes.</p>
+    
         <h2>Tasks Completed</h2>
         <ul>
-            <li>Describe the tasks you completed for this project.</li>
-            <li>Be specific about your contributions and the technologies used.</li>
+            <li>Wrote vertex and fragment shaders using GLSL, targeting OpenGL ES 3.0.</li>
+            <li>Implemented exponential fog using the formula: <code>1 - exp2(-density² × distance² × log2)</code>.</li>
+            <li>Properly transformed model space coordinates to view space by applying model, view, and projection matrices.</li>
+            <li>Debugged and fixed incorrect fog results by identifying that the model matrix was missing in fog coordinate computation.</li>
+            <li>Used <code>sampler2D</code> for texture mapping and ensured alpha blending with fog color.</li>
         </ul>
-
+    
         <h2>Reflection</h2>
-        <p>Reflect on the project, discussing any challenges faced, solutions implemented, and what you learned from the
-            experience.</p>
+        <p>This project helped solidify my understanding of how 3D transformations work in the graphics pipeline, especially the importance of applying the model matrix when converting positions to view space. I initially struggled with incorrect fog visuals until I realized that only the view matrix was being applied. This experience taught me the importance of precise space conversions in shader programming and gave me hands-on practice implementing both smoothstep and exponential fog models.</p>
     </div>
 
     <div class="portfolio-item-individual">
