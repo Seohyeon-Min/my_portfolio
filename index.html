@@ -29,7 +29,20 @@
 </head>
 
 <body>
-
+  <header>
+    <button class="nav-toggle" aria-label="toggle navigation">
+        <span class="hamburger"></span>
+    </button>
+    <nav class="nav">
+        <ul class="nav__list">
+            <li class="nav__item"> <a href="#home" class="nav__link">Home</a> </li>
+            <li class="nav__item"> <a href="#skills" class="nav__link">Skills</a> </li>
+            <li class="nav__item"> <a href="#about" class="nav__link">About Me</a> </li>
+            <li class="nav__item"> <a href="#projects" class="nav__link">Projects</a> </li>
+            <li class="nav__item"> <a href="#resume" class="nav__link">Resume</a> </li>
+        </ul>
+    </nav>
+</header>
     <header class="navbar">
         <div class="navbar-logo">LOGO</div>
         <nav class="navbar-menu">
@@ -78,17 +91,17 @@
       </div>
     
       <div class="section">
-        <h2>아트와 기술을 잇다</h2>
+        <h2>/ 아트와 기술을 잇다</h2>
         <p>개발 프로젝트에서 렌더링 구조 설계, 쉐이더 구현, 최적화 작업을 맡으며 아티스트들이 자신의 세계를 훨씬 쉽게 세상에 보여줄 수 있도록 지원합니다.</p>
       </div>
     
       <div class="section">
-        <h2>게임은 종합예술이다</h2>
+        <h2>/ 게임은 종합예술이다</h2>
         <p>작곡, 일러스트, 코딩, 기획 등 다양한 분야에서 활동하며 프로젝트를 이끌었습니다. 이 모든 스킬을 하나의 작품에 녹여내는 과정을 즐기며 게임이야말로 제게 가장 잘 맞는 창작 형태라고 느낍니다.</p>
       </div>
     
       <div class="section">
-        <h2>배려와 조율</h2>
+        <h2>/ 배려와 조율</h2>
         <p>팀이 함께 성장할 수 있는 분위기를 중요하게 생각합니다. 
           초기에 개인의 역할 분담을 분명히 하고 진행 중엔 갈등이 생기지 않도록 자주 소통하며 전체를 정리해주는 역할을 자주 맡았습니다.</p>
       </div>
@@ -96,6 +109,105 @@
 
     </section>
     
+
+
+
+
+    <!-- My Portfolio -->
+    <!-- My Portfolio -->  
+    <!-- My Portfolio -->
+    <!-- My Portfolio -->
+
+<section class="my-projects" id="projects">
+    <h2 class="section__title section__title--projects">PROJECTS</h2>
+  
+    <!-- 필터 버튼 -->
+    <div class="filter-buttons">
+      <!-- game 태그 기본 활성화 -->
+      <button class="filter-btn active" data-filter="game">Game</button>
+      <button class="filter-btn" data-filter="tech">Tech</button>
+    </div>
+  
+    <div class="portfolio">
+<!-- 예시: 만조 포폴 항목 -->
+<a href="portfolio_game/01_Manzo.html" class="portfolio__item game">
+  <img src="img/portfolio_thumbnails/Manzo.png" alt="" class="portfolio__img" />
+  <div class="portfolio__overlay">
+    <h4>만조</h4>
+    <p>팀 상린: 리듬 어드벤처</p>
+    <button class="btn-details">자세히 보기</button>
+  </div>
+</a>
+
+<a href="portfolio_game/02_EdgeDirve.html" class="portfolio__item game">
+  <img src="img/portfolio_thumbnails/EdgeDrive2.png" alt="" class="portfolio__img" />
+  <div class="portfolio__overlay">
+    <h4>엣지 드라이브</h4>
+    <p>팀 불법디지펜클럽: 보스러쉬</p>
+    <button class="btn-details">자세히 보기</button>
+  </div>
+</a>
+
+<a href="portfolio_game/03_DoubleHit.html" class="portfolio__item game">
+  <img src="img/portfolio_thumbnails/DoubleHit.png" alt="" class="portfolio__img" />
+  <div class="portfolio__overlay">
+    <h4>더블히트</h4>
+    <p>팀 인프론트: 2p 레트로 액션</p>
+    <button class="btn-details">자세히 보기</button>
+  </div>
+</a>
+
+<a href="portfolio_game/04_BirdStrike.html" class="portfolio__item game">
+  <img src="img/portfolio_thumbnails/BirdStrike.png" alt="" class="portfolio__img" />
+  <div class="portfolio__overlay">
+    <h4>버드 스트라이크</h4>
+    <p>팀 카피바라: 리듬듬 액션</p>
+    <button class="btn-details">자세히 보기</button>
+  </div>
+</a>
+  
+      <!-- [tech] 폴더: portfolio/ (원래 7개 이상이면 그대로) -->
+      <a href="portfolio/01_hello.html" class="portfolio__item tech">
+        <img src="img/portfolio_thumbnails/01_hello.jpg" alt="" class="portfolio__img" />
+        <div class="portfolio__overlay">
+          <h4>HELLO QUAD</h4>
+          <p>vert와 frag연습</p>
+          <button class="btn-details">자세히 보기</button>
+        </div>
+      </a>
+      <a href="portfolio/02_meshes.html" class="portfolio__item tech">
+        <img src="img/portfolio_thumbnails/02_meshes.jpg" alt="" class="portfolio__img" />
+        <div class="portfolio__overlay">
+          <h4>PROCEDURE</h4>
+          <p>도형 그리기</p>
+          <button class="btn-details">자세히 보기</button>
+        </div>
+      </a>
+      <a href="portfolio/03_fog.html" class="portfolio__item tech">
+        <img src="img/portfolio_thumbnails/03_fog.jpg" alt="" class="portfolio__img" />
+        <div class="portfolio__overlay">
+          <h4>FOG</h4>
+          <p>안개 셰이더</p>
+          <button class="btn-details">자세히 보기</button>
+        </div>
+      </a>
+      <!-- <a href="portfolio/04_toon.html" class="portfolio__item tech">
+        <img src="img/portfolio_thumbnails/04_toon.jpg" alt="" class="portfolio__img" />
+      </a>
+      <a href="portfolio/05_shadow.html" class="portfolio__item tech">
+        <img src="img/portfolio_thumbnails/05_shadow.jpg" alt="" class="portfolio__img" />
+      </a>
+      <a href="portfolio/06_value.html" class="portfolio__item tech">
+        <img src="img/portfolio_thumbnails/06_value.jpg" alt="" class="portfolio__img" />
+      </a>
+      <a href="portfolio/07_gradient.html" class="portfolio__item tech">
+        <img src="img/portfolio_thumbnails/07_gradient.jpg" alt="" class="portfolio__img" />
+      </a> -->
+    </div>
+  </section>
+  
+
+  
 
 
 
@@ -215,67 +327,6 @@
 
 
 
-
-    <!-- My Portfolio -->
-    <!-- My Portfolio -->  
-    <!-- My Portfolio -->
-    <!-- My Portfolio -->
-
-<section class="my-projects" id="projects">
-    <h2 class="section__title section__title--projects">PROJECTS</h2>
-  
-    <!-- 필터 버튼 -->
-    <div class="filter-buttons">
-      <!-- game 태그 기본 활성화 -->
-      <button class="filter-btn active" data-filter="game">Game</button>
-      <button class="filter-btn" data-filter="tech">Tech</button>
-    </div>
-  
-    <div class="portfolio">
-      <!-- [game] 폴더: portfolio_game/ (4개만 표시) -->
-      <a href="portfolio_game/01_Manzo.html" class="portfolio__item game">
-        <img src="img/portfolio_thumbnails/Manzo.png" alt="" class="portfolio__img" />
-      </a>
-      <a href="portfolio_game/02_EdgeDirve.html" class="portfolio__item game">
-        <img src="img/portfolio_thumbnails/EdgeDrive2.png" alt="" class="portfolio__img" />
-      </a>
-      <a href="portfolio_game/03_DoubleHit.html" class="portfolio__item game">
-        <img src="img/portfolio_thumbnails/DoubleHit.png" alt="" class="portfolio__img" />
-      </a>
-      <a href="portfolio_game/04_BirdStrike.html" class="portfolio__item game">
-        <img src="img/portfolio_thumbnails/BirdStrike.png" alt="" class="portfolio__img" />
-      </a>
-  
-      <!-- [tech] 폴더: portfolio/ (원래 7개 이상이면 그대로) -->
-      <a href="portfolio/01_hello.html" class="portfolio__item tech">
-        <img src="img/portfolio_thumbnails/01_hello.jpg" alt="" class="portfolio__img" />
-      </a>
-      <a href="portfolio/02_meshes.html" class="portfolio__item tech">
-        <img src="img/portfolio_thumbnails/02_meshes.jpg" alt="" class="portfolio__img" />
-      </a>
-      <a href="portfolio/03_fog.html" class="portfolio__item tech">
-        <img src="img/portfolio_thumbnails/03_fog.jpg" alt="" class="portfolio__img" />
-      </a>
-      <a href="portfolio/04_toon.html" class="portfolio__item tech">
-        <img src="img/portfolio_thumbnails/04_toon.jpg" alt="" class="portfolio__img" />
-      </a>
-      <a href="portfolio/05_shadow.html" class="portfolio__item tech">
-        <img src="img/portfolio_thumbnails/05_shadow.jpg" alt="" class="portfolio__img" />
-      </a>
-      <a href="portfolio/06_value.html" class="portfolio__item tech">
-        <img src="img/portfolio_thumbnails/06_value.jpg" alt="" class="portfolio__img" />
-      </a>
-      <a href="portfolio/07_gradient.html" class="portfolio__item tech">
-        <img src="img/portfolio_thumbnails/07_gradient.jpg" alt="" class="portfolio__img" />
-      </a>
-    </div>
-  </section>
-  
-
-  
-
-
-
     <!-- My EDU -->
     <!-- My EDU -->
     <!-- My EDU -->
@@ -285,7 +336,7 @@
     
         <!-- 왼쪽: Education -->
         <section class="column education-column">
-          <h2 class="column-title">Education</h2>
+          <h2 class="column-title">EDUCATION</h2>
           <div class="timeline">
             <!-- 타임라인 항목 1 -->
             <div class="timeline-item">
@@ -294,11 +345,11 @@
               <!-- 항목 내용 -->
               <div class="timeline-content">
                 <h3>
-                  <em>Digipen Institute of Technology</em> 
-                  <strong>(2023 - present)</strong>
+                  <em>디지펜 게임공학과</em> 
+                  <strong>(2023 - 현재)</strong>
                 </h3>
                 <ul><li>B.S. Real-Time Interactive Simulation</p></li></ul>
-                <ul><li>GPA 4.18/4.5</p></li></ul>
+                <ul><li>학점 4.18/4.5</p></li></ul>
               </div>
             </div>
           </div>
@@ -306,18 +357,18 @@
         
         <!-- 오른쪽: Experience -->
         <section class="column experience-column">
-          <h2 class="column-title">Experience</h2>
+          <h2 class="column-title">EXPERIENCE</h2>
           <div class="timeline">
             <!-- 타임라인 항목 1 -->
             <div class="timeline-item">
               <div class="timeline-icon"></div>
               <div class="timeline-content">
                 <h3>
-                  <em>DigiPen Institute of Technology | Teaching Assistant – Game Development Project I</em>
-                  <strong>(2025 - Present)</strong>
+                  <em>디지펜 게임공학과 | Teaching Assistant – Game Development Project I</em>
+                  <strong>(2025 - 현재)</strong>
                 </h3>
-                <ul><li>Assisted students in game development projects, providing guidance on C++</p></li></ul>
-                <ul><li>Reviewed and debugged student code, ensuring best coding practices.</p></li></ul>
+                <ul><li>게임 개발 프로젝트에서 학생들에게 C++ 지도를 제공하며 실습을 도왔습니다.</p></li></ul>
+                <ul><li>학생들의 프로젝트를 리뷰하고 피드백을 통해 방향성을 제시했습니다.</p></li></ul>
               </div>
             </div>
           </div>
@@ -335,10 +386,10 @@
     <!-- Contact ME -->
     <section class="hero-section"id="contact">
       <!-- 상단 큰 문구 -->
-      <h1 class="hero-title">Keep going, keep growing.</h1>
+      <h1 class="hero-title">THANK YOU!</h1>
   
       <!-- 하단 문구 -->
-      <p class="hero-subtitle">Get in touch</p>
+      <p class="hero-subtitle">더 많은 정보 : </p>
   
       <!-- 소셜 아이콘 영역 -->
       <div class="social-icons">
