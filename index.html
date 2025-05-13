@@ -29,20 +29,6 @@
 </head>
 
 <body>
-    <header>
-        <button class="nav-toggle" aria-label="toggle navigation">
-            <span class="hamburger"></span>
-        </button>
-        <nav class="nav">
-            <ul class="nav__list">
-                <li class="nav__item"> <a href="#home" class="nav__link">Home</a> </li>
-                <li class="nav__item"> <a href="#skills" class="nav__link">Skills</a> </li>
-                <li class="nav__item"> <a href="#about" class="nav__link">About Me</a> </li>
-                <li class="nav__item"> <a href="#projects" class="nav__link">Projects</a> </li>
-                <li class="nav__item"> <a href="#resume" class="nav__link">Resume</a> </li>
-            </ul>
-        </nav>
-    </header>
 
     <header class="navbar">
         <div class="navbar-logo">LOGO</div>
@@ -68,7 +54,6 @@
     <section class="intro" id="home">
         <div class="spotlight_container">
             <h1 class="spotlight_text">SEOHYEON MIN</h1>
-            <h1 class="spotlight_text">Game Director</h1>
         </div>
     </section>
 
@@ -82,52 +67,32 @@
     <!-- About Me -->
 
     <section class="about-me" id="about">
-      <h2 class="section__title section__title--about">About Me</h2>
+      <h2 class="section__title section__title--about">ABOUT ME</h2>
       
-      <div class="ticket">
-        <!-- 기존 배경 이미지 -->
-        <img src="img/ticket.png" alt="Ticket Background" class="ticket-bg">
-    
-        <div class="ticket-content">
-          <!-- 왼쪽 검정 박스: 프로필 전체(배경) -->
-          <div class="profile-box">
-            <!-- face.png가 가득 차도록 -->
-            <img src="img/face.jpg" alt="Profile Image">
-          </div>
-    
-          <!-- 오른쪽 영역: 빨간, 초록, 파란, 보라 박스 순서 -->
-          <div class="info-box">
-            <!-- 빨간박스: 이름 -->
-            <div class="red-box">
-              <h2>Min Seohyeon</h2>
-            </div>
-            
-            <!-- 초록박스: 감독, 장르 등 간단 설명 -->
-            <div class="green-box">
-              <p>DigiPen | Creative Development & Directing</p>
-              <p>C++, OpenGL, GLSL</p>
-            </div>
-    
-            <!-- 파란박스: 상세 내용(자기소개) -->
-            <div class="blue-box">
-              <p class="bio">
-                Technical Lead & Graphics Programmer specializing in engine development & rendering optimization.
-                Built high-performance game engines, achieving a 50% performance boost using OpenGL & SDL.
-                Passionate about scalable rendering pipelines & GLSL/HLSL shaders.
-              </p>
-            </div>
-          </div>
-
-
-        </div>
-                <!-- 원형 버튼 (Resume) -->
-                <a href="docs/Resume.pdf" class="resume-button" target="_blank" rel="noopener">
-                  <span class="icon">
-                    <i class="">R</i>
-                  </span>
-                  <span class="text">Resume</span>
-                </a>
+      <div class="profile-photo">
+        <img src="img/face.jpg" alt="사진">
       </div>
+    
+      <div class="button-container">
+        <button>CV DOWNLOAD →</button>
+      </div>
+    
+      <div class="section">
+        <h2>아트와 기술을 잇다</h2>
+        <p>개발 프로젝트에서 렌더링 구조 설계, 쉐이더 구현, 최적화 작업을 맡으며 아티스트들이 자신의 세계를 훨씬 쉽게 세상에 보여줄 수 있도록 지원합니다.</p>
+      </div>
+    
+      <div class="section">
+        <h2>게임은 종합예술이다</h2>
+        <p>작곡, 일러스트, 코딩, 기획 등 다양한 분야에서 활동하며 프로젝트를 이끌었습니다. 이 모든 스킬을 하나의 작품에 녹여내는 과정을 즐기며 게임이야말로 제게 가장 잘 맞는 창작 형태라고 느낍니다.</p>
+      </div>
+    
+      <div class="section">
+        <h2>배려와 조율</h2>
+        <p>팀이 함께 성장할 수 있는 분위기를 중요하게 생각합니다. 
+          초기에 개인의 역할 분담을 분명히 하고 진행 중엔 갈등이 생기지 않도록 자주 소통하며 전체를 정리해주는 역할을 자주 맡았습니다.</p>
+      </div>
+
 
     </section>
     
@@ -139,7 +104,7 @@
     <!-- My Skills -->
     <section class="skills-section" id="skills">
       <!-- 상단 타이틀 (</Skills> 또는 Tech Stack) -->
-      <h2 class="section-title">Skills</h2>
+      <h2 class="section-title">SKILLS</h2>
       
       <!-- 전체 스택을 담는 래퍼 -->
       <div class="tech-sections">
@@ -151,27 +116,37 @@
             <!-- C -->
             <div class="icon-card" data-tooltip="C">
               <!-- 실제 아이콘 경로로 수정 필요 -->
-              <img src="icons/c.png" alt="C Icon">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" />
+          
             </div>
             <!-- C++ -->
-            <div class="icon-card" data-tooltip="C++">
-              <img src="icons/cpp.png" alt="C++ Icon">
+            <div class="icon-card" data-tooltip="C++">   
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg" />
+          
             </div>
             <!-- Python -->
             <div class="icon-card" data-tooltip="Python">
-              <img src="icons/python.png" alt="Python Icon">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" />
+    
             </div>
             <!-- GLSL (아이콘이 모호하다면 텍스트 형태로 만들거나 직접 제작) -->
             <div class="icon-card" data-tooltip="GLSL">
-              <img src="icons/glsl.png" alt="GLSL Icon">
+              <div class="skill-icon custom-icon">GLSL</div>
             </div>
             <!-- HTML -->
             <div class="icon-card" data-tooltip="HTML">
-              <img src="icons/html5.png" alt="HTML Icon">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" />
+
             </div>
+
+            <!-- CSS -->
+<div class="icon-card" data-tooltip="CSS">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS Icon" />
+</div>
+
             <!-- JavaScript -->
             <div class="icon-card" data-tooltip="JavaScript">
-              <img src="icons/javascript.png" alt="JavaScript Icon">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" />
             </div>
           </div>
         </div>
@@ -182,15 +157,18 @@
           <div class="icons-row">
             <!-- OpenGL -->
             <div class="icon-card" data-tooltip="OpenGL">
-              <img src="icons/opengl.png" alt="OpenGL Icon">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/opengl/opengl-original.svg" class="dimmed-icon" />
+          
             </div>
             <!-- SDL -->
             <div class="icon-card" data-tooltip="SDL">
-              <img src="icons/sdl.png" alt="SDL Icon">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sdl/sdl-original.svg"  class="dimmed-icon"/>
+
             </div>
             <!-- Unreal Engine 5 -->
             <div class="icon-card" data-tooltip="Unreal Engine 5">
-              <img src="icons/unreal.png" alt="Unreal Engine Icon">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unrealengine/unrealengine-original.svg" class="dimmed-icon2" />
+          
             </div>
           </div>
         </div>
@@ -201,23 +179,32 @@
           <div class="icons-row">
             <!-- Visual Studio -->
             <div class="icon-card" data-tooltip="Visual Studio">
-              <img src="icons/vs.png" alt="Visual Studio Icon">
+
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/visualstudio/visualstudio-original.svg" />
+          
             </div>
             <!-- Visual Studio Code -->
             <div class="icon-card" data-tooltip="Visual Studio Code">
-              <img src="icons/vscode.png" alt="Visual Studio Code Icon">
+
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" />
+          
             </div>
+            
             <!-- Git -->
             <div class="icon-card" data-tooltip="Git">
-              <img src="icons/git.png" alt="Git Icon">
+
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" />
+          
             </div>
             <!-- CMake -->
             <div class="icon-card" data-tooltip="CMake">
-              <img src="icons/cmake.png" alt="CMake Icon">
+
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cmake/cmake-original.svg" />
+          
             </div>
             <!-- WSL -->
             <div class="icon-card" data-tooltip="WSL">
-              <img src="icons/wsl.png" alt="WSL Icon">
+              <div class="skill-icon custom-icon">WSL</div>
             </div>
           </div>
         </div>
@@ -235,7 +222,7 @@
     <!-- My Portfolio -->
 
 <section class="my-projects" id="projects">
-    <h2 class="section__title section__title--projects">Projects</h2>
+    <h2 class="section__title section__title--projects">PROJECTS</h2>
   
     <!-- 필터 버튼 -->
     <div class="filter-buttons">
@@ -335,70 +322,6 @@
             </div>
           </div>
         </section>
-        
-
-                <!-- 오른쪽: Experience -->
-                <section class="column experience-column">
-                  <h2 class="column-title">More About Resume</h2>
-                  <div class="timeline">
-                    <!-- 타임라인 항목 1 -->
-                    <div class="timeline-item">
-                      <div class="timeline-icon"></div>
-                      
-                      <div class="timeline-content">
-                        <h3>
-                          <h2>Project</h2>
-
-                          <h3>Manzo | DigiPen</h3>
-                          <p>
-                          <strong>Producer & Technical Graphics Programmer</strong> | 09/2024 - Present<br>
-                          <strong>Renderer Development:</strong> Implemented a custom OpenGL & SDL renderer, enhancing UX and usability.<br>
-                          <strong>Rendering Optimization:</strong> Improved pipeline efficiency, boosting performance by 50% (40FPS → 60FPS).<br>
-                          <strong>Post-Processing Shaders:</strong> Used GLSL/HLSL for advanced visual enhancements.<br>
-                          <strong>Engine Upgrade:</strong> Refined workflow and graphics support based on team feedback, fostering collaboration.
-                          </p>
-                          
-                          <h3>Edge Drive | DigiPen Academy</h3>
-                          <p>
-                          <strong>VFX & Audio Lead</strong> | 01/2025 - 02/2025<br>
-                          <strong>VFX Creation:</strong> Developed Cascade particle effects, trails, and other visual effects in Unreal Engine.<br>
-                          <strong>Sound Management:</strong> Sourced, edited, and implemented in-game sounds for an immersive audio experience.
-                          </p>
-                          
-                          <h3>Double Hit | DigiPen</h3>
-                          <p>
-                          <strong>Technical Director</strong> | 03/2024 - 06/2024<br>
-                          <strong>Lead Developer & Technical Lead:</strong> Established the game’s foundation and core architecture.<br>
-                          <strong>Engine Development:</strong> Built and utilized a custom game engine for development.<br>
-                          <strong>Code Review & Task Management:</strong> Reviewed code, debugged issues, and assigned tasks to optimize team workflow.
-                          </p>
-                          
-                          <h3>Bird Strike | DigiPen</h3>
-                          <p>
-                          <strong>Game Director</strong> | 11/2023 - 12/2023<br>
-                          <strong>Game Direction:</strong> Led concept, art, and music design while managing development workflow.<br>
-                          <strong>Art Collaboration:</strong> Worked with artists to ensure style consistency and creative vision.<br>
-                          <strong>Core System & Player Mechanics:</strong> Designed and implemented core systems and key player mechanics in C++, shaping the gameplay foundation.
-                          </p>
-
-                      </div>
-                    </div>
-
-                    
-                  </div>
-
-                                  <!-- 원형 버튼 (Resume) -->
-                <a href="docs/Resume.pdf" class="resume-button" target="_blank" rel="noopener">
-                  <span class="icon">
-                    <i class="">R</i>
-                  </span>
-                  <span class="text">Resume</span>
-                </a>
-                </section>
-
-                
-
-
       </div>
   </section>
 
