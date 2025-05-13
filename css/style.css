@@ -21,7 +21,7 @@
   --clr-dark3: #28282b;
   --clr-accent: #1d7972;
   --clr-accent2: #0bc4b7;
-  --clr-hover: #b4c4c4;
+  --clr-hover: #b1b4b4;
   
   --fs-h1: 3rem;
   --fs-h2: 2.25rem;
@@ -421,7 +421,20 @@ h3 {
   .button-container button:hover {
     background-color:     var(--clr-hover);
   }
-
+  .resume-button {
+    display: inline-block;
+    padding: 0.5em 2em;
+    background-color: #fff;
+    color: #000;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+  
+  .resume-button:hover {
+    background-color: var(--clr-hover);
+  }
   .section {
     background-color: var(--clr-dark2);
     padding: 20px 2em;
