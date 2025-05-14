@@ -65,36 +65,41 @@
         <h1 class="section__title section__title--intro">
             Project <strong>Procedural Geometric Modeling</strong>
         </h1>
-        <p class="section__subtitle section__subtitle--intro">3D Graphics</p>
+        <p class="section__subtitle section__subtitle--intro">Procedural Geometric Modeling</p>
         <img src="../img/portfolio_thumbnails/02_meshes.jpg" alt="a picture of this portfolio item" class="intro__img">
     </section>
 
     <div class="portfolio-item-individual">
         <h2>Project Overview</h2>
         <p>
-            This project focused on generating 3D geometric models procedurally using OpenGL and GLSL.
-            The primary goal was to implement various shape creation functions (such as cube, sphere, cylinder, cone, torus) using parametric equations, while constructing index buffers and vertex attributes for rendering.
+            이 프로젝트는 OpenGL과 GLSL을 활용해 3D 기하학 모델을 프로시저 방식으로 생성하는 데 중점을 두었습니다. <br>
+            주요 목표는 정육면체, 구, 원기둥, 원뿔, 토러스와 같은 다양한 도형을 파라메트릭 방정식을 이용해 생성하고 이를 렌더링하기 위한 인덱스 버퍼와 정점 속성을 구성하는 것이었습니다.
         </p>
     
         <h2>Tasks Completed</h2>
         <ul>
-            <li><strong>Procedural Mesh Generation:</strong> Implemented geometry generation logic for planes, cubes, spheres, cylinders, cones, and tori, using parametric formulas and trigonometric functions.</li>
-            <li><strong>Vertex Layout Definition:</strong> Defined custom vertex structures with position, normal, and UV attributes and mapped them into OpenGL buffer layouts using attribute descriptors.</li>
-            <li><strong>Caps and Topology Logic:</strong> Added logic to construct top and bottom caps for cylinders and cones to ensure watertight geometry.</li>
+            <li><strong>프로시저 메쉬 생성:</strong> 평면, 큐브, 구, 원기둥, 원뿔, 토러스의 기하 구조를 파라메트릭 수식과 삼각함수를 활용하여 생성하였습니다.</li>
+            <li><strong>정점 레이아웃 정의:</strong> 위치, 노멀, UV 속성을 포함한 사용자 정의 정점 구조체를 정의하고 이를 OpenGL의 버퍼 레이아웃에 매핑하였습니다.</li>
+            <li><strong>캡 생성 및 토폴로지 처리:</strong> 원기둥과 원뿔의 상단 및 하단 면(캡)을 구성하는 로직을 추가하여 기하 구조가 빈틈없이 연결되도록 처리했습니다.</li>
         </ul>
     
         <h2>Reflection</h2>
         <p>
-            A key learning experience was handling mesh topology and index buffer generation. Carefully managing winding order and understanding how indices map to vertices was crucial. 
-            Writing reusable and modular geometry functions also deepened my understanding of mesh data flow in a rendering pipeline.
+            이번 프로젝트에서 중요한 학습 포인트는 메쉬의 토폴로지 구성과 인덱스 버퍼 생성 방식이었습니다. <br>
+            정점 연결 순서를 신중히 관리하고 인덱스가 정점에 어떻게 매핑되는지를 이해하는 것이 핵심이었습니다. <br>
+            또한, 재사용 가능한 메쉬 생성 함수를 모듈화하면서 렌더링 파이프라인에서 메쉬 데이터가 흐르는 방식을 더 깊이 있게 이해할 수 있었습니다.
         </p>
     </div>
+    
 
     <div class="portfolio-item-individual">
         <h2>Demo</h2>
         <iframe id="demo" src="../webgl/D02ProceduralMeshes/graphics_fun.html?start=meshes" tabindex="-1"></iframe>
     </div>
-
+    <button class="return-button" onclick="window.history.back()">
+        <span class="arrow-icon">&larr;</span>
+        <span class="button-text">Return</span>
+      </button>
     <!-- Footer -->
     <footer class="footer">
         <a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a>

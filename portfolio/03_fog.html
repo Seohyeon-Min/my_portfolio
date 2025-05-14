@@ -63,32 +63,39 @@
         <h1 class="section__title section__title--intro">
             Project <strong>Fog</strong>
         </h1>
-        <p class="section__subtitle section__subtitle--intro">3D Graphics</p>
+        <p class="section__subtitle section__subtitle--intro">Fog Shader</p>
         <img src="../img/portfolio_thumbnails/03_fog.jpg" alt="a picture of this portfolio item" class="intro__img">
     </section>
 
     <div class="portfolio-item-individual">
         <h2>Project Overview</h2>
-        <p>This project focused on implementing vertex and fragment shaders in GLSL (OpenGL ES 3.0) to apply exponential fog effects to 3D models. The goal was to deepen my understanding of the graphics pipeline and enhance realism by simulating atmospheric depth in 3D scenes.</p>
+        <p>이 프로젝트는 GLSL(OpenGL ES 3.0)을 사용해 정점 셰이더와 프래그먼트 셰이더를 구현하고 3D 모델에 지수형 안개 효과를 적용하는 데 중점을 두었습니다. 
+            그래픽스 파이프라인에 대한 이해를 심화하고 3D 씬에 깊이감을 부여하여 현실감을 높이는 것이 목표였습니다.</p>
     
         <h2>Tasks Completed</h2>
         <ul>
-            <li>Wrote vertex and fragment shaders using GLSL, targeting OpenGL ES 3.0.</li>
-            <li>Implemented exponential fog using the formula: <code>1 - exp2(-density² × distance² × log2)</code>.</li>
-            <li>Properly transformed model space coordinates to view space by applying model, view, and projection matrices.</li>
-            <li>Debugged and fixed incorrect fog results by identifying that the model matrix was missing in fog coordinate computation.</li>
-            <li>Used <code>sampler2D</code> for texture mapping and ensured alpha blending with fog color.</li>
+            <li>GLSL을 사용하여 OpenGL ES 3.0 타겟의 정점 셰이더와 프래그먼트 셰이더 작성</li>
+            <li>공식 <code>1 - exp2(-density² × distance² × log2)</code>를 사용한 지수 안개 구현</li>
+            <li>모델 공간 좌표를 뷰 공간으로 변환하기 위해 모델, 뷰, 프로젝션 행렬을 올바르게 적용</li>
+            <li>안개 좌표 계산 시 모델 행렬 누락으로 잘못된 안개 효과가 나타난 문제를 디버깅하고 수정</li>
+            <li><code>sampler2D</code>를 사용한 텍스처 매핑 및 안개 색상과의 알파 블렌딩 처리</li>
         </ul>
     
         <h2>Reflection</h2>
-        <p>This project helped solidify my understanding of how 3D transformations work in the graphics pipeline, especially the importance of applying the model matrix when converting positions to view space. I initially struggled with incorrect fog visuals until I realized that only the view matrix was being applied. This experience taught me the importance of precise space conversions in shader programming and gave me hands-on practice implementing both smoothstep and exponential fog models.</p>
+        <p>이번 프로젝트를 통해 그래픽스 파이프라인에서 3D 변환이 어떻게 작동하는지를 확실히 이해하게 되었으며, 특히 뷰 공간으로의 변환 시 모델 행렬 적용의 중요성을 배웠습니다. 
+            처음에는 안개 시각 효과가 이상하게 나타났지만 뷰 행렬만 적용되고 모델 행렬이 빠진 것을 확인한 뒤 문제를 해결했습니다. 
+            이 경험을 통해 셰이더 프로그래밍에서의 정밀한 공간 변환의 중요성을 체감했고 smoothstep 기반 안개와 지수 안개 모델 모두를 직접 구현해보는 실습 기회를 가졌습니다.</p>
     </div>
+    
 
     <div class="portfolio-item-individual">
         <h2>Demo</h2>
         <iframe id="demo" src="../webgl/D03Fog/graphics_fun.html?start=fog" tabindex="-1"></iframe>
     </div>
-
+    <button class="return-button" onclick="window.history.back()">
+        <span class="arrow-icon">&larr;</span>
+        <span class="button-text">Return</span>
+      </button>
     <!-- Footer -->
     <footer class="footer">
         <a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a>
