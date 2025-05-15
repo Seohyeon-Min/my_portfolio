@@ -78,27 +78,28 @@
         <p class="section__subtitle section__subtitle--intro">Hello Quad</p>
         <img src="../img/portfolio_thumbnails/01_hello.jpg" alt="a picture of this portfolio item" class="intro__img">
     </section>
+<div class="portfolio-item-individual">
+    <h2>Project Overview</h2>
+    <p>
+        이 프로젝트는 WebGL을 사용하여 단순한 사각형에 셰이더를 구현하는 과제였습니다.  
+        주요 목표는 마우스 움직임에 따라 오브젝트의 변환을 적용하고  
+        모델의 크기에 따라 변하는 부드러운 무지개 그라디언트 색상을 렌더링하는 것이었습니다.
+    </p>
 
-    <div class="portfolio-item-individual">
-        <h2>Project Overview</h2>
-        <p>
-            This project was an assignment focused on implementing shaders on a simple quad using WebGL.
-            The main objective was to apply object transformations based on mouse movement and to render a smooth rainbow gradient color that changes according to the size of the model.
-        </p>
-    
-        <h2>Tasks Completed</h2>
-        <ul>
-            <li><strong>Vertex Shader:</strong> Implemented rotation logic by applying a transformation matrix that responds to mouse input.</li>
-            <li><strong>Fragment Shader:</strong> Created a dynamic color effect that changes gradually based on the model’s scale, using HSV to RGB conversion to generate a rainbow gradient.</li>
-            <li><strong>OpenGL Class Implementations:</strong> Designed and implemented modular classes to encapsulate OpenGL resources such as textures, vertex buffers, index buffers, and vertex arrays to promote code reusability and clarity.</li>
-        </ul>
-    
-        <h2>Reflection</h2>
-        <p>
-            One of the most challenging parts of this project was setting up the web debug environment.
-            Configuring CMake and managing environment variables proved to be quite difficult, but overcoming these challenges helped me gain a deeper understanding of build systems and project setup for WebGL development.
-        </p>
-    </div>
+    <h2>Tasks Completed</h2>
+    <ul>
+        <li><strong>버텍스 셰이더:</strong> 마우스 입력에 반응하는 변환 행렬을 적용해 회전 로직을 구현했습니다.</li>
+        <li><strong>프래그먼트 셰이더:</strong> 모델의 스케일에 따라 점진적으로 변화하는 무지개 색상 효과를 구현했으며, HSV를 RGB로 변환하여 생성했습니다.</li>
+        <li><strong>OpenGL 클래스 구현:</strong> 텍스처, 버텍스 버퍼, 인덱스 버퍼, 버텍스 배열 등의 OpenGL 리소스를 모듈화하여 재사용성과 코드의 명확성을 높였습니다.</li>
+    </ul>
+
+    <h2>Reflection</h2>
+    <p>
+        가장 도전적이었던 부분은 웹 디버깅 환경을 설정하는 것이었습니다.  
+        CMake 설정과 환경 변수 관리가 꽤 어려웠지만 이러한 과정을 극복하면서  
+        WebGL 개발을 위한 빌드 시스템과 프로젝트 설정에 대한 깊은 이해를 얻게 되었습니다.
+    </p>
+</div>
 
     <div class="portfolio-item-individual">
         <h2>Demo</h2>
