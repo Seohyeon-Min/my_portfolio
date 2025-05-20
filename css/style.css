@@ -371,6 +371,18 @@ h3 {
     }
   }
   
+   @media (min-width: 0px) {
+    .intro_main {
+      background-color: var(--clr-light);
+      display: flex;             /* Flexbox로 중앙 정렬 */
+      justify-content: center;
+      align-items: center;
+      height: 100vh;             /* 화면 전체 높이 */
+      margin: 0;
+      padding: 0;
+    }
+  }
+  
 
   /* 조명 효과 컨테이너 */
   .spotlight_container {
