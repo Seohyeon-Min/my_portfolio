@@ -52,31 +52,30 @@ document.addEventListener("mousemove", (e) => {
 
 
 const filterBtns = document.querySelectorAll('.filter-btn');
-const portfolioItems = document.querySelectorAll('.portfolio__item');
 const gameWrappers = document.querySelectorAll('.portfolio-wrapper.game');
+const techWrappers = document.querySelectorAll('.portfolio-wrapper.tech');
+
+window.addEventListener('DOMContentLoaded', () => {
+  setActiveFilter('game');
+});
 
 filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
-    const filter = btn.textContent.trim().toLowerCase();
-
-    filterBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    portfolioItems.forEach(item => {
-      const isGame = item.classList.contains('game');
-      const isTech = item.classList.contains('tech');
-
-      if (filter === 'game') {
-        item.style.display = isGame ? 'block' : 'none';
-      } else {
-        item.style.display = isTech ? 'block' : 'none';
-      }
-    });
-
-    // 게임 wrapper도 같이 토글
-    gameWrappers.forEach(wrapper => {
-      wrapper.style.display = (filter === 'game') ? 'flex' : 'none';
-    });
+    const filter = btn.dataset.filter;
+    setActiveFilter(filter);
   });
 });
-  
+
+function setActiveFilter(filter) {
+  filterBtns.forEach(b => {
+    b.classList.toggle('active', b.dataset.filter === filter);
+  });
+
+  gameWrappers.forEach(wrapper => {
+    wrapper.style.display = (filter === 'game') ? 'flex' : 'none';
+  });
+
+  techWrappers.forEach(wrapper => {
+    wrapper.style.display = (filter === 'tech') ? 'flex' : 'none';
+  });
+}
