@@ -577,7 +577,20 @@ h3 {
   text-align: center;
 }
 
+.portfolio-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 220px;
+  gap: 0.5em;
+}
 
+.project-caption {
+  margin-top: 0.5em;
+  font-size: 0.9rem;
+  color: #ccc;
+  text-align: center;
+}
 .portfolio__item {
   position: relative;
   width: 100%;

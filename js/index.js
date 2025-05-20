@@ -51,38 +51,32 @@ document.addEventListener("mousemove", (e) => {
 });
 
 
-document.addEventListener("DOMContentLoaded", () => {
-    const filterButtons = document.querySelectorAll(".filter-btn");
-    const portfolioItems = document.querySelectorAll(".portfolio__item");
-  
-    // 초기 상태: game 태그만 표시
-    filterItems("game");
-  
-    // 버튼 클릭 이벤트
-    filterButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        // 모든 버튼의 active 클래스 제거
-        filterButtons.forEach(b => b.classList.remove("active"));
-        // 현재 클릭된 버튼만 active
-        btn.classList.add("active");
-  
-        // data-filter 값 가져오기
-        const filterValue = btn.getAttribute("data-filter");
-        // 필터링
-        filterItems(filterValue);
-      });
-    });
-  
-    function filterItems(tag) {
-      portfolioItems.forEach(item => {
-        // item에 해당 태그 클래스가 있으면 표시, 없으면 숨김
-        if (item.classList.contains(tag)) {
-          item.classList.remove("hidden");
-        } else {
-          item.classList.add("hidden");
-        }
-      });
-    }
-  });
+const filterBtns = document.querySelectorAll('.filter-btn');
+const portfolioItems = document.querySelectorAll('.portfolio__item');
+const gameWrappers = document.querySelectorAll('.portfolio-wrapper.game');
 
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const filter = btn.textContent.trim().toLowerCase();
+
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    portfolioItems.forEach(item => {
+      const isGame = item.classList.contains('game');
+      const isTech = item.classList.contains('tech');
+
+      if (filter === 'game') {
+        item.style.display = isGame ? 'block' : 'none';
+      } else {
+        item.style.display = isTech ? 'block' : 'none';
+      }
+    });
+
+    // 게임 wrapper도 같이 토글
+    gameWrappers.forEach(wrapper => {
+      wrapper.style.display = (filter === 'game') ? 'flex' : 'none';
+    });
+  });
+});
   
