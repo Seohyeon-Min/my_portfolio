@@ -57,36 +57,53 @@
             </ul>
         </nav>
     </header>
-
+    <header class="navbar">
+        <div class="navbar-logo">LOGO</div>
+        <nav class="navbar-menu">
+            <a href="../index.html#home">Home</a>
+            <a href="../index.html#about">About</a>
+            <a href="../index.html#projects">Projects</a>
+            <a href="../index.html#skills">Skills</a>
+            <a href="../index.html#education">Edu</a>
+            <a href="../index.html#contact">Contact</a>
+        </nav>
+    </header>
     <!-- Introduction -->
     <section class="intro">
         <h1 class="section__title section__title--intro">
-            Project <strong>Toon Shading</strong>
+            Project <strong>Fog</strong>
         </h1>
-        <p class="section__subtitle section__subtitle--intro">3D Graphics</p>
+        <p class="section__subtitle section__subtitle--intro">Fog Shader</p>
         <img src="../img/portfolio_thumbnails/04_toon.jpg" alt="a picture of this portfolio item" class="intro__img">
     </section>
 
     <div class="portfolio-item-individual">
         <h2>Project Overview</h2>
-        <p>Provide a brief description of the project, its purpose, and what you aimed to achieve.</p>
-
+        <p>이 프로젝트는 GLSL(OpenGL ES 3.0)을 사용해 정점 셰이더와 프래그먼트 셰이더를 구현하고 3D 모델에 지수형 안개 효과를 적용하는 데 중점을 두었습니다. 
+            그래픽스 파이프라인에 대한 이해를 심화하고 3D 씬에 깊이감을 부여하여 현실감을 높이는 것이 목표였습니다.</p>
+    
         <h2>Tasks Completed</h2>
         <ul>
-            <li>Describe the tasks you completed for this project.</li>
-            <li>Be specific about your contributions and the technologies used.</li>
+            <li>조명 계산을 위해 법선을 올바르게 변환하는 방법을 학습함</li>
+            <li>custom-range 툰셰이더 제작</li>
+            <li>uniform-range 툰셰이더 제작</li>
+            <li>gradient-texture 툰셰이더 제작</li>
         </ul>
-
+    
         <h2>Reflection</h2>
-        <p>Reflect on the project, discussing any challenges faced, solutions implemented, and what you learned from the
-            experience.</p>
+        <p>평소 카툰랜더링에 관심이 많았어서 굉장히 흥미로운 과제였습니다.
+안티얼라이싱을 위해 사용한 fwidth의 이해가 힘들었지만 결국 적용하는데 성공했습니다.</p>
     </div>
+    
 
     <div class="portfolio-item-individual">
         <h2>Demo</h2>
         <iframe id="demo" src="../webgl/D04ToonShading/graphics_fun.html?start=toon" tabindex="-1"></iframe>
     </div>
-
+    <button class="return-button" onclick="window.history.back()">
+        <span class="arrow-icon">&larr;</span>
+        <span class="button-text">Return</span>
+      </button>
     <!-- Footer -->
     <footer class="footer">
         <a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a>
@@ -104,6 +121,7 @@
             <!-- Want to list more? search : https://fontawesome.com/v5/search?ic=brands -->
         </ul>
     </footer>
+
     <script src="../js/index.js"></script>
 
 </body>

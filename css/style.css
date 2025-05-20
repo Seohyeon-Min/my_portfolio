@@ -14,7 +14,7 @@
   --fw-reg: 300;
   --fw-bold: 900;
 
-  --clr-intro : #fffdfa;
+  --clr-intro : #28282b;
   --clr-light: #fffdfa;
   --clr-dark: #28282b;
   --clr-dark2: #3d3d3f;
@@ -1077,6 +1077,7 @@ body, html {
 /* individual portfolio item styles */
 
 .portfolio-item-individual {
+  background-color: var(--clr-intro);
   padding: 0 2em 2em;
   max-width: 1200px;
   margin: 0 auto;
@@ -1466,7 +1467,6 @@ body, html {
 
 .return-button:hover {
   background-color:     var(--clr-hover);
-  box-shadow: 0 4px 12px var(--clr-hover);
 }
 
 /* 화살표 아이콘 (←) 크기 */
