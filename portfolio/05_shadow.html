@@ -67,20 +67,29 @@
         <img src="../img/portfolio_thumbnails/05_shadow.jpg" alt="a picture of this portfolio item" class="intro__img">
     </section>
 
-    <div class="portfolio-item-individual">
-        <h2>Project Overview</h2>
-        <p>Provide a brief description of the project, its purpose, and what you aimed to achieve.</p>
+<div class="portfolio-item-individual">
+    <h2>Project Overview</h2>
+    <p>
+        This project focused on implementing shadow mapping. The goal was to render realistic shadows by storing depth 
+        information from the light's point of view and using it to determine shadowed regions on screen.
+    </p>
 
-        <h2>Tasks Completed</h2>
-        <ul>
-            <li>Describe the tasks you completed for this project.</li>
-            <li>Be specific about your contributions and the technologies used.</li>
-        </ul>
+    <h2>Tasks Completed</h2>
+    <ul>
+        <li>Configured a framebuffer and depth texture for shadow mapping</li>
+        <li>Rendered scene depth from the light’s perspective using the WriteDepth shader</li>
+        <li>Applied shadows in the main render pass using the Shadow shader based on depth comparison</li>
+        <li>Implemented shadow logic using only vertex and fragment shaders (no geometry shader)</li>
+        <li>Used <code>textureProj()</code> in GLSL for shadow map sampling</li>
+        <li>Reduced shadow acne and shimmering using <code>glPolygonOffset</code></li>
+    </ul>
 
-        <h2>Reflection</h2>
-        <p>Reflect on the project, discussing any challenges faced, solutions implemented, and what you learned from the
-            experience.</p>
-    </div>
+    <h2>Reflection</h2>
+    <p>
+    A key challenge was aligning coordinate spaces correctly. Shadows were initially distorted due to using object space 
+    coordinates. Fixing this by converting to world space before applying the shadow matrix significantly improved the result.
+    </p>
+</div>
 
     <div class="portfolio-item-individual">
         <h2>Demo</h2>
