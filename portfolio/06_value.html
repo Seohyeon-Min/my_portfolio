@@ -69,17 +69,24 @@
 
     <div class="portfolio-item-individual">
         <h2>Project Overview</h2>
-        <p>Provide a brief description of the project, its purpose, and what you aimed to achieve.</p>
+        <p>
+            This project focused on implementing a procedural Value Noise generator in C++ using modular helper components for smoothing and interpolation.
+        </p>
 
         <h2>Tasks Completed</h2>
         <ul>
-            <li>Describe the tasks you completed for this project.</li>
-            <li>Be specific about your contributions and the technologies used.</li>
+            <li>Implemented <code>Fade.hpp</code> to define various smoothing methods including Linear, Cosine, Smoothstep, and Quintic.</li>
+            <li>Created <code>Interpolation.hpp</code> containing reusable templates for linear, bilinear, and trilinear interpolation.</li>
+            <li>Developed <code>NoiseCoordinate.hpp</code> to convert floating-point inputs into discrete cell coordinates and interpolation weights.</li>
+            <li>Built <code>ValueNoise.hpp</code> to evaluate 1D, 2D, and 3D Value Noise using the above modules, fully templated and period-adjustable.</li>
         </ul>
 
         <h2>Reflection</h2>
-        <p>Reflect on the project, discussing any challenges faced, solutions implemented, and what you learned from the
-            experience.</p>
+        <p>
+            One of the most challenging aspects was understanding the difference between <code>layout(location = 0/1/2)</code> in shaders, and ensuring vertex attributes matched correctly. 
+            Additionally, I learned that fragment output must be explicitly defined using <code>layout(location = 0) out vec4 fFragmentColor</code>, and not just assigned to a variable like <code>fragColor</code>. 
+            This debugging process improved my understanding of the GLSL pipeline and the tight coupling between vertex input and fragment output stages.
+        </p>
     </div>
 
     <div class="portfolio-item-individual">
