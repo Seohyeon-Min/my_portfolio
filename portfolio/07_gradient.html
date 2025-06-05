@@ -28,32 +28,15 @@
 </head>
 
 <body>
-    <header>
-        <div class="logo">
-            <!-- alt text can be blank since the logo is purely decorative and putting something like logo isn't actually helpful -->
-            <img src="../img/cout.jpg" alt="">
-        </div>
-        <button class="nav-toggle" aria-label="toggle navigation">
-            <span class="hamburger"></span>
-        </button>
-        <nav class="nav">
-            <ul class="nav__list">
-                <li class="nav__item">
-                    <a href="../index.html" class="nav__link">Home</a>
-                </li>
-                <li class="nav__item">
-                    <a href="../index.html#skills" class="nav__link">Skills</a>
-                </li>
-                <li class="nav__item">
-                    <a href="../index.html#about" class="nav__link">About Me</a>
-                </li>
-                <li class="nav__item">
-                    <a href="../index.html#projects" class="nav__link">Projects</a>
-                </li>
-                <li class="nav__item">
-                    <a href="../index.html#resume" class="nav__link">Resume</a>
-                </li>
-            </ul>
+    <header class="navbar">
+        <div class="navbar-logo">LOGO</div>
+        <nav class="navbar-menu">
+            <a href="../index.html#home">Home</a>
+            <a href="../index.html#about">About</a>
+            <a href="../index.html#projects">Projects</a>
+            <a href="../index.html#skills">Skills</a>
+            <a href="../index.html#education">Edu</a>
+            <a href="../index.html#contact">Contact</a>
         </nav>
     </header>
 
@@ -68,23 +51,29 @@
 
     <div class="portfolio-item-individual">
         <h2>Project Overview</h2>
-        <p>Provide a brief description of the project, its purpose, and what you aimed to achieve.</p>
+        <p>Created seamless procedural textures using 3D Gradient Noise (Improved Perlin Noise) in GLSL.</p>
 
-        <h2>Tasks Completed</h2>
-        <ul>
-            <li>Describe the tasks you completed for this project.</li>
-            <li>Be specific about your contributions and the technologies used.</li>
-        </ul>
+    <h2>Tasks Completed</h2>
+    <ul>
+        <li>Implemented Improved 3D Gradient Noise in GLSL</li>
+        <li>Added support for Fractal Sum, Turbulence, Marble, and Wood patterns</li>
+        <li>Integrated noise visualization through custom shaders</li>
+    </ul>
 
         <h2>Reflection</h2>
-        <p>Reflect on the project, discussing any challenges faced, solutions implemented, and what you learned from the
-            experience.</p>
+        <p>Perlin noise was complex to implement, and I didn’t know how to generate Marble and Wood patterns at first. I had to look up references and examples online to understand their structure.</p>
     </div>
 
     <div class="portfolio-item-individual">
         <h2>Demo</h2>
         <iframe id="demo" src="../webgl/D07GradientNoise/graphics_fun.html?start=gradient" tabindex="-1"></iframe>
     </div>
+
+    
+    <button class="return-button" onclick="window.history.back()">
+        <span class="arrow-icon">&larr;</span>
+        <span class="button-text">Return</span>
+    </button>
 
     <!-- Footer -->
     <footer class="footer">
