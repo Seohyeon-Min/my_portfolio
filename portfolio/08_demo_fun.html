@@ -1,0 +1,105 @@
+<!-- https://youtu.be/_xkSvufmjEs?si=mh-MXT2ZdUasYAYn&t=3416 -->
+<!-- adobe.ly/2GAgF93 -->
+<!-- https://scrimba.com/build-and-deploy-your-portfolio-c012 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="../img/face.jpg">
+    <!-- Help auto scale for desktop & mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECH - MSH PORTFOILO</title>
+
+    <!-- Normalize the difference across browsers  https://necolas.github.io/normalize.css/ -->
+    <link rel="stylesheet" href="../external/normalize.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+        integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous" />
+
+    <!-- https://fonts.google.com/selection/embed -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="navbar-logo">LOGO</div>
+        <nav class="navbar-menu">
+            <a href="../index.html#home">Home</a>
+            <a href="../index.html#about">About</a>
+            <a href="../index.html#projects">Projects</a>
+            <a href="../index.html#skills">Skills</a>
+            <a href="../index.html#education">Edu</a>
+            <a href="../index.html#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Introduction -->
+    <section class="intro">
+        <h1 class="section__title section__title--intro">
+            Project <strong>Fly Simulation</strong>
+        </h1>
+        <p class="section__subtitle section__subtitle--intro">3D Graphics</p>
+        <img src="../img/portfolio_thumbnails/08_fun.jpg" alt="a picture of this portfolio item" class="intro__img">
+    </section>
+
+    <div class="portfolio-item-individual">
+        <h2>Project Overview</h2>
+        <p>Created a flight simulator with procedural clouds and visual effects.</p>
+        <p>Press the spacebar to move forward.</p>
+        <p>You can change direction using the WASD keys.</p>
+
+        <h2>Tasks Completed</h2>
+        <ul>
+            <li>Implemented toon shading for stylized rendering</li>
+            <li>Generated clouds using 3D noise techniques</li>
+            <li>Applied atmospheric fog</li>
+            <li>Added post-processing vignette effect</li>
+            <li>Procedurally placed clouds that generate as the player moves forward</li>
+        </ul>
+
+        <h2>Reflection</h2>
+        <p>I intended to apply noise to the entire sphere for cloud generation, but it only worked on half the mesh. Although I couldn’t fix the issue, the resulting shape still resembled natural clouds, which was a relief.</p>
+    </div>
+
+
+    <div class="portfolio-item-individual">
+        <h2>Demo</h2>
+        <iframe id="demo" src="../webgl/D08Fun/graphics_fun.html?start=fun" tabindex="-1"></iframe>
+    </div>
+
+    
+    <button class="return-button" onclick="window.history.back()">
+        <span class="arrow-icon">&larr;</span>
+        <span class="button-text">Return</span>
+    </button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a>
+        <ul class="social-list">
+            <li class="social-list__item">
+                <a class="social-list__link" href="https://www.linkedin.com/in/seohyeon-min-781362250/">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </li>
+            <li class="social-list__item">
+                <a class="social-list__link" href="https://github.com/Seohyeon-Min">
+                    <i class="fab fa-github"></i>
+                </a>
+            </li>
+            <!-- Want to list more? search : https://fontawesome.com/v5/search?ic=brands -->
+        </ul>
+    </footer>
+
+    <script src="../js/index.js"></script>
+
+</body>
+
+</html>
