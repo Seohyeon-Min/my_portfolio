@@ -54,9 +54,10 @@ document.addEventListener("mousemove", (e) => {
 const filterBtns = document.querySelectorAll('.filter-btn');
 const gameWrappers = document.querySelectorAll('.portfolio-wrapper.game');
 const techWrappers = document.querySelectorAll('.portfolio-wrapper.tech');
+const planningWrappers = document.querySelectorAll('.portfolio-wrapper.planning');
 
 window.addEventListener('DOMContentLoaded', () => {
-  setActiveFilter('game');
+  setActiveFilter('game'); // 초기 활성 필터
 });
 
 filterBtns.forEach(btn => {
@@ -77,5 +78,9 @@ function setActiveFilter(filter) {
 
   techWrappers.forEach(wrapper => {
     wrapper.style.display = (filter === 'tech') ? 'flex' : 'none';
+  });
+
+  planningWrappers.forEach(wrapper => {
+    wrapper.style.display = (filter === 'planning') ? 'flex' : 'none';
   });
 }
