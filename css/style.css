@@ -1317,9 +1317,27 @@ body, html {
 
 
 
+.ai-highlight {
+  background: var(--clr-dark2);
+  border-left: 4px solid var(--clr-accent2);
+  padding: 1rem;
+  margin: 2rem 0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--clr-light);
+}
 
-
-
+.video-caption {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+.video-caption h3 {
+  margin: 0 0 0.3rem 0;
+}
+.video-caption span {
+  font-size: 0.9rem;
+  color: #aaa;
+}
 
 
 .experience-section {
@@ -1575,10 +1593,11 @@ body, html {
 }
 
 .responsive-video {
+  width: 100%;
+  aspect-ratio: 16 / 9;   /* 원하는 비율 고정 */
+  object-fit: cover;      /* 잘라도 꽉 차게 */
+  border-radius: 8px;
   display: block;
-  max-width: 100%;
-  height: auto;
-  margin: 0 auto;
 }
 
 .bottom-text {
