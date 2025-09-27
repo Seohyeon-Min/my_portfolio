@@ -64,14 +64,25 @@
     <!-- Introduction -->
     <!-- Introduction -->
 
-    <section class="intro_main" id="home">
-      <div class="container">
-        <div class="background-text">GRAPHICS ENGINEER</div>
-        <div class="foreground-text">
-          그래픽스 엔지니어 <strong>민서현</strong>입니다.
-        </div>
-      </div>
-    </section>
+<section class="intro_main" id="home">
+  <div class="bg-video">
+    <video class="bg-video__media"
+           autoplay
+           muted
+           loop
+           playsinline
+           preload="auto"
+           poster="img/video_poster.jpg">
+      <source src="img/intro.mp4"  type="video/mp4">
+      <source src="media/intro.webm" type="video/webm">
+    </video>
+  </div>
+  <div class="intro-overlay">
+    <div class="background-text">Game Developer</div>
+    <div class="foreground-text">게임 개발자 <strong>민서현</strong>입니다.</div>
+  </div>
+</section>
+
 
 
 
@@ -95,8 +106,8 @@
       
     
       <div class="section">
-        <h2>// 아트와 기술을 잇다</h2>
-        <p>개발 프로젝트에서 렌더링 구조 설계, 쉐이더 구현, 최적화 작업을 맡으며 아티스트들이 자신의 세계를 훨씬 쉽게 세상에 보여줄 수 있도록 지원합니다.</p>
+        <h2>// 기술로 창작을 돕다</h2>
+        <p>Unity와 자체 엔진에서 렌더링 구조 설계, 셰이더 구현, 최적화 작업을 맡으며 아티스트와 기획자가 의도한 결과물이 그대로 구현될 수 있도록 지원했습니다. 기술을 통해 창작 과정이 원활해지는 순간에 큰 보람을 느낍니다.</p>
       </div>
     
       <div class="section">
@@ -105,9 +116,9 @@
       </div>
     
       <div class="section">
-        <h2>// 배려와 조율</h2>
+        <h2>// 조율과 완성</h2>
         <p>팀이 함께 성장할 수 있는 분위기를 중요하게 생각합니다. 
-          초기에 개인의 역할 분담을 분명히 하고 진행 중엔 갈등이 생기지 않도록 자주 소통하며 전체를 정리해주는 역할을 주로 맡았습니다.</p>
+          프로듀서로서 팀을 이끌며 초기엔 역할 분담을 명확히 하고, 개발 중에는 자주 소통해 갈등을 최소화하며 프로젝트가 끝까지 완성되도록 조율했습니다. 책임감 있게 마침표를 찍는 것이 저의 가장 큰 장점입니다.</p>
       </div>
 
 
@@ -139,7 +150,7 @@
     <img src="img/portfolio_thumbnails/Manzo.png" alt="" class="portfolio__img" />
     <div class="portfolio__overlay">
       <h4>만조</h4>
-      <p>팀 상린: 리듬 어드벤처 <p>[가장 최신 프로젝트]</p></p>
+      <p>팀 상린: 리듬 어드벤처</p>
       <button class="btn-details">자세히 보기</button>
     </div>
   </a>
@@ -357,6 +368,11 @@
         <div class="tech-category">
           <h3 class="category-title">Rendering & Engines</h3>
           <div class="icons-row">
+            <!-- Unity -->
+            <div class="icon-card" data-tooltip="Unity">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg" />
+            </div>
+
             <!-- OpenGL -->
             <div class="icon-card" data-tooltip="OpenGL">
               <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/opengl/opengl-original.svg" class="dimmed-icon" />
@@ -439,7 +455,7 @@
                   <strong>(2023 - 현재)</strong>
                 </h3>
                 <ul><li>B.S. Real-Time Interactive Simulation</p></li></ul>
-                <ul><li>학점 4.27/4.5</p></li></ul>
+                <ul><li>학점 4.24/4.5</p></li></ul>
               </div>
             </div>
           </div>

@@ -372,15 +372,48 @@ h3 {
   }
   
    @media (min-width: 0px) {
-    .intro_main {
-      background-color: var(--clr-light);
-      display: flex;             /* Flexbox로 중앙 정렬 */
-      justify-content: center;
-      align-items: center;
-      height: 100vh;             /* 화면 전체 높이 */
-      margin: 0;
-      padding: 0;
-    }
+.intro_main {
+  position: relative;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.intro_main .bg-video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.intro_main .bg-video__media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 화면 꽉 채우기 */
+}
+
+.intro_main .intro-overlay {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 1rem;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.35));
+}
+
+.intro_main .foreground-text {
+  color: var(--clr-light);
+}
+
+.intro_main .background-text {
+  color: rgba(255,255,255,0.18);
+}
+
   }
   
 
