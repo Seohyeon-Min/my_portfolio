@@ -583,8 +583,8 @@ h3 {
   grid-template-columns: repeat(auto-fit, 220px); /* 각 아이템 크기를 고정 */
   justify-content: center; /* 가운데 정렬 */
   align-items: center;
-  gap: 2rem;
-  padding: 3em 2em;
+  gap: 1.5rem;
+  padding: 2em 1.5em;
   max-width: 100%;
   margin: 0 auto;
 }
@@ -597,6 +597,7 @@ h3 {
   overflow: hidden;
   border-radius: 8px;
   transition: transform 0.3s ease;
+  flex:0 0 auto;          /* ← 추가 */
 }
 /* 숨길 때 사용될 클래스 (JS에서 토글) */
 .hidden {
@@ -608,21 +609,24 @@ h3 {
   background-color: var(--clr-dark);
   color: var(--clr-light);
   text-align: center;
+  padding: 3rem 1rem;
+}
+.my-projects .portfolio {
+  max-width: 1160px;   /* ← 화면이 넓어도 여기까지만 */
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.portfolio-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 220px;
-  gap: 0.5em;
+.portfolio-wrapper{
+  width:220px;
+  display:flex;
+  flex-direction:column;
+  gap:0.5em;
+  height:460px;           /* ← 추가: 카드 높이 고정 */
 }
 
-.project-caption {
-  margin-top: 0.5em;
-  font-size: 0.9rem;
-  color: #ccc;
-  text-align: center;
+.project-caption{
+  min-height:2.2em;       /* ← 추가: 한 줄 보장 */
 }
 
 /* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 */
@@ -630,12 +634,12 @@ h3 {
 /* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 */
 /* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 */
 
-.project-tags {
-  margin-top: 0.5em;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.4em;
+.project-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.4em;
+  line-height:1.4;
+  overflow:hidden;        /* ← 추가: 넘치면 숨김 */
 }
 
 .tag {
@@ -648,6 +652,11 @@ h3 {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   transition: background 0.2s ease;
+
+    white-space:nowrap;     /* ← 추가 */
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis; /* ← 추가 */
 }
 
 .tag:hover {
@@ -1518,9 +1527,14 @@ body, html {
 
 
 /* gallery gallery gallery gallery gallery gallery gallery gallery gallery gallery gallery gallery gallery  */
-.gallery {
-  flex: 1;
-  gap: 2rem;
+
+
+
+.gallery img {
+  width: 100%;
+  aspect-ratio: 1 / 1;   /* 정사각형 비율 유지 */
+  object-fit: cover;     /* 이미지가 비율 깨지지 않게 채우기 */
+  border-radius: 6px;    /* 선택: 모서리 부드럽게 */
 }
 
 .gallery h3 {
@@ -1542,6 +1556,77 @@ body, html {
   display: block;
   
   border-radius: 4px; /* 미묘하게 둥근 모서리 */
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+.gallery img {
+  width: 300px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
+}
+
+
+/* Lightbox 스타일 */
+.lightbox {
+  position: fixed !important;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;   /* 세로 기준 확보 */
+  background: rgba(0,0,0,0.9);
+  z-index: 10000;
+
+  display: none;                 /* 기본 숨김 */
+  align-items: center;           /* 세로 중앙 */
+  justify-content: center;       /* 가로 중앙 */
+
+  padding: 0 !important;         /* 남아있는 상단 패딩 제거 */
+  margin: 0 !important;
+}
+.lightbox:target { display: flex; }
+
+.lightbox img {
+   display: block;
+  border-radius: 8px;
+  margin: 0 auto;
+
+  /* 비율 유지하면서 크기 제한 */
+  max-width: min(80vw, 900px);  /* 화면의 80% 또는 900px 중 작은 쪽 */
+  max-height: min(80vh, 700px); /* 화면의 80% 또는 700px 중 작은 쪽 */
+  width: auto;
+  height: auto;
+  object-fit: contain;  
+}
+
+
+/* 좌우 버튼 */
+.lightbox .prev,
+.lightbox .next {
+  position: absolute;
+  top: 50%;
+  color: white;
+  font-size: 60px;
+  text-decoration: none;
+  user-select: none;
+  transform: translateY(-50%);
+}
+
+.lightbox .prev { left: 30px; }
+.lightbox .next { right: 30px; }
+
+.lightbox .prev:hover,
+.lightbox .next:hover {
+  color: #16e0bd;
 }
 
 
@@ -1669,48 +1754,3 @@ body, html {
 }
 
 
-
-
-
-.gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
-}
-
-.gallery img {
-  width: 300px;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.gallery img:hover {
-  transform: scale(1.05);
-}
-
-.lightbox {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-}
-
-.lightbox img {
-  display: block;
-  max-width: 90%;
-  max-height: 80%;
-  margin: 5% auto;
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(255,255,255,0.4);
-}
-
-.lightbox:target {
-  display: block;
-}

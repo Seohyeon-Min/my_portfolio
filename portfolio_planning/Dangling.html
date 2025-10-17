@@ -104,21 +104,37 @@
             </div>
           </section>
 
-        <div class="gallery">
-          <a href="#img1"><img src="../img/Dangling/1.jpg" alt="이미지 1"></a>
-          <a href="#img2"><img src="../img/Dangling/2.jpg" alt="이미지 2"></a>
-          <a href="#img3"><img src="../img/Dangling/3.jpg" alt="이미지 3"></a>
-        </div>
+<!-- 갤러리 -->
+<div class="gallery">
+  <a href="#img1"><img src="../img/Dangling/1.jpg" alt="이미지 1"></a>
+  <a href="#img2"><img src="../img/Dangling/2.jpg" alt="이미지 2"></a>
+  <a href="#img3"><img src="../img/Dangling/3.jpg" alt="이미지 3"></a>
+  <a href="#img4"><img src="../img/portfolio_thumbnails/Dangling.jpg" alt="이미지 4"></a>
+</div>
 
-        <div class="lightbox" id="img1">
-          <a href="#close"><img src="../img/Dangling/1.jpg" alt="이미지 1 크게 보기"></a>
-        </div>
-        <div class="lightbox" id="img2">
-          <a href="#close"><img src="../img/Dangling/2.jpg" alt="이미지 2 크게 보기"></a>
-        </div>
-        <div class="lightbox" id="img3">
-          <a href="#close"><img src="../img/Dangling/3.jpg" alt="이미지 3 크게 보기"></a>
-        </div>
+<!-- Lightbox -->
+<div class="lightbox" id="img1">
+  <a href="#img4" class="prev">&#10094;</a>
+  <a href="#close"><img src="../img/Dangling/1.jpg" alt=""></a>  <!-- 변경 -->
+  <a href="#img2" class="next">&#10095;</a>
+</div>
+<div class="lightbox" id="img2">
+  <a href="#img1" class="prev">&#10094;</a>
+  <a href="#close"><img src="../img/Dangling/2.jpg" alt=""></a>  <!-- 변경 -->
+  <a href="#img3" class="next">&#10095;</a>
+</div>
+<div class="lightbox" id="img3">
+  <a href="#img2" class="prev">&#10094;</a>
+  <a href="#close"><img src="../img/Dangling/3.jpg" alt=""></a>  <!-- 변경 -->
+  <a href="#img4" class="next">&#10095;</a>
+</div>
+<div class="lightbox" id="img4">
+  <a href="#close" class="close"></a>
+  <a href="#img3" class="prev">&#10094;</a>
+  <a href="#close"><img src="../img/portfolio_thumbnails/Dangling.jpg" alt=""></a>  <!-- 변경 -->
+  <a href="#img1" class="next">&#10095;</a>
+</div>
+
 
         <!-- <section class="gallery">
           <div class="gallery-grid">
