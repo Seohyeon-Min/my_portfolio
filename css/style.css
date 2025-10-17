@@ -456,6 +456,7 @@ h3 {
     
   }
   .about-me {
+     padding-top: 9rem; /* 원하는 만큼 숫자 조정 */
     background-color: var(--clr-dark);
     color: var(--clr-light);
     text-align: center;
@@ -579,6 +580,7 @@ h3 {
 
 
 .portfolio {
+  
   display: grid;
   grid-template-columns: repeat(auto-fit, 220px); /* 각 아이템 크기를 고정 */
   justify-content: center; /* 가운데 정렬 */
@@ -606,12 +608,14 @@ h3 {
 
 
 .my-projects {
+  
   background-color: var(--clr-dark);
   color: var(--clr-light);
   text-align: center;
-  padding: 3rem 1rem;
+   padding-top: 9rem; /* 원하는 만큼 숫자 조정 */
 }
 .my-projects .portfolio {
+  
   max-width: 1160px;   /* ← 화면이 넓어도 여기까지만 */
   margin-left: auto;
   margin-right: auto;
@@ -785,21 +789,20 @@ h3 {
   /*============================================================================================================================= */
 
 /* my skills section */
-html, body {
-  
-  width: 100%;
-  height: 100%;
-  font-family: sans-serif;
-  background: #1e1e1e; /* 어두운 배경 */
-  color: var(--clr-light);         /* 텍스트 흰색 */
+/* 전체 스킬 섹션 */
+.skills-bleed {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  background-color: var(--clr-dark3);
+  /* 필요하면 배경이미지도 여기로 */
+  /* background-image: url(...); background-size: cover; background-blend-mode: overlay; */
 }
 
-/* 전체 스킬 섹션 */
+/* 전체 스킬 섹션(콘텐츠 폭 제한 유지) */
 .skills-section {
-  /* min-height: 100vh;  -> 필요 없다면 제거 */
-  /* height: 100vh;      -> 제거 */
-  background-color: var(--clr-dark3);
-  padding: 8rem;
+  max-width: 1200px;     /* 유지: 좌우 널벙 방지 */
+  margin: 0 auto;        /* 가운데 정렬 */
+  padding: 1rem 16px;    /* 상단 패딩 + 모바일 좌우 여백 */
   text-align: center;
 }
 
