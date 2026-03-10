@@ -478,17 +478,20 @@
     if (mainSection.subsections) {
       mainSection.subsections.forEach(subsection => {
         mainContentHTML += `<h5>${subsection.title}</h5>`;
-        if (subsection.images && subsection.images.length > 0) {
-          subsection.images.forEach(img => {
+        const items = subsection.items || [];
+        const images = subsection.images || [];
+        const maxLength = Math.max(items.length, images.length);
+        
+        for (let i = 0; i < maxLength; i++) {
+          // 설명 먼저
+          if (i < items.length) {
+            mainContentHTML += `<p>${items[i]}</p>`;
+          }
+          // 그 다음 이미지
+          if (i < images.length) {
+            const img = images[i];
             mainContentHTML += `<div class="contribution-image"><img src="${img.src}" alt="${img.alt || ''}" title="${img.title || ''}" /></div>`;
-          });
-        }
-        if (subsection.items && subsection.items.length > 0) {
-          mainContentHTML += '<ul>';
-          subsection.items.forEach(item => {
-            mainContentHTML += `<li>${item}</li>`;
-          });
-          mainContentHTML += '</ul>';
+          }
         }
       });
     } else if (mainSection.items) {
@@ -527,17 +530,20 @@
           if (section.subsections) {
             section.subsections.forEach(subsection => {
               contentHTML += `<h5>${subsection.title}</h5>`;
-              if (subsection.images && subsection.images.length > 0) {
-                subsection.images.forEach(img => {
+              const items = subsection.items || [];
+              const images = subsection.images || [];
+              const maxLength = Math.max(items.length, images.length);
+              
+              for (let i = 0; i < maxLength; i++) {
+                // 설명 먼저
+                if (i < items.length) {
+                  contentHTML += `<p>${items[i]}</p>`;
+                }
+                // 그 다음 이미지
+                if (i < images.length) {
+                  const img = images[i];
                   contentHTML += `<div class="contribution-image"><img src="${img.src}" alt="${img.alt || ''}" title="${img.title || ''}" /></div>`;
-                });
-              }
-              if (subsection.items && subsection.items.length > 0) {
-                contentHTML += '<ul>';
-                subsection.items.forEach(item => {
-                  contentHTML += `<li>${item}</li>`;
-                });
-                contentHTML += '</ul>';
+                }
               }
             });
           } else if (section.items) {

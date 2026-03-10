@@ -3,6 +3,7 @@ const projectsData = {
   // ========== 게임 프로젝트 ==========
   "00_NewManzo": {
     type: "game",
+    pinned: true,
     title: "New MANZO",
     subtitle: "Hear the Ocean's Call",
     pageTitle: "NEWMANZO - MSH PORTFOILO",
@@ -67,6 +68,7 @@ const projectsData = {
 
   "01_Manzo": {
     type: "game",
+    pinned: true,
     title: "MANZO",
     subtitle: "Hear the Ocean's Call",
     pageTitle: "MANZO - MSH PORTFOILO",
@@ -119,29 +121,107 @@ const projectsData = {
         {
           title: "Project Lead",
           category: "Project Lead",
-          items: [
-            "프로젝트 관리 및 팀 커뮤니케이션",
-            "그래픽스 파이프라인 기술 지원"
-          ]
-        },
-        {
-          title: "렌더링 & 최적화",
-          category: "Technical",
           subsections: [
             {
-              title: "렌더링 시스템",
+              title: "Vision & Direction",
               items: [
-                "게임 오브젝트 및 렌더링 시스템 설계",
-                "레이어 기반 렌더링 구현",
-                "DrawCall 기반 렌더링 구조 구축",
-                "ShaderManager 및 TextureManager 개발"
+                "프로젝트의 전체 방향성과 핵심 경험을 정의하고 팀이 동일한 목표를 공유하도록 조율했다.",
+                "초기 단계에서 게임의 핵심 콘셉트를 **\"Rhythm-based Deep Sea Exploration Horror\"**로 설정하고, 컨셉 아트와 디자인 문서를 통해 팀원들이 동일한 플레이 경험을 상상할 수 있도록 정리했다.",
+                "이 과정을 통해 기획, 아트, 프로그래밍이 동일한 방향으로 진행될 수 있는 기반을 만들었다."
               ]
             },
             {
-              title: "렌더링 최적화",
+              title: "Scope Management",
               items: [
-                "프러스텀 컬링을 활용한 렌더링 최적화",
-                "Steam 배포를 위한 최적화 작업"
+                "개발 과정에서 프로젝트의 범위를 지속적으로 조정하여 핵심 경험을 유지하면서 프로젝트를 완성 가능한 형태로 관리했다.",
+                "초기에는 스토리 중심의 대규모 구조와 여러 시스템을 계획했으나, 개발 과정에서 기술 난이도와 시간 제약을 고려하여 다음과 같은 방향으로 범위를 재정리했다: 스토리 중심 구조 축소, 핵심 플레이 루프 강화 (Rhythm movement + Exploration + Boss fights), 핵심 보스 전투와 탐험 경험에 개발 리소스 집중.",
+                "이를 통해 과도한 기능 개발로 인한 프로젝트 실패를 방지하고 완성 가능한 게임 형태로 프로젝트를 안정화했다."
+              ]
+            },
+            {
+              title: "Team Coordination",
+              items: [
+                "프로듀서로서 팀원들의 작업이 서로 충돌하지 않도록 작업 구조를 정리하고 협업 흐름을 관리했다.",
+                "주요 역할: 작업 우선순위 정리 및 일정 관리, 기능 단위로 작업 분배, Git merge 및 기능 통합 관리, 시스템 간 의존성 조율.",
+                "특히 각 팀원이 담당한 시스템을 중심으로 작업이 이어지도록 하여 개발 과정에서 발생할 수 있는 충돌과 중복 작업을 최소화했다."
+              ]
+            },
+            {
+              title: "Problem Solving & Integration",
+              items: [
+                "개발 후반에는 다양한 시스템이 동시에 작동하면서 발생하는 문제를 해결하고 게임을 하나의 완성된 경험으로 통합하는 역할을 수행했다.",
+                "예를 들어 Scenario 시스템과 Dialog 시스템의 구조 문제를 발견하고 엔진 레벨 시스템으로 재구성, Boss 전투의 시각적 피드백 부족 문제를 해결하기 위해 shader와 particle 기반 연출 추가, 충돌 시스템의 비효율적인 연산을 개선하여 보스 전투에서 발생하던 성능 문제 해결.",
+                "이 과정에서 게임의 안정성과 플레이 경험을 동시에 개선했다."
+              ]
+            },
+            {
+              title: "Production Leadership",
+              items: [
+                "개발 후반 팀의 집중도가 떨어질 때 직접 작업을 진행하며 프로젝트 완성을 이끌었다.",
+                "디버깅, 시스템 수정, 시각 효과 작업, 기능 통합 등 여러 영역의 작업을 병행하며 프로젝트를 실제 플레이 가능한 상태로 완성시키는 데 핵심 역할을 수행했다."
+              ]
+            }
+          ]
+        },
+        {
+          title: "Technical Leadership & Engine Systems",
+          category: "Technical",
+          subsections: [
+            {
+              title: "Gameplay Synchronization System (Rhythm Core)",
+              items: [
+                "리듬 게임의 핵심인 Beat System 기반 게임플레이 동기화를 설계하고 게임 시스템과 연결했다.",
+                "주요 작업: BPM 기반 Beat Detection 시스템 구현, On-beat 판정 윈도우 설계, Beat / Bar 카운팅 시스템 구현, 오디오와 게임 로직 동기화, Ship 이동 로직을 Beat 시스템과 연결.",
+                "결과: 플레이어 이동이 음악의 리듬에 정확히 동기화되고, 보스 전투 패턴도 리듬에 맞춰 작동하도록 설계하여 리듬 기반 게임플레이의 핵심 메커니즘을 완성했다."
+              ]
+            },
+            {
+              title: "Rendering Pipeline & Visual Effects",
+              items: [
+                "게임의 시각적 완성도를 높이기 위해 Draw Call 기반 렌더링 파이프라인과 다양한 셰이더 기반 연출을 구현했다.",
+                "Draw Call Rendering Pipeline: Layer 기반 Draw Call 정렬, Render Queue 구조 (Background / Object / Late Rendering 분리), draw_background_calls, draw_first_calls, draw_calls, draw_late_calls 구성. 이를 통해 렌더 순서 제어, UI / 월드 오브젝트 분리, 렌더링 구조 확장성을 확보했다.",
+                "Shader & Post Processing Effects: 보스 전투와 심해 환경의 분위기를 강화하기 위해 Bloom, Underwater distortion, God Ray, Title ripple effect, Wave transition, Screen transition shaders 등을 구현. Framebuffer 기반 multi-pass rendering과 Post-processing pipeline을 구성하여 환경 변화에 따른 시각 효과를 적용했다. 결과적으로 얕은 바다 → 심해로 갈수록 분위기가 변화하고, 보스 전투에서 강한 시각적 피드백을 제공한다."
+              ]
+            },
+            {
+              title: "Particle Effects System Integration",
+              items: [
+                "보스 전투의 몰입감을 높이기 위해 Particle 시스템을 활용한 시각 효과 설계 및 구현을 담당했다.",
+                "Particle 특징: Lifetime 기반 파티클 시스템, 다양한 movement 타입 (LINEAR, CURVE, RANDOM, TOTHEPLAYER) 지원. 방향성 파티클 생성, 원형 분산 파티클, 랜덤 스프레이 파티클 기능을 구현했다.",
+                "보스 전투에서는 공격 패턴, 충돌 효과, 환경 연출 등을 파티클 기반으로 구현했다."
+              ]
+            },
+            {
+              title: "Scenario & Dialog System Refactoring",
+              items: [
+                "개발 후반부에 Scenario 시스템 구조 문제를 발견하고 엔진 레벨로 재설계했다.",
+                "기존 문제: ScenarioComponent가 GameMode에 종속, Dialog 시스템과 연결 시 dangling pointer 발생, 이벤트 관리가 불안정.",
+                "해결 방법: ScenarioSystem을 엔진 글로벌 시스템으로 분리, DialogSystem을 별도의 글로벌 시스템으로 구현, 이벤트와 대화 시스템 연결 안정화. 결과적으로 GameState 변경 시에도 이벤트가 안정적으로 유지되고, 스토리 이벤트 관리 구조가 개선되었으며, 시스템 모듈성이 향상되었다."
+              ]
+            },
+            {
+              title: "Performance Optimization",
+              items: [
+                "보스 전투에서 발생하던 심각한 프레임 드랍 문제를 해결했다.",
+                "문제 원인: 충돌 검사에서 brute-force collision checks로 인한 불필요한 반복 연산 발생.",
+                "해결 방법: 중복 충돌 검사 제거, 충돌 처리 로직 최적화. 결과적으로 보스 전투 시 발생하던 심각한 랙을 완전히 해결하고 전체 게임 성능을 안정화했다."
+              ]
+            },
+            {
+              title: "System Integration & Debugging",
+              items: [
+                "프로젝트 후반부에는 다양한 시스템을 통합하고 안정화하는 작업을 담당했다.",
+                "주요 작업: Scenario / Dialog 시스템 통합, 보스 전투 시각 효과 구현, 시스템 간 충돌 문제 디버깅, 게임 플레이 흐름 안정화.",
+                "특히 여러 시스템이 동시에 작동하는 상황에서 발생하는 pointer 오류, 상태 충돌, 이벤트 실행 문제 등을 해결하며 프로젝트를 실제 플레이 가능한 상태로 완성했다."
+              ]
+            },
+            {
+              title: "핵심 기술 기여 요약",
+              items: [
+                "Gameplay Systems: Rhythm Beat System, Player movement synchronization",
+                "Rendering & Visual: Draw Call rendering pipeline, Shader-based post processing, Particle effect system",
+                "Engine Architecture: Scenario system refactor, Dialog system restructuring, Global event handling",
+                "Optimization: Collision system performance optimization"
               ]
             }
           ]
@@ -154,8 +234,37 @@ const projectsData = {
               title: "게임 아트",
               items: [
                 "캐릭터 초상화 일러스트 제작",
+                "캐릭터 초상화 일러스트 제작",
                 "물고기 픽셀 아트 제작",
-                "캐릭터 집 내부 컨셉 아트 제작"
+                "보스 픽셀 아트 제작",
+                "캐릭터 집 내부 아트 제작"
+              ],
+              images: [
+                {
+                  src: "../img/MANZO/1.png",
+                  alt: "캐릭터 초상화 일러스트 1",
+                  title: "캐릭터 초상화 일러스트 1"
+                },
+                {
+                  src: "../img/MANZO/2.png",
+                  alt: "캐릭터 초상화 일러스트 2",
+                  title: "캐릭터 초상화 일러스트 2"
+                },
+                {
+                  src: "../img/MANZO/4.jpg",
+                  alt: "물고기 픽셀 아트",
+                  title: "물고기 픽셀 아트"
+                },
+                {
+                  src: "../img/MANZO/5.png",
+                  alt: "보스 픽셀 아트",
+                  title: "캐보스 픽셀 아트"
+                },
+                {
+                  src: "../img/MANZO/6.png",
+                  alt: "캐릭터 집 내부 아트",
+                  title: "캐릭터 집 내부 아트"
+                }
               ]
             },
             {
@@ -171,40 +280,6 @@ const projectsData = {
                 "후처리(Post-processing) 구현 및 설계"
               ]
             }
-          ]
-        },
-        {
-          title: "게임 시스템 개발",
-          category: "Technical",
-          subsections: [
-            {
-              title: "게임 엔진 개발",
-              items: [
-                "컴포넌트 기반 구조의 커스텀 게임 엔진 개발",
-                "<code>GameObjectManager</code>를 통한 객체 관리"
-              ]
-            },
-            {
-              title: "충돌 판정 시스템",
-              items: [
-                "충돌 판정 및 위치 보정 시스템(<code>HitWithReef</code> 함수) 구현",
-                "연속 충돌 판정(Continuous Collision Detection) 구현"
-              ]
-            },
-            {
-              title: "이벤트 처리",
-              items: [
-                "SDL 이벤트 처리 방식 개선"
-              ]
-            }
-          ]
-        },
-        {
-          title: "프로젝트 관리",
-          category: "Planning",
-          items: [
-            "업무 분배 및 팀 내 작업 조율",
-            "코드 병합 지원 및 최종 빌드 관리"
           ]
         }
       ]
@@ -327,6 +402,7 @@ const projectsData = {
 
   "04_BirdStrike": {
     type: "game",
+    pinned: true,
     title: "BIRD STRIKE",
     subtitle: "리듬 액션 게임",
     pageTitle: "BIRD STRIKE - MSH PORTFOILO",
