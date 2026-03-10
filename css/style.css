@@ -1304,9 +1304,9 @@ body, html {
 
 /* 큰 배경 섹션 */
 .main-background-section {
-  min-height: 100vh;     /* 화면을 가득 채우는 효과 */
   padding: 0;            /* 패딩 없음 */
   background: #0e0e12;   /* 예시: 연한 색, 또는 background-image 사용 */
+  margin-bottom: 0;      /* rounded-section과의 간격 제거 */
 }
 
 /* About Vigor / Features 섹션 */
@@ -1317,6 +1317,7 @@ body, html {
   margin: 0 auto;        /* 중앙 정렬 */
   padding: 2rem;
   gap: 2rem;
+  margin-bottom: 0;      /* rounded-section과의 간격 제거 */
 }
 
 /* 왼쪽 캐릭터 이미지 */
@@ -1358,10 +1359,13 @@ body, html {
   border-radius: 16px;    /* 둥근 모서리 */
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin: 0 auto;
+  margin-top: 1rem;       /* Features 바로 아래에 오도록 간격 최소화 */
   max-width: 1200px;
-  padding: 4rem;
+  padding: 2rem 4rem;     /* 상하 패딩 줄임 */
   flex-wrap: wrap;        /* 반응형 줄바꿈 */
   gap: 2rem;
+  position: relative;
+  z-index: 2;            /* main-background-section 위에 표시 */
 }
 
 
@@ -1527,7 +1531,176 @@ body, html {
   margin-bottom: 0.5rem;
 }
 
+/* My Role 강조 섹션 */
+.my-role-section {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
 
+.my-role-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border: 2px solid var(--clr-accent);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  margin-top: 1.5rem;
+}
+
+.my-role-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.my-role-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--clr-accent);
+  margin: 0;
+}
+
+.my-role-period {
+  font-size: 1rem;
+  color: var(--clr-light);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.my-role-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--clr-light);
+  margin: 0;
+}
+
+/* Contributions 탭 섹션 */
+.contributions-tabs-section {
+  margin-top: 3rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 2rem;
+}
+
+.contributions-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+.contribution-tab {
+  background: transparent;
+  border: none;
+  color: var(--clr-light);
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+  margin-bottom: -2px;
+}
+
+.contribution-tab-main {
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contribution-tab-main .crown-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.contribution-tab:hover {
+  color: var(--clr-accent);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px 8px 0 0;
+}
+
+.contribution-tab.active {
+  color: var(--clr-accent);
+  border-bottom-color: var(--clr-accent);
+  font-weight: 600;
+}
+
+.contribution-tab-main.active {
+  font-weight: 700;
+}
+
+.contribution-tab-content {
+  display: none;
+  padding: 1.5rem 0;
+  animation: fadeIn 0.3s ease;
+}
+
+.contribution-tab-content.active {
+  display: block;
+}
+
+.contribution-tab-content h4 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--clr-light);
+}
+
+.contribution-tab-content h4:first-child {
+  margin-top: 0;
+}
+
+.contribution-tab-content h5 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--clr-light);
+}
+
+.contribution-tab-content ul {
+  list-style: disc;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.contribution-tab-content li {
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  color: var(--clr-light);
+}
+
+.contribution-tab-content hr {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  margin: 1.5rem 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* gallery gallery gallery gallery gallery gallery gallery gallery gallery gallery gallery gallery gallery  */
 
@@ -1589,8 +1762,9 @@ body, html {
   box-shadow: 0 8px 18px rgba(0,0,0,0.45);
 }
 
-/* 이미지 크기 통일 (정사각형) */
-.gallery img {
+/* 이미지와 비디오 크기 통일 (정사각형) */
+.gallery img,
+.gallery video {
   display: block;
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -1599,7 +1773,8 @@ body, html {
   transition: opacity 0.3s ease;
 }
 
-.gallery a:hover img {
+.gallery a:hover img,
+.gallery a:hover video {
   opacity: 0.8;
 }
 
@@ -1720,24 +1895,7 @@ body, html {
 
 
 .return-button {
-  position: fixed;
-  bottom: 1rem;       /* 화면 하단에서 1rem */
-  left: 1rem;         /* 화면 왼쪽에서 1rem */
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;        /* 아이콘과 텍스트 사이 간격 */
-
-  background-color: var(--clr-light);
-  color: var(--clr-dark2);
-  border: none;
-  border-radius: 9999px; /* 둥근 형태 */
-  padding: 0.5rem 1rem;  /* 버튼 안쪽 여백 */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  font-size: 1rem;
-  cursor: pointer;
-
-  /* 부드러운 배경/그림자 전환 */
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  display: none; /* 이정표 네비게이션에 통합되어 숨김 */
 }
 
 .return-button:hover {
@@ -1794,9 +1952,164 @@ body, html {
 
 
 .bottom-text {
-  padding: 0 2rem; /* 좌우 여백 추가 */
+  padding: 1rem 2rem 2rem 2rem; /* 상하 패딩 줄임 */
   max-width: 1200px; /* 너무 넓어지지 않도록 제한 (선택 사항) */
   margin: 0 auto;    /* 가운데 정렬 */
+  margin-bottom: 0;  /* rounded-section과의 간격 제거 */
+}
+
+/* 게임소개 섹션 */
+.game-intro-section {
+  padding: 2rem 0;
+}
+
+/* 이정표 네비게이션 */
+.waypoint-navigation {
+  position: fixed;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.waypoint {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--clr-light);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.waypoint-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid var(--clr-accent);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.waypoint-label {
+  margin-left: 0;
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding-left: 0;
+}
+
+.waypoint:hover .waypoint-dot {
+  background: var(--clr-accent);
+  transform: scale(1.2);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.waypoint:hover .waypoint-label {
+  opacity: 1;
+  width: auto;
+  margin-left: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.waypoint.active .waypoint-dot {
+  background: var(--clr-accent);
+  box-shadow: 0 0 15px var(--clr-accent);
+  transform: scale(1.3);
+}
+
+.waypoint.active .waypoint-label {
+  opacity: 1;
+  width: auto;
+  margin-left: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  color: var(--clr-accent);
+}
+
+/* 뒤로가기 버튼 스타일 (이정표 네비게이션에 통합) */
+.waypoint-return {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.waypoint-dot-return {
+  background: rgba(255, 200, 100, 0.6);
+  border: 2px solid #ff8c42;
+}
+
+.waypoint-return:hover .waypoint-dot-return {
+  background: #ff8c42;
+  transform: scale(1.2);
+  box-shadow: 0 0 10px rgba(255, 140, 66, 0.5);
+}
+
+.waypoint-return:hover .waypoint-label {
+  color: #ff8c42;
+}
+
+/* 반응형: 작은 화면에서는 숨김 */
+@media (max-width: 768px) {
+  .waypoint-navigation {
+    display: none;
+  }
+}
+
+/* 컨트리뷰션 보기 버튼 */
+.contribution-cta-button {
+  position: fixed;
+  top: 22.33%; /* 화면 Y축 2/6 지점 */
+  right: 4rem;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: auto;
+  height: 60px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, var(--clr-accent), var(--clr-accent2));
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: var(--clr-light);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  padding: 0 1.5rem;
+}
+
+.contribution-cta-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
+}
+
+.cta-text {
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+/* 반응형: 작은 화면에서는 숨김 */
+@media (max-width: 768px) {
+  .contribution-cta-button {
+    display: none;
+  }
 }
 
 

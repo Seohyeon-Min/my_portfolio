@@ -1,3 +1,5 @@
+<!-- 게임/기획 프로젝트용 템플릿 -->
+<!-- 프로젝트 데이터는 js/projects-data.js에서 관리합니다 -->
 <!-- https://youtu.be/_xkSvufmjEs?si=mh-MXT2ZdUasYAYn&t=3416 -->
 <!-- adobe.ly/2GAgF93 -->
 <!-- https://scrimba.com/build-and-deploy-your-portfolio-c012 -->
@@ -10,7 +12,7 @@
 
     <!-- Help auto scale for desktop & mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BIRD_STRIKE - MSH PORTFOILO</title>
+    <title>BIRD STRIKE - MSH PORTFOILO</title>
 
     <!-- Normalize the difference across browsers  https://necolas.github.io/normalize.css/ -->
     <link rel="stylesheet" href="../external/normalize.css">
@@ -41,94 +43,42 @@
         </nav>
     </header>
 
+    <!-- 상단 고정 영상 섹션 -->
+    <header class="video-hero">
+        <!-- 템플릿 렌더러가 자동으로 채웁니다 -->
+        <img src="" alt="Poster" class="bird-image">
+        <div class="video-overlay">
+            <h1 class="game-title-bird">PROJECT TITLE</h1>
+            <p class="game-subtitle-bird">PROJECT SUBTITLE</p>
+        </div>
+    </header>
 
-  <!-- 상단 고정 영상 섹션 -->
-  <header class="video-hero">
-    <img src="../img/BIRD_STRIKE/back.jpg" alt="BIRD STRIKE Poster" class="bird-image">
-    <div class="video-overlay">
-      <h1 class="game-title-bird">BIRD STRIKE</h1>
-      <p class="game-subtitle-bird">리듬 액션 게임</p>
-    </div>
-  </header>
+    <!-- 본문 컨테이너: 스크롤 시 영상 위로 내용이 올라오는 효과 -->
+    <main class="main-content">
+        <!-- 템플릿 렌더러가 자동으로 채웁니다 -->
+        <section class="main-background-section">
+            <!-- Overview, Features 등이 여기에 렌더링됩니다 -->
+        </section>
 
-  <!-- 본문 컨테이너: 스크롤 시 영상 위로 내용이 올라오는 효과 -->
-  <main class="main-content">
-    <!-- (1) 큰 배경 섹션: 패딩 없이 꽉 차도록 -->
-    <section class="main-background-section">
-      <!-- 이 부분에 배경이미지나 배경색을 CSS로 지정해도 됨 -->
-      <!-- About Vigor / Features 구역 -->
-      <div class="info-section">
-        <video class="responsive-video" controls>
-          <source src="../img/BIRD_STRIKE/video.mp4" type="video/mp4">
-          브라우저가 video 태그를 지원하지 않습니다.
-        </video>
-      </div>
+        <!-- (2) 둥근 모서리 섹션: 갤러리 & My Contributions -->
+        <section class="rounded-section">
+            <!-- Experience, Videos, Contributions 등이 여기에 렌더링됩니다 -->
+        </section>
 
+        <button class="return-button" onclick="window.history.back()">
+            <span class="arrow-icon">&larr;</span>
+            <span class="button-text">Return</span>
+        </button>
+    </main>
 
-      </div>
-      <div class="bottom-text">
-        <h2>Overview</h2>
-        <p>
-          해가 떨어지기 전에 까마귀들을 최대한 해치우자!<p></p>
-          버드스트라이크는 박자에 맞춰 랜덤한 방향으로 날아다니는 까마귀들을 클릭해 점수를 따내는 리듬액션게임입니다.
-        </p>
-
-        <h2>Features</h2>
-        <ul>
-          <li>박자에 기반한 입력</li>
-          <li>간단한 조작법</li>
-          <li>찰진 효과음</li>
-          <li>오락실 게임 like</li>
-        </ul>
-      </div>
-          <!-- (2) 둥근 모서리 섹션: 갤러리 & My Contributions -->
-    <section class="rounded-section">
-        <!-- 갤러리 -->
-
-        <section class="experience-section">
-            <h2 class="highlighted-title">Experience</h2>
-            
-            <!-- 타임라인 아이템 -->
-            <div class="timeline-item2">
-              <div class="timeline-icon2"></div>
-              <div class="timeline-content2">
-                <!-- 직무명과 기간 -->
-                <h3>
-                  게임 디렉터
-                  <strong>(2023년 11월 ~ 12월)</strong> 
-                </h3>
-                <!-- 추가 설명(선택) -->
-                <p>게임의 기획과 디자인, 컨셉아트 제작, 오디오 제작, 프로그래밍을 맡았습니다</p>
-              </div>
-            </div>
-          </section>
-
-          
-
-
-
-      <section class="source-section">
-        <h2>SOURCE</h2>
-        <p>
-          프로젝트 소스는 다음에서 확인할 수 있습니다
-          <a href="https://github.com/Seohyeon-Min/bird_sprite_2" target="_blank">GitHub</a>.
-        </p>
-      </section>
-      <button class="return-button" onclick="window.history.back()">
-        <span class="arrow-icon">&larr;</span>
-        <span class="button-text">Return</span>
-      </button>
-
-  </main>
-
-
-
-    
     <!-- Footer -->
     <footer class="footer">
         <a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a>
     </footer>
 
+    <!-- 프로젝트 데이터와 템플릿 렌더러 로드 -->
+    <script src="../js/projects-data.js"></script>
+    <script src="../js/project-template.js"></script>
     <script src="../js/index.js"></script>
 
 </body>

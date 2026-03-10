@@ -1,3 +1,5 @@
+<!-- 기술 프로젝트용 템플릿 -->
+<!-- 프로젝트 데이터는 js/projects-data.js에서 관리합니다 -->
 <!-- https://youtu.be/_xkSvufmjEs?si=mh-MXT2ZdUasYAYn&t=3416 -->
 <!-- adobe.ly/2GAgF93 -->
 <!-- https://scrimba.com/build-and-deploy-your-portfolio-c012 -->
@@ -44,43 +46,28 @@
     <!-- Introduction -->
     <section class="intro">
         <h1 class="section__title section__title--intro">
-            Project <strong>Hello Quad</strong>
+            Project <strong>PROJECT TITLE</strong>
         </h1>
-        <p class="section__subtitle section__subtitle--intro">Hello Quad</p>
-        <img src="../img/portfolio_thumbnails/01_hello.jpg" alt="a picture of this portfolio item" class="intro__img">
+        <p class="section__subtitle section__subtitle--intro">PROJECT TITLE</p>
+        <img src="../img/portfolio_thumbnails/placeholder.jpg" alt="a picture of this portfolio item" class="intro__img">
     </section>
-<div class="portfolio-item-individual">
-    <h2>Project Overview</h2>
-    <p>
-        이 프로젝트는 WebGL을 사용하여 단순한 사각형에 셰이더를 구현하는 과제였습니다.  
-        주요 목표는 마우스 움직임에 따라 오브젝트의 변환을 적용하고  
-        모델의 크기에 따라 변하는 부드러운 무지개 그라디언트 색상을 렌더링하는 것이었습니다.
-    </p>
 
-    <h2>Tasks Completed</h2>
-    <ul>
-        <li><strong>버텍스 셰이더:</strong> 마우스 입력에 반응하는 변환 행렬을 적용해 회전 로직을 구현했습니다.</li>
-        <li><strong>프래그먼트 셰이더:</strong> 모델의 스케일에 따라 점진적으로 변화하는 무지개 색상 효과를 구현했으며, HSV를 RGB로 변환하여 생성했습니다.</li>
-        <li><strong>OpenGL 클래스 구현:</strong> 텍스처, 버텍스 버퍼, 인덱스 버퍼, 버텍스 배열 등의 OpenGL 리소스를 모듈화하여 재사용성과 코드의 명확성을 높였습니다.</li>
-    </ul>
-
-    <h2>Reflection</h2>
-    <p>
-        가장 도전적이었던 부분은 웹 디버깅 환경을 설정하는 것이었습니다.  
-        CMake 설정과 환경 변수 관리가 꽤 어려웠지만 이러한 과정을 극복하면서  
-        WebGL 개발을 위한 빌드 시스템과 프로젝트 설정에 대한 깊은 이해를 얻게 되었습니다.
-    </p>
-</div>
+    <div class="portfolio-item-individual">
+        <!-- 템플릿 렌더러가 자동으로 채웁니다 -->
+        <!-- Overview, Tasks, Reflection 등이 여기에 렌더링됩니다 -->
+    </div>
 
     <div class="portfolio-item-individual">
         <h2>Demo</h2>
-        <!-- TODO demo the webgl version of the project -->
-        <iframe id="demo" src="../webgl/D01HelloQuad/graphics_fun.html"></iframe>
+        <!-- 템플릿 렌더러가 자동으로 채웁니다 -->
+        <iframe id="demo" src="" tabindex="-1"></iframe>
     </div>
+
     <button class="return-button" onclick="window.history.back()">
         <span class="arrow-icon">&larr;</span>
         <span class="button-text">Return</span>
-      </button>
+    </button>
+
     <!-- Footer -->
     <footer class="footer">
         <a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a>
@@ -95,10 +82,12 @@
                     <i class="fab fa-github"></i>
                 </a>
             </li>
-            <!-- Want to list more? search : https://fontawesome.com/v5/search?ic=brands -->
         </ul>
     </footer>
 
+    <!-- 프로젝트 데이터와 템플릿 렌더러 로드 -->
+    <script src="../js/projects-data.js"></script>
+    <script src="../js/project-template.js"></script>
     <script src="../js/index.js"></script>
 
 </body>

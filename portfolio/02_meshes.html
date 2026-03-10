@@ -1,3 +1,5 @@
+<!-- 기술 프로젝트용 템플릿 -->
+<!-- 프로젝트 데이터는 js/projects-data.js에서 관리합니다 -->
 <!-- https://youtu.be/_xkSvufmjEs?si=mh-MXT2ZdUasYAYn&t=3416 -->
 <!-- adobe.ly/2GAgF93 -->
 <!-- https://scrimba.com/build-and-deploy-your-portfolio-c012 -->
@@ -10,7 +12,6 @@
 
     <!-- Help auto scale for desktop & mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>TECH - MSH PORTFOILO</title>
 
     <!-- Normalize the difference across browsers  https://necolas.github.io/normalize.css/ -->
@@ -41,47 +42,32 @@
             <a href="../index.html#contact">Contact</a>
         </nav>
     </header>
+
     <!-- Introduction -->
     <section class="intro">
-        <!-- TODO put the name of the assignment here -->
         <h1 class="section__title section__title--intro">
-            Project <strong>Procedural Geometric Modeling</strong>
+            Project <strong>PROJECT TITLE</strong>
         </h1>
-        <p class="section__subtitle section__subtitle--intro">Procedural Geometric Modeling</p>
-        <img src="../img/portfolio_thumbnails/02_meshes.jpg" alt="a picture of this portfolio item" class="intro__img">
+        <p class="section__subtitle section__subtitle--intro">PROJECT TITLE</p>
+        <img src="../img/portfolio_thumbnails/placeholder.jpg" alt="a picture of this portfolio item" class="intro__img">
     </section>
 
     <div class="portfolio-item-individual">
-        <h2>Project Overview</h2>
-        <p>
-            이 프로젝트는 OpenGL과 GLSL을 활용해 3D 기하학 모델을 프로시저 방식으로 생성하는 데 중점을 두었습니다. <br>
-            주요 목표는 정육면체, 구, 원기둥, 원뿔, 토러스와 같은 다양한 도형을 파라메트릭 방정식을 이용해 생성하고 이를 렌더링하기 위한 인덱스 버퍼와 정점 속성을 구성하는 것이었습니다.
-        </p>
-    
-        <h2>Tasks Completed</h2>
-        <ul>
-            <li><strong>프로시저 메쉬 생성:</strong> 평면, 큐브, 구, 원기둥, 원뿔, 토러스의 기하 구조를 파라메트릭 수식과 삼각함수를 활용하여 생성하였습니다.</li>
-            <li><strong>정점 레이아웃 정의:</strong> 위치, 노멀, UV 속성을 포함한 사용자 정의 정점 구조체를 정의하고 이를 OpenGL의 버퍼 레이아웃에 매핑하였습니다.</li>
-            <li><strong>캡 생성 및 토폴로지 처리:</strong> 원기둥과 원뿔의 상단 및 하단 면(캡)을 구성하는 로직을 추가하여 기하 구조가 빈틈없이 연결되도록 처리했습니다.</li>
-        </ul>
-    
-        <h2>Reflection</h2>
-        <p>
-            이번 프로젝트에서 중요한 학습 포인트는 메쉬의 토폴로지 구성과 인덱스 버퍼 생성 방식이었습니다. <br>
-            정점 연결 순서를 신중히 관리하고 인덱스가 정점에 어떻게 매핑되는지를 이해하는 것이 핵심이었습니다. <br>
-            또한, 재사용 가능한 메쉬 생성 함수를 모듈화하면서 렌더링 파이프라인에서 메쉬 데이터가 흐르는 방식을 더 깊이 있게 이해할 수 있었습니다.
-        </p>
+        <!-- 템플릿 렌더러가 자동으로 채웁니다 -->
+        <!-- Overview, Tasks, Reflection 등이 여기에 렌더링됩니다 -->
     </div>
-    
 
     <div class="portfolio-item-individual">
         <h2>Demo</h2>
-        <iframe id="demo" src="../webgl/D02ProceduralMeshes/graphics_fun.html?start=meshes" tabindex="-1"></iframe>
+        <!-- 템플릿 렌더러가 자동으로 채웁니다 -->
+        <iframe id="demo" src="" tabindex="-1"></iframe>
     </div>
+
     <button class="return-button" onclick="window.history.back()">
         <span class="arrow-icon">&larr;</span>
         <span class="button-text">Return</span>
-      </button>
+    </button>
+
     <!-- Footer -->
     <footer class="footer">
         <a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a>
@@ -96,10 +82,12 @@
                     <i class="fab fa-github"></i>
                 </a>
             </li>
-            <!-- Want to list more? search : https://fontawesome.com/v5/search?ic=brands -->
         </ul>
     </footer>
 
+    <!-- 프로젝트 데이터와 템플릿 렌더러 로드 -->
+    <script src="../js/projects-data.js"></script>
+    <script src="../js/project-template.js"></script>
     <script src="../js/index.js"></script>
 
 </body>

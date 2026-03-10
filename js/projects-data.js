@@ -1,0 +1,639 @@
+// 프로젝트 데이터 - 여기서 모든 프로젝트 정보를 관리합니다
+const projectsData = {
+  // ========== 게임 프로젝트 ==========
+  "00_NewManzo": {
+    type: "game",
+    title: "New MANZO",
+    subtitle: "Hear the Ocean's Call",
+    pageTitle: "NEWMANZO - MSH PORTFOILO",
+    heroType: "video", // "video" or "image"
+    heroMedia: "../img/NEWMANZO/hunting_mode.mp4",
+    overview: "Manzo는 <strong>심해 리듬 어드벤처 게임</strong>으로, 심리적 공포와 탐험 요소가 결합된 작품입니다. 플레이어는 수수께끼의 모스 부호 신호를 따라 바다 깊숙이 숨겨진 비밀을 밝혀나갑니다.",
+    features: [
+      "리듬 기반 이동",
+      "탐험 중심 스토리텔링",
+      "역동적인 해저 세계",
+      "독특한 보스 전투"
+    ],
+    myRole: {
+      role: "Project Lead",
+      period: "2025년 8월 – 현재",
+      description: "프로젝트 관리, 팀 내 커뮤니케이션, 그래픽스 파이프라인의 기술적 지원을 담당합니다."
+    },
+    experience: {
+      role: "Project Lead",
+      period: "2025년 8월 – 현재",
+      description: "프로젝트 관리, 팀 내 커뮤니케이션, 그래픽스 파이프라인의 기술적 지원을 담당합니다."
+    },    
+
+    videos: [
+      {
+        title: "물고기 AI",
+        subtitle: "(개발 중 프로토타입)",
+        description: "집단 행동, 장애물 회피, 플레이어 반응을 시험한 초기 구현 영상입니다.",
+        src: "../img/NEWMANZO/fishAI.mp4",
+        poster: null
+      },
+      {
+        title: "게임 매커니즘 1",
+        subtitle: "(개발 중 프로토타입)",
+        description: "Beat System과 연동한 게임 메커니즘을 테스트하는 시연 영상입니다.<br>박자에 맞춰 물고기를 사냥하는 재미를 줍니다.",
+        src: "../img/NEWMANZO/hunting_mode.mp4",
+        poster: null
+      },
+      {
+        title: "레이캐스팅",
+        subtitle: "(개발 중 프로토타입)",
+        description: "간단한 포스트프로세싱 테스트 영상입니다.",
+        src: "../img/NEWMANZO/postprocessing.mp4",
+        poster: null
+      }
+    ],
+    aiHighlight: true,
+    contributions: {
+      sections: [
+        {
+          title: "Project Lead",
+          category: "Project Lead",
+          items: [
+            "프로젝트 관리, 팀 내 커뮤니케이션, 그래픽스 파이프라인의 기술적 지원"
+          ]
+        }
+      ]
+    },
+    projectDetails: null,
+    source: null
+  },
+
+  "01_Manzo": {
+    type: "game",
+    title: "MANZO",
+    subtitle: "Hear the Ocean's Call",
+    pageTitle: "MANZO - MSH PORTFOILO",
+    heroType: "video",
+    heroMedia: "../img/MANZO/MANZO_trailer.mp4",
+    overview: "Manzo는 <strong>심해 리듬 어드벤처 게임</strong>으로, 심리적 공포와 탐험 요소가 결합된 작품입니다. 플레이어는 수수께끼의 모스 부호 신호를 따라 바다 깊숙이 숨겨진 비밀을 밝혀나갑니다.",
+    features: [
+      "리듬 기반 이동",
+      "탐험 중심 스토리텔링",
+      "역동적인 해저 세계",
+      "독특한 보스 전투"
+    ],
+    myRole: {
+      role: "Project Lead & 그래픽스 기술 프로그래머",
+      period: "2024년 9월 – 현재",
+      description: "프로젝트 관리, 팀 내 커뮤니케이션, 그래픽스 파이프라인의 기술적 지원을 담당했습니다."
+    },
+    experience: {
+      role: "Project Lead & 그래픽스 기술 프로그래머",
+      period: "2024년 9월 – 현재",
+      description: "프로젝트 관리, 팀 내 커뮤니케이션, 그래픽스 파이프라인의 기술적 지원을 담당했습니다."
+    },
+    trailers: [
+      {
+        src: "../img/MANZO/final_trailer1.mp4",
+        poster: "../img/MANZO/title_image.png",
+        label: "1차 트레일러"
+      },
+      {
+        src: "../img/MANZO/final_trailer2.mp4",
+        poster: "../img/MANZO/trailer_cover.png",
+        label: "2차 트레일러"
+      }
+    ],
+    videos: [
+      {
+        title: "보스전 프로토타입",
+        src: "../img/MANZO/boss.mp4",
+        poster: null
+      },
+      {
+        title: "개발중 인게임 촬영",
+        src: "../img/MANZO/play1.mp4",
+        poster: null
+      }
+    ],
+    overviewImage: "../img/MANZO/Character.png",  // Overview/Features 옆에 표시될 이미지
+    contributions: {
+      sections: [
+        {
+          title: "Project Lead",
+          category: "Project Lead",
+          items: [
+            "프로젝트 관리 및 팀 커뮤니케이션",
+            "그래픽스 파이프라인 기술 지원"
+          ]
+        },
+        {
+          title: "렌더링 & 최적화",
+          category: "Technical",
+          subsections: [
+            {
+              title: "렌더링 시스템",
+              items: [
+                "게임 오브젝트 및 렌더링 시스템 설계",
+                "레이어 기반 렌더링 구현",
+                "DrawCall 기반 렌더링 구조 구축",
+                "ShaderManager 및 TextureManager 개발"
+              ]
+            },
+            {
+              title: "렌더링 최적화",
+              items: [
+                "프러스텀 컬링을 활용한 렌더링 최적화",
+                "Steam 배포를 위한 최적화 작업"
+              ]
+            }
+          ]
+        },
+        {
+          title: "그래픽 & 아트",
+          category: "Art",
+          subsections: [
+            {
+              title: "게임 아트",
+              items: [
+                "캐릭터 초상화 일러스트 제작",
+                "물고기 픽셀 아트 제작",
+                "캐릭터 집 내부 컨셉 아트 제작"
+              ]
+            },
+            {
+              title: "UI/UX 디자인",
+              items: [
+                "FuelUI 및 기타 UI 요소 디자인"
+              ]
+            },
+            {
+              title: "셰이더 개발",
+              items: [
+                "다양한 셰이더 제작",
+                "후처리(Post-processing) 구현 및 설계"
+              ]
+            }
+          ]
+        },
+        {
+          title: "게임 시스템 개발",
+          category: "Technical",
+          subsections: [
+            {
+              title: "게임 엔진 개발",
+              items: [
+                "컴포넌트 기반 구조의 커스텀 게임 엔진 개발",
+                "<code>GameObjectManager</code>를 통한 객체 관리"
+              ]
+            },
+            {
+              title: "충돌 판정 시스템",
+              items: [
+                "충돌 판정 및 위치 보정 시스템(<code>HitWithReef</code> 함수) 구현",
+                "연속 충돌 판정(Continuous Collision Detection) 구현"
+              ]
+            },
+            {
+              title: "이벤트 처리",
+              items: [
+                "SDL 이벤트 처리 방식 개선"
+              ]
+            }
+          ]
+        },
+        {
+          title: "프로젝트 관리",
+          category: "Planning",
+          items: [
+            "업무 분배 및 팀 내 작업 조율",
+            "코드 병합 지원 및 최종 빌드 관리"
+          ]
+        }
+      ]
+    },
+    projectDetails: {
+      tool: "Notion",
+      problems: [
+        "두 장르의 균형 잡기: 리듬게임과 매트로베니아 두 장르의 밸런스를 잡는것이 어려웠습니다. 리듬적 제약이 강하면 이동이 답답해질 수 있기 때문에 자유 이동과 리듬 기반 대시를 모두 허용하여 유연한 플레이와 리듬 몰입을 동시에 만족시켰습니다."
+      ]
+    },
+    source: {
+      text: "프로젝트 소스는 다음에서 확인할 수 있습니다",
+      url: "https://github.com/Seohyeon-Min/manzo",
+      label: "GitHub"
+    }
+  },
+
+  "02_EdgeDirve": {
+    type: "game",
+    title: "EDGE DRIVE",
+    subtitle: "보스러쉬",
+    pageTitle: "EDGE DRIVE - MSH PORTFOILO",
+    heroType: "video",
+    heroMedia: "../img/EDGE_DRIVE/trailer.mp4",
+    overview: "보스러쉬 액션게임",
+    features: [
+      "다양한 보스패턴",
+      "시간 정지 기믹"
+    ],
+    myRole: {
+      role: "VFX 리드",
+      period: "2025년 1월 ~ 2월",
+      description: "각종 VFX의 제작을 맡았습니다."
+    },
+    experience: {
+      role: "VFX 리드",
+      period: "2025년 1월 ~ 2월",
+      description: "각종 VFX의 제작을 맡았습니다."
+    },
+    videos: [
+      {
+        title: null,
+        src: "../img/EDGE_DRIVE/trailer.mp4",
+        poster: null
+      }
+    ],
+    contributions: {
+      sections: [
+        {
+          title: "언리얼 엔진",
+          category: "Art",
+          items: [
+            "Cascade 파티클 효과, 트레일, 기타 다양한 시각 효과를 제작함."
+          ]
+        }
+      ]
+    },
+    source: null
+  },
+
+  "03_DoubleHit": {
+    type: "game",
+    title: "DOUBLE HIT",
+    subtitle: "2인용 액션게임",
+    pageTitle: "DOUBLE HIT - MSH PORTFOILO",
+    heroType: "image",
+    heroMedia: "../img/DOUBLE_HIT/back.png",
+    overview: "두명이 하나! 서로 스킬을 조합하며 협동해 오래 살아남자!",
+    features: [
+      "2인용",
+      "협동",
+      "스킬 조합",
+      "보스전"
+    ],
+    myRole: {
+      role: "Project Lead",
+      period: "2024년 3월 ~ 7월",
+      description: "컨셉아트 제작, 에셋 제작, 오디오 제작, 프로그래밍 및 일정분배를 맡았습니다"
+    },
+    experience: {
+      role: "Project Lead",
+      period: "2024년 3월 ~ 7월",
+      description: "컨셉아트 제작, 에셋 제작, 오디오 제작, 프로그래밍 및 일정분배를 맡았습니다"
+    },
+    videos: [
+      {
+        title: null,
+        src: "../img/DOUBLE_HIT/video.mp4",
+        poster: null
+      }
+    ],
+    contributions: {
+      sections: [
+        {
+          title: "Project Lead",
+          category: "Project Lead",
+          items: [
+            "컨셉아트 제작, 에셋 제작, 오디오 제작, 프로그래밍 및 일정분배"
+          ]
+        },
+        {
+          title: "자체제작 엔진",
+          category: "Technical",
+          description: "해당 프로젝트는 엔진 개발에 초점을 맞춰 진행되었습니다.",
+          items: [
+            "Texture 핸들링 및 SpriteManager 구현",
+            "Collision system 구현",
+            "GameObject, GameComponent 구조 구현",
+            "싱글톤 엔진 구현"
+          ]
+        }
+      ]
+    },
+    source: {
+      text: "프로젝트 소스는 다음에서 확인할 수 있습니다",
+      url: "https://github.com/Seohyeon-Min/DoubleHit",
+      label: "GitHub"
+    }
+  },
+
+  "04_BirdStrike": {
+    type: "game",
+    title: "BIRD STRIKE",
+    subtitle: "리듬 액션 게임",
+    pageTitle: "BIRD STRIKE - MSH PORTFOILO",
+    heroType: "image",
+    heroMedia: "../img/BIRD_STRIKE/back.jpg",
+    heroTitleClass: "game-title-bird",
+    heroSubtitleClass: "game-subtitle-bird",
+    overview: "해가 떨어지기 전에 까마귀들을 최대한 해치우자!<p></p>버드스트라이크는 박자에 맞춰 랜덤한 방향으로 날아다니는 까마귀들을 클릭해 점수를 따내는 리듬액션게임입니다.",
+    features: [
+      "박자에 기반한 입력",
+      "간단한 조작법",
+      "찰진 효과음",
+      "오락실 게임 like"
+    ],
+    myRole: {
+      role: "Project Lead",
+      period: "2023년 11월 ~ 12월",
+      description: "게임의 기획과 디자인, 컨셉아트 제작, 오디오 제작, 프로그래밍을 맡았습니다"
+    },
+    experience: {
+      role: "Project Lead",
+      period: "2023년 11월 ~ 12월",
+      description: "게임의 기획과 디자인, 컨셉아트 제작, 오디오 제작, 프로그래밍을 맡았습니다"
+    },    
+    trailers: [
+      {
+        src: "../img/BIRD_STRIKE/video.mp4",
+        label: "게임 플레이 영상"
+      }
+    ],
+    gameIntro: "대학교 1학년 때 처음으로 개발한 게임으로, 개인적으로 애정이 깊은 프로젝트입니다. 약 두 달 동안 상용 엔진을 사용하지 않고 직접 구현했다는 점에서 특히 의미가 있습니다.<p></p>이 게임은 박자에 맞춰 플레이하는 캐주얼 리듬 액션 게임입니다. 랜덤한 방향에서 날아오는 까마귀를 리듬에 맞춰 터뜨리며 콤보를 이어가는 것이 핵심 플레이입니다. 단순한 조작과 리듬에 맞는 타격감에서 오는 손맛을 중심으로 설계했습니다.<p></p>화면에는 동시에 최대 20마리의 까마귀가 존재할 수 있으며, 이 상태가 3초 이상 유지되면 게임이 종료됩니다. 플레이어는 리듬에 맞춰 까마귀를 빠르게 처리하며 화면을 관리해야 합니다.<p></p>화면에 크게 보이는 태양은 게임의 타이머 역할을 합니다. 태양이 지평선에 닿으면 1스테이지가 종료되며, 이 시점에 일정 점수에 도달한 경우 2스테이지로 진입할 수 있습니다.<p></p>2스테이지에서는 전체 박자가 더 빨라지고, 새로운 장애물인 '뿅까마귀'가 등장해 플레이어의 리듬 플레이를 방해하도록 설계했습니다.<p></p>또한 리더보드 시스템을 통해 다른 플레이어와 점수를 경쟁할 수 있으며, 다양한 도전과제를 통해 반복 플레이의 동기를 제공하도록 구성했습니다.",
+    contributions: {
+      sections: [
+        {
+          title: "Project Lead",
+          category: "Project Lead",
+          subsections: [
+            {
+              title: "Scope Management",
+              items: [
+                "이 프로젝트에서는 제한된 개발 기간과 인력을 고려하여, 최소한의 개발 리소스로 최대한의 플레이 경험을 만들기 위한 스코프 조정에 집중했습니다.",
+                "일반적인 리듬 게임처럼 곡마다 노트를 제작하는 방식 대신, 랜덤하게 등장하는 적을 리듬에 맞춰 처리하는 구조를 설계하여 콘텐츠 제작 비용 없이도 반복 플레이가 가능하도록 했습니다.",
+                "또한 두 개의 페이즈 구조를 통해 시스템 복잡도를 크게 늘리지 않으면서도 음악 템포 변화와 새로운 적을 추가하여 난이도와 플레이 감각의 변화를 만들었습니다."
+              ]
+            },
+            {
+              title: "프로젝트 방향 설정",
+              items: [
+                "프로젝트 관리 측면에서는 팀원 모두가 동일한 목표와 게임 방향을 공유하도록 하는 데 집중했습니다. 이를 위해 개발을 시작하기 전에 게임 플레이가 한눈에 이해될 수 있는 컨셉 아트를 직접 제작해 팀의 공통 기준으로 삼았습니다."
+              ]
+            },
+            {
+              title: "팀 목표 정렬",
+              items: [
+                "초기 단계에서 시각적인 방향과 플레이 흐름을 명확히 정의함으로써 팀원들이 같은 목표를 기반으로 작업할 수 있도록 했고, 이후 기획과 구현 과정에서도 방향이 흔들리지 않도록 하는 데 도움을 주었습니다."
+              ]
+            }
+          ]
+        },
+        {
+          title: "게임 디자인",
+          category: "Planning",
+          subsections: [
+            {
+              title: "Rhythm-Action Core",
+              items: [
+                "리듬과 액션을 결합한 핵심 플레이 구조를 설계했습니다. 플레이어는 랜덤한 방향에서 등장하는 까마귀들을 드래그로 연결해 공격하며, 박자에 맞춰 입력할 때 가장 효율적으로 적을 처리할 수 있도록 설계했습니다. 이를 통해 단순한 클릭 액션이 아닌 리듬을 의식한 플레이가 자연스럽게 이루어지도록 했습니다."
+              ]
+            },
+            {
+              title: "Random Spawn & Replayability",
+              items: [
+                "일반적인 리듬 게임의 고정된 노트 패턴 대신 랜덤하게 등장하는 적 구조를 사용했습니다. 이를 통해 같은 음악에서도 플레이 상황이 매번 달라지며 반복 플레이가 가능하도록 설계했습니다."
+              ]
+            },
+            {
+              title: "Combo & Speed Feedback",
+              items: [
+                "많은 까마귀를 한 번에 연결할수록 플레이어의 공격 속도가 점점 빨라지도록 설계했습니다. 이 시스템을 통해 플레이어가 더 많은 적을 연결하려는 위험-보상 구조가 자연스럽게 형성되도록 했습니다."
+              ]
+            },
+            {
+              title: "Input Control & Rhythm Emphasis",
+              items: [
+                "플레이어가 공격 애니메이션 중에는 추가 입력을 할 수 없도록 제한했습니다. 이 제한을 통해 무작위 입력이 아닌 타이밍을 고려한 리듬 플레이가 중요하도록 만들었습니다."
+              ]
+            },
+            {
+              title: "Screen Pressure System",
+              items: [
+                "화면에 까마귀가 최대 20마리까지 쌓일 수 있으며, 이 상태가 3초 이상 유지되면 게임이 종료됩니다. 플레이어가 지속적으로 화면을 정리해야 하는 압박형 플레이 구조를 만들기 위해 설계했습니다."
+              ]
+            },
+            {
+              title: "Stage Progression",
+              items: [
+                "게임은 두 개의 페이즈로 구성되어 있습니다. 태양이 타이머 역할을 하며 태양이 지평선에 닿으면 1페이즈가 종료됩니다. 일정 점수 달성 시 2페이즈로 진입할 수 있습니다. 이를 통해 플레이어가 점수를 목표로 플레이하도록 동기를 제공합니다."
+              ]
+            },
+            {
+              title: "Difficulty Escalation",
+              items: [
+                "2페이즈에서는 다음 요소가 추가됩니다: 음악 템포 증가, 새로운 적 '뿅까마귀' 등장. 이를 통해 후반부에서 리듬 집중도와 난이도가 동시에 상승하도록 설계했습니다."
+              ]
+            },
+            {
+              title: "Long-term Motivation",
+              items: [
+                "플레이어의 반복 플레이를 유도하기 위해 다음 시스템을 추가했습니다: Leaderboard, Achievement 시스템. 이를 통해 점수 경쟁과 도전 목표를 제공했습니다."
+              ]
+            }
+          ]
+        },
+        {
+          title: "개발",
+          category: "Technical",
+          subsections: [
+            {
+              title: "리듬 게임 메커니즘 구현 능력",
+              items: [
+                "리듬 기반 게임플레이 시스템 개발: 음악 재생 시간과 동기화된 비트 감지 알고리즘을 구현하고, 연결된 까마귀 수에 따라 비트 간격을 동적으로 조정하는 시스템을 개발했습니다. 4개 이상 연결 시 2배, 6개 이상 3배, 8개 이상 4배 속도로 비트가 분할되어 플레이어의 공격 속도가 증가하도록 설계했습니다."
+              ]
+            },
+            {
+              title: "C++ 게임 프로그래밍 역량",
+              items: [
+                "객체지향 설계를 활용한 게임 시스템 구현: C++ 클래스 기반 구조로 플레이어 이동, 까마귀 생성 및 관리 시스템을 구현했습니다. 목적지 기반 이동 알고리즘에서 거리/시간 비율을 이용한 동적 속도 계산과 atan2를 활용한 방향 계산을 구현했습니다."
+              ]
+            },
+            {
+              title: "게임 시스템 설계 및 구현",
+              items: [
+                "게임플레이 핵심 시스템 설계: 플레이어 이동, 비트 동기화 스폰, 동적 비트 분할 시스템을 설계하고 구현했습니다. 각 시스템이 서로 연동되어 리듬 게임의 핵심 메커니즘을 형성하도록 모듈화하여 개발했습니다."
+              ]
+            }
+          ]
+        },
+        {
+          title: "아트",
+          category: "Art",
+          subsections: [
+            {
+              title: "컨셉아트 그리기",
+              items: [],
+              images: [
+                {
+                  src: "../img/BIRD_STRIKE/1.jpg",
+                  alt: "컨셉아트 1",
+                  title: "컨셉아트 1"
+                },
+                {
+                  src: "../img/BIRD_STRIKE/2.jpg",
+                  alt: "컨셉아트 2",
+                  title: "컨셉아트 2"
+                }
+              ]
+            },
+            {
+              title: "캐릭터 디자인",
+              items: [],
+              images: [
+                {
+                  src: "../img/BIRD_STRIKE/3.jpg",
+                  alt: "캐릭터 디자인",
+                  title: "캐릭터 디자인 3"
+                }
+              ]
+            },
+            {
+              title: "로고 디자인",
+              items: [],
+              images: [
+                {
+                  src: "../img/BIRD_STRIKE/4.png",
+                  alt: "로고 디자인",
+                  title: "로고 디자인 4"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    source: {
+      text: "프로젝트 소스는 다음에서 확인할 수 있습니다",
+      url: "https://github.com/Seohyeon-Min/bird_sprite_2",
+      label: "GitHub"
+    }
+  },
+
+  // ========== 기획 프로젝트 ==========
+  "Dangling": {
+    type: "planning",
+    title: "Dangling*",
+    subtitle: "Dangling* : The First GameJam",
+    pageTitle: "Dangling* - MSH PORTFOILO",
+    heroType: "image",
+    heroMedia: "../img/portfolio_thumbnails/Dangling.jpg",
+    myRole: {
+      role: "게임잼 주최 & 기획",
+      period: "2025년 6월 28일~29일",
+      description: "기획 및 예산 관리, 홍보와 진행, 포스터 제작을 맡았습니다."
+    },
+    experience: {
+      role: "게임잼 주최 & 기획",
+      period: "2025년 6월 28일~29일",
+      description: "기획 및 예산 관리, 홍보와 진행, 포스터 제작을 맡았습니다."
+    },
+    gallery: {
+      title: "게임잼 현장 스냅샷",
+      subtitle: "기획 발표부터 개발까지",
+      images: [
+        {
+          src: "../img/Dangling/1.jpg",
+          alt: "회의 1",
+          title: "기획 발표"
+        },
+        {
+          src: "../img/Dangling/2.jpg",
+          alt: "회의 2",
+          title: "팀별 개발 세션"
+        },
+        {
+          src: "../img/Dangling/3.jpg",
+          alt: "회의 3",
+          title: "팀별 개발 세션"
+        },
+        {
+          src: "../img/portfolio_thumbnails/Dangling.jpg",
+          alt: "포스터",
+          title: "포스터 디자인"
+        }
+      ]
+    },
+    contributions: {
+      sections: [
+        {
+          title: "게임잼 운영",
+          category: "Planning",
+          subsections: [
+            {
+              title: "행사 규모",
+              items: [
+                "총 6팀 24명 참가",
+                "4개 전공이 협업한 다학과 연합 프로젝트"
+              ]
+            },
+            {
+              title: "커뮤니케이션 및 협력",
+              items: [
+                "타 학과 학생회와 협업하여 기획안을 공유하고 정기 회의 진행",
+                "교수님들과의 협의를 통해 예산 후원 유치 및 행사 승인 설득"
+              ]
+            },
+            {
+              title: "성과 및 피드백",
+              items: [
+                "모든 팀이 36시간 내에 게임을 완성하여 제출",
+                "후속 설문에서 만족도 5점 만점에 4.88점 기록",
+                "<a href=\"https://docs.google.com/spreadsheets/d/1RMTcImV8HwVklQ0N8yaaPeCMkzDjs6SSY0_QK_7fKPs/edit?usp=sharing\" target=\"_blank\">피드백 폼 보기</a>"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    source: {
+      text: "완성작은 아래 인스타그램에서 확인하실 수 있습니다.",
+      url: "https://www.instagram.com/dangling.kmu/",
+      label: "dangling.kmu"
+    }
+  },
+
+  // ========== 기술 프로젝트 ==========
+  "01_hello": {
+    type: "tech",
+    title: "Hello Quad",
+    pageTitle: "TECH - MSH PORTFOILO",
+    thumbnail: "../img/portfolio_thumbnails/01_hello.jpg",
+    overview: "이 프로젝트는 WebGL을 사용하여 단순한 사각형에 셰이더를 구현하는 과제였습니다. 주요 목표는 마우스 움직임에 따라 오브젝트의 변환을 적용하고 모델의 크기에 따라 변하는 부드러운 무지개 그라디언트 색상을 렌더링하는 것이었습니다.",
+    tasks: [
+      "<strong>버텍스 셰이더:</strong> 마우스 입력에 반응하는 변환 행렬을 적용해 회전 로직을 구현했습니다.",
+      "<strong>프래그먼트 셰이더:</strong> 모델의 스케일에 따라 점진적으로 변화하는 무지개 색상 효과를 구현했으며, HSV를 RGB로 변환하여 생성했습니다.",
+      "<strong>OpenGL 클래스 구현:</strong> 텍스처, 버텍스 버퍼, 인덱스 버퍼, 버텍스 배열 등의 OpenGL 리소스를 모듈화하여 재사용성과 코드의 명확성을 높였습니다."
+    ],
+    reflection: "가장 도전적이었던 부분은 웹 디버깅 환경을 설정하는 것이었습니다. CMake 설정과 환경 변수 관리가 꽤 어려웠지만 이러한 과정을 극복하면서 WebGL 개발을 위한 빌드 시스템과 프로젝트 설정에 대한 깊은 이해를 얻게 되었습니다.",
+    demo: {
+      src: "../webgl/D01HelloQuad/graphics_fun.html",
+      start: null
+    }
+  },
+
+  "02_meshes": {
+    type: "tech",
+    title: "Procedural Geometric Modeling",
+    pageTitle: "TECH - MSH PORTFOILO",
+    thumbnail: "../img/portfolio_thumbnails/02_meshes.jpg",
+    overview: "이 프로젝트는 OpenGL과 GLSL을 활용해 3D 기하학 모델을 프로시저 방식으로 생성하는 데 중점을 두었습니다. 주요 목표는 정육면체, 구, 원기둥, 원뿔, 토러스와 같은 다양한 도형을 파라메트릭 방정식을 이용해 생성하고 이를 렌더링하기 위한 인덱스 버퍼와 정점 속성을 구성하는 것이었습니다.",
+    tasks: [
+      "<strong>프로시저 메쉬 생성:</strong> 평면, 큐브, 구, 원기둥, 원뿔, 토러스의 기하 구조를 파라메트릭 수식과 삼각함수를 활용하여 생성하였습니다.",
+      "<strong>정점 레이아웃 정의:</strong> 위치, 노멀, UV 속성을 포함한 사용자 정의 정점 구조체를 정의하고 이를 OpenGL의 버퍼 레이아웃에 매핑하였습니다.",
+      "<strong>캡 생성 및 토폴로지 처리:</strong> 원기둥과 원뿔의 상단 및 하단 면(캡)을 구성하는 로직을 추가하여 기하 구조가 빈틈없이 연결되도록 처리했습니다."
+    ],
+    reflection: "이번 프로젝트에서 중요한 학습 포인트는 메쉬의 토폴로지 구성과 인덱스 버퍼 생성 방식이었습니다. 정점 연결 순서를 신중히 관리하고 인덱스가 정점에 어떻게 매핑되는지를 이해하는 것이 핵심이었습니다. 또한, 재사용 가능한 메쉬 생성 함수를 모듈화하면서 렌더링 파이프라인에서 메쉬 데이터가 흐르는 방식을 더 깊이 있게 이해할 수 있었습니다.",
+    demo: {
+      src: "../webgl/D02ProceduralMeshes/graphics_fun.html",
+      start: "meshes"
+    }
+  }
+};
