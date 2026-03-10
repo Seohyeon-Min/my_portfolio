@@ -249,7 +249,11 @@
         <div class="gallery">
     `;
 
-    allMedia.forEach((media) => {
+    // 최대 4개만 표시, 4개 초과시 마지막에 겹쳐진 이미지 표시
+    const displayMedia = allMedia.length <= 4 ? allMedia : allMedia.slice(0, 3);
+    const remainingCount = allMedia.length > 4 ? allMedia.length - 3 : 0;
+
+    displayMedia.forEach((media) => {
       if (media.type === 'video') {
         galleryHTML += `
           <a href="#media${media.index}" data-title="${media.title}">
@@ -267,6 +271,34 @@
       }
     });
 
+    // 4개 초과시 마지막 이미지에 남은 이미지 수 표시
+    if (remainingCount > 0) {
+      const stackedMedia = allMedia.slice(3); // 4번째부터 끝까지
+      const firstStacked = stackedMedia[0]; // 첫 번째 겹쳐진 이미지
+      
+      if (firstStacked.type === 'image') {
+        galleryHTML += `
+          <a href="#media${firstStacked.index}" data-title="${firstStacked.title}" class="gallery-stacked">
+            <img src="${firstStacked.src}" alt="${firstStacked.alt}" class="stacked-main-img">
+            <div class="stacked-overlay">
+              <span class="stacked-count">+${remainingCount}</span>
+            </div>
+          </a>
+        `;
+      } else if (firstStacked.type === 'video') {
+        galleryHTML += `
+          <a href="#media${firstStacked.index}" data-title="${firstStacked.title}" class="gallery-stacked">
+            <video ${firstStacked.poster ? `poster="${firstStacked.poster}"` : ''} muted>
+              <source src="${firstStacked.src}" type="video/mp4">
+            </video>
+            <div class="stacked-overlay">
+              <span class="stacked-count">+${remainingCount}</span>
+            </div>
+          </a>
+        `;
+      }
+    }
+
     galleryHTML += `
         </div>
       </section>
@@ -281,20 +313,24 @@
       if (media.type === 'video') {
         galleryHTML += `
           <div class="lightbox" id="media${media.index}">
+            <a href="#close" class="lightbox-background"></a>
             <a href="#media${prevIndex}" class="prev">&#10094;</a>
-            <a href="#close">
+            <div class="lightbox-content">
               <video controls ${media.poster ? `poster="${media.poster}"` : ''}>
                 <source src="${media.src}" type="video/mp4">
               </video>
-            </a>
+            </div>
             <a href="#media${nextIndex}" class="next">&#10095;</a>
           </div>
         `;
       } else if (media.type === 'image') {
         galleryHTML += `
           <div class="lightbox" id="media${media.index}">
+            <a href="#close" class="lightbox-background"></a>
             <a href="#media${prevIndex}" class="prev">&#10094;</a>
-            <a href="#close"><img src="${media.src}" alt="${media.alt}"></a>
+            <div class="lightbox-content">
+              <img src="${media.src}" alt="${media.alt}">
+            </div>
             <a href="#media${nextIndex}" class="next">&#10095;</a>
           </div>
         `;
@@ -328,7 +364,7 @@
     if (project.gameIntro) {
       gameIntroHTML += `
         <div class="game-intro-text">
-          <p>${project.gameIntro}</p>
+          ${project.gameIntro}
         </div>
       `;
     }
@@ -469,13 +505,19 @@
       <div class="contribution-tab-content active" data-category="main">
     `;
 
-    mainContentHTML += `<h4>${mainSection.title}</h4>`;
-
-    if (mainSection.description) {
-      mainContentHTML += `<h5>${mainSection.description}</h5>`;
+    // HTML 콘텐츠가 있으면 제목을 추가하지 않음 (이미 포함되어 있을 수 있음)
+    if (!mainSection.htmlContent) {
+      mainContentHTML += `<h4>${mainSection.title}</h4>`;
+      
+      if (mainSection.description) {
+        mainContentHTML += `<h5>${mainSection.description}</h5>`;
+      }
     }
 
-    if (mainSection.subsections) {
+    // HTML 콘텐츠가 있으면 우선 사용
+    if (mainSection.htmlContent) {
+      mainContentHTML += mainSection.htmlContent;
+    } else if (mainSection.subsections) {
       mainSection.subsections.forEach(subsection => {
         mainContentHTML += `<h5>${subsection.title}</h5>`;
         const items = subsection.items || [];
@@ -521,13 +563,19 @@
             contentHTML += '<hr>';
           }
 
-          contentHTML += `<h4>${section.title}</h4>`;
+          // HTML 콘텐츠가 있으면 제목을 추가하지 않음 (이미 포함되어 있을 수 있음)
+          if (!section.htmlContent) {
+            contentHTML += `<h4>${section.title}</h4>`;
 
-          if (section.description) {
-            contentHTML += `<h5>${section.description}</h5>`;
+            if (section.description) {
+              contentHTML += `<h5>${section.description}</h5>`;
+            }
           }
 
-          if (section.subsections) {
+          // HTML 콘텐츠가 있으면 우선 사용
+          if (section.htmlContent) {
+            contentHTML += section.htmlContent;
+          } else if (section.subsections) {
             section.subsections.forEach(subsection => {
               contentHTML += `<h5>${subsection.title}</h5>`;
               const items = subsection.items || [];
@@ -822,19 +870,58 @@
     function updateActiveWaypoint() {
       const scrollPos = window.scrollY + 150; // 화면 상단에서 150px 아래 지점
       
+      // 모든 섹션의 위치를 계산하고 정렬
+      const sections = [];
       waypoints.forEach(waypoint => {
         const sectionId = waypoint.dataset.section;
         const section = document.getElementById(sectionId);
         
         if (section) {
-          const sectionTop = section.offsetTop;
-          const sectionBottom = sectionTop + section.offsetHeight;
+          // 제목이 있으면 제목 위치를 기준으로, 없으면 섹션 시작 위치
+          const titleElement = section.querySelector('h2.highlighted-title');
+          let sectionTop;
           
-          if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
-            waypoint.classList.add('active');
+          if (titleElement) {
+            const titleRect = titleElement.getBoundingClientRect();
+            sectionTop = titleRect.top + window.scrollY;
           } else {
-            waypoint.classList.remove('active');
+            sectionTop = section.offsetTop;
           }
+          
+          sections.push({
+            waypoint: waypoint,
+            sectionId: sectionId,
+            top: sectionTop,
+            bottom: sectionTop + section.offsetHeight
+          });
+        }
+      });
+      
+      // 상단부터 정렬
+      sections.sort((a, b) => a.top - b.top);
+      
+      // 현재 스크롤 위치에 해당하는 섹션 찾기 (위에서부터 확인)
+      let activeSection = null;
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        if (scrollPos >= section.top) {
+          activeSection = section;
+          break;
+        }
+      }
+      
+      // 타이틀 섹션은 특별 처리 (맨 위에 있을 때만 활성화)
+      const titleSection = sections.find(s => s.sectionId === 'title');
+      if (titleSection && scrollPos < titleSection.bottom && scrollPos < (sections[1]?.top || Infinity)) {
+        activeSection = titleSection;
+      }
+      
+      // 활성화 상태 업데이트
+      sections.forEach(section => {
+        if (section === activeSection) {
+          section.waypoint.classList.add('active');
+        } else {
+          section.waypoint.classList.remove('active');
         }
       });
     }
@@ -884,6 +971,18 @@
             }
           } else if (sectionId === 'experience') {
             // 익스피리언스는 제목에 맞춤
+            const titleElement = section.querySelector('h2.highlighted-title');
+            if (titleElement) {
+              const titleRect = titleElement.getBoundingClientRect();
+              const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+              offsetTop = titleRect.top + currentScroll - 100; // 제목이 화면 상단에서 100px 아래에 오도록
+            } else {
+              const rect = section.getBoundingClientRect();
+              const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+              offsetTop = rect.top + scrollTop - 100;
+            }
+          } else if (sectionId === 'game-intro') {
+            // 게임소개는 제목에 맞춤
             const titleElement = section.querySelector('h2.highlighted-title');
             if (titleElement) {
               const titleRect = titleElement.getBoundingClientRect();
@@ -1035,6 +1134,29 @@
         behavior: 'smooth'
       });
     });
+
+    // Lightbox가 열릴 때 이정표 숨기기
+    function updateWaypointVisibility() {
+      const waypointNav = document.querySelector('.waypoint-navigation');
+      if (!waypointNav) return;
+      
+      // hash가 media로 시작하면 lightbox가 열린 것
+      if (window.location.hash && window.location.hash.startsWith('#media')) {
+        waypointNav.style.opacity = '0';
+        waypointNav.style.visibility = 'hidden';
+        waypointNav.style.pointerEvents = 'none';
+      } else {
+        waypointNav.style.opacity = '1';
+        waypointNav.style.visibility = 'visible';
+        waypointNav.style.pointerEvents = 'auto';
+      }
+    }
+
+    // hashchange 이벤트 감지
+    window.addEventListener('hashchange', updateWaypointVisibility);
+    
+    // 초기 상태 확인
+    updateWaypointVisibility();
   }
 
   // DOM 로드 완료 시 렌더링

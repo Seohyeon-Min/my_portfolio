@@ -1,0 +1,86 @@
+<!-- 게임/기획 프로젝트용 템플릿 -->
+<!-- 프로젝트 데이터는 js/projects-data.js에서 관리합니다 -->
+<!-- https://youtu.be/_xkSvufmjEs?si=mh-MXT2ZdUasYAYn&t=3416 -->
+<!-- adobe.ly/2GAgF93 -->
+<!-- https://scrimba.com/build-and-deploy-your-portfolio-c012 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="../img/face.jpg">
+
+    <!-- Help auto scale for desktop & mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThinkThink! 리듬챌린지 - MSH PORTFOILO</title>
+
+    <!-- Normalize the difference across browsers  https://necolas.github.io/normalize.css/ -->
+    <link rel="stylesheet" href="../external/normalize.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+        integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous" />
+
+    <!-- https://fonts.google.com/selection/embed -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="navbar-logo">LOGO</div>
+        <nav class="navbar-menu">
+            <a href="../index.html#home">Home</a>
+            <a href="../index.html#projects">Projects</a>
+            <a href="../index.html#skills">Skills</a>
+            <a href="../index.html#about">About</a>
+            <a href="../index.html#education">Edu</a>
+            <a href="../index.html#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- 상단 고정 영상 섹션 -->
+    <header class="video-hero">
+        <!-- 템플릿 렌더러가 자동으로 채웁니다 -->
+        <img src="" alt="Poster" class="bird-image">
+        <div class="video-overlay">
+            <h1 class="game-title-bird">PROJECT TITLE</h1>
+            <p class="game-subtitle-bird">PROJECT SUBTITLE</p>
+        </div>
+    </header>
+
+    <!-- 본문 컨테이너: 스크롤 시 영상 위로 내용이 올라오는 효과 -->
+    <main class="main-content">
+        <!-- 템플릿 렌더러가 자동으로 채웁니다 -->
+        <section class="main-background-section">
+            <!-- Overview, Features 등이 여기에 렌더링됩니다 -->
+        </section>
+
+        <!-- (2) 둥근 모서리 섹션: 갤러리 & My Contributions -->
+        <section class="rounded-section">
+            <!-- Experience, Videos, Contributions 등이 여기에 렌더링됩니다 -->
+        </section>
+
+        <button class="return-button" onclick="window.history.back()">
+            <span class="arrow-icon">&larr;</span>
+            <span class="button-text">Return</span>
+        </button>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a>
+    </footer>
+
+    <!-- 프로젝트 데이터와 템플릿 렌더러 로드 -->
+    <script src="../js/projects-data.js"></script>
+    <script src="../js/project-template.js"></script>
+    <script src="../js/index.js"></script>
+
+</body>
+
+</html>

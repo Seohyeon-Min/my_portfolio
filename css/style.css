@@ -688,6 +688,11 @@ h3 {
   color: var(--clr-dark);
 }
 
+/* 홈 섹션 태그만 더 불투명하게 */
+.intro-overlay .project-tags .tag {
+  background: rgba(0,0,0,0.25);
+}
+
 /* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 */
 /* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 */
 /* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 *//* 프로젝트 태그 */
@@ -1664,12 +1669,21 @@ body, html {
 
 .contribution-tab-content {
   display: none;
-  padding: 1.5rem 0;
+  padding: 0 0 1.5rem 0;
   animation: fadeIn 0.3s ease;
 }
 
 .contribution-tab-content.active {
   display: block;
+}
+
+/* 탭 내용의 첫 번째 요소 마진 제거 */
+.contribution-tab-content > *:first-child {
+  margin-top: 0 !important;
+}
+
+.contribution-tab-content > section:first-child {
+  margin-top: 0 !important;
 }
 
 .contribution-tab-content h4 {
@@ -1692,6 +1706,70 @@ body, html {
   color: var(--clr-light);
 }
 
+/* 소제목 아래 내용 들여쓰기 (h5 다음에 오는 모든 형제 요소) */
+.contribution-tab-content h5 ~ p,
+.contribution-tab-content h5 ~ ul,
+.contribution-tab-content h5 ~ div {
+  margin-left: 2rem;
+}
+
+/* design 섹션 스타일 */
+.contribution-tab-content .design {
+  margin-top: 0 !important;
+  margin-bottom: 0;
+}
+
+.contribution-tab-content .design h2 {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-top: 0 !important;
+  margin-bottom: 1.5rem;
+}
+
+.contribution-tab-content .design h3 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.contribution-tab-content .design h3:first-of-type {
+  margin-top: 0;
+}
+
+.contribution-tab-content .design h3 ~ p,
+.contribution-tab-content .design h3 ~ h4 {
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.contribution-tab-content .design h3 ~ ul,
+.contribution-tab-content .design h3 ~ ol {
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.contribution-tab-content .design h4 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.contribution-tab-content .design h4 ~ p {
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.contribution-tab-content .design h4 ~ ul {
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.contribution-tab-content .design p ~ p {
+  margin-left: 2rem;
+}
+
 .contribution-tab-content ul {
   list-style: disc;
   margin-left: 1.5rem;
@@ -1709,6 +1787,53 @@ body, html {
   border: 0;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
   margin: 1.5rem 0;
+}
+
+/* Project Lead 섹션 스타일 */
+.contribution-tab-content .project-lead {
+  margin-top: 0 !important;
+  margin-bottom: 0;
+}
+
+.contribution-tab-content .project-lead h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0 !important;
+  margin-bottom: 1.5rem;
+  color: var(--clr-light);
+}
+
+.lead-section {
+  margin-bottom: 2rem;
+}
+
+.lead-section h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--clr-light);
+}
+
+.lead-section h3:first-child {
+  margin-top: 0;
+}
+
+.lead-section > p {
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.lead-section > ul {
+  list-style: disc;
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.lead-section li {
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+  color: var(--clr-light);
 }
 
 @keyframes fadeIn {
@@ -1733,6 +1858,8 @@ body, html {
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: 1001; /* waypoint-navigation(1000)보다 위 */
 }
 
 /* 제목 */
@@ -1761,11 +1888,17 @@ body, html {
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 자동 열 */
+  grid-template-columns: repeat(4, 1fr); /* 가로 4줄 */
   gap: 1.5rem;
   justify-items: center;
   align-items: center;
   margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr); /* 모바일에서는 2줄 */
+  }
 }
 
 /* 각 이미지 카드 */
@@ -1775,6 +1908,10 @@ body, html {
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery a.gallery-stacked {
+  overflow: visible;
 }
 
 .gallery a:hover {
@@ -1818,6 +1955,45 @@ body, html {
   opacity: 1;
 }
 
+/* 겹쳐진 이미지 스타일 */
+.gallery-stacked {
+  position: relative;
+}
+
+.stacked-main-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.stacked-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.gallery-stacked:hover .stacked-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.stacked-count {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+}
+
 
 /* Lightbox 스타일 */
 .lightbox {
@@ -1836,6 +2012,27 @@ body, html {
 }
 .lightbox:target { display: flex; }
 
+.lightbox-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.lightbox-content {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.lightbox-content img,
+.lightbox-content video {
+  pointer-events: auto;
+}
+
 .lightbox img {
    display: block;
   border-radius: 8px;
@@ -1849,6 +2046,16 @@ body, html {
   object-fit: contain;  
 }
 
+.lightbox video {
+  display: block;
+  border-radius: 8px;
+  margin: 0 auto;
+  max-width: min(80vw, 900px);
+  max-height: min(80vh, 700px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
 
 /* 좌우 버튼 */
 .lightbox .prev,
@@ -1860,6 +2067,8 @@ body, html {
   text-decoration: none;
   user-select: none;
   transform: translateY(-50%);
+  z-index: 3;
+  pointer-events: auto;
 }
 
 .lightbox .prev { left: 30px; }
@@ -1993,6 +2202,7 @@ body, html {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .waypoint {
