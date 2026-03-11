@@ -778,7 +778,7 @@ const projectsData = {
     subtitle: "",
     pageTitle: "ThinkThink! 리듬챌린지 - MSH PORTFOILO",
     heroType: "image",
-    heroMedia: "../img/THINKTHINK/1.png",
+    heroMedia: "../img/ThinkThink/1.png",
     heroTitleClass: "game-title-bird",
     heroSubtitleClass: "game-subtitle-bird",
     overview: "리듬에 맞춰 단어 카드를 선택하세요!",
@@ -794,43 +794,43 @@ const projectsData = {
     },
     trailers: [],
     videos: [],
-    overviewImage: "../img/THINKTHINK/9.png",
+    overviewImage: "../img/ThinkThink/9.png",
     gallery: {
       title: "갤러리",
       subtitle: "게임 스크린샷",
       images: [
         {
-          src: "../img/THINKTHINK/2.jpg",
+          src: "../img/ThinkThink/2.jpg",
           alt: "게임 스크린샷 2",
           title: "게임 스크린샷 2"
         },
         {
-          src: "../img/THINKTHINK/3.jpg",
+          src: "../img/ThinkThink/3.jpg",
           alt: "게임 스크린샷 3",
           title: "게임 스크린샷 3"
         },
         {
-          src: "../img/THINKTHINK/5.jpg",
+          src: "../img/ThinkThink/5.jpg",
           alt: "게임 스크린샷 4",
           title: "게임 스크린샷 4"
         },
         {
-          src: "../img/THINKTHINK/7.jpg",
+          src: "../img/ThinkThink/7.jpg",
           alt: "게임 스크린샷 5",
           title: "게임 스크린샷 5"
         },
         {
-          src: "../img/THINKTHINK/6.jpg",
+          src: "../img/ThinkThink/6.jpg",
           alt: "게임 스크린샷 6",
           title: "게임 스크린샷 6"
         },
         {
-          src: "../img/THINKTHINK/4.jpg",
+          src: "../img/ThinkThink/4.jpg",
           alt: "게임 스크린샷 7",
           title: "게임 스크린샷 7"
         },
         {
-          src: "../img/THINKTHINK/8.jpg",
+          src: "../img/ThinkThink/8.jpg",
           alt: "게임 스크린샷 8",
           title: "게임 스크린샷 8"
         }
