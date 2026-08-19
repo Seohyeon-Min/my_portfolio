@@ -29,6 +29,11 @@
 </head>
 
 <body>
+  <div class="language-toggle" role="group" aria-label="Language">
+    <button type="button" data-lang="en" aria-pressed="true">EN</button>
+    <span aria-hidden="true">/</span>
+    <button type="button" data-lang="ko" aria-pressed="false">KR</button>
+  </div>
   <header>
     <button class="nav-toggle" aria-label="toggle navigation">
         <span class="hamburger"></span>
@@ -47,7 +52,8 @@
         <div class="navbar-logo">LOGO</div>
         <nav class="navbar-menu">
             <a href="#home">Home</a>
-            <a href="#projects">Projects</a>
+            <a href="#featured">Featured</a>
+            <a href="#projects">All Work</a>
             <a href="#skills">Skills</a>
             <a href="#about">About</a>
             <a href="#education">Edu</a>
@@ -72,19 +78,91 @@
            loop
            playsinline
            preload="auto"
-           poster="img/video_poster.jpg">
+           poster="img/portfolio_thumbnails/StreetTyper.png">
       <source src="img/intro.mp4"  type="video/mp4">
       <source src="media/intro.webm" type="video/webm">
     </video>
   </div>
   <div class="intro-overlay">
-    <div class="background-text">Game Developer</div>
-    <div class="foreground-text">게임 개발자 <strong>민서현</strong>입니다.</div>
-    <div class="project-tags">
-      <span class="tag">Communication</span>
-      <span class="tag">Lead</span>
-      <span class="tag">Generalist</span>
+    <p class="intro-eyebrow">TECHNICAL ART PORTFOLIO</p>
+    <h1 class="intro-name">MIN SEOHYEON</h1>
+    <p class="intro-question" data-en="I build real-time visuals—and the tools that make them playable." data-ko="아트의 의도를 실시간 화면으로 구현하고, 제작을 돕는 도구를 만듭니다.">I build real-time visuals—and the tools that make them playable.</p>
+    <p class="intro-direction"><span data-en="Shaders · VFX · Artist Tools · Game Feel" data-ko="셰이더 · VFX · 아티스트 도구 · 타격감">Shaders · VFX · Artist Tools · Game Feel</span> <span data-en="with a graphics programming foundation" data-ko="그래픽스 프로그래밍을 기반으로 합니다">with a graphics programming foundation</span></p>
+    <div class="intro-actions">
+      <a class="intro-action intro-action--primary" href="#featured" data-en="View Featured Work" data-ko="대표 작업 보기">View Featured Work</a>
+      <a class="intro-action" href="docs/Resume.pdf" target="_blank" rel="noopener" data-en="Resume" data-ko="이력서">Resume</a>
     </div>
+  </div>
+</section>
+
+<section class="featured-work" id="featured">
+  <div class="portfolio-section-heading">
+    <p class="section-kicker" data-en="SELECTED CASE STUDIES" data-ko="주요 작업">SELECTED CASE STUDIES</p>
+    <h2 data-en="Featured Work" data-ko="대표 작업">Featured Work</h2>
+    <p data-en="Art direction carried through shaders, effects, engine integration, and playable feedback." data-ko="그림에서 끝내지 않고 셰이더와 이펙트로 구현해, 실제 플레이 감각까지 다듬은 작업들입니다.">Art direction carried through shaders, effects, engine integration, and playable feedback.</p>
+  </div>
+
+  <div class="featured-grid">
+    <a class="featured-card featured-card--lead" href="portfolio_game/06_StreetTyper.html">
+      <img src="img/portfolio_thumbnails/StreetTyper.png" alt="Street Typer title art">
+      <div class="featured-card__shade"></div>
+      <div class="featured-card__content">
+        <span class="featured-card__index">01 · PRIMARY CASE STUDY</span>
+        <h3>STREET TYPER</h3>
+        <p data-en="Original 2D art, UI shaders, VFX, and impact feedback built around a bilingual typing-combat loop." data-ko="한·영 타이핑 전투가 한눈에 읽히도록 2D 아트부터 UI 셰이더, VFX와 타격감까지 직접 다듬었습니다.">Original 2D art, UI shaders, VFX, and impact feedback built around a bilingual typing-combat loop.</p>
+        <div class="featured-card__meta"><span>Art + Technical Art</span><span>Producer</span><span>Unity URP</span><span>10-day team project</span></div>
+        <span class="featured-card__link" data-en="View case study →" data-ko="작업 과정 보기 →">View case study →</span>
+      </div>
+    </a>
+
+    <a class="featured-card" href="portfolio_game/07_TooHot.html">
+      <img src="img/portfolio_thumbnails/TooHot.png" alt="Too Hot arena art">
+      <div class="featured-card__shade"></div>
+      <div class="featured-card__content">
+        <span class="featured-card__index">02 · VISUAL POLISH</span>
+        <h3>TOO HOT!</h3>
+        <p data-en="Boss-attack readability shaped through art, composition, effects, and game-feel iteration." data-ko="보스의 공격이 즉시 읽히도록 화면을 구성하고, 이펙트와 타격감을 반복해서 조정했습니다.">Boss-attack readability shaped through art, composition, effects, and game-feel iteration.</p>
+        <div class="featured-card__meta"><span>Art + VFX</span><span>Producer</span><span>Unity URP</span></div>
+        <span class="featured-card__link" data-en="View case study →" data-ko="작업 과정 보기 →">View case study →</span>
+      </div>
+    </a>
+
+    <a class="featured-card" href="portfolio_game/01_Manzo.html">
+      <img src="img/portfolio_thumbnails/Manzo.png" alt="Manzo project artwork">
+      <div class="featured-card__shade"></div>
+      <div class="featured-card__content">
+        <span class="featured-card__index">03 · ENGINE FOUNDATION</span>
+        <h3>MANZO</h3>
+        <p data-en="A longer-form project demonstrating graphics foundations, technical ownership, and team delivery." data-ko="그래픽스 기초를 쌓는 동시에 기술 방향과 일정을 책임지고 끝까지 완성한 장기 팀 프로젝트입니다.">A longer-form project demonstrating graphics foundations, technical ownership, and team delivery.</p>
+        <div class="featured-card__meta"><span>OpenGL</span><span>Project Lead + Producer</span></div>
+        <span class="featured-card__link" data-en="View case study →" data-ko="작업 과정 보기 →">View case study →</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="capabilities" aria-labelledby="capabilities-title">
+  <div class="portfolio-section-heading">
+    <p class="section-kicker" data-en="WHAT I BRING" data-ko="핵심 역량">WHAT I BRING</p>
+    <h2 id="capabilities-title" data-en="From visual intent to engine-ready systems" data-ko="보이는 것과 작동하는 것 사이를 연결합니다">From visual intent to engine-ready systems</h2>
+  </div>
+  <div class="capability-grid">
+    <article class="capability-card">
+      <span>01</span><h3 data-en="Visual Craft" data-ko="비주얼 설계">Visual Craft</h3>
+      <p data-en="2D art, composition, UI, VFX, animation timing, and readable moment-to-moment feedback." data-ko="2D 아트와 UI를 직접 만들고, 화면 구성과 애니메이션 타이밍을 조절해 플레이 정보를 명확하게 전달합니다.">2D art, composition, UI, VFX, animation timing, and readable moment-to-moment feedback.</p>
+    </article>
+    <article class="capability-card">
+      <span>02</span><h3 data-en="Technical Art" data-ko="테크니컬 아트">Technical Art</h3>
+      <p data-en="Shaders, reusable visual controls, Unity integration, debugging, and artist-facing workflows." data-ko="셰이더와 재사용 가능한 제어 기능을 만들고, Unity에 통합해 다른 작업자도 쉽게 조절할 수 있도록 구성합니다.">Shaders, reusable visual controls, Unity integration, debugging, and artist-facing workflows.</p>
+    </article>
+    <article class="capability-card">
+      <span>03</span><h3 data-en="Graphics Foundation" data-ko="그래픽스 프로그래밍">Graphics Foundation</h3>
+      <p data-en="C++, OpenGL, rendering fundamentals, and a growing focus on profiling and GPU performance." data-ko="C++와 OpenGL로 렌더링 기초를 익혔으며, 현재는 프로파일링과 GPU 최적화까지 영역을 넓히고 있습니다.">C++, OpenGL, rendering fundamentals, and a growing focus on profiling and GPU performance.</p>
+    </article>
+    <article class="capability-card">
+      <span>04</span><h3 data-en="Production Leadership" data-ko="프로덕션 리더십">Production Leadership</h3>
+      <p data-en="Scope, task ownership, cross-discipline communication, and delivery across student and game-jam teams." data-ko="학생 프로젝트와 게임잼에서 제작 범위를 정하고 역할을 나눠, 팀이 마감 안에 결과물을 완성하도록 이끌었습니다.">Scope, task ownership, cross-discipline communication, and delivery across student and game-jam teams.</p>
+    </article>
   </div>
 </section>
 
@@ -104,14 +182,18 @@
     <!-- My Portfolio -->
 
 <section class="my-projects" id="projects">
-    <h2 class="section__title section__title--projects">PROJECTS</h2>
+    <div class="portfolio-section-heading portfolio-section-heading--archive">
+      <p class="section-kicker" data-en="PROJECT ARCHIVE" data-ko="프로젝트 아카이브">PROJECT ARCHIVE</p>
+      <h2 class="section__title section__title--projects" data-en="Explore by Specialization" data-ko="전문 분야별 보기">Explore by Specialization</h2>
+      <p data-en="One technical-art practice, viewed through different strengths." data-ko="테크니컬 아트를 중심으로 비주얼, 그래픽스, 리더십 작업을 나누어 정리했습니다.">One technical-art practice, viewed through different strengths.</p>
+    </div>
   
     <!-- 필터 버튼 -->
     <div class="filter-buttons">
       <!-- game 태그 기본 활성화 -->
-      <button class="filter-btn active" data-filter="game">Game</button>
-      <button class="filter-btn" data-filter="tech">Tech</button>
-      <button class="filter-btn" data-filter="planning">Planning</button>
+      <button class="filter-btn active" data-filter="game" data-en="Shaders · VFX · Game Feel" data-ko="셰이더 · VFX · 게임필">Shaders · VFX · Game Feel</button>
+      <button class="filter-btn" data-filter="tech" data-en="Rendering · Graphics" data-ko="렌더링 · 그래픽스">Rendering · Graphics</button>
+      <button class="filter-btn" data-filter="planning" data-en="Leadership · Delivery" data-ko="리더십 · 완주">Leadership · Delivery</button>
     </div>
   
     <div class="portfolio">
@@ -119,16 +201,16 @@
   <a href="portfolio_game/00_NewManzo.html" class="portfolio__item game">
     <img src="img/portfolio_thumbnails//NewManzo.png" alt="" class="portfolio__img" />
     <div class="portfolio__overlay">
-      <h4>뉴만조</h4>
-      <p>팀 상린: 리듬 어드벤처</p>
-      <button class="btn-details">자세히 보기</button>
+      <h4 data-en="NEW MANZO" data-ko="뉴만조">NEW MANZO</h4>
+      <p data-en="Team Sanglin · Rhythm Adventure" data-ko="팀 상린 · 리듬 어드벤처">Team Sanglin · Rhythm Adventure</p>
+      <button class="btn-details" data-en="View Project" data-ko="프로젝트 보기">View Project</button>
     </div>
   </a>
   <div class="project-tags">
   <span class="tag year">2025</span>
-  <span class="tag role">Project Lead</span>
-  <span class="tag tool">유니티</span>
-  <span class="tag tool">개발중</span>
+  <span class="tag role">Project Lead · Producer</span>
+  <span class="tag tool">Unity</span>
+  <span class="tag tool" data-en="In Development" data-ko="개발 중">In Development</span>
 </div>
 
 </div>
@@ -138,50 +220,34 @@
     <span class="star-badge">⭐</span>
     <img src="img/portfolio_thumbnails/Manzo.png" alt="" class="portfolio__img" />
     <div class="portfolio__overlay">
-      <h4>만조</h4>
-      <p>팀 상린: 리듬 어드벤처</p>
-      <button class="btn-details">자세히 보기</button>
+      <h4 data-en="MANZO" data-ko="만조">MANZO</h4>
+      <p data-en="Team Sanglin · Rhythm Adventure" data-ko="팀 상린 · 리듬 어드벤처">Team Sanglin · Rhythm Adventure</p>
+      <button class="btn-details" data-en="View Project" data-ko="프로젝트 보기">View Project</button>
     </div>
   </a>
         <div class="project-tags">
         <span class="tag year">2024~5</span>
-        <span class="tag role">Project Lead</span>
+        <span class="tag role">Project Lead · Producer</span>
         <span class="tag tool">OpenGL</span>
-        <span class="tag type">엔진개발 · 렌더링</span>
+        <span class="tag type" data-en="Engine Development · Rendering" data-ko="엔진 개발 · 렌더링">Engine Development · Rendering</span>
       </div>
 </div>
 
-
-<div class="portfolio-wrapper game">
-  <a href="portfolio_game/02_EdgeDirve.html" class="portfolio__item game">
-    <img src="img/portfolio_thumbnails/EdgeDrive2.png" alt="" class="portfolio__img" />
-    <div class="portfolio__overlay">
-      <h4>엣지 드라이브</h4>
-      <p>팀 불법디지펜클럽: 보스러쉬</p>
-      <button class="btn-details">자세히 보기</button>
-    </div>
-  </a>
-      <div class="project-tags">
-        <span class="tag year">2025</span>
-        <span class="tag role">VFX 리드</span>
-        <span class="tag tool">Unreal Engine</span>
-      </div>
-</div>
 
 <div class="portfolio-wrapper game">
   <a href="portfolio_game/03_DoubleHit.html" class="portfolio__item game">
     <img src="img/portfolio_thumbnails/DoubleHit.png" alt="" class="portfolio__img" />
     <div class="portfolio__overlay">
-      <h4>더블히트</h4>
-      <p>팀 인프론트: 2p 레트로 액션</p>
-      <button class="btn-details">자세히 보기</button>
+      <h4 data-en="DOUBLE HIT" data-ko="더블히트">DOUBLE HIT</h4>
+      <p data-en="Team Infront · 2P Retro Action" data-ko="팀 인프론트 · 2인용 레트로 액션">Team Infront · 2P Retro Action</p>
+      <button class="btn-details" data-en="View Project" data-ko="프로젝트 보기">View Project</button>
     </div>
   </a>
         <div class="project-tags">
         <span class="tag year">2024</span>
-        <span class="tag role">Project Lead</span>
+        <span class="tag role">Project Lead · Producer</span>
         <span class="tag tool">raylib</span>
-        <span class="tag type">엔진개발</span>
+        <span class="tag type" data-en="Engine Development" data-ko="엔진 개발">Engine Development</span>
       </div>
 </div>
 
@@ -190,46 +256,83 @@
     <span class="star-badge">⭐</span>
     <img src="img/portfolio_thumbnails/BirdStrike.png" alt="" class="portfolio__img" />
     <div class="portfolio__overlay">
-      <h4>버드 스트라이크</h4>
-      <p>팀 카피바라: 리듬 액션</p>
-      <button class="btn-details">자세히 보기</button>
+      <h4 data-en="BIRD STRIKE" data-ko="버드 스트라이크">BIRD STRIKE</h4>
+      <p data-en="Team Capybara · Rhythm Action" data-ko="팀 카피바라 · 리듬 액션">Team Capybara · Rhythm Action</p>
+      <button class="btn-details" data-en="View Project" data-ko="프로젝트 보기">View Project</button>
     </div>
   </a>
       <div class="project-tags">
         <span class="tag year">2023</span>
-        <span class="tag role">Project Lead</span>
+        <span class="tag role">Project Lead · Producer</span>
         <span class="tag tool">raylib</span>
-        <span class="tag type">게임디자인 · 개발</span>
+        <span class="tag type" data-en="Game Design · Development" data-ko="게임 디자인 · 개발">Game Design · Development</span>
       </div>
 </div>
 
 <div class="portfolio-wrapper game" data-pinned="true">
-  <a href="portfolio_game/05_ThinkThink.html" class="portfolio__item game">
+  <a href="portfolio_game/06_StreetTyper.html" class="portfolio__item game">
     <span class="star-badge">⭐</span>
-    <img src="img/portfolio_thumbnails/ThinkThink.png" alt="" class="portfolio__img" />
+    <img src="img/portfolio_thumbnails/StreetTyper.png" alt="Street Typer title art" class="portfolio__img" />
     <div class="portfolio__overlay">
-      <h4>ThinkThink! 리듬챌린지</h4>
-      <p>리듬 챌린지 게임</p>
-      <button class="btn-details">자세히 보기</button>
+      <h4>STREET TYPER</h4>
+      <p>Typing action RPG · 10-day game jam</p>
+      <button class="btn-details">Case Study</button>
     </div>
   </a>
   <div class="project-tags">
     <span class="tag year">2026</span>
-    <span class="tag role">Project Lead</span>
-    <span class="tag tool">모바일게임</span>
-    <span class="tag type">개발완료-출시예정</span>
+    <span class="tag role">Technical Art · Producer</span>
+    <span class="tag tool">Unity URP</span>
+    <span class="tag type">Shaders · VFX · UI</span>
+  </div>
+</div>
+
+<div class="portfolio-wrapper game" data-pinned="true">
+  <a href="portfolio_game/07_TooHot.html" class="portfolio__item game">
+    <span class="star-badge">⭐</span>
+    <img src="img/portfolio_thumbnails/TooHot.png" alt="Too Hot game art" class="portfolio__img" />
+    <div class="portfolio__overlay">
+      <h4>TOO HOT!</h4>
+      <p>Boss action · game jam</p>
+      <button class="btn-details">Case Study</button>
+    </div>
+  </a>
+  <div class="project-tags">
+    <span class="tag year">2026</span>
+    <span class="tag role">Art · VFX · Producer</span>
+    <span class="tag tool">Unity URP</span>
+    <span class="tag type">VFX · Visual Polish</span>
   </div>
 </div>
 
   
       <!-- [tech] 폴더: portfolio-->
+<div class="portfolio-wrapper tech" data-pinned="true">
+  <div class="portfolio__item tech portfolio__item--coming-soon" aria-label="GPU Rendering Demo, in development">
+    <div class="gpu-demo-placeholder">
+      <span class="gpu-demo-placeholder__eyebrow">IN DEVELOPMENT</span>
+      <strong>GPU</strong>
+      <span>RENDERING DEMO</span>
+    </div>
+    <div class="portfolio__overlay">
+      <h4>GPU RENDERING DEMO</h4>
+      <p>Implementation and measurements coming next</p>
+      <span class="btn-details">Coming Soon</span>
+    </div>
+  </div>
+  <div class="project-tags">
+    <span class="tag year">2026</span>
+    <span class="tag role">Solo · In Development</span>
+    <span class="tag tool">GPU Rendering</span>
+  </div>
+</div>
 <div class="portfolio-wrapper tech">
   <a href="portfolio/01_hello.html" class="portfolio__item tech">
     <img src="img/portfolio_thumbnails/01_hello.jpg" alt="" class="portfolio__img" />
     <div class="portfolio__overlay">
       <h4>HELLO QUAD</h4>
-      <p>vert와 frag연습</p>
-      <button class="btn-details">자세히 보기</button>
+      <p data-en="Vertex and fragment shader study" data-ko="버텍스·프래그먼트 셰이더 연습">Vertex and fragment shader study</p>
+      <button class="btn-details" data-en="View Project" data-ko="프로젝트 보기">View Project</button>
     </div>
   </a>
   <div class="project-tags">
@@ -243,8 +346,8 @@
     <img src="img/portfolio_thumbnails/02_meshes.jpg" alt="" class="portfolio__img" />
     <div class="portfolio__overlay">
       <h4>PROCEDURE</h4>
-      <p>도형 그리기</p>
-      <button class="btn-details">자세히 보기</button>
+      <p data-en="Procedural geometry generation" data-ko="프로시저럴 도형 생성">Procedural geometry generation</p>
+      <button class="btn-details" data-en="View Project" data-ko="프로젝트 보기">View Project</button>
     </div>
   </a>
   <div class="project-tags">
@@ -258,8 +361,8 @@
     <img src="img/portfolio_thumbnails/03_fog.jpg" alt="" class="portfolio__img" />
     <div class="portfolio__overlay">
       <h4>FOG</h4>
-      <p>안개 셰이더</p>
-      <button class="btn-details">자세히 보기</button>
+      <p data-en="Distance fog shader" data-ko="거리 안개 셰이더">Distance fog shader</p>
+      <button class="btn-details" data-en="View Project" data-ko="프로젝트 보기">View Project</button>
     </div>
   </a>
   <div class="project-tags">
@@ -273,8 +376,8 @@
     <img src="img/portfolio_thumbnails/04_toon.jpg" alt="" class="portfolio__img" />
     <div class="portfolio__overlay">
       <h4>TOON</h4>
-      <p>툰 셰이더</p>
-      <button class="btn-details">자세히 보기</button>
+      <p data-en="Toon-lighting study" data-ko="툰 라이팅 연습">Toon-lighting study</p>
+      <button class="btn-details" data-en="View Project" data-ko="프로젝트 보기">View Project</button>
     </div>
   </a>
   <div class="project-tags">
@@ -288,8 +391,8 @@
     <img src="img/portfolio_thumbnails/05_shadow.jpg" alt="" class="portfolio__img" />
     <div class="portfolio__overlay">
       <h4>SHADOW</h4>
-      <p>그림자</p>
-      <button class="btn-details">자세히 보기</button>
+      <p data-en="Shadow-mapping study" data-ko="섀도 매핑 연습">Shadow-mapping study</p>
+      <button class="btn-details" data-en="View Project" data-ko="프로젝트 보기">View Project</button>
     </div>
   </a>
   <div class="project-tags">
@@ -304,8 +407,8 @@
     <img src="img/portfolio_thumbnails/06_value.jpg" alt="" class="portfolio__img" />
     <div class="portfolio__overlay">
       <h4>Value Noise</h4>
-      <p>발류 노이즈</p>
-      <button class="btn-details">자세히 보기</button>
+      <p data-en="Value-noise implementation" data-ko="밸류 노이즈 구현">Value-noise implementation</p>
+      <button class="btn-details" data-en="View Project" data-ko="프로젝트 보기">View Project</button>
     </div>
   </a>
   <div class="project-tags">
@@ -319,8 +422,8 @@
     <img src="img/portfolio_thumbnails/07_gradient.jpg" alt="" class="portfolio__img" />
     <div class="portfolio__overlay">
       <h4>Gradient Noise</h4>
-      <p>그래디언트 노이즈</p>
-      <button class="btn-details">자세히 보기</button>
+      <p data-en="Gradient-noise implementation" data-ko="그래디언트 노이즈 구현">Gradient-noise implementation</p>
+      <button class="btn-details" data-en="View Project" data-ko="프로젝트 보기">View Project</button>
     </div>
   </a>
   <div class="project-tags">
@@ -335,8 +438,8 @@
     <img src="img/portfolio_thumbnails/08_fun.jpg" alt="" class="portfolio__img" />
     <div class="portfolio__overlay">
       <h4>Fly Simulator</h4>
-      <p>비행시뮬레이터</p>
-      <button class="btn-details">자세히 보기</button>
+      <p data-en="Procedural flight simulation" data-ko="프로시저럴 비행 시뮬레이션">Procedural flight simulation</p>
+      <button class="btn-details" data-en="View Project" data-ko="프로젝트 보기">View Project</button>
     </div>
   </a>
   <div class="project-tags">
@@ -352,16 +455,16 @@
   <a href="portfolio_planning/Dangling.html" class="portfolio__item planning">
     <img src="img/portfolio_thumbnails/Dangling.jpg" alt="" class="portfolio__img" />
     <div class="portfolio__overlay">
-      <h4>댕글링*</h4>
-      <p>게임잼 주최</p>
-      <button class="btn-details">자세히 보기</button>
+      <h4 data-en="DANGLING*" data-ko="댕글링*">DANGLING*</h4>
+      <p data-en="Student Game Jam Organizer" data-ko="학생 게임잼 주최">Student Game Jam Organizer</p>
+      <button class="btn-details" data-en="View Project" data-ko="프로젝트 보기">View Project</button>
     </div>
   </a>
   <div class="project-tags">
     <span class="tag year">2025</span>
-    <span class="tag role">기획자</span>
+    <span class="tag role" data-en="Organizer" data-ko="기획자">Organizer</span>
     <span class="tag type">Game Jam</span>
-    <span class="tag desc">행사 주최 · 운영</span>
+    <span class="tag desc" data-en="Event Planning · Operations" data-ko="행사 주최 · 운영">Event Planning · Operations</span>
   </div>
 </div>
 
@@ -449,11 +552,6 @@
               <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sdl/sdl-original.svg"  class="dimmed-icon"/>
 
             </div>
-            <!-- Unreal Engine 5 -->
-            <div class="icon-card" data-tooltip="Unreal Engine 5">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unrealengine/unrealengine-original.svg" class="dimmed-icon2" />
-          
-            </div>
           </div>
         </div>
         
@@ -509,7 +607,7 @@
       <h2 class="section__title section__title--about">ABOUT ME</h2>
       
       <div class="profile-photo">
-        <img src="img/face.jpg" alt="사진">
+        <img src="img/face.jpg" alt="Portrait of Min Seohyeon">
       </div>
     
       <div class="button-container">
@@ -518,19 +616,18 @@
       
     
       <div class="section">
-        <h2>// 기술로 창작을 돕다</h2>
-        <p>Unity와 자체 엔진에서 렌더링 구조 설계, 셰이더 구현, 최적화 작업을 맡으며 아티스트와 기획자가 의도한 결과물이 그대로 구현될 수 있도록 지원했습니다. 기술을 통해 창작 과정이 원활해지는 순간에 큰 보람을 느낍니다.</p>
+        <h2 data-en="// Technology in service of creativity" data-ko="// 기술로 창작을 돕다">// Technology in service of creativity</h2>
+        <p data-en="I work across Unity and custom-engine projects to translate visual intent into shaders, rendering features, effects, and reusable controls. I am most motivated when technology makes the creative process clearer and faster." data-ko="Unity와 자체 엔진에서 셰이더와 이펙트를 구현하고, 반복 작업은 재사용 가능한 기능으로 정리해 왔습니다. 기술로 제작 과정의 불편을 줄이고 아트의 의도를 더 잘 살릴 때 가장 큰 보람을 느낍니다.">I work across Unity and custom-engine projects to translate visual intent into shaders, rendering features, effects, and reusable controls. I am most motivated when technology makes the creative process clearer and faster.</p>
       </div>
     
       <div class="section">
-        <h2>// 게임은 종합예술이다</h2>
-        <p>작곡, 일러스트, 코딩, 기획 등 다양한 분야에서 활동하며 프로젝트를 이끌었습니다. 이 모든 스킬을 하나의 작품에 녹여내는 과정을 즐기며 게임이야말로 제게 가장 잘 맞는 창작 형태라고 느낍니다.</p>
+        <h2 data-en="// Games connect disciplines" data-ko="// 게임은 종합예술이다">// Games connect disciplines</h2>
+        <p data-en="My background spans illustration, programming, design, and music. Technical art gives those interests one purpose: building visuals that communicate clearly, respond to play, and hold up inside a real production." data-ko="그림, 프로그래밍, 기획과 음악을 두루 경험했습니다. 서로 달라 보이던 관심사는 테크니컬 아트에서 하나로 이어졌고, 지금은 보기 좋을 뿐 아니라 플레이에 제대로 반응하는 비주얼을 만드는 데 집중하고 있습니다.">My background spans illustration, programming, design, and music. Technical art gives those interests one purpose: building visuals that communicate clearly, respond to play, and hold up inside a real production.</p>
       </div>
     
       <div class="section">
-        <h2>// 조율과 완성</h2>
-        <p>팀이 함께 성장할 수 있는 분위기를 중요하게 생각합니다. 
-          Project Lead로서 팀을 이끌며 초기엔 역할 분담을 명확히 하고, 개발 중에는 자주 소통해 갈등을 최소화하며 프로젝트가 끝까지 완성되도록 조율했습니다. 책임감 있게 마침표를 찍는 것이 저의 가장 큰 장점입니다.</p>
+        <h2 data-en="// Alignment and delivery" data-ko="// 조율과 완성">// Alignment and delivery</h2>
+        <p data-en="As a project lead and team contributor, I clarify ownership early, communicate often, and keep the visual goal grounded in the available scope. My production experience supports my technical-art work; it is not a separate claim of specialization." data-ko="여러 팀 프로젝트에서 리드와 프로듀서를 맡았습니다. 초반에 역할과 목표를 분명히 하고, 개발 중에는 자주 진행 상황을 맞추면서 정해진 기간 안에 완성할 수 있는 선택을 해 왔습니다. 이 경험은 제 테크니컬 아트 작업을 실제 팀 제작에 연결해 주는 강점입니다.">As a project lead and team contributor, I clarify ownership early, communicate often, and keep the visual goal grounded in the available scope. My production experience supports my technical-art work; it is not a separate claim of specialization.</p>
       </div>
 
 
@@ -556,11 +653,11 @@
               <!-- 항목 내용 -->
               <div class="timeline-content">
                 <h3>
-                  <em>디지펜 게임공학과</em> 
-                  <strong>(2023 - 현재)</strong>
+                  <em data-en="DigiPen Institute of Technology · Real-Time Interactive Simulation" data-ko="디지펜 공과대학교 · 실시간 인터랙티브 시뮬레이션">DigiPen Institute of Technology · Real-Time Interactive Simulation</em>
+                  <strong data-en="(2023 – Present)" data-ko="(2023 – 현재)">(2023 – Present)</strong>
                 </h3>
                 <ul><li>B.S. Real-Time Interactive Simulation</p></li></ul>
-                <ul><li>학점 4.24/4.5</p></li></ul>
+                <ul><li data-en="GPA: 3.958 / 4.0" data-ko="학점: 3.958 / 4.0">GPA: 3.958 / 4.0</li></ul>
               </div>
             </div>
           </div>
@@ -575,11 +672,11 @@
               <div class="timeline-icon"></div>
               <div class="timeline-content">
                 <h3>
-                  <em>디지펜 게임공학과 | Teaching Assistant – Game Development Project I</em>
-                  <strong>(2025년 1학기)</strong>
+                  <em data-en="DigiPen · Teaching Assistant — Game Development Project I" data-ko="디지펜 · 조교 — Game Development Project I">DigiPen · Teaching Assistant — Game Development Project I</em>
+                  <strong data-en="(Spring 2025)" data-ko="(2025년 1학기)">(Spring 2025)</strong>
                 </h3>
-                <ul><li>게임 개발 프로젝트에서 학생들에게 C++ 지도를 제공하며 실습을 도왔습니다.</p></li></ul>
-                <ul><li>학생들의 프로젝트를 리뷰하고 피드백을 통해 방향성을 제시했습니다.</p></li></ul>
+                <ul><li data-en="Supported students with C++ implementation during game-development labs." data-ko="게임 개발 프로젝트 실습에서 학생들의 C++ 구현을 지도했습니다.">Supported students with C++ implementation during game-development labs.</li></ul>
+                <ul><li data-en="Reviewed student projects and provided actionable technical feedback." data-ko="학생 프로젝트를 검토하고, 바로 적용할 수 있는 방향과 해결 방법을 함께 제시했습니다.">Reviewed student projects and provided actionable technical feedback.</li></ul>
               </div>
             </div>
           </div>
@@ -600,7 +697,7 @@
       <h1 class="hero-title">THANK YOU!</h1>
   
       <!-- 하단 문구 -->
-      <p class="hero-subtitle">더 많은 정보 : </p>
+      <p class="hero-subtitle" data-en="Find more work and contact me:" data-ko="더 궁금한 점이 있다면 편하게 연락해 주세요.">Find more work and contact me:</p>
   
       <!-- 소셜 아이콘 영역 -->
       <div class="social-icons">

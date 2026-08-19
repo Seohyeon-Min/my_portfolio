@@ -1,9 +1,63 @@
+// Bilingual UI. English is the default; the visitor's explicit choice persists.
+const supportedLanguages = ['en', 'ko'];
+const savedLanguage = localStorage.getItem('portfolio-language');
+let currentLanguage = supportedLanguages.includes(savedLanguage) ? savedLanguage : 'en';
+
+function ensureLanguageToggle() {
+  if (document.querySelector('.language-toggle')) return;
+
+  document.body.insertAdjacentHTML('afterbegin', `
+    <div class="language-toggle" role="group" aria-label="Language">
+      <button type="button" data-lang="en">EN</button>
+      <span aria-hidden="true">/</span>
+      <button type="button" data-lang="ko">KR</button>
+    </div>
+  `);
+}
+
+function applyLanguage(language) {
+  currentLanguage = supportedLanguages.includes(language) ? language : 'en';
+  document.documentElement.lang = currentLanguage === 'ko' ? 'ko' : 'en';
+
+  document.querySelectorAll('[data-en][data-ko]').forEach(element => {
+    element.textContent = element.dataset[currentLanguage];
+  });
+
+  document.querySelectorAll('.language-toggle button[data-lang]').forEach(button => {
+    const isActive = button.dataset.lang === currentLanguage;
+    button.classList.toggle('active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
+  });
+
+  localStorage.setItem('portfolio-language', currentLanguage);
+  document.dispatchEvent(new CustomEvent('portfolio-language-change', {
+    detail: { language: currentLanguage }
+  }));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  ensureLanguageToggle();
+  document.querySelectorAll('.language-toggle button[data-lang]').forEach(button => {
+    button.addEventListener('click', () => {
+      const requestedLanguage = button.dataset.lang;
+      if (requestedLanguage === currentLanguage) return;
+      applyLanguage(requestedLanguage);
+      if (document.querySelector('.main-content') && document.querySelector('.video-hero')) {
+        window.location.reload();
+      }
+    });
+  });
+  applyLanguage(currentLanguage);
+});
+
 const navToggle = document.querySelector(".nav-toggle")
 const navLinks = document.querySelectorAll(".nav__link")
 
-navToggle.addEventListener("click", () => {
-    document.body.classList.toggle("nav-open");
-})
+if (navToggle) {
+  navToggle.addEventListener("click", () => {
+      document.body.classList.toggle("nav-open");
+  })
+}
 
 navLinks.forEach((link) => {
     link.addEventListener("click", () => {
@@ -33,6 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
 const spotlight = document.querySelector(".spotlight_container");
 
 document.addEventListener("mousemove", (e) => {
+    if (!spotlight) return;
     const { clientX: x, clientY: y } = e;
 
     spotlight.style.setProperty("--x", `${x}px`);
@@ -65,6 +120,12 @@ filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     const filter = btn.dataset.filter;
     setActiveFilter(filter);
+  });
+});
+
+document.querySelectorAll('[data-portfolio-filter]').forEach(link => {
+  link.addEventListener('click', () => {
+    setActiveFilter(link.dataset.portfolioFilter);
   });
 });
 

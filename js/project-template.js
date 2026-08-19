@@ -4,6 +4,10 @@
 (function() {
   'use strict';
 
+  function t(en, ko) {
+    return (localStorage.getItem('portfolio-language') || 'en') === 'ko' ? ko : en;
+  }
+
   // URL에서 프로젝트 ID 추출
   function getProjectId() {
     const path = window.location.pathname;
@@ -17,7 +21,10 @@
       console.error('프로젝트 데이터를 찾을 수 없습니다:', projectId);
       return null;
     }
-    return projectsData[projectId];
+    const project = projectsData[projectId];
+    const language = localStorage.getItem('portfolio-language') || 'en';
+    const localized = project.localized && project.localized[language];
+    return localized ? { ...project, ...localized } : project;
   }
 
   // 헤더 렌더링
@@ -158,7 +165,7 @@
           <div class="timeline-icon2"></div>
           <div class="timeline-content2">
             <h3>
-              직책: ${project.experience.role}
+              ${t('Role', '역할')}: ${project.experience.role}
               <strong>(${project.experience.period})</strong>
             </h3>
             <p>${project.experience.description}</p>
@@ -183,11 +190,11 @@
       const firstTrailer = project.trailers[0];
       const trailerHTML = `
         <section class="trailer-section" id="trailer">
-          <h2 class="highlighted-title">트레일러</h2>
+          <h2 class="highlighted-title">${t('Trailer', '트레일러')}</h2>
           <div class="trailer-container">
             <video class="responsive-video" controls ${firstTrailer.poster ? `poster="${firstTrailer.poster}"` : ''}>
               <source src="${firstTrailer.src}" type="video/mp4">
-              브라우저가 video 태그를 지원하지 않습니다.
+              ${t('Your browser does not support video.', '브라우저가 video 태그를 지원하지 않습니다.')}
             </video>
           </div>
           ${firstTrailer.label ? `<p>${firstTrailer.label}</p>` : ''}
@@ -244,7 +251,7 @@
 
     let galleryHTML = `
       <section class="gallery-wrapper">
-        <h3 class="gallery-title">${project.gallery && project.gallery.title ? project.gallery.title : '갤러리'}</h3>
+        <h3 class="gallery-title">${project.gallery && project.gallery.title ? project.gallery.title : t('Gallery', '갤러리')}</h3>
         ${project.gallery && project.gallery.subtitle ? `<p class="gallery-subtitle">${project.gallery.subtitle}</p>` : ''}
         <div class="gallery">
     `;
@@ -352,7 +359,7 @@
     if (!insertAfter) return;
 
     // 게임소개 제목 (게임이 아니면 '설명')
-    const introLabel = project.type === 'game' ? '게임소개' : '설명';
+    const introLabel = project.type === 'game' ? t('Game Overview', '게임 소개') : t('Overview', '설명');
     const hasContent = project.gameIntro || (project.gameIntroMedia && project.gameIntroMedia.length > 0);
 
     if (!hasContent) return;
@@ -384,7 +391,7 @@
             <div class="game-intro-media">
               <video class="responsive-video" controls ${media.poster ? `poster="${media.poster}"` : ''}>
                 <source src="${media.src}" type="video/mp4">
-                브라우저가 video 태그를 지원하지 않습니다.
+                ${t('Your browser does not support video.', '브라우저가 video 태그를 지원하지 않습니다.')}
               </video>
               ${media.caption ? `<p>${media.caption}</p>` : ''}
             </div>
@@ -438,11 +445,11 @@
           <div class="contributions-tabs">
             <button class="contribution-tab contribution-tab-main active" data-category="main">
               <span class="crown-icon">👑</span>
-              <span>추가 예정</span>
+              <span>${t('Coming soon', '추가 예정')}</span>
             </button>
           </div>
           <div class="contribution-tab-content active" data-category="main">
-            <p>추가 예정입니다.</p>
+            <p>${t('More work will be added soon.', '작업 내용을 곧 추가할 예정입니다.')}</p>
           </div>
         </section>
       `;
@@ -456,13 +463,13 @@
     const remainingSections = project.contributions.sections.slice(1);
 
     // 사용 가능한 카테고리 추출 (첫 번째 섹션 제외)
-    const allCategories = ['Planning', 'Technical', 'Art', 'Audio'];
+    const allCategories = ['Planning', 'Technical', 'Art', 'Audio', 'Project Lead'];
     const categoryLabels = {
-      'Planning': '기획',
-      'Technical': '기술',
-      'Art': '아트',
-      'Audio': '음악',
-      'Project Lead': 'Project Lead'
+      'Planning': t('Design', '기획'),
+      'Technical': t('Technical', '기술'),
+      'Art': t('Art', '아트'),
+      'Audio': t('Audio', '음악'),
+      'Project Lead': t('Production', '프로덕션')
     };
     const usedCategories = [...new Set(
       remainingSections
@@ -639,6 +646,15 @@
     }, 100);
   }
 
+  // Recruiters should see concrete work before leadership titles.
+  function prioritizeContributions() {
+    const roundedSection = document.querySelector('.rounded-section');
+    const contributions = roundedSection && roundedSection.querySelector('.contributions-tabs-section');
+    if (roundedSection && contributions) {
+      roundedSection.insertBefore(contributions, roundedSection.firstElementChild);
+    }
+  }
+
   // Project Details 섹션 렌더링
   function renderProjectDetails(project) {
     if (!project.projectDetails) return;
@@ -648,15 +664,15 @@
 
     let detailsHTML = `
       <section class="project-details">
-        <h2 class="highlighted-title">프로젝트 세부사항</h2>
+        <h2 class="highlighted-title">${t('Project Details', '프로젝트 세부사항')}</h2>
     `;
 
     if (project.projectDetails.tool) {
-      detailsHTML += `<h4>사용 툴: ${project.projectDetails.tool}</h4>`;
+      detailsHTML += `<h4>${t('Tools', '사용 툴')}: ${project.projectDetails.tool}</h4>`;
     }
 
     if (project.projectDetails.problems && project.projectDetails.problems.length > 0) {
-      detailsHTML += '<h4>문제 및 해결</h4><ul>';
+      detailsHTML += `<h4>${t('Problems & Solutions', '문제 및 해결')}</h4><ul>`;
       project.projectDetails.problems.forEach(problem => {
         detailsHTML += `<li>${problem}</li>`;
       });
@@ -761,7 +777,7 @@
     const body = document.body;
     
     // 프로젝트 타입에 따라 라벨 변경
-    const introLabel = project && project.type === 'game' ? '게임소개' : '설명';
+    const introLabel = project && project.type === 'game' ? t('Game Overview', '게임 소개') : t('Overview', '설명');
     
     // 먼저 섹션에 ID를 설정 (클래스 선택자로 찾아서)
     // 타이틀은 renderGameHero에서 이미 설정됨
@@ -808,7 +824,7 @@
       waypointHTML += `
         <a href="#title" class="waypoint" data-section="title">
           <span class="waypoint-dot"></span>
-          <span class="waypoint-label">타이틀</span>
+          <span class="waypoint-label">${t('Title', '타이틀')}</span>
         </a>
       `;
     }
@@ -818,7 +834,7 @@
       waypointHTML += `
         <a href="#experience" class="waypoint" data-section="experience">
           <span class="waypoint-dot"></span>
-          <span class="waypoint-label">익스피리언스</span>
+          <span class="waypoint-label">${t('Experience', '경험')}</span>
         </a>
       `;
     }
@@ -828,7 +844,7 @@
       waypointHTML += `
         <a href="#trailer" class="waypoint" data-section="trailer">
           <span class="waypoint-dot"></span>
-          <span class="waypoint-label">트레일러</span>
+          <span class="waypoint-label">${t('Trailer', '트레일러')}</span>
         </a>
       `;
     }
@@ -848,7 +864,7 @@
       waypointHTML += `
         <a href="#contributions" class="waypoint" data-section="contributions">
           <span class="waypoint-dot"></span>
-          <span class="waypoint-label">컨트리뷰션</span>
+          <span class="waypoint-label">${t('Contributions', '기여')}</span>
         </a>
       `;
     }
@@ -857,7 +873,7 @@
     waypointHTML += `
       <button class="waypoint waypoint-return" onclick="window.history.back()">
         <span class="waypoint-dot waypoint-dot-return"></span>
-        <span class="waypoint-label">뒤로가기</span>
+        <span class="waypoint-label">${t('Back', '뒤로가기')}</span>
       </button>
     </nav>
     `;
@@ -1040,6 +1056,7 @@
       renderContributions(project);  // 탭 방식으로 렌더링
       renderProjectDetails(project);
       renderSource(project);
+      prioritizeContributions();
       renderWaypointNavigation(project);  // 이정표 네비게이션
       renderContributionButton();   // 컨트리뷰션 보기 버튼
     }

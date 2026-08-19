@@ -51,22 +51,21 @@
 
     <div class="portfolio-item-individual">
         <h2>Project Overview</h2>
-        <p>이 프로젝트는 GLSL(OpenGL ES 3.0)을 사용해 정점 셰이더와 프래그먼트 셰이더를 구현하고 3D 모델에 지수형 안개 효과를 적용하는 데 중점을 두었습니다. 
-            그래픽스 파이프라인에 대한 이해를 심화하고 3D 씬에 깊이감을 부여하여 현실감을 높이는 것이 목표였습니다.</p>
+        <p data-en="Implemented exponential fog in GLSL (OpenGL ES 3.0), using view-space distance to add depth to a textured 3D scene."
+           data-ko="GLSL(OpenGL ES 3.0)로 지수형 안개를 구현했습니다. 뷰 공간의 거리를 활용해 텍스처가 적용된 3D 장면에 깊이감을 더했습니다.">Implemented exponential fog in GLSL (OpenGL ES 3.0), using view-space distance to add depth to a textured 3D scene.</p>
     
         <h2>Tasks Completed</h2>
         <ul>
-            <li>GLSL을 사용하여 OpenGL ES 3.0 타겟의 정점 셰이더와 프래그먼트 셰이더 작성</li>
-            <li>공식 <code>1 - exp2(-density² × distance² × log2)</code>를 사용한 지수 안개 구현</li>
-            <li>모델 공간 좌표를 뷰 공간으로 변환하기 위해 모델, 뷰, 프로젝션 행렬을 올바르게 적용</li>
-            <li>안개 좌표 계산 시 모델 행렬 누락으로 잘못된 안개 효과가 나타난 문제를 디버깅하고 수정</li>
-            <li><code>sampler2D</code>를 사용한 텍스처 매핑 및 안개 색상과의 알파 블렌딩 처리</li>
+            <li data-en="Wrote vertex and fragment shaders targeting OpenGL ES 3.0" data-ko="OpenGL ES 3.0용 정점·프래그먼트 셰이더 작성">Wrote vertex and fragment shaders targeting OpenGL ES 3.0</li>
+            <li data-en="Implemented exponential fog with a distance- and density-based attenuation model" data-ko="거리와 밀도를 바탕으로 감쇠하는 지수형 안개 구현">Implemented exponential fog with a distance- and density-based attenuation model</li>
+            <li data-en="Applied model, view, and projection transforms for view-space fog calculations" data-ko="뷰 공간 안개 계산을 위해 모델·뷰·프로젝션 변환 적용">Applied model, view, and projection transforms for view-space fog calculations</li>
+            <li data-en="Debugged an incorrect fog result caused by a missing model transform" data-ko="모델 변환 누락으로 안개가 어긋나던 문제를 찾아 수정">Debugged an incorrect fog result caused by a missing model transform</li>
+            <li data-en="Sampled textures with sampler2D and blended surface and fog colors" data-ko="sampler2D로 텍스처를 샘플링하고 표면색과 안개색 혼합">Sampled textures with sampler2D and blended surface and fog colors</li>
         </ul>
     
         <h2>Reflection</h2>
-        <p>이번 프로젝트를 통해 그래픽스 파이프라인에서 3D 변환이 어떻게 작동하는지를 확실히 이해하게 되었으며, 특히 뷰 공간으로의 변환 시 모델 행렬 적용의 중요성을 배웠습니다. 
-            처음에는 안개 시각 효과가 이상하게 나타났지만 뷰 행렬만 적용되고 모델 행렬이 빠진 것을 확인한 뒤 문제를 해결했습니다. 
-            이 경험을 통해 셰이더 프로그래밍에서의 정밀한 공간 변환의 중요성을 체감했고 smoothstep 기반 안개와 지수 안개 모델 모두를 직접 구현해보는 실습 기회를 가졌습니다.</p>
+        <p data-en="The initial fog moved incorrectly because the view transform was applied without the model transform. Finding and fixing that bug strengthened my understanding of coordinate spaces and made the visual result a concrete shader-debugging case study."
+           data-ko="처음에는 뷰 변환만 적용하고 모델 변환을 빠뜨려 안개가 잘못 움직였습니다. 원인을 찾아 수정하면서 좌표 공간을 확실히 이해했고, 결과물도 단순 구현이 아니라 셰이더 디버깅 사례로 정리할 수 있었습니다.">The initial fog moved incorrectly because the view transform was applied without the model transform. Finding and fixing that bug strengthened my understanding of coordinate spaces and made the visual result a concrete shader-debugging case study.</p>
     </div>
     
 

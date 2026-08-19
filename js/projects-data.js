@@ -1049,6 +1049,194 @@ const projectsData = {
     }
   },
 
+  "06_StreetTyper": {
+    type: "game",
+    pinned: true,
+    title: "STREET TYPER",
+    subtitle: "Type a combo. Finish with an action. Hit back.",
+    pageTitle: "Street Typer — Min Seohyeon Portfolio",
+    heroType: "image",
+    heroMedia: "../img/StreetTyper/hero.png",
+    overviewImage: "../img/StreetTyper/concept.png",
+    overview: "A 10-day game-jam prototype that turns bilingual typing into an action-RPG combat rule. Players chain five on-screen words and finish with an action word to resolve an attack.",
+    features: [
+      "Korean and English typing treated as gameplay rules, with custom IME-aware input handling",
+      "Card-chain combat with command resolution, status effects, rewards, and enemy turns",
+      "Original 2D art, impact shaders, particles, camera shake, hit feedback, and animated UI"
+    ],
+    experience: {
+      role: "Art · Technical Art · Producer (Team Project)",
+      period: "2026 · 10-day scope",
+      description: "Created and integrated visual assets, composed screens, and iterated on effects and moment-to-moment feedback. As producer, scoped the jam deliverable, clarified ownership, and coordinated the team toward a playable build. The repository also contains the team's reusable card/combat architecture and bilingual input pipeline; this page separates those project systems from my visual contribution."
+    },
+    trailers: [],
+    videos: [],
+    gallery: {
+      title: "Visual Direction",
+      subtitle: "Art and presentation assets from the project repository",
+      images: [
+        { src: "../img/StreetTyper/hero.png", alt: "Street Typer title background", title: "Title direction" },
+        { src: "../img/StreetTyper/concept.png", alt: "Street Typer environment concept", title: "Environment concept" }
+      ]
+    },
+    contributions: {
+      sections: [
+        {
+          title: "Art to Engine",
+          category: "Technical Art",
+          htmlContent: `<section><h2>Art to Engine</h2><p>Built the visual layer around a readable typing-combat loop: original 2D assets, screen composition, hit VFX, outlines, particles, camera shake, floating damage, and UI motion.</p><h3>UI styling workflow</h3><p>Defined the desired look and iterated with AI assistance on a Unity UI shader/tool for per-corner rounding, gradients, shadows, blur, reusable presets, and inspector controls. My contribution is the visual specification, art direction, evaluation, and project integration—not a claim that every generated code line was handwritten.</p><h3>Why it matters</h3><p>The work connects aesthetic decisions to gameplay clarity: typed-word state, action resolution, impact timing, and bilingual input feedback remain legible during combat.</p></section>`
+        }
+      ]
+    },
+    source: {
+      text: "Inspect the team project and implementation on GitHub.",
+      url: "https://github.com/Seohyeon-Min/StreetTyper",
+      label: "GitHub"
+    },
+    localized: {
+      ko: {
+        subtitle: "단어를 이어 기술을 만들고, 마지막 입력으로 공격하세요.",
+        overview: "타이핑 자체를 전투로 만들면 어떨까?라는 아이디어에서 출발한 10일 게임잼 프로젝트입니다. 화면에 제시된 단어 다섯 개를 이어 기술을 만들고, 마지막 행동 단어를 입력하면 공격이 발동합니다. 한글과 영어 모두 같은 흐름으로 플레이할 수 있도록 입력 구조를 설계했습니다.",
+        features: [
+          "IME 입력을 직접 처리해 한글과 영어 모두 자연스럽게 이어지는 타이핑 전투 구현",
+          "단어 조합부터 행동 판정, 상태 효과, 보상과 적 턴까지 연결되는 카드 전투 구조",
+          "직접 제작한 2D 아트에 셰이더, 파티클, 카메라 셰이크와 UI 모션을 더해 타격감 강화"
+        ],
+        experience: {
+          role: "아트 · 테크니컬 아트 · 프로듀서 (팀 프로젝트)",
+          period: "2026 · 10일 제작",
+          description: "캐릭터와 배경 등 비주얼 에셋을 직접 제작해 Unity에 적용하고, 전투 상황이 잘 읽히도록 화면 구성과 이펙트, 타격감을 반복해서 다듬었습니다. 프로듀서로서는 10일 안에 완성할 범위를 정하고 역할을 나눠, 팀이 플레이 가능한 빌드까지 도달하도록 일정을 조율했습니다. 카드·전투 구조와 한·영 입력 시스템은 팀이 함께 만든 기능이며, 아래에서는 프로젝트 전체 기능과 제 작업을 구분해 설명합니다."
+        },
+        gallery: {
+          title: "비주얼 디렉션",
+          subtitle: "직접 제작하고 게임에 적용한 주요 비주얼",
+          images: [
+            { src: "../img/StreetTyper/hero.png", alt: "Street Typer 타이틀 배경", title: "타이틀 방향성" },
+            { src: "../img/StreetTyper/concept.png", alt: "Street Typer 환경 콘셉트", title: "환경 콘셉트" }
+          ]
+        },
+        contributions: {
+          sections: [
+            {
+              title: "아트에서 엔진까지",
+              category: "테크니컬 아트",
+              htmlContent: `<section><h2>아트에서 엔진까지</h2><p>캐릭터와 배경을 그리는 데서 끝내지 않고, 피격 이펙트와 외곽선, 파티클, 카메라 셰이크, 대미지 숫자와 UI 움직임까지 Unity 안에서 직접 맞췄습니다. 타이핑에 집중하는 동안에도 전투 상황과 공격 결과가 바로 읽히는 것이 목표였습니다.</p><h3>UI 스타일 제작</h3><p>버튼마다 이미지를 새로 만들지 않아도 원하는 분위기를 빠르게 맞출 수 있도록 UI 셰이더와 조절 도구를 구성했습니다. 모서리 둥글기, 그라디언트, 그림자와 블러를 인스펙터에서 조절하고 프리셋으로 재사용할 수 있습니다. 구현 과정에서는 AI의 도움을 받았으며, 저는 필요한 기능과 화면 기준을 정하고 결과를 검토해 실제 프로젝트에 맞게 수정·통합했습니다.</p><h3>플레이에 필요한 정보를 먼저</h3><p>현재 입력 중인 단어, 기술 완성 여부와 공격 타이밍이 화려한 효과에 묻히지 않도록 색과 움직임의 우선순위를 정했습니다. 보기 좋은 화면보다 플레이 중 바로 이해되는 화면을 만드는 데 집중했습니다.</p></section>`
+            }
+          ]
+        },
+        source: {
+          text: "GitHub에서 팀 프로젝트와 구현을 확인할 수 있습니다.",
+          url: "https://github.com/Seohyeon-Min/StreetTyper",
+          label: "GitHub"
+        }
+      }
+    }
+  },
+
+  "07_TooHot": {
+    type: "game",
+    pinned: true,
+    title: "TOO HOT!",
+    subtitle: "Technical art, creative direction, and production under a game-jam deadline",
+    pageTitle: "Too Hot — Min Seohyeon Portfolio",
+    heroType: "image",
+    heroMedia: "../img/TooHot/hero.png",
+    overviewImage: "../img/TooHot/hero.png",
+    overview: "A Unity game-jam boss-action project built around readable attack patterns, escalating encounters, and responsive visual feedback.",
+    features: [
+      "Telegraphed straight, spiral, curved, bouncing, and beam attacks",
+      "Boss encounters, hit zones, projectiles, player feedback, and VFX systems",
+      "Customizable UI styling with gradients, rounded corners, shadows, presets, and URP blur",
+      "A 130+ item cross-discipline backlog prioritized from launch-critical P0 work to deferred P3 polish"
+    ],
+    experience: {
+      role: "Technical Art · Creative / Technical Direction · Producer",
+      period: "2026 · Game Jam",
+      description: "Created and integrated art, VFX, UI, and animation while directing the gameplay presentation. Converted design goals into implementation-ready tasks, reviewed cross-system work, managed scope, and coordinated integration toward a playable build. Team-authored systems are identified separately from my direct implementation."
+    },
+    trailers: [],
+    videos: [],
+    gallery: {
+      title: "Art & Presentation",
+      subtitle: "A selected project asset",
+      images: [
+        { src: "../img/TooHot/hero.png", alt: "Too Hot arena art", title: "Arena presentation" }
+      ]
+    },
+    contributions: {
+      sections: [
+        {
+          title: "Visual Polish",
+          category: "Technical Art",
+          htmlContent: `<section><h2>Implemented by Me</h2><p>Created and integrated game art, composed the combat presentation, and added pattern-specific VFX, UI styling, animation, and impact feedback. I tuned color, scale, timing, and hierarchy so players could read danger quickly while attacks still felt forceful.</p><h3>Visual systems in the build</h3><p>The project combines telegraphs, hit zones, projectile and beam effects, player feedback, portraits, boss animation, and shader-driven UI presentation. My focus was connecting those elements into a coherent player experience rather than treating them as isolated assets.</p><h3>Authorship note</h3><p>This was collaborative game-jam work. Art, composition, VFX, UI, animation, and integration described here are my direct contributions; gameplay systems written by teammates are credited as team output.</p></section>`
+        },
+        {
+          title: "Technical & Creative Direction",
+          category: "Technical",
+          htmlContent: `<section><h2>Specified & Reviewed by Me</h2><p>I translated gameplay goals into technical requirements, reviewed implementations, and followed up with programmers without presenting their code as my own.</p><div class="direction-case-grid"><article><span class="case-label">Architecture</span><h3>Data-driven stage flow</h3><p>Specified a centralized <code>GameplayManager</code> and per-stage <code>StageData</code> ScriptableObjects to replace scene-specific dialogue loading and coordinate boss, dialogue, and progression data.</p></article><article><span class="case-label">Reliability</span><h3>Progression safeguards</h3><p>Flagged the final-stage out-of-range risk and requested validation for corrupted or unexpected save values before those states reached players.</p></article><article><span class="case-label">Workflow</span><h3>Faster playtesting</h3><p>Defined editor-facing chapter selection and clean-state reset controls so the team could test individual stages without replaying from the title screen.</p></article><article><span class="case-label">Game Feel</span><h3>Focused the remaining time on hit impact</h3><p>Damage numbers would have repeated feedback already visible in the boss HP bar. With limited time left, we spent that effort on camera shake so successful hits felt more immediate.</p></article></div><p class="case-study-note"><strong>Collaboration boundary:</strong> gameplay programmers implemented the systems from these requirements; I specified, reviewed, tested, and directed the follow-up.</p></section>`
+        },
+        {
+          title: "Production System",
+          category: "Project Lead",
+          htmlContent: `<section><h2>Team Output I Directed</h2><p>Maintained a cross-discipline backlog of more than 130 tracked tasks spanning gameplay systems, content, art, UI, VFX, audio, and presentation.</p><div class="production-evidence"><div><strong>P0 · Must ship</strong><span>Dialogue, save/continue, boss phases, and critical boss patterns</span></div><div><strong>P1 · Should ship</strong><span>Stage warnings, transition presentation, and full-health HP-bar visibility</span></div><div><strong>P3 · Defer if needed</strong><span>Camera polish and optional interaction refinements after the playable core</span></div></div><ul><li>Assigned ownership while allowing programmers to pick up remaining P0 work dynamically.</li><li>Tracked work through implementation, review, rework, testing, and completion.</li><li>Maintained a separate bug workflow with severity, reproduction steps, branch, reporter, and assignee.</li><li>Reviewed completed features before main-branch integration and coordinated visual follow-up for finished boss patterns.</li></ul></section>`
+        }
+      ]
+    },
+    source: {
+      text: "Inspect the team project and implementation on GitHub.",
+      url: "https://github.com/Seohyeon-Min/team17_gamejam",
+      label: "GitHub"
+    },
+    localized: {
+      ko: {
+        subtitle: "게임잼 안에서 테크니컬 아트와 디렉팅, 프로덕션까지",
+        overview: "짧은 게임잼 기간 동안 보스 공격의 가독성과 손맛을 집중적으로 다듬은 Unity 액션 게임입니다. 플레이어가 위험 범위와 공격 방향을 즉시 알아보고, 피격과 반격의 결과도 확실하게 느낄 수 있도록 화면을 구성했습니다.",
+        features: [
+          "직선·나선·곡선·반사 투사체와 빔의 방향을 미리 읽을 수 있는 공격 전조",
+          "피격 범위와 투사체, 보스 패턴에 맞춘 플레이어 피드백과 VFX",
+          "그라디언트와 둥근 모서리, 그림자, 프리셋과 URP 블러를 한곳에서 조절하는 UI 스타일 기능",
+          "출시에 꼭 필요한 P0부터 후순위 P3까지 나눈 130개 이상의 직군 통합 작업 보드"
+        ],
+        experience: {
+          role: "테크니컬 아트 · 크리에이티브/테크니컬 디렉팅 · 프로듀서",
+          period: "2026 · 게임잼",
+          description: "아트와 VFX, UI, 애니메이션을 제작·적용하고 전투 화면의 방향을 잡았습니다. 기획 의도를 개발자가 구현할 수 있는 작업으로 구체화하고, 시스템 작업을 리뷰하며 범위와 통합 일정을 관리했습니다. 팀원이 작성한 시스템과 제가 직접 구현한 작업은 아래에서 구분했습니다."
+        },
+        gallery: {
+          title: "아트와 프레젠테이션",
+          subtitle: "게임 화면에 적용한 주요 아트 작업",
+          images: [
+            { src: "../img/TooHot/hero.png", alt: "Too Hot 전투 공간 아트", title: "전투 공간 프레젠테이션" }
+          ]
+        },
+        contributions: {
+          sections: [
+            {
+              title: "비주얼 폴리시",
+              category: "테크니컬 아트",
+              htmlContent: `<section><h2>제가 직접 구현한 작업</h2><p>게임 아트를 제작·적용하고 전투 화면을 구성했으며, 패턴별 VFX와 UI 스타일, 애니메이션, 타격 피드백을 추가했습니다. 플레이어가 위험을 빠르게 읽으면서도 공격은 강하게 느끼도록 색과 크기, 타이밍, 화면의 위계를 반복해서 조절했습니다.</p><h3>플레이 화면에 연결된 요소</h3><p>공격 전조와 피격 범위, 투사체·빔 이펙트, 플레이어 피드백, 포트레이트, 보스 애니메이션과 셰이더 기반 UI를 하나의 경험으로 연결했습니다. 개별 에셋보다 실제 플레이에서 함께 작동하는 화면을 만드는 데 집중했습니다.</p><h3>기여 범위</h3><p>이 프로젝트는 팀으로 만든 게임잼 작품입니다. 여기서 소개하는 아트, 화면 구성, VFX, UI, 애니메이션과 통합은 제가 직접 맡았으며, 팀원이 작성한 게임플레이 시스템은 팀 결과물로 구분합니다.</p></section>`
+            },
+            {
+              title: "기술·크리에이티브 디렉팅",
+              category: "Technical",
+              htmlContent: `<section><h2>제가 설계하고 리뷰한 작업</h2><p>기획 의도를 기술 요구사항으로 구체화하고 구현 결과를 리뷰했습니다. 팀원이 작성한 코드를 제 구현처럼 소개하지 않습니다.</p><div class="direction-case-grid"><article><span class="case-label">구조 설계</span><h3>데이터 중심 스테이지 흐름</h3><p>씬마다 대화를 불러오던 구조를 대신해 <code>GameplayManager</code>와 스테이지별 <code>StageData</code> ScriptableObject가 보스, 대화와 진행 데이터를 관리하도록 요구사항을 정리했습니다.</p></article><article><span class="case-label">안정성</span><h3>진행 데이터 방어</h3><p>마지막 챕터 이후 인덱스가 범위를 벗어날 가능성을 찾고, 손상되거나 예상 밖인 세이브 값을 검사·보정하는 로직을 요청했습니다.</p></article><article><span class="case-label">작업 효율</span><h3>빠른 스테이지 테스트</h3><p>타이틀부터 반복 플레이하지 않아도 되도록 챕터 선택과 클린 상태 초기화를 에디터 디버그 기능으로 정의했습니다.</p></article><article><span class="case-label">게임 필</span><h3>남은 시간은 타격감에 집중</h3><p>대미지 숫자는 보스 HP바와 역할이 겹쳤습니다. 제한된 개발 시간은 같은 정보를 하나 더 띄우는 대신, 공격이 적중하는 순간을 더 확실히 느낄 수 있는 카메라 흔들림에 쓰기로 했습니다.</p></article></div><p class="case-study-note"><strong>협업 범위:</strong> 게임플레이 프로그래머가 요구사항을 구현했고, 저는 설계와 리뷰, 테스트, 후속 방향 결정을 맡았습니다.</p></section>`
+            },
+            {
+              title: "프로덕션 시스템",
+              category: "Project Lead",
+              htmlContent: `<section><h2>제가 디렉팅한 팀 작업</h2><p>게임플레이 시스템과 콘텐츠, 아트, UI, VFX, 사운드, 연출에 걸친 130개 이상의 작업을 한 보드에서 관리했습니다.</p><div class="production-evidence"><div><strong>P0 · 반드시 완성</strong><span>다이얼로그, 세이브·이어하기, 보스 페이즈와 핵심 패턴</span></div><div><strong>P1 · 중요</strong><span>스테이지 경고, 전환 연출과 풀피 몬스터 HP 표시 규칙</span></div><div><strong>P3 · 여유가 있을 때</strong><span>카메라 폴리시와 선택 조작 등 코어 이후의 개선</span></div></div><ul><li>담당 작업을 나누되 남은 P0는 프로그래머들이 유동적으로 가져가도록 운영했습니다.</li><li>구현, 확인, 재작업, 테스트와 완료 상태를 구분해 추적했습니다.</li><li>심각도와 재현 방법, 브랜치, 작성자와 수정자를 기록하는 버그 보드를 별도로 관리했습니다.</li><li>완료된 기능을 메인 브랜치에 합치기 전에 리뷰하고, 완성된 보스 패턴에 필요한 시각 작업을 이어서 배치했습니다.</li></ul></section>`
+            }
+          ]
+        },
+        source: {
+          text: "GitHub에서 팀 프로젝트와 구현을 확인할 수 있습니다.",
+          url: "https://github.com/Seohyeon-Min/team17_gamejam",
+          label: "GitHub"
+        }
+      }
+    }
+  },
+
   // ========== 기술 프로젝트 ==========
   "01_hello": {
     type: "tech",
@@ -1086,3 +1274,248 @@ const projectsData = {
     }
   }
 };
+
+// Older case studies were originally authored in Korean. Keep those originals
+// for KR mode, while presenting concise, contribution-first English by default.
+function applyEnglishProjectOverride(projectId, english) {
+  const project = projectsData[projectId];
+  if (!project) return;
+
+  const korean = {};
+  Object.keys(english).forEach(key => {
+    if (project[key] !== undefined) korean[key] = project[key];
+  });
+
+  project.localized = project.localized || {};
+  project.localized.ko = { ...(project.localized.ko || {}), ...korean };
+  Object.assign(project, english);
+}
+
+applyEnglishProjectOverride("00_NewManzo", {
+  pageTitle: "New MANZO — Min Seohyeon Portfolio",
+  overview: "An in-development deep-sea rhythm adventure prototype exploring beat-linked hunting, fish behavior, and atmospheric rendering.",
+  features: [
+    "Beat-linked hunting and movement prototypes",
+    "Schooling fish behavior, obstacle avoidance, and player response",
+    "Raycasting and post-processing experiments for underwater presentation"
+  ],
+  experience: {
+    role: "Graphics Prototyping · Technical Support · Production Lead",
+    period: "August 2025 – Present",
+    description: "Prototype graphics and gameplay features, support the team's technical pipeline, and coordinate scope and communication."
+  },
+  contributions: {
+    sections: [
+      {
+        title: "Graphics & Gameplay Prototypes",
+        category: "Technical",
+        htmlContent: `<section><h2>Graphics & Gameplay Prototypes</h2><h3>Fish Behavior</h3><p>Prototyped schooling behavior, obstacle avoidance, and player response to test whether groups of fish could remain readable and reactive during play.</p><h3>Beat-linked Hunting</h3><p>Connected the hunting interaction to the beat system and iterated on timing feedback for the core rhythm-action loop.</p><h3>Rendering Experiments</h3><p>Tested raycasting and post-processing approaches for the underwater presentation while the project direction was still being established.</p></section>`
+      },
+      {
+        title: "Production",
+        category: "Project Lead",
+        items: [
+          "Coordinate project scope, ownership, and team communication",
+          "Provide technical support for graphics integration and prototypes"
+        ]
+      }
+    ]
+  }
+});
+
+applyEnglishProjectOverride("01_Manzo", {
+  pageTitle: "MANZO — Min Seohyeon Portfolio",
+  overview: "A custom-engine rhythm adventure set in the deep sea. Players move on the beat, follow Morse-code signals, and explore an increasingly unsettling underwater world.",
+  features: [
+    "BPM-driven movement and gameplay synchronization",
+    "Custom draw-call pipeline and multi-pass post-processing",
+    "Particle effects, underwater shaders, and screen transitions",
+    "Engine-level scenario and dialogue system refactor"
+  ],
+  experience: {
+    role: "Graphics / Engine Programmer · Technical Artist · Production Lead",
+    period: "September 2024 – 2025",
+    description: "Implemented rendering and rhythm systems, integrated visual effects, resolved engine-level stability and performance issues, and coordinated the project toward a playable build."
+  },
+  gameIntro: `<section class="game-overview"><h2>Game Overview</h2><p><strong>MANZO is a rhythm-driven deep-sea adventure built on a student custom engine.</strong> Players control an underwater drone, dash on the beat, hunt fish, follow Morse-code signals, and descend into a darker psychological-horror atmosphere.</p><p>The project combined rhythm synchronization, exploration, boss encounters, narrative events, custom rendering, and original game art. My primary contribution was turning those requirements into engine systems and real-time visual feedback.</p></section>`,
+  contributions: {
+    sections: [
+      {
+        title: "Rendering & Engine Systems",
+        category: "Technical",
+        htmlContent: `<section><h2>Rendering & Engine Systems</h2><h3>Rhythm Core</h3><p>Implemented BPM-based beat detection, timing windows, beat and bar counting, and synchronized player movement and boss patterns with the audio timeline.</p><h3>Rendering Pipeline</h3><p>Built layer-based draw-call queues for background, world, UI, and late rendering. Added framebuffer-based multi-pass processing for bloom, underwater distortion, god rays, ripple effects, and screen transitions.</p><h3>Particle Integration</h3><p>Integrated lifetime-based particles with linear, curved, random, player-targeted, radial, and spray motion for boss attacks, impacts, and environmental feedback.</p><h3>Architecture & Stability</h3><p>Refactored scenario and dialogue handling out of game-mode ownership into engine-level systems, removing dangling-pointer failures and stabilizing event flow across state changes.</p><h3>Performance</h3><p>Tracked a severe boss-fight slowdown to redundant brute-force collision checks, removed repeated work, and stabilized the encounter. Exact profiling figures were not retained, so the portfolio does not claim unverified measurements.</p></section>`
+      },
+      {
+        title: "Art & Visual Direction",
+        category: "Art",
+        items: [
+          "Created character portraits, fish and boss pixel art, environment art, and UI assets",
+          "Designed and integrated shaders and post-processing for the underwater atmosphere"
+        ]
+      },
+      {
+        title: "Production Leadership",
+        category: "Project Lead",
+        items: [
+          "Defined the rhythm-driven deep-sea direction and aligned design, art, and programming",
+          "Reduced scope around the core loop and coordinated feature integration and Git merges",
+          "Took ownership of debugging, effects, and system integration to reach a playable build"
+        ]
+      }
+    ]
+  },
+  projectDetails: {
+    tool: "C++ · OpenGL · GLSL · Custom Engine",
+    problems: [
+      "Balanced free movement with beat-driven dashing so rhythm created mastery without making exploration feel restrictive."
+    ]
+  },
+  source: {
+    text: "Review the source and implementation on GitHub.",
+    url: "https://github.com/Seohyeon-Min/manzo",
+    label: "GitHub"
+  }
+});
+
+applyEnglishProjectOverride("03_DoubleHit", {
+  subtitle: "Two-player cooperative action",
+  pageTitle: "Double Hit — Min Seohyeon Portfolio",
+  overview: "A two-player action project focused on cooperative skill combinations and survival, built while learning the foundations of a small custom engine.",
+  features: ["Two-player cooperation", "Composable skills", "Boss encounter", "Custom engine architecture"],
+  experience: {
+    role: "Engine Programmer · Art / Audio · Production Lead",
+    period: "March – July 2024",
+    description: "Implemented core engine systems and gameplay while also producing concept art, assets, audio, and the team schedule."
+  },
+  contributions: {
+    sections: [
+      {
+        title: "Custom Engine Foundations",
+        category: "Technical",
+        items: [
+          "Implemented texture handling and a SpriteManager",
+          "Built the collision system",
+          "Created GameObject and GameComponent architecture",
+          "Structured shared engine services for the game"
+        ]
+      },
+      {
+        title: "Cross-discipline Production",
+        category: "Project Lead",
+        items: ["Produced concept art, game assets, and audio", "Coordinated task ownership and the development schedule"]
+      }
+    ]
+  },
+  source: {
+    text: "Review the project source on GitHub.",
+    url: "https://github.com/Seohyeon-Min/DoubleHit",
+    label: "GitHub"
+  }
+});
+
+applyEnglishProjectOverride("04_BirdStrike", {
+  subtitle: "Rhythm Action Game",
+  pageTitle: "Bird Strike — Min Seohyeon Portfolio",
+  overview: "A two-month C++ rhythm-action game built without a commercial engine. Players clear rhythm-synchronized crows before the screen becomes overwhelmed.",
+  features: [
+    "Audio-timeline beat detection and rhythm-synchronized spawning",
+    "Dynamic attack-rate subdivision based on chained targets",
+    "Two-stage difficulty escalation, leaderboard, and achievements",
+    "Original concept art, character design, logo, and audio"
+  ],
+  experience: {
+    role: "Gameplay Programmer · Game Designer · Artist · Production Lead",
+    period: "November – December 2023",
+    description: "Designed and implemented the rhythm-action loop, created the visual and audio direction, and coordinated the two-month team scope."
+  },
+  gameIntro: `<p>Bird Strike was my first university game project and was built in C++ without a commercial engine. Crows enter from random directions in time with the music, and players connect targets to maintain control of the screen.</p><p>Chaining more targets increases attack speed through dynamic beat subdivision. A sun acts as the stage timer, while the second phase raises the tempo and introduces a disruptive enemy. The project also includes score competition and achievements for replayability.</p>`,
+  contributions: {
+    sections: [
+      {
+        title: "Rhythm Gameplay Implementation",
+        category: "Technical",
+        htmlContent: `<section><h2>Rhythm Gameplay Implementation</h2><p>Implemented beat detection against the music timeline and synchronized enemy spawning with the rhythm. The attack interval subdivides as the player connects more targets: two times at four targets, three times at six, and four times at eight.</p><p>Built C++ systems for player motion, crow spawning and management, destination-based movement, dynamic velocity, and direction calculation using <code>atan2</code>.</p></section>`
+      },
+      {
+        title: "Game Design & Art",
+        category: "Art",
+        items: [
+          "Designed the random-spawn rhythm loop, screen-pressure loss condition, two-stage progression, and risk-reward chaining",
+          "Created concept art, character designs, logo, and audio assets"
+        ]
+      },
+      {
+        title: "Production",
+        category: "Project Lead",
+        items: [
+          "Scoped replayability around systemic spawning instead of authored note charts",
+          "Aligned the team around a shared visual and gameplay target using concept art"
+        ]
+      }
+    ]
+  },
+  source: {
+    text: "Review the project source on GitHub.",
+    url: "https://github.com/Seohyeon-Min/bird_sprite_2",
+    label: "GitHub"
+  }
+});
+
+applyEnglishProjectOverride("Dangling", {
+  pageTitle: "Dangling Game Jam — Min Seohyeon Portfolio",
+  experience: {
+    role: "Organizer · Producer · Visual Designer",
+    period: "June 28–29, 2025",
+    description: "Planned the event, managed budget and approvals, coordinated promotion and operations, and designed the poster."
+  },
+  gallery: {
+    title: "Event Gallery",
+    subtitle: "From kickoff to final submissions",
+    images: [
+      { src: "../img/Dangling/1.jpg", alt: "Game jam kickoff", title: "Kickoff" },
+      { src: "../img/Dangling/2.jpg", alt: "Team development session", title: "Development session" },
+      { src: "../img/Dangling/3.jpg", alt: "Team development session", title: "Development session" },
+      { src: "../img/portfolio_thumbnails/Dangling.jpg", alt: "Event poster", title: "Poster design" }
+    ]
+  },
+  contributions: {
+    sections: [
+      {
+        title: "Event Production",
+        category: "Planning",
+        subsections: [
+          { title: "Scale", items: ["24 participants across six teams", "Cross-disciplinary collaboration across four majors"] },
+          { title: "Coordination", items: ["Aligned plans with another student council through recurring meetings", "Secured faculty approval and budget support"] },
+          { title: "Outcome", items: ["Every team submitted a playable game within 36 hours", "Post-event satisfaction: 4.88 / 5"] }
+        ]
+      }
+    ]
+  },
+  source: {
+    text: "See the completed entries and event record on Instagram.",
+    url: "https://www.instagram.com/dangling.kmu/",
+    label: "dangling.kmu"
+  }
+});
+
+applyEnglishProjectOverride("01_hello", {
+  pageTitle: "Hello Quad — Min Seohyeon Portfolio",
+  overview: "A WebGL shader study that applies mouse-driven transforms and a scale-dependent rainbow gradient to a quad.",
+  tasks: [
+    "<strong>Vertex shader:</strong> Applied a transform matrix driven by mouse input.",
+    "<strong>Fragment shader:</strong> Generated a smooth rainbow gradient by converting HSV to RGB.",
+    "<strong>Graphics wrappers:</strong> Modularized textures, vertex buffers, index buffers, and vertex arrays."
+  ],
+  reflection: "The main challenge was configuring the WebGL debugging and build environment. Resolving CMake and environment issues gave me a clearer understanding of the toolchain surrounding graphics code."
+});
+
+applyEnglishProjectOverride("02_meshes", {
+  pageTitle: "Procedural Meshes — Min Seohyeon Portfolio",
+  overview: "An OpenGL and GLSL study in generating planes, cubes, spheres, cylinders, cones, and tori from parametric equations.",
+  tasks: [
+    "<strong>Procedural geometry:</strong> Generated mesh vertices and indices using parametric equations and trigonometry.",
+    "<strong>Vertex layout:</strong> Defined and mapped position, normal, and UV attributes to OpenGL buffers.",
+    "<strong>Topology:</strong> Built cylinder and cone caps with continuous indexed geometry."
+  ],
+  reflection: "This project clarified how topology, winding order, index buffers, and reusable generation functions shape data flow through the rendering pipeline."
+});
