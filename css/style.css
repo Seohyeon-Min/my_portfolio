@@ -3631,6 +3631,14 @@ a[data-resume-alternate].is-hidden { display:none !important; }
 .hobby-node--drawing { --node-start-x:-250px; --node-start-y:-150px; --node-rotate:-2deg; right:8%; bottom:5%; transition-delay:240ms; }
 .hobby-photo { overflow:hidden; width:100%; aspect-ratio:4/3; border:5px solid #fff; border-radius:1rem; background:#ddd; box-shadow:0 1.4rem 3rem rgba(43,54,102,.18); }
 .hobby-photo img { width:100%; height:100%; object-fit:cover; }
+.hobby-photo--stack { position:relative; overflow:visible; border:0; background:transparent; box-shadow:none; }
+.hobby-photo--stack img { position:absolute; inset:0; border:4px solid #fff; border-radius:.85rem; background:#fff; box-shadow:0 1rem 2.4rem rgba(43,54,102,.2); transition:transform 320ms cubic-bezier(.2,.8,.2,1),z-index 0s; }
+.hobby-photo--stack img:nth-child(1) { z-index:3; transform:rotate(-3deg) translate(-2%,1%); }
+.hobby-photo--stack img:nth-child(2) { z-index:2; transform:rotate(5deg) translate(6%,-3%); }
+.hobby-photo--stack img:nth-child(3) { z-index:1; transform:rotate(-8deg) translate(-7%,4%); }
+.hobby-photo--stack:hover img:nth-child(1) { transform:rotate(-5deg) translate(-24%,2%) scale(1.02); }
+.hobby-photo--stack:hover img:nth-child(2) { z-index:4; transform:rotate(1deg) translate(0,-5%) scale(1.03); }
+.hobby-photo--stack:hover img:nth-child(3) { transform:rotate(7deg) translate(25%,3%) scale(1.02); }
 .hobby-photo--placeholder { display:grid; place-items:center; background:linear-gradient(135deg,#e8e0f8,#cbd7f5); color:rgba(23,27,45,.45); text-align:center; font-size:.55rem; font-weight:800; letter-spacing:.12em; }
 .hobby-photo--sewing { background:repeating-linear-gradient(135deg,#ead8d2 0 10px,#f3e8df 10px 20px); }
 .hobby-node h3 { margin:.65rem 0 .15rem; color:var(--ls-ink); font-size:clamp(1rem,1.8vw,1.45rem); letter-spacing:-.04em; }
