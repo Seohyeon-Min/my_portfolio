@@ -1089,9 +1089,13 @@ const projectsData = {
       ]
     },
     source: {
-      text: "Inspect the team project and implementation on GitHub.",
+      text: "Play the game on itch.io or inspect the team project on GitHub.",
       url: "https://github.com/Seohyeon-Min/StreetTyper",
-      label: "GitHub"
+      label: "GitHub",
+      links: [
+        { label: "PLAY ON ITCH.IO ↗", url: "https://handalhandal.itch.io/streettyper" },
+        { label: "GITHUB ↗", url: "https://github.com/Seohyeon-Min/StreetTyper" }
+      ]
     },
     localized: {
       ko: {
@@ -1125,9 +1129,13 @@ const projectsData = {
           ]
         },
         source: {
-          text: "GitHub에서 팀 프로젝트와 구현을 확인할 수 있습니다.",
+          text: "itch.io에서 직접 플레이하거나 GitHub에서 팀 프로젝트와 구현을 확인할 수 있습니다.",
           url: "https://github.com/Seohyeon-Min/StreetTyper",
-          label: "GitHub"
+          label: "GitHub",
+          links: [
+            { label: "ITCH.IO에서 플레이 ↗", url: "https://handalhandal.itch.io/streettyper" },
+            { label: "GITHUB ↗", url: "https://github.com/Seohyeon-Min/StreetTyper" }
+          ]
         }
       }
     }
@@ -1137,13 +1145,15 @@ const projectsData = {
     type: "game",
     pinned: true,
     title: "TOO HOT!",
-    subtitle: "Technical art, creative direction, and production under a game-jam deadline",
+    subtitle: "A custom shadow shader, real-time VFX, and technical direction built under a game-jam deadline",
     pageTitle: "Too Hot — Min Seohyeon Portfolio",
-    heroType: "image",
-    heroMedia: "../img/TooHot/hero.png",
+    heroType: "video",
+    heroMedia: "../img/TooHot/트레일러1_low.mp4",
+    heroPoster: "../img/TooHot/hero.png",
     overviewImage: "../img/TooHot/hero.png",
     overview: "A Unity game-jam boss-action project built around readable attack patterns, escalating encounters, and responsive visual feedback.",
     features: [
+      "A custom shadow shader integrated and art-directed for a cohesive, grounded combat presentation",
       "Telegraphed straight, spiral, curved, bouncing, and beam attacks",
       "Boss encounters, hit zones, projectiles, player feedback, and VFX systems",
       "Customizable UI styling with gradients, rounded corners, shadows, presets, and URP blur",
@@ -1152,15 +1162,15 @@ const projectsData = {
     experience: {
       role: "Technical Art · Creative / Technical Direction · Producer",
       period: "2026 · Game Jam",
-      description: "Created and integrated art, VFX, UI, and animation while directing the gameplay presentation. Converted design goals into implementation-ready tasks, reviewed cross-system work, managed scope, and coordinated integration toward a playable build. Team-authored systems are identified separately from my direct implementation."
+      description: "Owned the project's technical and production direction while directly creating and integrating art, VFX, UI, shaders, and animation. I defined system behavior and architecture requirements, translated them into a prioritized 130+ task backlog, assigned and reviewed implementation, tested results, and coordinated main-branch integration. Teammates authored the gameplay code; the specifications, priorities, review decisions, and visual implementation described here were mine."
     },
     trailers: [],
     videos: [],
     gallery: {
-      title: "Art & Presentation",
-      subtitle: "A selected project asset",
+      title: "Visual Development",
+      subtitle: "UI presentation integrated into the playable build",
       images: [
-        { src: "../img/TooHot/hero.png", alt: "Too Hot arena art", title: "Arena presentation" }
+        { src: "../img/TooHot/CardUI.png", alt: "Too Hot card UI in the Unity game", title: "Card UI presentation" }
       ]
     },
     contributions: {
@@ -1168,17 +1178,12 @@ const projectsData = {
         {
           title: "Visual Polish",
           category: "Technical Art",
-          htmlContent: `<section><h2>Implemented by Me</h2><p>Created and integrated game art, composed the combat presentation, and added pattern-specific VFX, UI styling, animation, and impact feedback. I tuned color, scale, timing, and hierarchy so players could read danger quickly while attacks still felt forceful.</p><h3>Visual systems in the build</h3><p>The project combines telegraphs, hit zones, projectile and beam effects, player feedback, portraits, boss animation, and shader-driven UI presentation. My focus was connecting those elements into a coherent player experience rather than treating them as isolated assets.</p><h3>Authorship note</h3><p>This was collaborative game-jam work. Art, composition, VFX, UI, animation, and integration described here are my direct contributions; gameplay systems written by teammates are credited as team output.</p></section>`
+          htmlContent: `<section><h2>Implemented by Me</h2><p>Created and integrated game art, composed the combat presentation, and added a custom shadow shader, pattern-specific VFX, UI styling, animation, and impact feedback. I tuned color, scale, timing, and hierarchy so players could read danger quickly while attacks still felt forceful.</p><h3>Custom shadow shader</h3><p>I built and integrated the shadow treatment as part of the real-time visual pipeline, then tuned it against the characters, arena, and effects. It gives the 2D artwork a consistent sense of contact and depth inside Unity instead of relying on individually painted shadow assets.</p><h3>Visual systems in the build</h3><p>The shadow shader works alongside telegraphs, hit zones, projectile and beam effects, player feedback, portraits, boss animation, and shader-driven UI presentation. My focus was connecting those elements into a coherent player experience rather than treating them as isolated assets.</p><h3>Authorship note</h3><p>This was collaborative game-jam work. The shadow shader, art, composition, VFX, UI, animation, and integration described here are my direct contributions; gameplay systems written by teammates are credited as team output.</p></section>`
         },
         {
-          title: "Technical & Creative Direction",
-          category: "Technical",
-          htmlContent: `<section><h2>Specified & Reviewed by Me</h2><p>I translated gameplay goals into technical requirements, reviewed implementations, and followed up with programmers without presenting their code as my own.</p><div class="direction-case-grid"><article><span class="case-label">Architecture</span><h3>Data-driven stage flow</h3><p>Specified a centralized <code>GameplayManager</code> and per-stage <code>StageData</code> ScriptableObjects to replace scene-specific dialogue loading and coordinate boss, dialogue, and progression data.</p></article><article><span class="case-label">Reliability</span><h3>Progression safeguards</h3><p>Flagged the final-stage out-of-range risk and requested validation for corrupted or unexpected save values before those states reached players.</p></article><article><span class="case-label">Workflow</span><h3>Faster playtesting</h3><p>Defined editor-facing chapter selection and clean-state reset controls so the team could test individual stages without replaying from the title screen.</p></article><article><span class="case-label">Game Feel</span><h3>Focused the remaining time on hit impact</h3><p>Damage numbers would have repeated feedback already visible in the boss HP bar. With limited time left, we spent that effort on camera shake so successful hits felt more immediate.</p></article></div><p class="case-study-note"><strong>Collaboration boundary:</strong> gameplay programmers implemented the systems from these requirements; I specified, reviewed, tested, and directed the follow-up.</p></section>`
-        },
-        {
-          title: "Production System",
-          category: "Project Lead",
-          htmlContent: `<section><h2>Team Output I Directed</h2><p>Maintained a cross-discipline backlog of more than 130 tracked tasks spanning gameplay systems, content, art, UI, VFX, audio, and presentation.</p><div class="production-evidence"><div><strong>P0 · Must ship</strong><span>Dialogue, save/continue, boss phases, and critical boss patterns</span></div><div><strong>P1 · Should ship</strong><span>Stage warnings, transition presentation, and full-health HP-bar visibility</span></div><div><strong>P3 · Defer if needed</strong><span>Camera polish and optional interaction refinements after the playable core</span></div></div><ul><li>Assigned ownership while allowing programmers to pick up remaining P0 work dynamically.</li><li>Tracked work through implementation, review, rework, testing, and completion.</li><li>Maintained a separate bug workflow with severity, reproduction steps, branch, reporter, and assignee.</li><li>Reviewed completed features before main-branch integration and coordinated visual follow-up for finished boss patterns.</li></ul></section>`
+          title: "Technical Direction & Production Ownership",
+          category: "Direction · Production",
+          htmlContent: `<section><h2>I Defined the Systems and Drove Their Delivery</h2><p>I owned the connection between design intent, technical structure, and production. I decided what the systems needed to do, documented implementation-ready requirements, set priorities and ownership, reviewed the resulting work, requested revisions, tested it in context, and coordinated integration. This was more than scheduling: the backlog encoded the product and technical decisions that guided the programmers' work.</p><div class="direction-case-grid"><article><span class="case-label">Architecture Direction</span><h3>Data-driven stage flow</h3><p>Directed the replacement of scene-specific dialogue loading with a centralized <code>GameplayManager</code> and per-stage <code>StageData</code> ScriptableObjects coordinating boss, dialogue, progression, and ending conditions.</p></article><article><span class="case-label">Reliability Direction</span><h3>Progression safeguards</h3><p>Identified final-stage out-of-range failure cases and defined validation and recovery requirements for corrupted or unexpected save values.</p></article><article><span class="case-label">Workflow Design</span><h3>Faster playtesting</h3><p>Specified editor-facing chapter selection and clean-state reset controls so stages and relic state could be tested directly without replaying from the title screen.</p></article><article><span class="case-label">Creative Prioritization</span><h3>Spent the remaining time on impact</h3><p>Rejected redundant damage numbers because the boss HP bar already communicated the result, then redirected the remaining effort to camera response for stronger hit feedback.</p></article></div><h3>From direction to delivery</h3><p>I maintained a cross-discipline backlog of more than 130 tasks spanning gameplay systems, content, art, UI, VFX, audio, and presentation.</p><div class="production-evidence"><div><strong>P0 · Must ship</strong><span>Dialogue, save/continue, boss phases, and critical boss patterns</span></div><div><strong>P1 · Should ship</strong><span>Stage warnings, transition presentation, and full-health HP-bar visibility</span></div><div><strong>P3 · Defer if needed</strong><span>Camera polish and optional interaction refinements after the playable core</span></div></div><ul><li>Assigned system ownership and let programmers dynamically claim remaining P0 work.</li><li>Tracked every item through implementation, review, rework, testing, and completion.</li><li>Ran a separate bug workflow with severity, reproduction steps, branch, reporter, and assignee.</li><li>Reviewed completed systems before main-branch integration, then scheduled the visual pass around finished boss patterns.</li></ul><p class="case-study-note"><strong>Authorship boundary:</strong> teammates wrote the gameplay code. I authored the system requirements and production plan, made the architecture and priority calls documented here, reviewed and tested the implementations, and directly created the visual work identified in the Technical Art section.</p></section>`
         }
       ]
     },
@@ -1189,9 +1194,10 @@ const projectsData = {
     },
     localized: {
       ko: {
-        subtitle: "게임잼 안에서 테크니컬 아트와 디렉팅, 프로덕션까지",
+        subtitle: "게임잼 기간 안에 구현한 커스텀 그림자 셰이더와 실시간 VFX, 테크니컬 디렉팅",
         overview: "짧은 게임잼 기간 동안 보스 공격의 가독성과 손맛을 집중적으로 다듬은 Unity 액션 게임입니다. 플레이어가 위험 범위와 공격 방향을 즉시 알아보고, 피격과 반격의 결과도 확실하게 느낄 수 있도록 화면을 구성했습니다.",
         features: [
+          "캐릭터와 전투 공간에 깊이와 접지감을 더하는 커스텀 그림자 셰이더 제작·적용",
           "직선·나선·곡선·반사 투사체와 빔의 방향을 미리 읽을 수 있는 공격 전조",
           "피격 범위와 투사체, 보스 패턴에 맞춘 플레이어 피드백과 VFX",
           "그라디언트와 둥근 모서리, 그림자, 프리셋과 URP 블러를 한곳에서 조절하는 UI 스타일 기능",
@@ -1200,13 +1206,13 @@ const projectsData = {
         experience: {
           role: "테크니컬 아트 · 크리에이티브/테크니컬 디렉팅 · 프로듀서",
           period: "2026 · 게임잼",
-          description: "아트와 VFX, UI, 애니메이션을 제작·적용하고 전투 화면의 방향을 잡았습니다. 기획 의도를 개발자가 구현할 수 있는 작업으로 구체화하고, 시스템 작업을 리뷰하며 범위와 통합 일정을 관리했습니다. 팀원이 작성한 시스템과 제가 직접 구현한 작업은 아래에서 구분했습니다."
+          description: "프로젝트의 기술 방향과 제작 전반을 책임지는 동시에 아트와 VFX, UI, 셰이더, 애니메이션을 직접 제작·적용했습니다. 시스템의 동작과 구조를 정하고 이를 130개 이상의 우선순위 작업으로 구체화한 뒤, 담당 배정부터 구현 리뷰와 테스트, 메인 브랜치 통합까지 이끌었습니다. 게임플레이 코드는 팀원이 작성했으며, 요구사항과 우선순위, 리뷰 판단, 비주얼 구현은 제가 맡았습니다."
         },
         gallery: {
-          title: "아트와 프레젠테이션",
-          subtitle: "게임 화면에 적용한 주요 아트 작업",
+          title: "비주얼 제작 과정",
+          subtitle: "실제 플레이 빌드에 적용한 UI 화면",
           images: [
-            { src: "../img/TooHot/hero.png", alt: "Too Hot 전투 공간 아트", title: "전투 공간 프레젠테이션" }
+            { src: "../img/TooHot/CardUI.png", alt: "Too Hot 게임에 적용된 카드 UI", title: "카드 UI 화면" }
           ]
         },
         contributions: {
@@ -1214,17 +1220,12 @@ const projectsData = {
             {
               title: "비주얼 폴리시",
               category: "테크니컬 아트",
-              htmlContent: `<section><h2>제가 직접 구현한 작업</h2><p>게임 아트를 제작·적용하고 전투 화면을 구성했으며, 패턴별 VFX와 UI 스타일, 애니메이션, 타격 피드백을 추가했습니다. 플레이어가 위험을 빠르게 읽으면서도 공격은 강하게 느끼도록 색과 크기, 타이밍, 화면의 위계를 반복해서 조절했습니다.</p><h3>플레이 화면에 연결된 요소</h3><p>공격 전조와 피격 범위, 투사체·빔 이펙트, 플레이어 피드백, 포트레이트, 보스 애니메이션과 셰이더 기반 UI를 하나의 경험으로 연결했습니다. 개별 에셋보다 실제 플레이에서 함께 작동하는 화면을 만드는 데 집중했습니다.</p><h3>기여 범위</h3><p>이 프로젝트는 팀으로 만든 게임잼 작품입니다. 여기서 소개하는 아트, 화면 구성, VFX, UI, 애니메이션과 통합은 제가 직접 맡았으며, 팀원이 작성한 게임플레이 시스템은 팀 결과물로 구분합니다.</p></section>`
+              htmlContent: `<section><h2>제가 직접 구현한 작업</h2><p>게임 아트를 제작·적용하고 전투 화면을 구성했으며, 커스텀 그림자 셰이더와 패턴별 VFX, UI 스타일, 애니메이션, 타격 피드백을 추가했습니다. 플레이어가 위험을 빠르게 읽으면서도 공격은 강하게 느끼도록 색과 크기, 타이밍, 화면의 위계를 반복해서 조절했습니다.</p><h3>커스텀 그림자 셰이더</h3><p>캐릭터와 전투 공간이 따로 떠 보이지 않도록 실시간 그림자 표현을 제작해 Unity에 적용했습니다. 에셋마다 그림자를 별도로 그려 넣는 대신, 캐릭터와 배경, 이펙트를 함께 보며 그림자 표현을 조절해 2D 화면에 일관된 접지감과 깊이를 만들었습니다.</p><h3>플레이 화면에 연결된 요소</h3><p>그림자 셰이더를 공격 전조와 피격 범위, 투사체·빔 이펙트, 플레이어 피드백, 포트레이트, 보스 애니메이션, 셰이더 기반 UI와 하나의 경험으로 연결했습니다. 개별 에셋보다 실제 플레이에서 함께 작동하는 화면을 만드는 데 집중했습니다.</p><h3>기여 범위</h3><p>이 프로젝트는 팀으로 만든 게임잼 작품입니다. 여기서 소개하는 그림자 셰이더와 아트, 화면 구성, VFX, UI, 애니메이션, 통합은 제가 직접 맡았으며, 팀원이 작성한 게임플레이 시스템은 팀 결과물로 구분합니다.</p></section>`
             },
             {
-              title: "기술·크리에이티브 디렉팅",
-              category: "Technical",
-              htmlContent: `<section><h2>제가 설계하고 리뷰한 작업</h2><p>기획 의도를 기술 요구사항으로 구체화하고 구현 결과를 리뷰했습니다. 팀원이 작성한 코드를 제 구현처럼 소개하지 않습니다.</p><div class="direction-case-grid"><article><span class="case-label">구조 설계</span><h3>데이터 중심 스테이지 흐름</h3><p>씬마다 대화를 불러오던 구조를 대신해 <code>GameplayManager</code>와 스테이지별 <code>StageData</code> ScriptableObject가 보스, 대화와 진행 데이터를 관리하도록 요구사항을 정리했습니다.</p></article><article><span class="case-label">안정성</span><h3>진행 데이터 방어</h3><p>마지막 챕터 이후 인덱스가 범위를 벗어날 가능성을 찾고, 손상되거나 예상 밖인 세이브 값을 검사·보정하는 로직을 요청했습니다.</p></article><article><span class="case-label">작업 효율</span><h3>빠른 스테이지 테스트</h3><p>타이틀부터 반복 플레이하지 않아도 되도록 챕터 선택과 클린 상태 초기화를 에디터 디버그 기능으로 정의했습니다.</p></article><article><span class="case-label">게임 필</span><h3>남은 시간은 타격감에 집중</h3><p>대미지 숫자는 보스 HP바와 역할이 겹쳤습니다. 제한된 개발 시간은 같은 정보를 하나 더 띄우는 대신, 공격이 적중하는 순간을 더 확실히 느낄 수 있는 카메라 흔들림에 쓰기로 했습니다.</p></article></div><p class="case-study-note"><strong>협업 범위:</strong> 게임플레이 프로그래머가 요구사항을 구현했고, 저는 설계와 리뷰, 테스트, 후속 방향 결정을 맡았습니다.</p></section>`
-            },
-            {
-              title: "프로덕션 시스템",
-              category: "Project Lead",
-              htmlContent: `<section><h2>제가 디렉팅한 팀 작업</h2><p>게임플레이 시스템과 콘텐츠, 아트, UI, VFX, 사운드, 연출에 걸친 130개 이상의 작업을 한 보드에서 관리했습니다.</p><div class="production-evidence"><div><strong>P0 · 반드시 완성</strong><span>다이얼로그, 세이브·이어하기, 보스 페이즈와 핵심 패턴</span></div><div><strong>P1 · 중요</strong><span>스테이지 경고, 전환 연출과 풀피 몬스터 HP 표시 규칙</span></div><div><strong>P3 · 여유가 있을 때</strong><span>카메라 폴리시와 선택 조작 등 코어 이후의 개선</span></div></div><ul><li>담당 작업을 나누되 남은 P0는 프로그래머들이 유동적으로 가져가도록 운영했습니다.</li><li>구현, 확인, 재작업, 테스트와 완료 상태를 구분해 추적했습니다.</li><li>심각도와 재현 방법, 브랜치, 작성자와 수정자를 기록하는 버그 보드를 별도로 관리했습니다.</li><li>완료된 기능을 메인 브랜치에 합치기 전에 리뷰하고, 완성된 보스 패턴에 필요한 시각 작업을 이어서 배치했습니다.</li></ul></section>`
+              title: "기술 디렉팅과 프로덕션 오너십",
+              category: "디렉팅 · 프로덕션",
+              htmlContent: `<section><h2>시스템을 정의하고 완성까지 이끌었습니다</h2><p>기획 의도와 기술 구조, 실제 제작을 잇는 역할을 맡았습니다. 시스템이 어떻게 동작해야 하는지 결정하고 개발자가 바로 구현할 수 있는 요구사항으로 정리한 뒤, 우선순위와 담당자를 정하고 구현 결과를 리뷰했습니다. 수정 요청과 테스트, 통합까지 이어졌기 때문에 단순한 일정 관리가 아니라 개발 방향 자체를 작업 보드에 구체화한 일이었습니다.</p><div class="direction-case-grid"><article><span class="case-label">구조 디렉팅</span><h3>데이터 중심 스테이지 흐름</h3><p>씬마다 대화를 불러오던 구조를 <code>GameplayManager</code>와 스테이지별 <code>StageData</code> ScriptableObject 중심으로 바꾸도록 방향을 정했습니다. 보스와 대화, 진행 데이터, 마지막 챕터 이후 엔딩 조건을 한 흐름에서 관리하도록 요구사항을 제시했습니다.</p></article><article><span class="case-label">안정성 디렉팅</span><h3>진행 데이터 방어</h3><p>마지막 챕터 이후 인덱스가 범위를 벗어나는 문제를 먼저 발견하고, 손상되거나 예상 밖인 세이브 값을 검사·보정하는 조건을 정의했습니다.</p></article><article><span class="case-label">워크플로 설계</span><h3>빠른 스테이지 테스트</h3><p>타이틀부터 반복 플레이하지 않아도 되도록 챕터 선택과 유물 데이터까지 포함한 클린 상태 초기화를 에디터 디버그 기능으로 지정했습니다.</p></article><article><span class="case-label">크리에이티브 우선순위</span><h3>남은 시간은 타격감에 집중</h3><p>보스 HP바와 정보가 겹치는 대미지 숫자는 제외하고, 제한된 시간을 공격 적중 순간의 카메라 반응에 사용하도록 방향을 전환했습니다.</p></article></div><h3>방향 결정에서 완성까지</h3><p>게임플레이 시스템과 콘텐츠, 아트, UI, VFX, 사운드, 연출에 걸친 130개 이상의 작업을 하나의 우선순위 보드로 운영했습니다.</p><div class="production-evidence"><div><strong>P0 · 반드시 완성</strong><span>다이얼로그, 세이브·이어하기, 보스 페이즈와 핵심 패턴</span></div><div><strong>P1 · 중요</strong><span>스테이지 경고, 전환 연출과 풀피 몬스터 HP 표시 규칙</span></div><div><strong>P3 · 여유가 있을 때</strong><span>카메라 폴리시와 선택 조작 등 코어 이후의 개선</span></div></div><ul><li>시스템별 담당을 정하고 남은 P0 작업은 프로그래머가 유동적으로 가져가도록 운영했습니다.</li><li>모든 작업을 구현, 리뷰, 재작업, 테스트, 완료 단계로 나눠 추적했습니다.</li><li>심각도와 재현 방법, 브랜치, 작성자, 수정자를 기록하는 별도 버그 흐름을 운영했습니다.</li><li>완성된 시스템을 메인 브랜치에 합치기 전에 검토하고, 보스 패턴 구현 순서에 맞춰 후속 비주얼 작업을 배치했습니다.</li></ul><p class="case-study-note"><strong>기여 범위:</strong> 게임플레이 코드는 팀원이 작성했습니다. 저는 시스템 요구사항과 제작 계획을 작성하고, 여기 소개한 구조와 우선순위를 결정했으며, 구현 리뷰와 테스트를 맡았습니다. 테크니컬 아트 탭의 비주얼 작업은 제가 직접 구현했습니다.</p></section>`
             }
           ]
         },

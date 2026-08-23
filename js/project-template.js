@@ -34,7 +34,29 @@
       document.title = project.pageTitle;
     }
 
-    // Navbar는 이미 HTML에 있으므로 그대로 둡니다
+    document.body.classList.add('project-detail-page');
+    document.body.dataset.project = getProjectId();
+    if (!document.querySelector('link[data-case-font]')) {
+      const fontLink = document.createElement('link');
+      fontLink.rel = 'stylesheet';
+      fontLink.href = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap';
+      fontLink.dataset.caseFont = '';
+      document.head.appendChild(fontLink);
+    }
+    const track = ['graphics', 'software', 'product'].includes(localStorage.getItem('portfolio-track'))
+      ? localStorage.getItem('portfolio-track')
+      : 'graphics';
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+      navbar.innerHTML = `
+        <a class="project-brand" href="../index.html?track=${track}#proof"><i></i><span>MIN SEOHYEON</span></a>
+        <nav class="navbar-menu">
+          <a href="../index.html?track=${track}#proof">PROOF REEL</a>
+          <a href="../index.html?track=${track}#archive">ALL PROJECTS</a>
+          <a href="../docs/Resume.pdf" target="_blank" rel="noopener">RESUME ↗</a>
+        </nav>
+      `;
+    }
   }
 
   // 게임/기획 프로젝트용 Hero 섹션 렌더링
@@ -48,12 +70,17 @@
     // Hero 미디어 설정 - 기존 내용을 완전히 교체
     if (project.heroType === 'video') {
       heroSection.innerHTML = `
-        <video src="${project.heroMedia}" autoplay muted loop></video>
+        <video src="${project.heroMedia}" autoplay muted loop playsinline preload="auto" ${project.heroPoster ? `poster="${project.heroPoster}"` : ''}></video>
         <div class="video-overlay">
           <h1 class="${project.heroTitleClass || 'game-title'}">${project.title}</h1>
           <p class="${project.heroSubtitleClass || 'game-subtitle'}">${project.subtitle}</p>
         </div>
       `;
+      const heroVideo = heroSection.querySelector('video');
+      if (heroVideo) {
+        heroVideo.muted = true;
+        heroVideo.play().catch(() => {});
+      }
     } else if (project.heroType === 'image') {
       heroSection.innerHTML = `
         <img src="${project.heroMedia}" alt="${project.title} Poster" class="bird-image">
@@ -463,13 +490,15 @@
     const remainingSections = project.contributions.sections.slice(1);
 
     // 사용 가능한 카테고리 추출 (첫 번째 섹션 제외)
-    const allCategories = ['Planning', 'Technical', 'Art', 'Audio', 'Project Lead'];
+    const allCategories = ['Planning', 'Technical', 'Art', 'Audio', 'Project Lead', 'Direction · Production', '디렉팅 · 프로덕션'];
     const categoryLabels = {
       'Planning': t('Design', '기획'),
       'Technical': t('Technical', '기술'),
       'Art': t('Art', '아트'),
       'Audio': t('Audio', '음악'),
-      'Project Lead': t('Production', '프로덕션')
+      'Project Lead': t('Production', '프로덕션'),
+      'Direction · Production': t('Direction + Production', '디렉팅 + 프로덕션'),
+      '디렉팅 · 프로덕션': t('Direction + Production', '디렉팅 + 프로덕션')
     };
     const usedCategories = [...new Set(
       remainingSections
@@ -691,13 +720,14 @@
     const roundedSection = document.querySelector('.rounded-section');
     if (!roundedSection) return;
 
+    const sourceLinks = project.source.links || [{ label: project.source.label, url: project.source.url }];
     const sourceHTML = `
       <section class="source-section">
-        <h2>${project.source.label ? 'Link' : 'SOURCE'}</h2>
-        <p>
-          ${project.source.text}
-          <a href="${project.source.url}" target="_blank">${project.source.label}</a>.
-        </p>
+        <h2>${sourceLinks.length > 1 ? 'Play & Source' : (project.source.label ? 'Link' : 'SOURCE')}</h2>
+        <p>${project.source.text}</p>
+        <div class="source-actions">
+          ${sourceLinks.map(link => `<a href="${link.url}" target="_blank" rel="noopener">${link.label}</a>`).join('')}
+        </div>
       </section>
     `;
 

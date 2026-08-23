@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FRAME LAB — Project Brief · Min Seohyeon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--paper:#f6f3ed;--ink:#171b2d;--muted:#606983;--blue:#496fe8;--line:rgba(54,72,132,.18);--panel:rgba(255,255,255,.76)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 82% 8%,rgba(73,111,232,.15),transparent 28rem),var(--paper);color:var(--ink);font-family:"Manrope","Noto Sans KR",sans-serif}
+    a{color:inherit}.shell{width:min(1120px,calc(100% - 2rem));margin:auto}.top{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;font-size:.68rem;font-weight:800;letter-spacing:.09em}.top a{text-decoration:none}.back{color:var(--blue)}
+    .hero{min-height:76vh;display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:4rem;padding:5rem 0}.eyebrow{color:var(--blue);font-size:.68rem;font-weight:800;letter-spacing:.15em}.hero h1{margin:.7rem 0 1.2rem;font-size:clamp(4.5rem,11vw,9rem);line-height:.76;letter-spacing:-.085em}.hero p{max-width:42rem;color:var(--muted);font-size:clamp(1rem,1.5vw,1.25rem);line-height:1.65}.status{display:inline-flex;margin-top:1rem;padding:.55rem .75rem;border:1px solid var(--blue);border-radius:999px;color:var(--blue);font-size:.62rem;font-weight:800;letter-spacing:.1em}
+    .meter{position:relative;aspect-ratio:1;border:1px solid var(--line);border-radius:50%;background:repeating-radial-gradient(circle,transparent 0 13%,rgba(73,111,232,.12) 13.3% 13.8%),linear-gradient(135deg,rgba(255,255,255,.9),rgba(226,232,255,.65));box-shadow:0 3rem 7rem rgba(54,72,132,.16)}.meter:before,.meter:after{content:"";position:absolute;left:50%;top:50%;transform-origin:0 50%;height:2px;border-radius:999px;background:var(--blue)}.meter:before{width:42%;transform:rotate(-32deg)}.meter:after{width:31%;transform:rotate(128deg);opacity:.45}.meter span{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-size:.68rem;font-weight:800;letter-spacing:.1em}
+    .section{padding:5.5rem 0;border-top:1px solid var(--line)}.section h2{margin:.5rem 0 2rem;font-size:clamp(2.4rem,5vw,5rem);line-height:.9;letter-spacing:-.06em}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}.card{padding:1.5rem;border:1px solid var(--line);border-radius:1.3rem;background:var(--panel);box-shadow:0 1.5rem 4rem rgba(54,72,132,.08);backdrop-filter:blur(14px)}.card small{color:var(--blue);font-size:.58rem;font-weight:800;letter-spacing:.12em}.card h3{margin:.8rem 0 .6rem;font-size:1.1rem}.card p,.card li{color:var(--muted);font-size:.82rem;line-height:1.6}.card ul{padding-left:1.1rem;margin:.5rem 0 0}
+    .evidence{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.evidence article{min-height:13rem;padding:1.5rem;border:1px solid var(--line);border-radius:1.3rem;background:#fff}.evidence h3{margin:.3rem 0 1rem}.placeholder{display:grid;place-items:center;margin-top:1rem;min-height:6rem;border:1px dashed rgba(73,111,232,.38);border-radius:.8rem;color:var(--blue);font-size:.68rem;font-weight:800;letter-spacing:.08em;text-align:center}
+    .note{margin-top:1.5rem;padding:1rem 1.2rem;border-left:3px solid var(--blue);background:rgba(73,111,232,.07);color:var(--muted);font-size:.82rem;line-height:1.6}.footer{display:flex;justify-content:space-between;gap:1rem;padding:2rem 0 4rem;color:var(--muted);font-size:.7rem}.footer a{color:var(--blue);font-weight:800}
+    @media(max-width:760px){.hero{min-height:auto;grid-template-columns:1fr;padding:4rem 0}.meter{width:min(75vw,22rem);margin:auto}.grid,.evidence{grid-template-columns:1fr}.section{padding:3.5rem 0}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <nav class="top"><a class="back" href="../index.html?track=graphics#proof">← BACK TO PROOF REEL</a><span>MIN SEOHYEON · TARGET BUILD</span></nav>
+    <header class="hero">
+      <div><span class="eyebrow">ROLE-GAP PROJECT · 7-DAY BUILD BRIEF</span><h1>FRAME<br>LAB</h1><p>A compact C++ rendering laboratory that makes GPU bottlenecks visible, reproducible, and measurable—then documents the engineering decisions that remove them.</p><span class="status">IN DEVELOPMENT · RESULTS NOT YET CLAIMED</span></div>
+      <div class="meter" aria-hidden="true"><span>MEASURE<br>→ ISOLATE<br>→ OPTIMIZE</span></div>
+    </header>
+
+    <section class="section"><span class="eyebrow">WHY THIS PROJECT</span><h2>THE MISSING PROOF.</h2><div class="grid">
+      <article class="card"><small>GRAPHICS</small><h3>Rendering ownership</h3><p>Shows C++, OpenGL and GLSL in one inspectable system instead of isolated shader exercises.</p></article>
+      <article class="card"><small>TECHNICAL ART</small><h3>Artist-facing controls</h3><p>Exposes scene density, material complexity and effect quality as safe, reusable controls.</p></article>
+      <article class="card"><small>ENGINEERING</small><h3>Measured decisions</h3><p>Turns “I optimized it” into captures, frame timings, memory notes and a repeatable test scene.</p></article>
+    </div></section>
+
+    <section class="section"><span class="eyebrow">MINIMUM SHIPPABLE SCOPE</span><h2>ONE SCENE. FOUR PROOFS.</h2><div class="grid">
+      <article class="card"><small>01 · RENDERER</small><h3>Forward scene renderer</h3><ul><li>GLTF scene and PBR materials</li><li>Directional and point lights</li><li>Framebuffer post-processing</li></ul></article>
+      <article class="card"><small>02 · STRESS MODES</small><h3>Controlled bottlenecks</h3><ul><li>Overdraw / transparent VFX</li><li>High draw-call scene</li><li>Expensive shader variant</li></ul></article>
+      <article class="card"><small>03 · PROFILING</small><h3>Evidence capture</h3><ul><li>CPU and GPU frame time</li><li>RenderDoc captures</li><li>Draw calls and VRAM notes</li></ul></article>
+      <article class="card"><small>04 · OPTIMIZATION</small><h3>Before → after</h3><ul><li>Instancing or batching</li><li>Effect quality tiers</li><li>Documented visual tradeoffs</li></ul></article>
+      <article class="card"><small>05 · TOOLING</small><h3>Debug overlay</h3><ul><li>Runtime mode switching</li><li>Cost visualization</li><li>Capture-ready presets</li></ul></article>
+      <article class="card"><small>06 · REPOSITORY</small><h3>Recruiter-ready code</h3><ul><li>Build instructions</li><li>Architecture diagram</li><li>Known limits and next steps</li></ul></article>
+    </div></section>
+
+    <section class="section"><span class="eyebrow">REQUIRED PORTFOLIO EVIDENCE</span><h2>DO NOT PUBLISH EMPTY CLAIMS.</h2><div class="evidence">
+      <article><h3>Baseline vs. optimized</h3><p>Same camera, scene, resolution and hardware. Report actual median CPU/GPU frame time, draw calls and memory—not aspirational numbers.</p><div class="placeholder">ADD REAL TABLE AFTER PROFILING<br>BASELINE → CHANGE → RESULT</div></article>
+      <article><h3>One deep investigation</h3><p>Show the capture that identified the bottleneck, explain the failed attempt, then connect the final code change to the measured result.</p><div class="placeholder">ADD RENDERDOC CAPTURE<br>ANNOTATED BOTTLENECK</div></article>
+      <article><h3>Readable source</h3><p>Link directly to the renderer, profiler overlay and optimization commit. Include a short architecture map and reproducible build steps.</p><div class="placeholder">ADD GITHUB REPOSITORY<br>AND COMMIT LINKS</div></article>
+      <article><h3>90-second reel</h3><p>Open with the final visual, reveal the stress modes, show the profiler, then finish with the before/after comparison.</p><div class="placeholder">ADD FINAL CAPTURE<br>NO LONG INTRO</div></article>
+    </div><p class="note"><strong>Honesty rule:</strong> this page is currently a build specification. Replace every placeholder with captured evidence before presenting FRAME LAB as completed work.</p></section>
+
+    <footer class="footer"><span>FRAME LAB · PROJECT BRIEF</span><a href="../index.html?track=graphics#proof">RETURN TO PORTFOLIO</a></footer>
+  </div>
+</body>
+</html>

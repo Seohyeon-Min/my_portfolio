@@ -22,13 +22,197 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Noto+Sans+KR:wght@400;500;600;700;800&amp;display=swap"
         rel="stylesheet" />
 
     <link rel="stylesheet" href="css/style.css" />
 </head>
 
-<body>
+<body class="link-start-home">
+  <main class="link-start-app" aria-label="Min Seohyeon portfolio">
+    <div class="light-cursor" aria-hidden="true">
+      <svg>
+        <line class="light-cursor__trail-segment"></line>
+        <line class="light-cursor__trail-segment"></line>
+        <line class="light-cursor__trail-segment"></line>
+        <line class="light-cursor__trail-segment"></line>
+      </svg>
+      <i class="light-cursor__core"></i>
+    </div>
+    <div class="link-space" aria-hidden="true">
+      <div class="link-space__wash"></div>
+      <div class="link-space__tunnel">
+        <i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="link-space__rays"></div>
+      <div class="link-space__particles"></div>
+    </div>
+    <canvas class="link-warp-canvas" aria-hidden="true"></canvas>
+
+    <header class="link-header">
+      <a class="link-brand" href="#entry" data-scene-jump="0" aria-label="Return to entry">
+        <span class="link-brand__mark"></span>
+        <span>MIN SEOHYEON</span>
+      </a>
+      <div class="link-header__meta">
+        <span data-track-role>TECHNICAL ARTIST · GRAPHICS</span>
+        <a href="docs/Resume.pdf" target="_blank" rel="noopener">RESUME ↗</a>
+      </div>
+    </header>
+
+    <div class="link-stage" aria-live="polite">
+      <section class="link-scene is-active link-scene--entry" data-scene="entry" aria-label="Entry">
+        <div class="link-hero" data-parallax="0.32">
+          <p class="link-kicker">SYSTEM READY · PORTFOLIO 2026</p>
+          <h1>MIN<br>SEOHYEON</h1>
+          <p class="link-hero__role" data-track-role>TECHNICAL ARTIST · GRAPHICS</p>
+          <p class="link-hero__statement" data-track-statement data-en="I build real-time visuals, shaders, and performance-aware tools for playable experiences." data-ko="실시간 비주얼과 셰이더, 성능을 고려한 제작 도구로 플레이 경험을 만듭니다.">I build real-time visuals, shaders, and performance-aware tools for playable experiences.</p>
+          <div class="track-evidence" aria-label="Core evidence">
+            <span data-track-evidence="0">SHADERS · VFX</span>
+            <span data-track-evidence="1">C++ · OPENGL</span>
+            <span data-track-evidence="2">REAL-TIME SYSTEMS</span>
+          </div>
+          <div class="track-selector" role="group" aria-label="Choose portfolio version">
+            <button type="button" data-track-select="graphics" aria-pressed="true">GRAPHICS</button>
+            <button type="button" data-track-select="software" aria-pressed="false">SOFTWARE</button>
+            <button type="button" data-track-select="product" aria-pressed="false">PRODUCTION</button>
+          </div>
+        </div>
+        <p class="link-control-hint"><span>SCROLL / DRAG</span><b data-en="Dive inward" data-ko="화면 안으로 이동">Dive inward</b></p>
+      </section>
+
+      <section class="link-scene link-scene--proof" data-scene="proof" aria-label="Proof Reel">
+        <article class="proof-reel" data-parallax="0.2">
+          <header class="proof-reel__header">
+            <div>
+              <span class="panel-index">01 / PROOF REEL</span>
+              <h2 data-proof-title>VISUALS THAT<br>SHIP IN ENGINE.</h2>
+            </div>
+            <p data-proof-summary data-en="Three projects. One through-line: visual intent translated into responsive, engine-ready systems." data-ko="서로 다른 세 프로젝트에서 시각적 의도를 실제로 작동하는 실시간 시스템으로 구현했습니다.">Three projects. One through-line: visual intent translated into responsive, engine-ready systems.</p>
+          </header>
+
+          <div class="proof-reel__projects">
+            <a class="proof-shot proof-shot--street" href="portfolio_game/07_TooHot.html" data-proof-project="0">
+              <img src="img/portfolio_thumbnails/TooHot.png" alt="" data-proof-project-image>
+              <span><b data-proof-project-title>TOO HOT!</b><small data-proof-project-meta>UNITY · SHADOW SHADER · REAL-TIME VFX</small></span>
+            </a>
+            <a class="proof-shot proof-shot--hot" href="portfolio_game/06_StreetTyper.html" data-proof-project="1">
+              <img src="img/portfolio_thumbnails/StreetTyper.png" alt="" data-proof-project-image>
+              <span><b data-proof-project-title>STREET TYPER</b><small data-proof-project-meta>UI SHADERS · VFX · GAME FEEL</small></span>
+            </a>
+            <a class="proof-shot proof-shot--manzo" href="portfolio_planning/Dangling.html" data-proof-project="2">
+              <img src="img/portfolio_thumbnails/Dangling.jpg" alt="" data-proof-project-image>
+              <span><b data-proof-project-title>DANGLING*</b><small data-proof-project-meta>GAME JAM · EVENT OPERATIONS</small></span>
+            </a>
+          </div>
+
+          <div class="proof-reel__facts" aria-label="Portfolio evidence">
+            <div><small data-proof-fact-label="0">BUILT</small><strong data-proof-fact-value="0">Shaders + real-time VFX</strong></div>
+            <div><small data-proof-fact-label="1">SOLVED</small><strong data-proof-fact-value="1">Readability + feedback</strong></div>
+            <div><small data-proof-fact-label="2">PROVEN IN</small><strong data-proof-fact-value="2">Unity + custom engine</strong></div>
+            <div><small data-proof-fact-label="3">EVIDENCE</small><strong data-proof-fact-value="3">Measured results</strong></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="link-scene link-scene--archive" data-scene="archive" aria-label="Project archive">
+        <article class="float-panel archive-panel" data-parallax="0.28">
+          <span class="panel-index">02 / ALL PROJECTS</span>
+          <h2 data-en="ALL PROJECTS" data-ko="전체 프로젝트">ALL PROJECTS</h2>
+          <div class="link-archive-grid">
+            <a href="portfolio_game/06_StreetTyper.html"><img src="img/portfolio_thumbnails/StreetTyper.png" alt=""><div class="archive-card__copy"><b>STREET TYPER</b><small>UI Shaders · VFX</small><i>Technical Art · Producer</i></div></a>
+            <a href="portfolio_game/07_TooHot.html"><img src="img/portfolio_thumbnails/TooHot.png" alt=""><div class="archive-card__copy"><b>TOO HOT!</b><small>Technical Direction</small><i>Art · VFX · Producer</i></div></a>
+            <a href="portfolio_game/01_Manzo.html"><img src="img/portfolio_thumbnails/Manzo.png" alt=""><div class="archive-card__copy"><b>MANZO</b><small>C++ · OpenGL</small><i>Project Lead · Producer</i></div></a>
+            <a href="portfolio_game/00_NewManzo.html"><img src="img/portfolio_thumbnails/NewManzo.png" alt=""><div class="archive-card__copy"><b>NEW MANZO</b><small>Graphics Prototypes</small><i>Project Lead · Producer</i></div></a>
+            <a href="portfolio_game/03_DoubleHit.html"><img src="img/portfolio_thumbnails/DoubleHit.png" alt=""><div class="archive-card__copy"><b>DOUBLE HIT</b><small>Custom Engine</small><i>Project Lead · Producer</i></div></a>
+            <a href="portfolio_game/04_BirdStrike.html"><img src="img/portfolio_thumbnails/BirdStrike.png" alt=""><div class="archive-card__copy"><b>BIRD STRIKE</b><small>Rhythm Gameplay</small><i>Project Lead · Producer</i></div></a>
+            <a href="portfolio_game/05_ThinkThink.html"><img src="img/portfolio_thumbnails/ThinkThink.png" alt=""><div class="archive-card__copy"><b>THINK THINK</b><small>Game Design · Art</small><i>Art · Design · Production</i></div></a>
+            <a href="portfolio_planning/Dangling.html"><img src="img/portfolio_thumbnails/Dangling.jpg" alt=""><div class="archive-card__copy"><b>DANGLING*</b><small>Game Jam Production</small><i>Organizer</i></div></a>
+          </div>
+          <button type="button" class="graphics-collection-open" data-graphics-open>
+            <span><small>GRAPHICS-ONLY COLLECTION</small><b>GRAPHICS FUNDAMENTALS</b></span>
+            <em data-en="8 studies · GLSL, lighting, procedural geometry, noise, and simulation" data-ko="8개 연습 · GLSL, 라이팅, 프로시저럴 지오메트리, 노이즈와 시뮬레이션">8 studies · GLSL, lighting, procedural geometry, noise, and simulation</em>
+            <strong>EXPLORE ↗</strong>
+          </button>
+        </article>
+        <div class="graphics-collection" aria-hidden="true">
+          <button type="button" class="graphics-collection__close" data-graphics-close aria-label="Close graphics collection">×</button>
+          <header><span class="panel-index">GRAPHICS FUNDAMENTALS · 2024</span><h2>ONE FOUNDATION.<br>EIGHT STUDIES.</h2><p data-en="Focused exercises documenting the rendering concepts behind my engine and real-time visual work." data-ko="엔진과 실시간 비주얼 작업의 기반이 된 렌더링 개념을 작은 실습으로 정리했습니다.">Focused exercises documenting the rendering concepts behind my engine and real-time visual work.</p></header>
+          <div class="graphics-study-grid">
+            <a href="portfolio/01_hello.html"><img src="img/portfolio_thumbnails/01_hello.jpg" alt=""><span><b>VERTEX + FRAGMENT</b><small>GLSL FOUNDATION</small></span></a>
+            <a href="portfolio/02_meshes.html"><img src="img/portfolio_thumbnails/02_meshes.jpg" alt=""><span><b>PROCEDURAL MESH</b><small>GEOMETRY GENERATION</small></span></a>
+            <a href="portfolio/03_fog.html"><img src="img/portfolio_thumbnails/03_fog.jpg" alt=""><span><b>DISTANCE FOG</b><small>DEPTH EFFECT</small></span></a>
+            <a href="portfolio/04_toon.html"><img src="img/portfolio_thumbnails/04_toon.jpg" alt=""><span><b>TOON LIGHTING</b><small>LIGHTING MODEL</small></span></a>
+            <a href="portfolio/05_shadow.html"><img src="img/portfolio_thumbnails/05_shadow.jpg" alt=""><span><b>SHADOW MAPPING</b><small>LIGHTING · DEPTH</small></span></a>
+            <a href="portfolio/06_value.html"><img src="img/portfolio_thumbnails/06_value.jpg" alt=""><span><b>VALUE NOISE</b><small>PROCEDURAL TEXTURE</small></span></a>
+            <a href="portfolio/07_gradient.html"><img src="img/portfolio_thumbnails/07_gradient.jpg" alt=""><span><b>GRADIENT NOISE</b><small>PERLIN FOUNDATION</small></span></a>
+            <a class="graphics-study--featured" href="portfolio/08_demo_fun.html"><img src="img/portfolio_thumbnails/08_fun.jpg" alt=""><span><b>FLIGHT SIMULATION</b><small>NOISE · FOG · TOON</small></span></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="link-scene link-scene--experience" data-scene="experience" aria-label="Experience and education">
+        <article class="experience-board" data-parallax="0.24">
+          <header>
+            <span class="panel-index">03 / EXPERIENCE</span>
+            <h2 data-en="BUILT ACROSS DISCIPLINES." data-ko="여러 분야를 연결해 완성합니다.">BUILT ACROSS DISCIPLINES.</h2>
+          </header>
+          <div class="experience-grid">
+            <section><small>2023 — PRESENT</small><h3>DIGIPEN INSTITUTE OF TECHNOLOGY</h3><p data-en="B.S. in Computer Science in Real-Time Interactive Simulation" data-ko="실시간 인터랙티브 시뮬레이션 컴퓨터과학 학사 과정">B.S. in Computer Science in Real-Time Interactive Simulation</p><strong>GPA 3.958 / 4.0</strong></section>
+            <section><small>SPRING 2025</small><h3>TEACHING ASSISTANT</h3><p data-en="Game Development Project I — C++ implementation support and technical project reviews." data-ko="Game Development Project I에서 C++ 구현을 돕고 학생 프로젝트에 기술 피드백을 제공했습니다.">Game Development Project I — C++ implementation support and technical project reviews.</p><strong>C++ · CODE REVIEW · MENTORING</strong></section>
+            <section><small>TEAM PROJECTS</small><h3>PROJECT LEAD · PRODUCER</h3><p data-en="Defined scope, reviewed systems, aligned art and engineering, and guided multidisciplinary teams through delivery." data-ko="범위를 정하고 시스템을 리뷰하며 아트와 개발을 조율해 여러 팀 프로젝트를 완성했습니다.">Defined scope, reviewed systems, aligned art and engineering, and guided multidisciplinary teams through delivery.</p><strong>DIRECTION · PRIORITIZATION · DELIVERY</strong></section>
+          </div>
+          <a class="experience-resume" href="docs/Resume.pdf" target="_blank" rel="noopener" data-en="OPEN FULL RESUME ↗" data-ko="전체 이력서 보기 ↗">OPEN FULL RESUME ↗</a>
+        </article>
+      </section>
+
+      <section class="link-scene link-scene--profile" data-scene="profile" aria-label="Profile and contact">
+        <div class="profile-orbit" data-parallax="0.5"><img src="img/face.jpg" alt="Portrait of Min Seohyeon"></div>
+        <article class="float-panel profile-panel" data-parallax="0.3">
+          <span class="panel-index">04 / ABOUT · CONTACT</span>
+          <h2 data-en="ART, CODE, AND DIRECTION." data-ko="아트와 코드, 그리고 디렉팅.">ART, CODE, AND DIRECTION.</h2>
+          <p data-en="DigiPen RTIS student building real-time visuals, technical systems, and multidisciplinary teams. GPA 3.958 / 4.0." data-ko="실시간 비주얼과 기술 시스템을 만들고 여러 직군의 팀을 이끄는 DigiPen RTIS 학생입니다. GPA 3.958 / 4.0.">DigiPen RTIS student building real-time visuals, technical systems, and multidisciplinary teams. GPA 3.958 / 4.0.</p>
+          <div class="profile-actions">
+            <a href="mailto:weare1842@gmail.com">EMAIL</a>
+            <a href="https://github.com/Seohyeon-Min" target="_blank" rel="noopener">GITHUB</a>
+            <a href="https://www.linkedin.com/in/seohyeon-min-781362250/" target="_blank" rel="noopener">LINKEDIN</a>
+            <button type="button" class="hobby-open" data-hobby-toggle data-en="CURIOUS ABOUT ME?" data-ko="제가 더 궁금하시다면?">CURIOUS ABOUT ME?</button>
+          </div>
+        </article>
+        <div class="hobby-map" aria-hidden="true">
+          <button type="button" class="hobby-map__close" data-hobby-close aria-label="Close hobbies">×</button>
+          <svg class="hobby-map__lines" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M500 300 L245 145"></path><path d="M500 300 L765 150"></path><path d="M500 300 L780 450"></path>
+          </svg>
+          <div class="hobby-map__center"><img src="img/face2.jpg" alt="Min Seohyeon"><span data-en="OFF THE CLOCK" data-ko="작업 밖의 저">OFF THE CLOCK</span></div>
+          <article class="hobby-node hobby-node--cosplay">
+            <div class="hobby-photo hobby-photo--placeholder"><span>PHOTO<br>SLOT</span></div>
+            <h3>COSPLAY</h3><p data-en="Characters I love, made real for fun." data-ko="좋아하는 캐릭터를 직접 현실로 옮겨봅니다.">Characters I love, made real for fun.</p>
+          </article>
+          <article class="hobby-node hobby-node--sewing">
+            <div class="hobby-photo hobby-photo--placeholder hobby-photo--sewing"><span>PHOTO<br>SLOT</span></div>
+            <h3>SEWING</h3><p data-en="Patterns, fabric, and the joy of making." data-ko="패턴과 천을 만지며 직접 만드는 시간을 좋아합니다.">Patterns, fabric, and the joy of making.</p>
+          </article>
+          <article class="hobby-node hobby-node--drawing">
+            <div class="hobby-photo"><img src="img/ThinkThink/1.png" alt="Drawing by Min Seohyeon"></div>
+            <h3>DRAWING</h3><p data-en="I still draw simply because I enjoy it." data-ko="그림은 여전히 그냥 좋아서 계속 그립니다.">I still draw simply because I enjoy it.</p>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <nav class="link-scene-nav" aria-label="Portfolio scenes">
+      <button type="button" data-scene-jump="0" class="is-active"><span>00</span><b>ENTRY</b></button>
+      <button type="button" data-scene-jump="1"><span>01</span><b>PROOF REEL</b></button>
+      <button type="button" data-scene-jump="2"><span>02</span><b>ALL PROJECTS</b></button>
+      <button type="button" data-scene-jump="3"><span>03</span><b>EXPERIENCE</b></button>
+      <button type="button" data-scene-jump="4"><span>04</span><b>ABOUT · CONTACT</b></button>
+    </nav>
+
+    <div class="link-progress" aria-hidden="true"><i></i></div>
+    <button class="link-arrow link-arrow--prev" type="button" data-scene-prev aria-label="Previous scene">←</button>
+    <button class="link-arrow link-arrow--next" type="button" data-scene-next aria-label="Next scene">→</button>
+  </main>
   <div class="language-toggle" role="group" aria-label="Language">
     <button type="button" data-lang="en" aria-pressed="true">EN</button>
     <span aria-hidden="true">/</span>
