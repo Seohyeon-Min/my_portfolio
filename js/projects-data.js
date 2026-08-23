@@ -1056,9 +1056,11 @@ const projectsData = {
     subtitle: "Type a combo. Finish with an action. Hit back.",
     pageTitle: "Street Typer — Min Seohyeon Portfolio",
     heroType: "image",
-    heroMedia: "../img/StreetTyper/hero.png",
+    heroMedia: "../img/StreetTyper/title2.png",
+    heroLink: "https://handalhandal.itch.io/streettyper",
+    heroImageContainsTitle: true,
     overviewImage: "../img/StreetTyper/concept.png",
-    overview: "A 10-day game-jam prototype that turns bilingual typing into an action-RPG combat rule. Players chain five on-screen words and finish with an action word to resolve an attack.",
+    overview: "I originated Street Typer's core concept and built the first gameplay prototype: bilingual typing becomes an action-RPG combat rule, where players chain five on-screen words and finish with an action word to resolve an attack. The team's game designer later developed level design and polished the design around that foundation.",
     features: [
       "Korean and English typing treated as gameplay rules, with custom IME-aware input handling",
       "Card-chain combat with command resolution, status effects, rewards, and enemy turns",
@@ -1067,16 +1069,32 @@ const projectsData = {
     experience: {
       role: "Art · Technical Art · Producer (Team Project)",
       period: "2026 · 10-day scope",
-      description: "Created and integrated visual assets, composed screens, and iterated on effects and moment-to-moment feedback. As producer, scoped the jam deliverable, clarified ownership, and coordinated the team toward a playable build. The repository also contains the team's reusable card/combat architecture and bilingual input pipeline; this page separates those project systems from my visual contribution."
+      description: "Originated the game's central typing-combat concept and built the initial prototype that established its playable loop. The team's game designer focused on level design and subsequent design polish. I then produced the 10-day scope and directly owned the visual direction, art integration, UI, VFX, and moment-to-moment feedback through the playable build."
     },
     trailers: [],
     videos: [],
+    conceptComparison: {
+      eyebrow: "CONCEPT → PLAYABLE BUILD",
+      title: "The concept survived contact with the engine.",
+      description: "I carried the concept's composition, palette, silhouettes, foreground framing, and comic-book rhythm into the playable Unity scene instead of treating the concept as disposable mood art.",
+      concept: { src: "../img/StreetTyper/concept.png", alt: "Original Street Typer combat concept art", label: "Original combat concept" },
+      build: { src: "../img/StreetTyper/ingame_typing.png", alt: "Street Typer playable combat scene in Unity", label: "Playable Unity build" },
+      proof: "The final build preserves the same opposing character placement, cyan forest depth, violet arena, card fan, speech-bubble information, and hot-pink/mint accents—then adds live typing state, health, timing, animation, VFX, and hit feedback."
+    },
     gallery: {
       title: "Visual Direction",
       subtitle: "Art and presentation assets from the project repository",
       images: [
-        { src: "../img/StreetTyper/hero.png", alt: "Street Typer title background", title: "Title direction" },
-        { src: "../img/StreetTyper/concept.png", alt: "Street Typer environment concept", title: "Environment concept" }
+        { src: "../img/StreetTyper/title.png", alt: "Street Typer title screen", title: "Title screen" },
+        { src: "../img/StreetTyper/ingame_gamestart.png", alt: "Street Typer stage start", title: "Stage start" },
+        { src: "../img/StreetTyper/ingame_typing.png", alt: "Street Typer typing combat", title: "Typing combat" },
+        { src: "../img/StreetTyper/ingame_typing2.png", alt: "Street Typer bilingual typing combat", title: "Bilingual input" },
+        { src: "../img/StreetTyper/ingame_attacking.png", alt: "Street Typer attack impact", title: "Attack impact" },
+        { src: "../img/StreetTyper/ingame_selectcard.png", alt: "Street Typer card selection", title: "Card selection" },
+        { src: "../img/StreetTyper/ingame_mom.png", alt: "Street Typer narrative scene", title: "Narrative beat" },
+        { src: "../img/StreetTyper/clear.png", alt: "Street Typer clear screen", title: "Stage clear" },
+        { src: "../img/StreetTyper/option.png", alt: "Street Typer options", title: "Options" },
+        { src: "../img/StreetTyper/intro.png", alt: "Street Typer intro", title: "Intro" }
       ]
     },
     contributions: {
@@ -1084,7 +1102,7 @@ const projectsData = {
         {
           title: "Art to Engine",
           category: "Technical Art",
-          htmlContent: `<section><h2>Art to Engine</h2><p>Built the visual layer around a readable typing-combat loop: original 2D assets, screen composition, hit VFX, outlines, particles, camera shake, floating damage, and UI motion.</p><h3>UI styling workflow</h3><p>Defined the desired look and iterated with AI assistance on a Unity UI shader/tool for per-corner rounding, gradients, shadows, blur, reusable presets, and inspector controls. My contribution is the visual specification, art direction, evaluation, and project integration—not a claim that every generated code line was handwritten.</p><h3>Why it matters</h3><p>The work connects aesthetic decisions to gameplay clarity: typed-word state, action resolution, impact timing, and bilingual input feedback remain legible during combat.</p></section>`
+          htmlContent: `<section><h2>Core Concept to Playable Build</h2><p>I proposed the main idea and built the initial prototype: combine five typed words into a skill, then enter an action word to execute it. That prototype established the project's core loop before the team expanded it. Our game designer owned level design and helped polish the design; the originating concept and first playable proof were mine.</p><h3>Art to Engine</h3><p>Built the visual layer around that typing-combat loop: original 2D assets, screen composition, hit VFX, outlines, particles, camera shake, floating damage, and UI motion.</p><h3>UI styling workflow</h3><p>Defined the desired look and iterated with AI assistance on a Unity UI shader/tool for per-corner rounding, gradients, shadows, blur, reusable presets, and inspector controls. My contribution is the visual specification, art direction, evaluation, and project integration—not a claim that every generated code line was handwritten.</p><h3>Why it matters</h3><p>The work connects the original game idea to gameplay clarity: typed-word state, action resolution, impact timing, and bilingual input feedback remain legible during combat.</p></section>`
         }
       ]
     },
@@ -1100,7 +1118,7 @@ const projectsData = {
     localized: {
       ko: {
         subtitle: "단어를 이어 기술을 만들고, 마지막 입력으로 공격하세요.",
-        overview: "타이핑 자체를 전투로 만들면 어떨까?라는 아이디어에서 출발한 10일 게임잼 프로젝트입니다. 화면에 제시된 단어 다섯 개를 이어 기술을 만들고, 마지막 행동 단어를 입력하면 공격이 발동합니다. 한글과 영어 모두 같은 흐름으로 플레이할 수 있도록 입력 구조를 설계했습니다.",
+        overview: "제가 제안한 ‘타이핑 자체를 전투로 만들면 어떨까?’라는 핵심 아이디어와 초기 플레이 프로토타입에서 출발한 10일 게임잼 프로젝트입니다. 단어 다섯 개를 이어 기술을 만들고 마지막 행동 단어로 공격을 실행하는 기본 루프를 먼저 만들었고, 이후 팀의 게임 디자이너가 이 기반 위에서 레벨 디자인과 디자인 폴리싱을 맡았습니다.",
         features: [
           "IME 입력을 직접 처리해 한글과 영어 모두 자연스럽게 이어지는 타이핑 전투 구현",
           "단어 조합부터 행동 판정, 상태 효과, 보상과 적 턴까지 연결되는 카드 전투 구조",
@@ -1109,14 +1127,30 @@ const projectsData = {
         experience: {
           role: "아트 · 테크니컬 아트 · 프로듀서 (팀 프로젝트)",
           period: "2026 · 10일 제작",
-          description: "캐릭터와 배경 등 비주얼 에셋을 직접 제작해 Unity에 적용하고, 전투 상황이 잘 읽히도록 화면 구성과 이펙트, 타격감을 반복해서 다듬었습니다. 프로듀서로서는 10일 안에 완성할 범위를 정하고 역할을 나눠, 팀이 플레이 가능한 빌드까지 도달하도록 일정을 조율했습니다. 카드·전투 구조와 한·영 입력 시스템은 팀이 함께 만든 기능이며, 아래에서는 프로젝트 전체 기능과 제 작업을 구분해 설명합니다."
+          description: "게임의 중심이 된 타이핑 전투 아이디어를 제안하고, 실제로 플레이 가능한 초기 프로토타입을 만들어 핵심 루프를 정했습니다. 팀의 게임 디자이너는 이후 레벨 디자인과 디자인 폴리싱을 담당했습니다. 저는 프로듀서로서 10일 제작 범위와 역할을 조율하는 동시에 비주얼 디렉션, 아트 적용, UI, VFX와 타격 피드백을 직접 맡아 플레이 가능한 빌드까지 완성했습니다."
+        },
+        conceptComparison: {
+          eyebrow: "CONCEPT → PLAYABLE BUILD",
+          title: "콘셉트의 핵심을 실제 플레이 화면까지 유지했습니다.",
+          description: "분위기 참고용 그림으로 끝내지 않고, 콘셉트의 화면 구도와 색, 실루엣, 전경 프레이밍, 코믹북 리듬을 Unity 플레이 화면에 그대로 옮겼습니다.",
+          concept: { src: "../img/StreetTyper/concept.png", alt: "Street Typer 전투 콘셉트 아트", label: "초기 전투 콘셉트" },
+          build: { src: "../img/StreetTyper/ingame_typing.png", alt: "Unity에서 구현된 Street Typer 전투 화면", label: "실제 Unity 플레이 화면" },
+          proof: "최종 빌드에서도 양쪽 캐릭터 배치, 청록색 숲의 깊이, 보랏빛 전투 공간, 부채꼴 카드, 말풍선 정보 구조와 핫핑크·민트 포인트를 유지했습니다. 여기에 실시간 입력 상태와 체력, 타이밍, 애니메이션, VFX, 타격 피드백을 더했습니다."
         },
         gallery: {
           title: "비주얼 디렉션",
           subtitle: "직접 제작하고 게임에 적용한 주요 비주얼",
           images: [
-            { src: "../img/StreetTyper/hero.png", alt: "Street Typer 타이틀 배경", title: "타이틀 방향성" },
-            { src: "../img/StreetTyper/concept.png", alt: "Street Typer 환경 콘셉트", title: "환경 콘셉트" }
+            { src: "../img/StreetTyper/title.png", alt: "Street Typer 타이틀 화면", title: "타이틀 화면" },
+            { src: "../img/StreetTyper/ingame_gamestart.png", alt: "Street Typer 스테이지 시작", title: "스테이지 시작" },
+            { src: "../img/StreetTyper/ingame_typing.png", alt: "Street Typer 타이핑 전투", title: "타이핑 전투" },
+            { src: "../img/StreetTyper/ingame_typing2.png", alt: "Street Typer 한영 입력", title: "한영 입력" },
+            { src: "../img/StreetTyper/ingame_attacking.png", alt: "Street Typer 공격 이펙트", title: "공격 타격감" },
+            { src: "../img/StreetTyper/ingame_selectcard.png", alt: "Street Typer 카드 선택", title: "카드 선택" },
+            { src: "../img/StreetTyper/ingame_mom.png", alt: "Street Typer 내러티브 화면", title: "내러티브" },
+            { src: "../img/StreetTyper/clear.png", alt: "Street Typer 클리어 화면", title: "클리어" },
+            { src: "../img/StreetTyper/option.png", alt: "Street Typer 옵션", title: "옵션" },
+            { src: "../img/StreetTyper/intro.png", alt: "Street Typer 인트로", title: "인트로" }
           ]
         },
         contributions: {
@@ -1124,7 +1158,7 @@ const projectsData = {
             {
               title: "아트에서 엔진까지",
               category: "테크니컬 아트",
-              htmlContent: `<section><h2>아트에서 엔진까지</h2><p>캐릭터와 배경을 그리는 데서 끝내지 않고, 피격 이펙트와 외곽선, 파티클, 카메라 셰이크, 대미지 숫자와 UI 움직임까지 Unity 안에서 직접 맞췄습니다. 타이핑에 집중하는 동안에도 전투 상황과 공격 결과가 바로 읽히는 것이 목표였습니다.</p><h3>UI 스타일 제작</h3><p>버튼마다 이미지를 새로 만들지 않아도 원하는 분위기를 빠르게 맞출 수 있도록 UI 셰이더와 조절 도구를 구성했습니다. 모서리 둥글기, 그라디언트, 그림자와 블러를 인스펙터에서 조절하고 프리셋으로 재사용할 수 있습니다. 구현 과정에서는 AI의 도움을 받았으며, 저는 필요한 기능과 화면 기준을 정하고 결과를 검토해 실제 프로젝트에 맞게 수정·통합했습니다.</p><h3>플레이에 필요한 정보를 먼저</h3><p>현재 입력 중인 단어, 기술 완성 여부와 공격 타이밍이 화려한 효과에 묻히지 않도록 색과 움직임의 우선순위를 정했습니다. 보기 좋은 화면보다 플레이 중 바로 이해되는 화면을 만드는 데 집중했습니다.</p></section>`
+              htmlContent: `<section><h2>핵심 아이디어에서 플레이 가능한 빌드까지</h2><p>단어 다섯 개를 입력해 기술을 조합하고 마지막 행동 단어로 실행한다는 메인 아이디어를 제가 제안하고, 이 루프를 검증하는 초기 프로토타입도 직접 만들었습니다. 팀의 게임 디자이너는 이 기반 위에서 레벨 디자인과 이후 디자인 폴리싱을 맡았습니다. 따라서 게임 디자인 전체를 혼자 했다는 뜻은 아니지만, 프로젝트를 시작시킨 핵심 콘셉트와 최초의 플레이 증명은 제 작업입니다.</p><h3>아트에서 엔진까지</h3><p>캐릭터와 배경을 그리는 데서 끝내지 않고, 피격 이펙트와 외곽선, 파티클, 카메라 셰이크, 대미지 숫자와 UI 움직임까지 Unity 안에서 직접 맞췄습니다. 타이핑에 집중하는 동안에도 전투 상황과 공격 결과가 바로 읽히는 것이 목표였습니다.</p><h3>UI 스타일 제작</h3><p>버튼마다 이미지를 새로 만들지 않아도 원하는 분위기를 빠르게 맞출 수 있도록 UI 셰이더와 조절 도구를 구성했습니다. 모서리 둥글기, 그라디언트, 그림자와 블러를 인스펙터에서 조절하고 프리셋으로 재사용할 수 있습니다. 구현 과정에서는 AI의 도움을 받았으며, 저는 필요한 기능과 화면 기준을 정하고 결과를 검토해 실제 프로젝트에 맞게 수정·통합했습니다.</p><h3>플레이에 필요한 정보를 먼저</h3><p>현재 입력 중인 단어, 기술 완성 여부와 공격 타이밍이 화려한 효과에 묻히지 않도록 색과 움직임의 우선순위를 정했습니다. 보기 좋은 화면보다 플레이 중 바로 이해되는 화면을 만드는 데 집중했습니다.</p></section>`
             }
           ]
         },

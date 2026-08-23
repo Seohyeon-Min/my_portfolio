@@ -72,7 +72,7 @@
       heroSection.innerHTML = `
         <video src="${project.heroMedia}" autoplay muted loop playsinline preload="auto" ${project.heroPoster ? `poster="${project.heroPoster}"` : ''}></video>
         <div class="video-overlay">
-          <h1 class="${project.heroTitleClass || 'game-title'}">${project.title}</h1>
+          ${project.heroLink ? `<a class="hero-title-link" href="${project.heroLink}" target="_blank" rel="noopener" aria-label="${t('Play ' + project.title + ' on itch.io', 'itch.io에서 ' + project.title + ' 플레이')}"><h1 class="${project.heroTitleClass || 'game-title'}">${project.title}</h1><span>${t('PLAY ON ITCH.IO ↗', 'ITCH.IO에서 플레이 ↗')}</span></a>` : `<h1 class="${project.heroTitleClass || 'game-title'}">${project.title}</h1>`}
           <p class="${project.heroSubtitleClass || 'game-subtitle'}">${project.subtitle}</p>
         </div>
       `;
@@ -83,13 +83,35 @@
       }
     } else if (project.heroType === 'image') {
       heroSection.innerHTML = `
-        <img src="${project.heroMedia}" alt="${project.title} Poster" class="bird-image">
+        ${project.heroLink && project.heroImageContainsTitle ? `<a class="hero-media-link" href="${project.heroLink}" target="_blank" rel="noopener" aria-label="${t('Play ' + project.title + ' on itch.io', 'itch.io에서 ' + project.title + ' 플레이')}"><img src="${project.heroMedia}" alt="${project.title} title art" class="bird-image"></a>` : `<img src="${project.heroMedia}" alt="${project.title} Poster" class="bird-image">`}
         <div class="video-overlay">
-          <h1 class="${project.heroTitleClass || 'game-title'}">${project.title}</h1>
+          ${project.heroImageContainsTitle ? `<h1 class="visually-hidden">${project.title}</h1>${project.heroLink ? `<a class="hero-title-link hero-title-link--image" href="${project.heroLink}" target="_blank" rel="noopener"><span>${t('PLAY ON ITCH.IO ↗', 'ITCH.IO에서 플레이 ↗')}</span></a>` : ''}` : (project.heroLink ? `<a class="hero-title-link" href="${project.heroLink}" target="_blank" rel="noopener" aria-label="${t('Play ' + project.title + ' on itch.io', 'itch.io에서 ' + project.title + ' 플레이')}"><h1 class="${project.heroTitleClass || 'game-title'}">${project.title}</h1><span>${t('PLAY ON ITCH.IO ↗', 'ITCH.IO에서 플레이 ↗')}</span></a>` : `<h1 class="${project.heroTitleClass || 'game-title'}">${project.title}</h1>`)}
           <p class="${project.heroSubtitleClass || 'game-subtitle'}">${project.subtitle}</p>
         </div>
       `;
     }
+  }
+
+  function renderConceptComparison(project) {
+    if (!project.conceptComparison) return;
+    const roundedSection = document.querySelector('.rounded-section');
+    if (!roundedSection) return;
+    const anchor = roundedSection.querySelector('.trailer-section') || roundedSection.querySelector('.experience-section');
+    if (!anchor) return;
+    const comparison = project.conceptComparison;
+    const html = `
+      <section class="concept-build-section">
+        <div class="concept-build-heading">
+          <div><span class="case-label">${comparison.eyebrow}</span><h2>${comparison.title}</h2></div>
+          <p>${comparison.description}</p>
+        </div>
+        <div class="concept-build-grid">
+          <figure><div class="concept-build-media"><img src="${comparison.concept.src}" alt="${comparison.concept.alt}"></div><figcaption><b>01</b><span>${comparison.concept.label}</span></figcaption></figure>
+          <figure><div class="concept-build-media"><img src="${comparison.build.src}" alt="${comparison.build.alt}"></div><figcaption><b>02</b><span>${comparison.build.label}</span></figcaption></figure>
+        </div>
+        <div class="concept-build-proof">${comparison.proof}</div>
+      </section>`;
+    anchor.insertAdjacentHTML('afterend', html);
   }
 
   // Overview & Features 렌더링
@@ -1082,6 +1104,7 @@
       renderExperience(project);  // 총 요약용
       renderTrailer(project);      // 트레일러 (첫 번째만)
       renderVideoGallery(project); // 갤러리 (이미지 + 비디오)
+      renderConceptComparison(project);
       renderGameIntro(project);    // 게임소개/설명 (텍스트 + 이미지) - 갤러리 밑, 컨트리뷰션 위
       renderContributions(project);  // 탭 방식으로 렌더링
       renderProjectDetails(project);

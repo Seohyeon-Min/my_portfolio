@@ -19,8 +19,8 @@ const portfolioTracks = {
     },
     proofFacts: [['BUILT', 'Shaders + real-time VFX'], ['SOLVED', 'Readability + feedback'], ['PROVEN IN', 'Unity + custom engine'], ['EVIDENCE', 'Profiling + captures']],
     proofProjects: [
+      { key: 'street', title: 'STREET TYPER', meta: 'UI SHADERS · VFX · GAME FEEL', href: 'portfolio_game/06_StreetTyper.html', image: 'img/StreetTyper/title2.png' },
       { key: 'toohot', title: 'TOO HOT!', meta: 'UNITY · SHADOW SHADER · REAL-TIME VFX', href: 'portfolio_game/07_TooHot.html', image: 'img/portfolio_thumbnails/TooHot.png' },
-      { key: 'street', title: 'STREET TYPER', meta: 'UI SHADERS · VFX · GAME FEEL', href: 'portfolio_game/06_StreetTyper.html', image: 'img/portfolio_thumbnails/StreetTyper.png' },
       { key: 'manzo', title: 'MANZO', meta: 'C++ · OPENGL · GLSL', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' }
     ]
   },
@@ -39,9 +39,9 @@ const portfolioTracks = {
     },
     proofFacts: [['BUILT WITH', 'C++ · C# · GLSL'], ['SYSTEMS', 'Rendering + gameplay'], ['DEBUGGED', 'Engine + data flow'], ['EVIDENCE', 'Repos + measured results']],
     proofProjects: [
-      { key: 'framelab', title: 'FRAME LAB', meta: 'IN DEVELOPMENT · PROFILING · OPTIMIZATION', href: 'portfolio_game/08_FrameLab.html', image: '' },
       { key: 'manzo', title: 'MANZO', meta: 'C++ · OPENGL · ENGINE SYSTEMS', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' },
-      { key: 'doublehit', title: 'DOUBLE HIT', meta: 'C++ · RAYLIB · GAMEPLAY SYSTEMS', href: 'portfolio_game/03_DoubleHit.html', image: 'img/portfolio_thumbnails/DoubleHit.png' }
+      { key: 'doublehit', title: 'DOUBLE HIT', meta: 'C++ · RAYLIB · GAMEPLAY SYSTEMS', href: 'portfolio_game/03_DoubleHit.html', image: 'img/portfolio_thumbnails/DoubleHit.png' },
+      { key: 'birdstrike', title: 'BIRD STRIKE', meta: 'C++ · RHYTHM SYSTEMS · DYNAMIC ATTACKS', href: 'portfolio_game/04_BirdStrike.html', image: 'img/portfolio_thumbnails/BirdStrike.png' }
     ]
   },
   product: {
@@ -60,7 +60,7 @@ const portfolioTracks = {
     proofFacts: [['OWNED', 'Direction + delivery'], ['PRIORITIZED', '130+ task backlog'], ['ALIGNED', 'Art · design · code'], ['SHIPPED', 'Games under deadlines']],
     proofProjects: [
       { key: 'toohot', title: 'TOO HOT!', meta: 'TECHNICAL DIRECTION · 130+ TASK BACKLOG', href: 'portfolio_game/07_TooHot.html', image: 'img/portfolio_thumbnails/TooHot.png' },
-      { key: 'street', title: 'STREET TYPER', meta: '10-DAY SCOPE · ART · DELIVERY', href: 'portfolio_game/06_StreetTyper.html', image: 'img/portfolio_thumbnails/StreetTyper.png' },
+      { key: 'street', title: 'STREET TYPER', meta: '10-DAY SCOPE · ART · DELIVERY', href: 'portfolio_game/06_StreetTyper.html', image: 'img/StreetTyper/title2.png' },
       { key: 'dangling', title: 'DANGLING*', meta: 'GAME JAM · EVENT OPERATIONS', href: 'portfolio_planning/Dangling.html', image: 'img/portfolio_thumbnails/Dangling.jpg' }
     ]
   }

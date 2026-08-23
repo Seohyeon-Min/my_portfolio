@@ -3388,6 +3388,8 @@ body, html {
 }
 .proof-shot:hover { transform: translateY(-0.35rem) scale(1.01); box-shadow: 0 2.2rem 5rem rgba(43,54,102,0.25); }
 .proof-shot img { width: 100%; height: 100%; object-fit: cover; transition: transform 500ms cubic-bezier(.2,.72,.18,1); }
+.proof-shot[data-project-key="street"] { background:linear-gradient(180deg,#b9ddf2 0%,#8abce3 100%); }
+.proof-shot[data-project-key="street"] img { object-fit:contain; object-position:center; }
 .proof-shot:hover img { transform: scale(1.045); }
 .proof-shot[data-project-key="framelab"] {
   background:
@@ -3538,6 +3540,8 @@ body, html {
 .link-archive-grid a::after { content:"OPEN ↗"; position:absolute; z-index:3; top:.6rem; right:.6rem; padding:.32rem .46rem; border-radius:999px; background:rgba(255,255,255,.9); color:var(--ls-blue); font-size:.44rem; font-weight:800; letter-spacing:.08em; opacity:0; transform:translateY(-.25rem); box-shadow:0 .5rem 1.4rem rgba(15,20,38,.14); transition:opacity 180ms ease,transform 180ms ease; }
 .link-archive-grid a:hover::after,.link-archive-grid a:focus-visible::after { opacity:1; transform:translateY(0); }
 .link-archive-grid img { width: 100%; height: 100%; object-fit: cover; transition: transform 300ms ease; }
+.link-archive-grid a[href*="06_StreetTyper"] { background:linear-gradient(180deg,#b9ddf2 0%,#8abce3 100%); }
+.link-archive-grid a[href*="06_StreetTyper"] img { object-fit:contain; object-position:center top; }
 .link-archive-grid a:hover img { transform: scale(1.04); }
 .archive-card__copy { position: absolute; inset: 42% 0 0; display: grid; align-content: end; gap: 0.14rem; padding: 0.72rem; background: linear-gradient(transparent, rgba(10,14,28,0.9)); color: #fff; }
 .link-archive-grid b { font-size: 0.72rem; }
@@ -4113,6 +4117,13 @@ html:has(.project-detail-page) { background: var(--case-paper, #f6f3ed); }
   background: linear-gradient(180deg, transparent 38%, rgba(20,27,53,.12) 58%, rgba(20,27,53,.82));
   text-align: left;
 }
+.project-detail-page .hero-title-link { display:inline-flex; width:max-content; max-width:100%; flex-direction:column; align-items:flex-start; color:#fff; text-decoration:none; }
+.project-detail-page .hero-title-link span { margin-top:.65rem; padding:.65rem .95rem; border:1px solid rgba(255,255,255,.65); border-radius:999px; background:rgba(12,17,43,.34); color:#fff; font-size:.68rem; font-weight:900; letter-spacing:.13em; backdrop-filter:blur(12px); transition:transform 180ms ease,background 180ms ease; }
+.project-detail-page .hero-title-link:hover span { transform:translateX(.35rem); background:#fff; color:var(--case-ink); }
+.project-detail-page .hero-media-link { position:absolute; inset:0; z-index:.5; display:block; }
+.project-detail-page .hero-media-link .bird-image { position:absolute; inset:0; width:100%; height:100%; }
+.project-detail-page .hero-title-link--image { position:relative; z-index:2; }
+.visually-hidden { position:absolute !important; width:1px !important; height:1px !important; padding:0 !important; margin:-1px !important; overflow:hidden !important; clip:rect(0,0,0,0) !important; white-space:nowrap !important; border:0 !important; }
 .project-detail-page .game-title,
 .project-detail-page .game-title-bird {
   max-width: 12ch;
@@ -4232,6 +4243,18 @@ html:has(.project-detail-page) { background: var(--case-paper, #f6f3ed); }
 .project-detail-page .gallery img,
 .project-detail-page .gallery video { border-radius:1rem; }
 .project-detail-page .gallery-divider { background:linear-gradient(90deg,transparent,var(--case-line),transparent); }
+.project-detail-page .concept-build-section { max-width:none; padding:clamp(1.2rem,2.5vw,2rem); border:1px solid var(--case-line); border-radius:1.4rem; background:linear-gradient(145deg,rgba(255,255,255,.86),rgba(240,244,255,.72)); box-shadow:0 1.5rem 4rem rgba(43,54,102,.11); }
+.project-detail-page .concept-build-heading { display:grid; grid-template-columns:minmax(16rem,.85fr) 1.15fr; gap:clamp(1rem,4vw,4rem); align-items:end; margin-bottom:1.2rem; }
+.project-detail-page .concept-build-heading h2 { margin:.35rem 0 0; color:var(--case-ink); font-size:clamp(2rem,4vw,4rem); line-height:.92; letter-spacing:-.055em; }
+.project-detail-page .concept-build-heading p { margin:0; color:var(--case-muted); line-height:1.65; }
+.project-detail-page .concept-build-grid { display:grid; grid-template-columns:1fr 1fr; gap:.7rem; }
+.project-detail-page .concept-build-grid figure { margin:0; }
+.project-detail-page .concept-build-media { overflow:hidden; aspect-ratio:16/10; border-radius:1rem; background:#17205c; }
+.project-detail-page .concept-build-media img { width:100%; height:100%; object-fit:cover; transition:transform 450ms cubic-bezier(.2,.8,.2,1); }
+.project-detail-page .concept-build-grid figure:hover img { transform:scale(1.025); }
+.project-detail-page .concept-build-grid figcaption { display:flex; gap:.65rem; align-items:center; padding:.7rem .2rem 0; color:var(--case-ink); font-size:.76rem; font-weight:800; }
+.project-detail-page .concept-build-grid figcaption b { color:var(--case-blue); font-size:.66rem; letter-spacing:.12em; }
+.project-detail-page .concept-build-proof { margin-top:1rem; padding:1rem 1.1rem; border-left:3px solid var(--case-blue); border-radius:.25rem .8rem .8rem .25rem; background:rgba(73,111,232,.07); color:var(--case-muted); line-height:1.65; }
 
 /* Too Hot: cinematic trailer first, then UI and pixel-art evidence. */
 .project-detail-page[data-project="07_TooHot"] .video-hero::after {
@@ -4305,6 +4328,8 @@ html:has(.project-detail-page) { background: var(--case-paper, #f6f3ed); }
   .project-detail-page .gallery { grid-template-columns:repeat(2,1fr); gap:.55rem; }
   .project-detail-page[data-project="07_TooHot"] .gallery { grid-template-columns:1fr; }
   .project-detail-page[data-project="07_TooHot"] .gallery a:first-child { grid-column:1 / -1; }
+  .project-detail-page .concept-build-heading { grid-template-columns:1fr; }
+  .project-detail-page .concept-build-grid { grid-template-columns:1fr; }
   .project-detail-page .waypoint-navigation { display:none; }
 }
 
