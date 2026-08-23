@@ -121,6 +121,8 @@ function applyPortfolioTrack(requestedTrack, updateUrl = true) {
     button.setAttribute('aria-pressed', String(selected));
   });
 
+  updateResumeLinks(currentLanguage);
+
   if (updateUrl) {
     const url = new URL(window.location.href);
     url.searchParams.set('track', track);
@@ -140,6 +142,31 @@ function ensureLanguageToggle() {
   `);
 }
 
+function updateResumeLinks(language) {
+  const activeTrack = document.querySelector('.link-start-app')?.dataset.track || localStorage.getItem('portfolio-track') || 'graphics';
+  const productionTrack = activeTrack === 'product';
+  const resumeSelector = 'a[href$="Resume.pdf"], a[href$="Resume_KR.pdf"], a[href$="Resume_Production.pdf"]';
+  document.querySelectorAll(resumeSelector).forEach(link => {
+    const currentHref = link.getAttribute('href') || '';
+    const prefix = currentHref.startsWith('../') ? '../docs/' : 'docs/';
+    const isAlternate = link.hasAttribute('data-resume-alternate');
+
+    if (language === 'ko') {
+      link.classList.toggle('is-hidden', isAlternate);
+      if (!isAlternate) {
+        link.setAttribute('href', `${prefix}Resume_KR.pdf`);
+        link.textContent = '이력서 ↗';
+      }
+      return;
+    }
+
+    link.classList.remove('is-hidden');
+    const useProduction = isAlternate ? !productionTrack : productionTrack;
+    link.setAttribute('href', `${prefix}${useProduction ? 'Resume_Production.pdf' : 'Resume.pdf'}`);
+    link.textContent = useProduction ? 'PRODUCTION RESUME ↗' : 'TA / GRAPHICS RESUME ↗';
+  });
+}
+
 function applyLanguage(language) {
   currentLanguage = supportedLanguages.includes(language) ? language : 'en';
   document.documentElement.lang = currentLanguage === 'ko' ? 'ko' : 'en';
@@ -147,6 +174,8 @@ function applyLanguage(language) {
   document.querySelectorAll('[data-en][data-ko]').forEach(element => {
     element.textContent = element.dataset[currentLanguage];
   });
+
+  updateResumeLinks(currentLanguage);
 
   document.querySelectorAll('.language-toggle button[data-lang]').forEach(button => {
     const isActive = button.dataset.lang === currentLanguage;
