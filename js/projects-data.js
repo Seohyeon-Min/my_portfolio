@@ -982,7 +982,7 @@ const projectsData = {
     experience: {
       role: "게임잼 주최 & 기획",
       period: "2025년 6월 28일~29일",
-      description: "기획 및 예산 관리, 홍보와 진행, 포스터 제작을 맡았습니다."
+      description: "행사를 처음 제안하고 교수진을 직접 설득해 약 80만 원의 예산과 승인을 확보한 뒤, 홍보·현장 운영·포스터 제작까지 총괄했습니다."
     },
     gallery: {
       title: "게임잼 현장 스냅샷",
@@ -1011,31 +1011,44 @@ const projectsData = {
       ]
     },
     contributions: {
+      layout: "stacked",
       sections: [
+        {
+          title: "행사를 성립시킨 제안과 예산 유치",
+          category: "Production",
+          subsections: [
+            {
+              title: "아이디어를 승인된 행사로 전환",
+              items: [
+                "교내 첫 학과 연합 게임잼을 직접 제안하고, 교수진에게 행사의 목적과 실행 계획을 설명",
+                "필요한 비용과 사용 계획을 구체화해 약 80만 원의 지원금과 개최 승인을 직접 확보",
+                "확보한 자원으로 장소·식사·운영 물품을 준비하고, 모집부터 36시간 현장 운영과 결과물 제출까지 책임"
+              ]
+            }
+          ]
+        },
         {
           title: "게임잼 운영",
           category: "Planning",
+          htmlContent: `<section class="survey-case"><h2>행사 운영과 결과</h2><p>예산과 승인, 홍보, 참가자 소통, 현장 운영을 맡아 24명·6팀 규모의 36시간 게임잼을 진행했습니다. 여섯 팀 모두 플레이 가능한 게임을 완성해 제출했습니다.</p><div class="survey-scoreboard"><article><strong>4.87<small>/ 5</small></strong><span>참가자 만족도</span></article><article><strong>23</strong><span>설문 응답</span></article><article><strong>20</strong><span>5점 응답</span></article><article><strong>3</strong><span>4점 응답</span></article></div><div class="survey-distribution"><span>응답 분포</span><div><i style="--score-width:86.96%">5점 · 20명</i><i style="--score-width:13.04%">4점 · 3명</i></div></div><h3>참가자 후기 · 원문과 영어 번역</h3><div class="survey-quotes"><blockquote><p>“평소에 하던 것과 다른 직무를 경험해볼 수 있어서 좋았습니다.”</p><footer>“I enjoyed getting to experience a role different from the one I usually work in.”</footer></blockquote><blockquote><p>“아무 걱정 없이 개발에만 집중할 수 있는 시간이나 공간이 잘 없는데 제공해줘서 오랜만에 재밌게 잘 즐겼습니다.”</p><footer>“It is rare to have time and space where I can focus only on development without worrying about anything else. I had a genuinely enjoyable experience.”</footer></blockquote><blockquote><p>“이전에 참여했던 게임잼보다 더욱 체계적인 준비와 세밀한 일정 관리가 이루어져 만족스러웠다.”</p><footer>“I was satisfied with the more systematic preparation and detailed schedule management compared with game jams I had joined before.”</footer></blockquote><blockquote><p>“게임잼 참여는 처음이었는데 저의 실력을 체크할 수 있었을 뿐만 아니라 협업의 재미를 알아가는 의미 있는 시간이었습니다.”</p><footer>“It was my first game jam; it helped me assess my skills and discover how rewarding collaboration can be.”</footer></blockquote></div><h3>다음 행사에 반영할 점</h3><div class="survey-lessons"><span>제작 시간과 휴식 확대</span><span>물·멀티탭 추가 확보</span><span>휴식 및 작업 공간 다양화</span></div><p class="survey-note">2025년 6월 29일 익명 사후 설문 23개 응답 기준. 개인 식별 정보와 원본 타임스탬프는 공개하지 않았습니다.</p></section>`
+        },
+        {
+          title: "포스터와 비주얼 아이덴티티",
+          category: "Visual Design",
           subsections: [
             {
-              title: "행사 규모",
+              title: "직접 제작한 행사 비주얼",
               items: [
-                "총 6팀 24명 참가",
-                "4개 전공이 협업한 다학과 연합 프로젝트"
-              ]
-            },
-            {
-              title: "커뮤니케이션 및 협력",
-              items: [
-                "타 학과 학생회와 협업하여 기획안을 공유하고 정기 회의 진행",
-                "교수님들과의 협의를 통해 예산 후원 유치 및 행사 승인 설득"
-              ]
-            },
-            {
-              title: "성과 및 피드백",
-              items: [
-                "모든 팀이 36시간 내에 게임을 완성하여 제출",
-                "후속 설문에서 만족도 5점 만점에 4.88점 기록",
-                "<a href=\"https://docs.google.com/spreadsheets/d/1RMTcImV8HwVklQ0N8yaaPeCMkzDjs6SSY0_QK_7fKPs/edit?usp=sharing\" target=\"_blank\">피드백 폼 보기</a>"
+                "게임잼의 이름과 분위기를 시각적으로 전달할 메인 포스터를 직접 드로잉하고 디자인",
+                "강렬한 핑크 포인트 컬러와 거친 인쇄 질감을 사용해 짧은 제작 기간의 긴장감과 에너지를 표현",
+                "완성한 키 비주얼을 행사 홍보물과 온라인 채널에 일관되게 적용"
+              ],
+              images: [
+                {
+                  src: "../img/portfolio_thumbnails/Dangling.jpg",
+                  alt: "직접 드로잉하고 디자인한 Dangling 게임잼 메인 포스터",
+                  title: "Dangling 게임잼 포스터"
+                }
               ]
             }
           ]
@@ -1046,6 +1059,93 @@ const projectsData = {
       text: "완성작은 아래 인스타그램에서 확인하실 수 있습니다.",
       url: "https://www.instagram.com/dangling.kmu/",
       label: "dangling.kmu"
+    }
+  },
+
+  "PlushProduction": {
+    type: "planning",
+    title: "Plush Production",
+    subtitle: "From character artwork to customer delivery",
+    pageTitle: "Plush Production — Min Seohyeon Portfolio",
+    heroType: "image",
+    heroMedia: "../img/Plush/real1.jpg",
+    overview: "An independent merchandise project that I built from production artwork through overseas manufacturing and customer delivery. I opened a prepaid preorder form through Witchform and based production quantities on confirmed orders, minimizing upfront inventory and unsold-stock risk. I sourced a manufacturer through Taobao, negotiated pricing and schedule, reviewed samples against the intended design, and connected the factory, freight forwarder, inspection service, and domestic carrier into a fulfillment workflow that delivered directly to buyers without the products passing through my hands. I also managed buyer Q&A through Peing throughout the project.",
+    features: [
+      "Production-ready character artwork adapted for a round plush form",
+      "Prepaid, made-to-order sales managed through Witchform",
+      "Factory sourcing, price and schedule negotiation, and sample review",
+      "Hands-off international forwarding, defect inspection, and domestic fulfillment",
+      "Centralized buyer Q&A and delivery support through Peing"
+    ],
+    experience: {
+      role: "Product Designer · Vendor & Fulfillment Coordinator",
+      period: "Independent project",
+      description: "Built and managed the operational chain from factory sourcing and sample approval to inspection, direct fulfillment, and centralized buyer Q&A through Peing."
+    },
+    experiencePlacement: "afterHero",
+    hideOverview: true,
+    gallery: {
+      title: "Design to Physical Product",
+      subtitle: "Production artwork and completed plushes",
+      images: [
+        { src: "../img/Plush/pattern1.jpg", alt: "First set of plush production artwork", title: "Production artwork · Set 01" },
+        { src: "../img/Plush/pattern2.jpg", alt: "Second set of plush production artwork", title: "Production artwork · Set 02" },
+        { src: "../img/Plush/pattern3.jpg", alt: "Third set of plush production artwork", title: "Production artwork · Set 03" },
+        { src: "../img/Plush/pattern4.jpg", alt: "Fourth set of plush production artwork", title: "Production artwork · Set 04" },
+        { src: "../img/Plush/real1.jpg", alt: "Four completed custom plush products", title: "Completed production set" },
+        { src: "../img/Plush/real2.jpg", alt: "Close-up of a completed custom plush", title: "Finished product detail" }
+      ]
+    },
+    gameIntro: `<div class="impact-metrics" aria-label="Project outcomes"><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">₩</span><strong>₩10M</strong><span>Total revenue</span></div><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">●</span><strong>235</strong><span>Account followers</span></div><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">↻</span><strong>1,000+</strong><span>Cumulative reposts</span></div></div><p class="metric-source-note">Account figures as of August 24, 2026.</p><p>I opened a prepaid preorder form through Witchform and used confirmed order counts to determine the production quantity. This made-to-order structure let me secure demand before placing the factory order, reducing upfront capital exposure and the risk of unsold inventory.</p><p>I sourced a manufacturer through Taobao, negotiated a workable price and schedule, and reviewed physical samples to confirm that shapes, expressions, costume details, and colors matched the intended designs before approving production.</p><p>I then connected the factory, an international freight forwarder, a defect-inspection and delivery service, and the buyers into one fulfillment workflow. Finished products moved from production to inspection and final delivery without passing through my hands. I centralized buyer questions through Peing, using it to answer order and delivery inquiries while communicating status updates throughout fulfillment. This let me run the project efficiently while keeping quality, price, and customer communication under control.</p><p class="case-study-note"><strong>Authorship note:</strong> The featured characters are fan merchandise based on existing intellectual property. My work shown here is the plush-format visual adaptation, production preparation, vendor coordination, logistics, and customer support.</p>`,
+    contributions: {
+      sections: [
+        {
+          title: "Product & Production",
+          category: "Design · Operations",
+          htmlContent: `<section><h2>From artwork to a manufacturable product</h2><p>Adapted each character to a consistent round-plush format and prepared production artwork that preserved readable silhouettes, expressions, costume details, and colors at a small physical scale.</p><h3>Preorders through Witchform</h3><p>Opened a prepaid purchase form through Witchform and finalized the production quantity from confirmed orders. Producing against validated demand minimized excess inventory, upfront investment, and the financial risk of unsold products.</p><h3>Factory sourcing and negotiation</h3><p>Contacted a manufacturer through Taobao and negotiated the production schedule and unit price directly. I commissioned samples, compared the physical results with the intended designs, and communicated revisions before approving mass production, achieving the expected quality at a reasonable cost.</p><h3>End-to-end fulfillment workflow</h3><div class="fulfillment-flow" role="list" aria-label="Fulfillment process"><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">✎</span><strong>01</strong><span>Production<br>artwork</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">⚙</span><strong>02</strong><span>Factory<br>order</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">▣</span><strong>03</strong><span>Freight<br>forwarder</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">✓</span><strong>04</strong><span>Inspection<br>& delivery</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">⌂</span><strong>05</strong><span>Buyer</span></div></div><p>Designed a direct flow from production artwork to factory order, international freight forwarder, defect inspection and domestic delivery service, and finally the buyer. Products could move from the factory to customers without passing through my hands, while I remained responsible for status tracking and exception handling.</p><h3>Buyer Q&A through Peing</h3><p>Used Peing as the project's centralized Q&A channel, responding to order, production, and delivery questions and keeping buyer communication organized throughout fulfillment.</p><h3>What I learned</h3><p>I learned how to turn a creative concept into a repeatable operation: validate demand before production, define requirements clearly, negotiate cost and schedule, verify quality through samples, connect multiple external partners, and maintain a clear customer communication channel.</p></section>`
+        }
+      ]
+    },
+    source: {
+      text: "View the public project account and product archive on X.",
+      url: "https://x.com/mallang707",
+      label: "@mallang707"
+    },
+    localized: {
+      ko: {
+        title: "인형 제작 프로젝트",
+        subtitle: "캐릭터 도안에서 구매자 배송까지",
+        overview: "생산용 도안부터 해외 제조와 구매자 배송까지 전체 과정을 설계한 독립 굿즈 프로젝트입니다. Witchform에서 선입금 구매폼을 열고 확정 주문량에 맞춰 제작해 선투자와 미판매 재고 위험을 최소화했습니다. 타오바오에서 제조업체를 직접 찾고 가격과 일정을 협상했으며, 샘플 검수와 수정을 거쳐 합리적인 단가로 원하는 품질을 확보했습니다. 이후 공장, 배대지, 불량 검수 및 배송대행사를 연결해 제품을 직접 취급하지 않고도 구매자에게 배송되는 운영 흐름을 구축하고, Peing을 통해 구매자 Q&A를 일원화해 관리했습니다.",
+        features: ["둥근 인형 형태에 맞춘 생산용 캐릭터 도안", "Witchform 선입금 구매폼을 활용한 주문제작 판매", "공장 발굴, 가격·일정 협상과 샘플 검수", "배대지, 불량 검수와 국내 배송을 연결한 직접배송 프로세스", "Peing을 활용한 구매자 Q&A와 배송 지원"],
+        experience: {
+          role: "제품 디자이너 · 생산 및 배송 코디네이터",
+          period: "개인 프로젝트",
+          description: "공장 발굴과 샘플 승인부터 검수, 구매자 직접배송과 Peing Q&A까지 전체 운영 흐름을 설계하고 관리했습니다."
+        },
+        gallery: {
+          title: "도안에서 실물 제품까지",
+          subtitle: "생산용 도안과 완성된 인형",
+          images: [
+            { src: "../img/Plush/pattern1.jpg", alt: "첫 번째 인형 생산용 도안 세트", title: "생산용 도안 · 세트 01" },
+            { src: "../img/Plush/pattern2.jpg", alt: "두 번째 인형 생산용 도안 세트", title: "생산용 도안 · 세트 02" },
+            { src: "../img/Plush/pattern3.jpg", alt: "세 번째 인형 생산용 도안 세트", title: "생산용 도안 · 세트 03" },
+            { src: "../img/Plush/pattern4.jpg", alt: "네 번째 인형 생산용 도안 세트", title: "생산용 도안 · 세트 04" },
+            { src: "../img/Plush/real1.jpg", alt: "완성된 맞춤형 인형 네 개", title: "완성 제품 세트" },
+            { src: "../img/Plush/real2.jpg", alt: "완성된 맞춤형 인형 클로즈업", title: "완성 제품 디테일" }
+          ]
+        },
+        gameIntro: `<div class="impact-metrics" aria-label="프로젝트 성과"><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">₩</span><strong>약 1,000만 원</strong><span>총매출</span></div><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">●</span><strong>235명</strong><span>계정 팔로워</span></div><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">↻</span><strong>1,000회+</strong><span>누적 리포스트</span></div></div><p class="metric-source-note">계정 수치는 2026년 8월 24일 기준입니다.</p><p>Witchform에서 선입금 구매폼을 열고, 결제가 완료된 확정 주문 수량을 기준으로 생산량을 결정했습니다. 수요를 먼저 확보한 뒤 공장에 발주하는 주문제작 구조를 통해 초기 자금 부담과 미판매 재고로 인한 손실 위험을 최소화했습니다.</p><p>타오바오에서 중국 제조업체를 직접 찾아 일정과 단가를 협상하고, 실물 샘플을 제작해 형태와 표정, 의상 디테일과 색상이 의도대로 구현됐는지 확인했습니다. 수정 사항을 공장에 전달한 뒤 양산을 승인해, 원하는 품질을 합리적인 가격으로 확보했습니다.</p><p>생산 이후에는 공장 → 배대지 → 불량 검수 및 배송대행사 → 구매자로 이어지는 직접배송 흐름을 구성했습니다. 완제품을 제가 직접 보관하거나 재포장하지 않아도 주문이 최종 수령까지 이어졌으며, Peing을 구매자 Q&A 창구로 활용해 주문·제작·배송 문의와 진행 상황 안내를 한곳에서 관리했습니다.</p><p class="case-study-note"><strong>기여 범위:</strong> 등장 캐릭터의 원저작권은 각 권리자에게 있습니다. 여기서 소개하는 제 작업은 인형 형태에 맞춘 시각적 각색, 생산 자료 준비, 공장 조율, 물류와 구매자 지원입니다.</p>`,
+        contributions: {
+          sections: [
+            {
+              title: "제품과 생산",
+              category: "디자인 · 운영",
+              htmlContent: `<section><h2>도안에서 생산 가능한 제품까지</h2><p>캐릭터를 일관된 둥근 인형 형태로 각색하고, 작은 실물에서도 형태와 표정, 의상 특징과 색상이 명확하게 보이도록 생산용 도안을 준비했습니다.</p><h3>Witchform을 활용한 선주문 판매</h3><p>Witchform에서 선입금 구매폼을 열고 결제가 완료된 주문량을 기준으로 최종 생산 수량을 확정했습니다. 실제 수요를 먼저 검증한 뒤 주문제작하는 방식으로 불필요한 선투자와 미판매 재고를 줄이고, 금전적 손실 위험을 최소화했습니다.</p><h3>공장 발굴과 가격·일정 협상</h3><p>타오바오에서 중국 제조업체를 직접 찾아 생산 일정과 단가를 협상했습니다. 실물 샘플을 발주해 도안과 비교하고, 형태와 자수, 색상 등의 수정 사항을 전달한 뒤 양산을 승인함으로써 예상한 품질을 합리적인 가격에 확보했습니다.</p><h3>직접 취급 없이 작동하는 배송 프로세스</h3><div class="fulfillment-flow" role="list" aria-label="배송 프로세스"><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">✎</span><strong>01</strong><span>생산용<br>도안 제작</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">⚙</span><strong>02</strong><span>공장<br>발주</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">▣</span><strong>03</strong><span>해외<br>배대지</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">✓</span><strong>04</strong><span>불량 검수<br>배송대행</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">⌂</span><strong>05</strong><span>구매자<br>수령</span></div></div><p>도안 제작 → 공장 발주 → 배대지 → 불량 검수 및 배송대행사 → 구매자로 이어지는 전체 흐름을 설계했습니다. 완제품이 제 손을 거치지 않아도 검수와 최종 배송까지 진행되도록 각 업체를 연결했고, 저는 진행 상황 추적과 예외 상황 대응을 맡았습니다.</p><h3>Peing을 활용한 구매자 Q&A</h3><p>Peing을 프로젝트의 통합 문의 창구로 활용해 주문, 제작 진행 상황과 배송 관련 질문에 답변했습니다. 구매자 커뮤니케이션을 한곳에 모아 전체 이행 과정에서 문의와 안내가 누락되지 않도록 관리했습니다.</p><h3>배운 점</h3><p>창작물을 실제 제품으로 만드는 일은 디자인만의 문제가 아니었습니다. 수요를 먼저 검증하고, 요구사항을 명확히 정의하며, 가격과 일정을 협상하고, 샘플로 품질을 확인하고, 여러 외부 업체와 고객 소통 채널을 하나의 운영 구조로 연결하는 일까지 모두 제품 경험의 일부라는 점을 배웠습니다.</p></section>`
+            }
+          ]
+        },
+        source: { text: "X에서 공개 프로젝트 계정과 제품 기록을 확인할 수 있습니다.", url: "https://x.com/mallang707", label: "@mallang707" }
+      }
     }
   },
 
@@ -1501,7 +1601,7 @@ applyEnglishProjectOverride("Dangling", {
   experience: {
     role: "Organizer · Producer · Visual Designer",
     period: "June 28–29, 2025",
-    description: "Planned the event, managed budget and approvals, coordinated promotion and operations, and designed the poster."
+    description: "Originated the event, secured approximately KRW 800,000 and faculty approval through direct outreach, then led promotion, on-site operations, and poster design."
   },
   gallery: {
     title: "Event Gallery",
@@ -1514,14 +1614,46 @@ applyEnglishProjectOverride("Dangling", {
     ]
   },
   contributions: {
+    layout: "stacked",
     sections: [
+      {
+        title: "Proposal, Buy-In & Funding",
+        category: "Production",
+        subsections: [
+          {
+            title: "Turning an Idea into an Approved Event",
+            items: [
+              "Originated the university's first cross-department game jam and presented its purpose and execution plan directly to faculty stakeholders",
+              "Defined the resource plan and secured approximately KRW 800,000 in funding together with institutional approval",
+              "Converted the secured resources into venue, meals, and operating supplies, then owned recruitment, the 36-hour event, and final submissions"
+            ]
+          }
+        ]
+      },
       {
         title: "Event Production",
         category: "Planning",
+        htmlContent: `<section class="survey-case"><h2>Event Production & Outcomes</h2><p>Owned budget, approvals, promotion, participant communication, and on-site operations for a 36-hour game jam with 24 participants across six teams. Every team completed and submitted a playable game.</p><div class="survey-scoreboard"><article><strong>4.87<small>/ 5</small></strong><span>participant satisfaction</span></article><article><strong>23</strong><span>survey responses</span></article><article><strong>20</strong><span>five-star ratings</span></article><article><strong>3</strong><span>four-star ratings</span></article></div><div class="survey-distribution"><span>Rating distribution</span><div><i style="--score-width:86.96%">5 stars · 20</i><i style="--score-width:13.04%">4 stars · 3</i></div></div><h3>Participant Feedback · Korean Original + English Translation</h3><div class="survey-quotes"><blockquote><p>“평소에 하던 것과 다른 직무를 경험해볼 수 있어서 좋았습니다.”</p><footer>“I enjoyed getting to experience a role different from the one I usually work in.”</footer></blockquote><blockquote><p>“아무 걱정 없이 개발에만 집중할 수 있는 시간이나 공간이 잘 없는데 제공해줘서 오랜만에 재밌게 잘 즐겼습니다.”</p><footer>“It is rare to have time and space where I can focus only on development without worrying about anything else. I had a genuinely enjoyable experience.”</footer></blockquote><blockquote><p>“이전에 참여했던 게임잼보다 더욱 체계적인 준비와 세밀한 일정 관리가 이루어져 만족스러웠다.”</p><footer>“I was satisfied with the more systematic preparation and detailed schedule management compared with game jams I had joined before.”</footer></blockquote><blockquote><p>“게임잼 참여는 처음이었는데 저의 실력을 체크할 수 있었을 뿐만 아니라 협업의 재미를 알아가는 의미 있는 시간이었습니다.”</p><footer>“It was my first game jam; it helped me assess my skills and discover how rewarding collaboration can be.”</footer></blockquote></div><h3>Improvements Identified</h3><div class="survey-lessons"><span>More production and rest time</span><span>More water and power strips</span><span>More varied work and rest spaces</span></div><p class="survey-note">Based on 23 anonymous post-event responses collected June 29, 2025. Names, timestamps, and raw response rows are intentionally not published.</p></section>`
+      },
+      {
+        title: "Poster & Visual Identity",
+        category: "Visual Design",
         subsections: [
-          { title: "Scale", items: ["24 participants across six teams", "Cross-disciplinary collaboration across four majors"] },
-          { title: "Coordination", items: ["Aligned plans with another student council through recurring meetings", "Secured faculty approval and budget support"] },
-          { title: "Outcome", items: ["Every team submitted a playable game within 36 hours", "Post-event satisfaction: 4.88 / 5"] }
+          {
+            title: "Original Event Artwork",
+            items: [
+              "Illustrated and designed the main poster to establish the game jam's visual identity",
+              "Used a vivid pink accent and distressed print texture to convey the energy and time pressure of the event",
+              "Extended the key visual consistently across promotional materials and online channels"
+            ],
+            images: [
+              {
+                src: "../img/portfolio_thumbnails/Dangling.jpg",
+                alt: "Dangling game jam key art illustrated and designed by Min Seohyeon",
+                title: "Dangling Game Jam Poster"
+              }
+            ]
+          }
         ]
       }
     ]

@@ -116,10 +116,15 @@
 
   // Overview & Features 렌더링
   function renderOverview(project) {
-    if (!project.overview && !project.features) return;
-
     const mainContent = document.querySelector('.main-content');
     if (!mainContent) return;
+
+    if (project.hideOverview) {
+      mainContent.querySelector('.main-background-section')?.remove();
+      return;
+    }
+
+    if (!project.overview && !project.features) return;
 
     let overviewHTML = '';
 
@@ -224,6 +229,19 @@
     `;
 
     roundedSection.insertAdjacentHTML('afterbegin', experienceHTML);
+  }
+
+  // 선택한 프로젝트에서는 Experience를 히어로 바로 아래로 이동한다.
+  // 나머지 섹션이 Experience를 기준으로 렌더링되므로 모든 렌더링이 끝난 뒤 호출한다.
+  function placeExperience(project) {
+    if (project.experiencePlacement !== 'afterHero') return;
+
+    const mainContent = document.querySelector('.main-content');
+    const experienceSection = document.querySelector('.experience-section');
+    if (!mainContent || !experienceSection) return;
+
+    experienceSection.classList.add('experience-section--hero-adjacent');
+    mainContent.insertAdjacentElement('afterbegin', experienceSection);
   }
 
   // 트레일러 섹션 렌더링 (Experience 바로 밑, 첫 번째 트레일러만)
@@ -504,6 +522,47 @@
       `;
 
       roundedSection.insertAdjacentHTML('beforeend', emptyContributionsHTML);
+      return;
+    }
+
+    // Long-form case studies can opt out of tabs so every contribution reads
+    // as one continuous production story.
+    if (project.contributions.layout === 'stacked') {
+      const renderSection = (section) => {
+        let sectionHTML = `<article class="contribution-stack-card">`;
+
+        if (!section.htmlContent) {
+          sectionHTML += `<div class="contribution-stack-heading"><span>${section.category || ''}</span><h3>${section.title}</h3></div>`;
+          if (section.description) sectionHTML += `<p class="contribution-stack-description">${section.description}</p>`;
+        }
+
+        if (section.htmlContent) {
+          sectionHTML += section.htmlContent;
+        } else if (section.subsections) {
+          section.subsections.forEach(subsection => {
+            sectionHTML += `<div class="contribution-stack-body"><h4>${subsection.title}</h4>`;
+            (subsection.items || []).forEach(item => { sectionHTML += `<p>${item}</p>`; });
+            (subsection.images || []).forEach(img => {
+              sectionHTML += `<div class="contribution-image"><img src="${img.src}" alt="${img.alt || ''}" title="${img.title || ''}" /></div>`;
+            });
+            sectionHTML += `</div>`;
+          });
+        } else if (section.items) {
+          sectionHTML += `<ul>${section.items.map(item => `<li>${item}</li>`).join('')}</ul>`;
+        }
+
+        return sectionHTML + `</article>`;
+      };
+
+      const stackedHTML = `
+        <section class="contributions-tabs-section contributions-stacked-section">
+          <h2 class="highlighted-title">Contributions</h2>
+          <div class="contributions-stack">
+            ${project.contributions.sections.map(renderSection).join('')}
+          </div>
+        </section>
+      `;
+      roundedSection.insertAdjacentHTML('beforeend', stackedHTML);
       return;
     }
 
@@ -1110,6 +1169,7 @@
       renderProjectDetails(project);
       renderSource(project);
       prioritizeContributions();
+      placeExperience(project);
       renderWaypointNavigation(project);  // 이정표 네비게이션
       renderContributionButton();   // 컨트리뷰션 보기 버튼
     }

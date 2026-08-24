@@ -1,4 +1,5 @@
 from pathlib import Path
+import sys
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import letter
@@ -86,7 +87,7 @@ def build(path, role, summary, selected, additional, skill_rows, accent, educati
     doc.build(story)
 
 
-def main():
+def main(build_ta=True):
     DOCS.mkdir(exist_ok=True)
     ta_selected = [
         ("MANZO", "C++ / OpenGL / GLSL | 2024-2025", [
@@ -115,22 +116,24 @@ def main():
         ("Programming", "C++, C#, C, Python, JavaScript; gameplay and engine architecture, collision, debugging, memory/lifetime fixes"),
         ("Workflow", "Git branching and merge review, GitHub Projects/Issues, Notion, CMake, Visual Studio, WSL, profiling, technical specification"),
     ]
-    build(DOCS/"Resume.pdf", "TECHNICAL ARTIST | GRAPHICS PROGRAMMER", "Technical artist and graphics programmer who works across code, shaders, VFX, UI, and art integration. I directly build C++/OpenGL engine features and Unity visual systems, diagnose rendering and gameplay failures, and translate visual goals into testable technical requirements without obscuring authorship boundaries.", ta_selected, ta_add, ta_skills, BLUE)
+    if build_ta:
+        build(DOCS/"Resume.pdf", "TECHNICAL ARTIST | GRAPHICS PROGRAMMER", "Technical artist and graphics programmer who works across code, shaders, VFX, UI, and art integration. I directly build C++/OpenGL engine features and Unity visual systems, diagnose rendering and gameplay failures, and translate visual goals into testable technical requirements without obscuring authorship boundaries.", ta_selected, ta_add, ta_skills, BLUE)
 
     prod_selected = [
-        ("TOO HOT!", "TECHNICAL / CREATIVE PRODUCER | 2026", [
-            "Directed two gameplay programmers while directly owning shaders, VFX, UI, art, animation, and final integration for a Unity boss-action game.",
-            "Converted design goals into a 130+ item P0-P3 backlog across gameplay, art, UI, VFX, audio, and presentation; assigned owners, documented acceptance details in Notion, reviewed code and behavior, requested revisions, merged work, and followed with effects polish.",
-            "Specified a data-driven GameplayManager/StageData architecture, save and chapter-boundary safeguards, and editor debug controls. Prioritized camera response over redundant damage numbers and hid full-health boss UI; secured an offline booth at a Korean game event for an October 2026 exhibition."
-        ], "https://github.com/Seohyeon-Min/team17_gamejam"),
-        ("DANGLING GAME JAM", "FOUNDER / ORGANIZER / VISUAL DESIGNER | 2025", [
-            "Founded and delivered the university's first interdepartmental game jam for 24 participants across five departments in a 36-hour event.",
-            "Managed proposal and approvals, an approximately KRW 800,000 budget, promotion, participant communication, event operations, final submissions, and poster design from concept through closeout."
+        ("DANGLING GAME JAM", "FOUNDER / PRODUCER / PROJECT LEAD | 2025", [
+            "Founded and delivered the university's first interdepartmental game jam: 24 participants, 6 teams, and a 36-hour production window; every team completed and submitted a playable game.",
+            "Owned the event from proposal through closeout, including university approvals, an approximately KRW 800,000 budget, promotion, participant communication, on-site operations, final submissions, and visual materials.",
+            "Achieved a 4.87/5 participant satisfaction score across 23 post-event responses while coordinating students across five departments and keeping all six teams on track to finish."
         ], None),
         ("NEW MANZO", "PRODUCTION LEAD / TECHNICAL CONTRIBUTOR | 2025-PRESENT", [
-            "Coordinate long-term scope, ownership, cross-discipline communication, and technical support for an in-development Unity rhythm-adventure project.",
-            "Directly contribute fish schooling, obstacle avoidance, beat-linked hunting, raycasting, and post-processing systems; repository lead contributor with 417 commits."
+            "Lead long-term scope, ownership, milestones, cross-discipline communication, and delivery planning for an in-development Unity rhythm-adventure project.",
+            "Resolve production uncertainty through hands-on technical support and implementation; repository lead contributor with 417 commits."
         ], "https://github.com/Seohyeon-Min/NewManzo"),
+        ("TOO HOT!", "TECHNICAL / CREATIVE PRODUCER | 2026", [
+            "Directed two gameplay programmers and coordinated delivery across gameplay, art, UI, VFX, audio, and presentation using a 130+ item P0-P3 backlog.",
+            "Assigned owners, documented acceptance details in Notion, reviewed behavior and code, requested revisions, merged work, tested the build, and completed final visual integration.",
+            "Turned design risks into concrete system requirements and player-feedback decisions; secured an offline booth at a Korean game event for an October 2026 exhibition."
+        ], "https://github.com/Seohyeon-Min/team17_gamejam"),
     ]
     prod_add = [
         ("STREET TYPER", "Scoped and coordinated a public 10-day team build, published it on itch.io, and support its preparation for Steam release while owning visual direction, UI, VFX, and gameplay readability."),
@@ -142,8 +145,8 @@ def main():
         ("Planning Tools", "Notion, GitHub Projects, GitHub Issues; task documentation, status tracking, review and rework loops"),
         ("Technical", "Unity, C++, C#, OpenGL, GLSL, ShaderLab, Git branching and merge review, CMake; graphics/gameplay debugging"),
     ]
-    build(DOCS/"Resume_Production.pdf", "GAME PRODUCTION | TECHNICAL PRODUCTION", "Technical producer who turns creative intent into implementation-ready requirements and shipped work. My strongest evidence is not title-based: I build systems and visuals myself, identify architecture and player-feedback risks, direct programmers with concrete acceptance criteria, and carry work through review, testing, merge, and polish.", prod_selected, prod_add, prod_skills, TEAL)
+    build(DOCS/"Resume_Production.pdf", "PRODUCER | PROJECT LEAD", "Producer and project lead who turns creative direction into organized, completed work. I define scope, align multidisciplinary contributors, secure resources and approvals, track execution, resolve delivery risks, and carry projects through review, on-site operation, exhibition, and closeout - supported by enough technical depth to communicate clearly with engineers and artists.", prod_selected, prod_add, prod_skills, TEAL)
 
 
 if __name__ == "__main__":
-    main()
+    main(build_ta="--production-only" not in sys.argv)

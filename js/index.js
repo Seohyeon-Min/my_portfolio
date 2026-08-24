@@ -19,9 +19,9 @@ const portfolioTracks = {
     },
     proofFacts: [['BUILT', 'Shaders + real-time VFX'], ['SOLVED', 'Readability + feedback'], ['PROVEN IN', 'Unity + custom engine'], ['EVIDENCE', 'Profiling + captures']],
     proofProjects: [
-      { key: 'street', title: 'STREET TYPER', meta: 'UI SHADERS · VFX · GAME FEEL', href: 'portfolio_game/06_StreetTyper.html', image: 'img/StreetTyper/title2.png' },
-      { key: 'toohot', title: 'TOO HOT!', meta: 'UNITY · SHADOW SHADER · REAL-TIME VFX', href: 'portfolio_game/07_TooHot.html', image: 'img/portfolio_thumbnails/TooHot.png' },
-      { key: 'manzo', title: 'MANZO', meta: 'C++ · OPENGL · GLSL', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' }
+      { key: 'street', title: 'STREET TYPER', lead: 'PROJECT LEAD', meta: 'UI SHADERS · VFX · GAME FEEL', href: 'portfolio_game/06_StreetTyper.html', image: 'img/StreetTyper/title2.png' },
+      { key: 'toohot', title: 'TOO HOT!', lead: 'PROJECT LEAD', meta: 'UNITY · SHADOW SHADER · REAL-TIME VFX', href: 'portfolio_game/07_TooHot.html', image: 'img/portfolio_thumbnails/TooHot.png' },
+      { key: 'manzo', title: 'MANZO', lead: 'PROJECT LEAD', meta: 'C++ · OPENGL · GLSL', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' }
     ]
   },
   software: {
@@ -39,29 +39,34 @@ const portfolioTracks = {
     },
     proofFacts: [['BUILT WITH', 'C++ · C# · GLSL'], ['SYSTEMS', 'Rendering + gameplay'], ['DEBUGGED', 'Engine + data flow'], ['EVIDENCE', 'Repos + measured results']],
     proofProjects: [
-      { key: 'manzo', title: 'MANZO', meta: 'C++ · OPENGL · ENGINE SYSTEMS', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' },
-      { key: 'doublehit', title: 'DOUBLE HIT', meta: 'C++ · RAYLIB · GAMEPLAY SYSTEMS', href: 'portfolio_game/03_DoubleHit.html', image: 'img/portfolio_thumbnails/DoubleHit.png' },
-      { key: 'birdstrike', title: 'BIRD STRIKE', meta: 'C++ · RHYTHM SYSTEMS · DYNAMIC ATTACKS', href: 'portfolio_game/04_BirdStrike.html', image: 'img/portfolio_thumbnails/BirdStrike.png' }
+      { key: 'manzo', title: 'MANZO', lead: 'PROJECT LEAD', meta: 'C++ · OPENGL · ENGINE SYSTEMS', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' },
+      { key: 'doublehit', title: 'DOUBLE HIT', lead: 'PROJECT LEAD', meta: 'C++ · RAYLIB · GAMEPLAY SYSTEMS', href: 'portfolio_game/03_DoubleHit.html', image: 'img/portfolio_thumbnails/DoubleHit.png' },
+      { key: 'birdstrike', title: 'BIRD STRIKE', lead: 'PROJECT LEAD', meta: 'C++ · RHYTHM SYSTEMS · DYNAMIC ATTACKS', href: 'portfolio_game/04_BirdStrike.html', image: 'img/portfolio_thumbnails/BirdStrike.png' }
     ]
   },
   product: {
-    role: 'GAME PRODUCTION · TECHNICAL DIRECTION',
+    role: 'PRODUCTION · EXTERNAL COORDINATION',
     title: 'Min Seohyeon — Game Production Portfolio',
     statement: {
-      en: 'I align design, engineering, and production decisions to ship focused interactive experiences.',
-      ko: '디자인과 엔지니어링, 제작 판단을 연결해 핵심이 분명한 인터랙티브 경험을 완성합니다.'
+      en: 'I turn ideas into delivered experiences by aligning teams, vendors, logistics, and production decisions.',
+      ko: '팀과 외부 업체, 물류와 제작 판단을 연결해 아이디어를 실제 결과물로 완성합니다.'
     },
-    evidence: ['PRIORITIZATION', 'TECHNICAL DIRECTION', 'TEAM DELIVERY'],
+    evidence: ['EVENT OPERATIONS', 'VENDOR COORDINATION', 'TEAM DELIVERY'],
     proofTitle: 'DECISIONS THAT\nMOVE TEAMS FORWARD.',
     proofSummary: {
-      en: 'Visual judgment, technical reviews, and production choices demonstrated through shipped team projects.',
-      ko: '완성한 팀 프로젝트를 통해 비주얼 판단과 기술 리뷰, 제작 우선순위 결정을 보여줍니다.'
+      en: 'Events, physical products, and playable projects carried from planning through delivery.',
+      ko: '행사와 실물 제품, 플레이 가능한 프로젝트를 기획부터 전달까지 완성한 경험입니다.'
     },
-    proofFacts: [['OWNED', 'Direction + delivery'], ['PRIORITIZED', '130+ task backlog'], ['ALIGNED', 'Art · design · code'], ['SHIPPED', 'Games under deadlines']],
+    proofFacts: [
+      { en: ['LED', '24 people · 6 teams'], ko: ['리더십', '24명 · 6개 팀'] },
+      { en: ['GENERATED', '₩10M total revenue'], ko: ['매출', '총매출 약 1,000만 원'] },
+      { en: ['MANAGED', '130+ task backlog'], ko: ['작업 관리', '130개+ 작업 백로그'] },
+      { en: ['BUILT', 'Factory-to-customer fulfillment'], ko: ['직접배송 구축', '공장 → 검수 → 구매자'] }
+    ],
     proofProjects: [
-      { key: 'toohot', title: 'TOO HOT!', meta: 'TECHNICAL DIRECTION · 130+ TASK BACKLOG', href: 'portfolio_game/07_TooHot.html', image: 'img/portfolio_thumbnails/TooHot.png' },
-      { key: 'street', title: 'STREET TYPER', meta: '10-DAY SCOPE · ART · DELIVERY', href: 'portfolio_game/06_StreetTyper.html', image: 'img/StreetTyper/title2.png' },
-      { key: 'dangling', title: 'DANGLING*', meta: 'GAME JAM · EVENT OPERATIONS', href: 'portfolio_planning/Dangling.html', image: 'img/portfolio_thumbnails/Dangling.jpg' }
+      { key: 'dangling', title: 'DANGLING*', lead: { en: 'PROJECT LEAD', ko: '프로젝트 리드' }, meta: { en: 'GAME JAM · EVENT OPERATIONS', ko: '게임잼 · 행사 운영' }, href: 'portfolio_planning/Dangling.html', image: 'img/portfolio_thumbnails/Dangling.jpg' },
+      { key: 'plush', title: 'PLUSH PRODUCTION', lead: { en: 'INDEPENDENT LEAD', ko: '개인 프로젝트 리드' }, meta: { en: 'DESIGN · VENDOR · FULFILLMENT', ko: '디자인 · 외부 업체 · 배송 운영' }, href: 'portfolio_planning/PlushProduction.html', image: 'img/Plush/real1.jpg' },
+      { key: 'toohot', title: 'TOO HOT!', lead: { en: 'PROJECT LEAD', ko: '프로젝트 리드' }, meta: { en: 'TECHNICAL DIRECTION · 130+ TASK BACKLOG', ko: '테크니컬 디렉션 · 130개+ 작업 백로그' }, href: 'portfolio_game/07_TooHot.html', image: 'img/portfolio_thumbnails/TooHot.png' }
     ]
   }
 };
@@ -94,10 +99,11 @@ function applyPortfolioTrack(requestedTrack, updateUrl = true) {
     proofSummary.textContent = profile.proofSummary[currentLanguage];
   }
   profile.proofFacts.forEach((fact, index) => {
+    const localizedFact = Array.isArray(fact) ? fact : (fact[currentLanguage] || fact.en);
     const label = document.querySelector(`[data-proof-fact-label="${index}"]`);
     const value = document.querySelector(`[data-proof-fact-value="${index}"]`);
-    if (label) label.textContent = fact[0];
-    if (value) value.textContent = fact[1];
+    if (label) label.textContent = localizedFact[0];
+    if (value) value.textContent = localizedFact[1];
   });
   profile.proofProjects.forEach((project, index) => {
     const card = document.querySelector(`[data-proof-project="${index}"]`);
@@ -108,7 +114,11 @@ function applyPortfolioTrack(requestedTrack, updateUrl = true) {
     card.href = project.href;
     card.dataset.projectKey = project.key;
     if (title) title.textContent = project.title;
-    if (meta) meta.textContent = project.meta;
+    if (meta) {
+      const leadText = typeof project.lead === 'string' ? project.lead : (project.lead[currentLanguage] || project.lead.en);
+      const metaText = typeof project.meta === 'string' ? project.meta : (project.meta[currentLanguage] || project.meta.en);
+      meta.innerHTML = `<strong>${leadText}</strong><em>${metaText}</em>`;
+    }
     if (image) {
       image.hidden = !project.image;
       if (project.image) image.src = project.image;
@@ -184,6 +194,12 @@ function applyLanguage(language) {
   });
 
   localStorage.setItem('portfolio-language', currentLanguage);
+
+  const portfolioApp = document.querySelector('.link-start-app');
+  if (portfolioApp) {
+    applyPortfolioTrack(portfolioApp.dataset.track || localStorage.getItem('portfolio-track') || 'graphics', false);
+  }
+
   document.dispatchEvent(new CustomEvent('portfolio-language-change', {
     detail: { language: currentLanguage }
   }));
@@ -406,6 +422,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const hobbyMap = app.querySelector('.hobby-map');
   const hobbyToggle = app.querySelector('[data-hobby-toggle]');
   const hobbyClose = app.querySelector('[data-hobby-close]');
+  const hobbyGallery = app.querySelector('[data-hobby-gallery]');
+  const hobbyGalleryTrack = app.querySelector('[data-hobby-gallery-track]');
+  const hobbyGalleryTitle = app.querySelector('[data-hobby-gallery-title]');
+  const hobbyGalleryClose = app.querySelector('[data-hobby-gallery-close]');
   const graphicsCollection = app.querySelector('.graphics-collection');
   const graphicsOpen = app.querySelector('[data-graphics-open]');
   const graphicsClose = app.querySelector('[data-graphics-close]');
@@ -414,16 +434,59 @@ document.addEventListener('DOMContentLoaded', () => {
   let wheelDelta = 0;
   let wheelReset;
   let dragStartY = null;
+  let dragScroller = null;
   let warpFrame = null;
+
+  const setHobbyGallery = (open, source = null) => {
+    if (!hobbyGallery || !hobbyGalleryTrack) return;
+    if (open && source) {
+      hobbyGalleryTrack.innerHTML = '';
+      source.querySelectorAll('img').forEach((image, index) => {
+        const figure = document.createElement('figure');
+        const clone = image.cloneNode();
+        clone.loading = 'eager';
+        figure.append(clone);
+        const caption = document.createElement('figcaption');
+        caption.textContent = String(index + 1).padStart(2, '0');
+        figure.append(caption);
+        hobbyGalleryTrack.append(figure);
+      });
+      if (hobbyGalleryTitle) hobbyGalleryTitle.textContent = source.dataset.galleryTitle || 'GALLERY';
+      hobbyGalleryTrack.scrollLeft = 0;
+    }
+    hobbyGallery.classList.toggle('is-open', open);
+    hobbyGallery.setAttribute('aria-hidden', String(!open));
+  };
 
   const setHobbyMap = open => {
     if (!hobbyMap) return;
+    if (!open) setHobbyGallery(false);
     hobbyMap.classList.toggle('is-open', open);
     hobbyMap.setAttribute('aria-hidden', String(!open));
     app.classList.toggle('is-hobby-open', open);
   };
   hobbyToggle?.addEventListener('click', event => { event.stopPropagation(); setHobbyMap(true); });
   hobbyClose?.addEventListener('click', event => { event.stopPropagation(); setHobbyMap(false); });
+  hobbyGalleryClose?.addEventListener('click', event => { event.stopPropagation(); setHobbyGallery(false); });
+  hobbyGalleryTrack?.addEventListener('wheel', event => {
+    event.preventDefault();
+    event.stopPropagation();
+    hobbyGalleryTrack.scrollBy({ left: event.deltaX + event.deltaY, behavior: 'auto' });
+  }, { passive: false });
+  hobbyGalleryTrack?.addEventListener('keydown', event => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    event.stopPropagation();
+    const direction = event.key === 'ArrowRight' ? 1 : -1;
+    hobbyGalleryTrack.scrollBy({ left: direction * hobbyGalleryTrack.clientWidth * 0.82, behavior: 'smooth' });
+  });
+  app.querySelectorAll('[data-hobby-gallery-source]').forEach(source => {
+    const openGallery = event => { event.preventDefault(); event.stopPropagation(); setHobbyGallery(true, source); };
+    source.addEventListener('click', openGallery);
+    source.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') openGallery(event);
+    });
+  });
   const setGraphicsCollection = open => {
     if (!graphicsCollection) return;
     graphicsCollection.classList.toggle('is-open', open);
@@ -755,6 +818,24 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   app.addEventListener('wheel', event => {
+    const galleryScroller = event.target.closest('.hobby-gallery__track');
+    if (galleryScroller) {
+      event.preventDefault();
+      galleryScroller.scrollLeft += event.deltaY || event.deltaX;
+      return;
+    }
+
+    const archiveScroller = event.target.closest('.archive-panel');
+    if (archiveScroller && archiveScroller.scrollHeight > archiveScroller.clientHeight) {
+      const atTop = archiveScroller.scrollTop <= 1;
+      const atBottom = archiveScroller.scrollTop + archiveScroller.clientHeight >= archiveScroller.scrollHeight - 1;
+      const canScroll = (event.deltaY < 0 && !atTop) || (event.deltaY > 0 && !atBottom);
+      if (canScroll) {
+        wheelDelta = 0;
+        return;
+      }
+    }
+
     event.preventDefault();
     if (hobbyMap?.classList.contains('is-open') || graphicsCollection?.classList.contains('is-open')) return;
     if (locked) return;
@@ -771,6 +852,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!document.body.classList.contains('link-start-home')) return;
     if (event.key === 'Escape' && hobbyMap?.classList.contains('is-open')) {
       event.preventDefault();
+      if (hobbyGallery?.classList.contains('is-open')) {
+        setHobbyGallery(false);
+        return;
+      }
       setHobbyMap(false);
       return;
     }
@@ -780,6 +865,22 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     if (hobbyMap?.classList.contains('is-open') || graphicsCollection?.classList.contains('is-open')) return;
+
+    const activeArchive = scenes[activeIndex]?.querySelector('.archive-panel');
+    const scrollDownKey = ['ArrowDown', 'PageDown', ' '].includes(event.key);
+    const scrollUpKey = ['ArrowUp', 'PageUp'].includes(event.key);
+    if (activeArchive && (scrollDownKey || scrollUpKey)) {
+      const atTop = activeArchive.scrollTop <= 1;
+      const atBottom = activeArchive.scrollTop + activeArchive.clientHeight >= activeArchive.scrollHeight - 1;
+      const canScroll = (scrollDownKey && !atBottom) || (scrollUpKey && !atTop);
+      if (canScroll) {
+        event.preventDefault();
+        const distance = event.key.startsWith('Arrow') ? 90 : activeArchive.clientHeight * 0.82;
+        activeArchive.scrollBy({ top: scrollDownKey ? distance : -distance, behavior: 'smooth' });
+        return;
+      }
+    }
+
     if (['ArrowDown', 'ArrowRight', 'PageDown', ' '].includes(event.key)) {
       event.preventDefault();
       stepScene(1);
@@ -796,15 +897,36 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   app.addEventListener('pointerdown', event => {
+    if (event.target.closest('.hobby-gallery__track')) {
+      dragStartY = null;
+      dragScroller = null;
+      return;
+    }
+    const archiveScroller = event.target.closest('.archive-panel');
+    if (archiveScroller && archiveScroller.scrollHeight > archiveScroller.clientHeight) {
+      dragStartY = event.pointerType !== 'mouse' ? event.clientY : null;
+      dragScroller = event.pointerType !== 'mouse' ? archiveScroller : null;
+      return;
+    }
+    dragScroller = null;
     if (event.pointerType !== 'mouse') dragStartY = event.clientY;
   }, { passive: true });
   app.addEventListener('pointerup', event => {
     if (dragStartY === null || event.pointerType === 'mouse') return;
     const travel = dragStartY - event.clientY;
     dragStartY = null;
+    if (dragScroller) {
+      const atTop = dragScroller.scrollTop <= 1;
+      const atBottom = dragScroller.scrollTop + dragScroller.clientHeight >= dragScroller.scrollHeight - 1;
+      dragScroller = null;
+      if (Math.abs(travel) > 42 && ((travel > 0 && atBottom) || (travel < 0 && atTop))) {
+        stepScene(travel > 0 ? 1 : -1);
+      }
+      return;
+    }
     if (Math.abs(travel) > 42) stepScene(travel > 0 ? 1 : -1);
   }, { passive: true });
-  app.addEventListener('pointercancel', () => { dragStartY = null; });
+  app.addEventListener('pointercancel', () => { dragStartY = null; dragScroller = null; });
 
   app.addEventListener('pointermove', event => {
     if (reduceMotion.matches) return;
