@@ -71,6 +71,17 @@ const portfolioTracks = {
   }
 };
 
+function syncProjectTrackLinks(root, track) {
+  if (!root) return;
+  root.querySelectorAll('a[href*="portfolio_game/"], a[href*="portfolio_planning/"], a[href*="portfolio/"]').forEach(link => {
+    const rawHref = link.getAttribute('href');
+    if (!rawHref || rawHref.startsWith('http') || rawHref.startsWith('#')) return;
+    const url = new URL(rawHref, window.location.href);
+    url.searchParams.set('track', track);
+    link.setAttribute('href', `${url.pathname.split('/').slice(-2).join('/')}${url.search}${url.hash}`);
+  });
+}
+
 function applyPortfolioTrack(requestedTrack, updateUrl = true) {
   const track = Object.prototype.hasOwnProperty.call(portfolioTracks, requestedTrack) ? requestedTrack : 'graphics';
   const profile = portfolioTracks[track];
@@ -111,7 +122,9 @@ function applyPortfolioTrack(requestedTrack, updateUrl = true) {
     const image = card.querySelector('[data-proof-project-image]');
     const title = card.querySelector('[data-proof-project-title]');
     const meta = card.querySelector('[data-proof-project-meta]');
-    card.href = project.href;
+    const projectUrl = new URL(project.href, window.location.href);
+    projectUrl.searchParams.set('track', track);
+    card.href = `${projectUrl.pathname.split('/').slice(-2).join('/')}${projectUrl.search}${projectUrl.hash}`;
     card.dataset.projectKey = project.key;
     if (title) title.textContent = project.title;
     if (meta) {
@@ -125,6 +138,7 @@ function applyPortfolioTrack(requestedTrack, updateUrl = true) {
       image.alt = project.image ? project.title : '';
     }
   });
+  syncProjectTrackLinks(document, track);
   document.querySelectorAll('[data-track-select]').forEach(button => {
     const selected = button.dataset.trackSelect === track;
     button.classList.toggle('is-active', selected);
@@ -825,10 +839,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const archiveScroller = event.target.closest('.archive-panel');
-    if (archiveScroller && archiveScroller.scrollHeight > archiveScroller.clientHeight) {
-      const atTop = archiveScroller.scrollTop <= 1;
-      const atBottom = archiveScroller.scrollTop + archiveScroller.clientHeight >= archiveScroller.scrollHeight - 1;
+    const sceneScroller = event.target.closest('.archive-panel, .experience-board');
+    if (sceneScroller && sceneScroller.scrollHeight > sceneScroller.clientHeight) {
+      const atTop = sceneScroller.scrollTop <= 1;
+      const atBottom = sceneScroller.scrollTop + sceneScroller.clientHeight >= sceneScroller.scrollHeight - 1;
       const canScroll = (event.deltaY < 0 && !atTop) || (event.deltaY > 0 && !atBottom);
       if (canScroll) {
         wheelDelta = 0;
@@ -866,17 +880,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (hobbyMap?.classList.contains('is-open') || graphicsCollection?.classList.contains('is-open')) return;
 
-    const activeArchive = scenes[activeIndex]?.querySelector('.archive-panel');
+    const activeScroller = scenes[activeIndex]?.querySelector('.archive-panel, .experience-board');
     const scrollDownKey = ['ArrowDown', 'PageDown', ' '].includes(event.key);
     const scrollUpKey = ['ArrowUp', 'PageUp'].includes(event.key);
-    if (activeArchive && (scrollDownKey || scrollUpKey)) {
-      const atTop = activeArchive.scrollTop <= 1;
-      const atBottom = activeArchive.scrollTop + activeArchive.clientHeight >= activeArchive.scrollHeight - 1;
+    if (activeScroller && (scrollDownKey || scrollUpKey)) {
+      const atTop = activeScroller.scrollTop <= 1;
+      const atBottom = activeScroller.scrollTop + activeScroller.clientHeight >= activeScroller.scrollHeight - 1;
       const canScroll = (scrollDownKey && !atBottom) || (scrollUpKey && !atTop);
       if (canScroll) {
         event.preventDefault();
-        const distance = event.key.startsWith('Arrow') ? 90 : activeArchive.clientHeight * 0.82;
-        activeArchive.scrollBy({ top: scrollDownKey ? distance : -distance, behavior: 'smooth' });
+        const distance = event.key.startsWith('Arrow') ? 90 : activeScroller.clientHeight * 0.82;
+        activeScroller.scrollBy({ top: scrollDownKey ? distance : -distance, behavior: 'smooth' });
         return;
       }
     }
@@ -902,10 +916,10 @@ document.addEventListener('DOMContentLoaded', () => {
       dragScroller = null;
       return;
     }
-    const archiveScroller = event.target.closest('.archive-panel');
-    if (archiveScroller && archiveScroller.scrollHeight > archiveScroller.clientHeight) {
+    const sceneScroller = event.target.closest('.archive-panel, .experience-board');
+    if (sceneScroller && sceneScroller.scrollHeight > sceneScroller.clientHeight) {
       dragStartY = event.pointerType !== 'mouse' ? event.clientY : null;
-      dragScroller = event.pointerType !== 'mouse' ? archiveScroller : null;
+      dragScroller = event.pointerType !== 'mouse' ? sceneScroller : null;
       return;
     }
     dragScroller = null;

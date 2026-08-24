@@ -13,6 +13,7 @@ DOCS = ROOT / "docs"
 NAVY = colors.HexColor("#10172A")
 BLUE = colors.HexColor("#4263EB")
 TEAL = colors.HexColor("#0F8B8D")
+BURGUNDY = colors.HexColor("#8B2635")
 MUTED = colors.HexColor("#536078")
 LINE = colors.HexColor("#DDE3F0")
 PALE = colors.HexColor("#F5F7FC")
@@ -65,15 +66,16 @@ def project(title, meta, bullets, url, s):
     return KeepTogether(body)
 
 
-def build(path, role, summary, selected, additional, skill_rows, accent, education=True):
+def build(path, role, summary, selected, additional, skill_rows, accent, education=True,
+          selected_title="Selected Experience", additional_title="Additional Evidence"):
     s = styles(accent)
     doc = SimpleDocTemplate(str(path), pagesize=letter, rightMargin=.55*inch, leftMargin=.55*inch, topMargin=.42*inch, bottomMargin=.38*inch,
                             title=f"Min Seohyeon - {role}", author="Min Seohyeon")
     story = [header(s, role), Spacer(1, 4), rule(accent), Paragraph(summary, s["summary"])]
-    story += section("Selected Experience", s, accent)
+    story += section(selected_title, s, accent)
     for p in selected:
         story += [project(*p, s), Spacer(1, 2.2)]
-    story += section("Additional Evidence", s, accent)
+    story += section(additional_title, s, accent)
     for title, text in additional:
         story.append(Paragraph(f"<b>{title}</b> - {text}", s["small"]))
     story += section("Skills", s, accent)
@@ -87,7 +89,7 @@ def build(path, role, summary, selected, additional, skill_rows, accent, educati
     doc.build(story)
 
 
-def main(build_ta=True):
+def main(build_ta=True, build_prod=True, build_student=False):
     DOCS.mkdir(exist_ok=True)
     ta_selected = [
         ("MANZO", "C++ / OpenGL / GLSL | 2024-2025", [
@@ -123,30 +125,83 @@ def main(build_ta=True):
         ("DANGLING GAME JAM", "FOUNDER / PRODUCER / PROJECT LEAD | 2025", [
             "Founded and delivered the university's first interdepartmental game jam: 24 participants, 6 teams, and a 36-hour production window; every team completed and submitted a playable game.",
             "Owned the event from proposal through closeout, including university approvals, an approximately KRW 800,000 budget, promotion, participant communication, on-site operations, final submissions, and visual materials.",
-            "Achieved a 4.87/5 participant satisfaction score across 23 post-event responses while coordinating students across five departments and keeping all six teams on track to finish."
+            "Achieved a 4.87/5 participant satisfaction score across 23 post-event responses while coordinating cross-disciplinary participants and keeping all six teams on track to finish."
         ], None),
-        ("NEW MANZO", "PRODUCTION LEAD / TECHNICAL CONTRIBUTOR | 2025-PRESENT", [
-            "Lead long-term scope, ownership, milestones, cross-discipline communication, and delivery planning for an in-development Unity rhythm-adventure project.",
-            "Resolve production uncertainty through hands-on technical support and implementation; repository lead contributor with 417 commits."
-        ], "https://github.com/Seohyeon-Min/NewManzo"),
+        ("PLUSH PRODUCTION", "PRODUCT DESIGNER / VENDOR & FULFILLMENT LEAD | INDEPENDENT", [
+            "Opened prepaid preorders through Witchform and set production quantities from confirmed paid demand, minimizing upfront capital exposure and unsold inventory risk while generating approximately KRW 10 million in total revenue.",
+            "Sourced a manufacturer through Taobao, negotiated schedule and unit pricing, commissioned and reviewed physical samples, communicated revisions, and approved mass production at the intended quality and cost.",
+            "Built a direct factory-to-customer workflow across freight forwarding, defect inspection, and domestic delivery; centralized order, production, and shipping Q&A through Peing. The public account reached 235 followers and 1,000+ cumulative reposts."
+        ], "https://x.com/mallang707"),
         ("TOO HOT!", "TECHNICAL / CREATIVE PRODUCER | 2026", [
-            "Directed two gameplay programmers and coordinated delivery across gameplay, art, UI, VFX, audio, and presentation using a 130+ item P0-P3 backlog.",
-            "Assigned owners, documented acceptance details in Notion, reviewed behavior and code, requested revisions, merged work, tested the build, and completed final visual integration.",
+            "Directed two gameplay programmers, defined the project's technical structure and implementation priorities, and coordinated gameplay, art, UI, VFX, audio, and presentation through a 130+ item P0-P3 backlog.",
+            "Owned the integration branch and final merges; reviewed every code contribution, identified architectural and gameplay issues, gave actionable feedback, requested revisions, and verified fixes in the build.",
             "Turned design risks into concrete system requirements and player-feedback decisions; secured an offline booth at a Korean game event for an October 2026 exhibition."
         ], "https://github.com/Seohyeon-Min/team17_gamejam"),
     ]
     prod_add = [
+        ("JOINT BAND PERFORMANCE", "Co-organized a two-hour live show featuring six acts from DigiPen, BARD, and an independent band; coordinated rehearsals, team communication, setlists, equipment load-in, show order, and post-event logistics."),
+        ("NEW MANZO", "Lead long-term scope, ownership, milestones, cross-discipline communication, and delivery planning while contributing hands-on technical support; repository lead contributor with 417 commits."),
         ("STREET TYPER", "Scoped and coordinated a public 10-day team build, published it on itch.io, and support its preparation for Steam release while owning visual direction, UI, VFX, and gameplay readability."),
         ("MANZO", "Bridged design, art, and engineering while directly implementing rhythm, rendering, particles, debugging, Git integration, and final presentation; 366 commits."),
-        ("DOUBLE HIT / BIRD STRIKE", "Led small C++ projects while directly implementing engine/gameplay systems and producing art and audio."),
     ]
     prod_skills = [
         ("Production", "Scope/milestone planning, P0-P3 prioritization, ownership, risk identification, acceptance criteria, review, testing, integration"),
-        ("Planning Tools", "Notion, GitHub Projects, GitHub Issues; task documentation, status tracking, review and rework loops"),
+        ("Operations", "Event production, vendor sourcing and negotiation, sample review, preorder planning, fulfillment, customer communication"),
+        ("Planning Tools", "Notion, GitHub Projects, GitHub Issues, Witchform, Peing; task documentation, status tracking, review and rework loops"),
         ("Technical", "Unity, C++, C#, OpenGL, GLSL, ShaderLab, Git branching and merge review, CMake; graphics/gameplay debugging"),
     ]
-    build(DOCS/"Resume_Production.pdf", "PRODUCER | PROJECT LEAD", "Producer and project lead who turns creative direction into organized, completed work. I define scope, align multidisciplinary contributors, secure resources and approvals, track execution, resolve delivery risks, and carry projects through review, on-site operation, exhibition, and closeout - supported by enough technical depth to communicate clearly with engineers and artists.", prod_selected, prod_add, prod_skills, TEAL)
+    if build_prod:
+        build(DOCS/"Resume_Production.pdf", "PRODUCER | PROJECT LEAD", "Producer and project lead who carries games, events, and physical products from planning through delivery. I align multidisciplinary teams and external partners, negotiate resources and constraints, track execution, resolve delivery risks, and build repeatable operations across production, live events, vendors, logistics, and customer communication.", prod_selected, prod_add, prod_skills, TEAL)
+
+    if build_student:
+        student_selected = [
+            ("DANGLING GAME JAM", "FOUNDER / EVENT PRODUCER | 2025", [
+                "Founded and delivered the university's first interdepartmental game jam, bringing together 24 participants across 6 teams for a 36-hour event; every team completed and submitted a playable game.",
+                "Managed university approvals, an approximately KRW 800,000 budget, promotion, participant communication, scheduling, on-site operations, final submissions, and event materials from proposal through closeout.",
+                "Earned a 4.87/5 satisfaction score from 23 post-event responses by creating a structured environment where cross-disciplinary students could collaborate and finish their work."
+            ], None),
+            ("JOINT BAND PERFORMANCE", "CO-ORGANIZER | MAY 2025", [
+                "Co-organized a two-hour live performance featuring six acts from DigiPen, BARD, and an independent band, connecting students and performers across separate communities.",
+                "Coordinated rehearsals, cross-group announcements, setlists, equipment load-in and setup, show order, venue-day communication, and post-event logistics."
+            ], None),
+            ("PLUSH PRODUCTION", "INDEPENDENT PROJECT / EXTERNAL OPERATIONS", [
+                "Generated approximately KRW 10 million in total revenue through prepaid Witchform orders, setting production quantities from confirmed demand to avoid unsold inventory risk.",
+                "Sourced and negotiated with a Chinese manufacturer, reviewed samples and revisions, and connected freight forwarding, defect inspection, domestic delivery, and Peing buyer Q&A into a factory-to-customer workflow."
+            ], "https://x.com/mallang707"),
+            ("TOO HOT!", "PROJECT LEAD / TECHNICAL PRODUCER | 2026", [
+                "Directed two programmers and coordinated gameplay, art, UI, VFX, audio, and presentation through a 130+ item prioritized backlog.",
+                "Secured an offline exhibition booth at a Korean game event for October 2026 and coordinated the team's preparation of the project for public presentation."
+            ], "https://github.com/Seohyeon-Min/team17_gamejam"),
+        ]
+        student_add = [
+            ("NEW MANZO", "Lead long-term scope, milestones, ownership, cross-discipline communication, and delivery planning while contributing hands-on technical support."),
+            ("STREET TYPER", "Scoped and coordinated a public 10-day team build, aligned visual and technical work, published it on itch.io, and support its preparation for Steam release."),
+        ]
+        student_skills = [
+            ("Event Production", "Proposals, approvals, schedules, run-of-show planning, promotion, participant communication, on-site operations"),
+            ("Student Community", "Participant outreach, cross-group communication, multidisciplinary collaboration, feedback collection"),
+            ("Operations", "Budgeting, purchasing coordination, vendor negotiation, sample review, logistics, fulfillment, risk management"),
+            ("Project Leadership", "Team coordination, task ownership, prioritization, review, actionable feedback, issue resolution"),
+            ("Technical Tools", "Notion, GitHub Projects/Issues, Witchform, Peing, Unity, C++, C#, Git review and integration"),
+        ]
+        build(
+            DOCS/"Resume_Student_Leadership.pdf",
+            "STUDENT LEADER | EVENT & PROJECT ORGANIZER",
+            "Student organizer who brought together 24 participants across six game-jam teams and six live acts from DigiPen, BARD, and an independent band. I build the communication and operating structure that helps different student groups work together, then carry each initiative through budgeting, scheduling, on-site execution, and closeout.",
+            student_selected,
+            student_add,
+            student_skills,
+            BURGUNDY,
+            selected_title="Leadership & Event Experience",
+            additional_title="Additional Project Leadership",
+        )
 
 
 if __name__ == "__main__":
-    main(build_ta="--production-only" not in sys.argv)
+    student_only = "--student-leadership-only" in sys.argv
+    production_only = "--production-only" in sys.argv
+    main(
+        build_ta=not student_only and not production_only,
+        build_prod=production_only or (not student_only and not production_only),
+        build_student=student_only,
+    )

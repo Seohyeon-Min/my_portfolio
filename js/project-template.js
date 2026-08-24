@@ -8,6 +8,16 @@
     return (localStorage.getItem('portfolio-language') || 'en') === 'ko' ? ko : en;
   }
 
+  function getPreferredTrack() {
+    const queryTrack = new URLSearchParams(window.location.search).get('track');
+    const savedTrack = localStorage.getItem('portfolio-track');
+    const track = ['graphics', 'software', 'product'].includes(queryTrack)
+      ? queryTrack
+      : (['graphics', 'software', 'product'].includes(savedTrack) ? savedTrack : 'graphics');
+    localStorage.setItem('portfolio-track', track);
+    return track;
+  }
+
   // URL에서 프로젝트 ID 추출
   function getProjectId() {
     const path = window.location.pathname;
@@ -43,9 +53,7 @@
       fontLink.dataset.caseFont = '';
       document.head.appendChild(fontLink);
     }
-    const track = ['graphics', 'software', 'product'].includes(localStorage.getItem('portfolio-track'))
-      ? localStorage.getItem('portfolio-track')
-      : 'graphics';
+    const track = getPreferredTrack();
     const navbar = document.querySelector('.navbar');
     if (navbar) {
       navbar.innerHTML = `
@@ -597,7 +605,7 @@
     // 첫 번째 탭: 주요기여 (첫 번째 섹션) - categoryLabels에 있으면 해당 라벨 사용
     const firstTabLabel = categoryLabels[mainSection.category] || mainSection.title;
     contributionsHTML += `
-      <button class="contribution-tab contribution-tab-main active" data-category="main">
+      <button class="contribution-tab contribution-tab-main active" data-category="main" data-source-category="${mainSection.category || ''}">
         <span class="crown-icon">👑</span>
         <span>${firstTabLabel}</span>
       </button>
@@ -729,30 +737,36 @@
 
     roundedSection.insertAdjacentHTML('beforeend', contributionsHTML);
 
-    // 탭 클릭 이벤트 리스너 추가
+    // 방문자가 선택한 포트폴리오 트랙에 맞는 기여 탭을 우선 표시한다.
     setTimeout(() => {
       const tabs = roundedSection.querySelectorAll('.contribution-tab');
+      const activateTab = (tab) => {
+        if (!tab) return;
+        const category = tab.dataset.category;
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const contents = roundedSection.querySelectorAll('.contribution-tab-content');
+        contents.forEach(c => c.classList.remove('active'));
+        const targetContent = roundedSection.querySelector(
+          `.contribution-tab-content[data-category="${category}"]`
+        );
+        if (targetContent) targetContent.classList.add('active');
+      };
+
       tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          const category = tab.dataset.category;
-
-          // 모든 탭 비활성화
-          tabs.forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-
-          // 모든 콘텐츠 숨기기
-          const contents = roundedSection.querySelectorAll('.contribution-tab-content');
-          contents.forEach(c => c.classList.remove('active'));
-
-          // 선택한 카테고리만 보이기
-          const targetContent = roundedSection.querySelector(
-            `.contribution-tab-content[data-category="${category}"]`
-          );
-          if (targetContent) {
-            targetContent.classList.add('active');
-          }
-        });
+        tab.addEventListener('click', () => activateTab(tab));
       });
+
+      const track = getPreferredTrack();
+      const preference = track === 'product'
+        ? ['Project Lead', 'Direction · Production', '디렉팅 · 프로덕션', 'Planning']
+        : ['Technical', 'Art'];
+      const preferredTab = preference
+        .map(category => Array.from(tabs).find(tab =>
+          tab.dataset.category === category || tab.dataset.sourceCategory === category
+        ))
+        .find(Boolean);
+      activateTab(preferredTab || roundedSection.querySelector('.contribution-tab-main'));
     }, 100);
   }
 
