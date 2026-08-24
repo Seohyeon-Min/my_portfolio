@@ -239,11 +239,9 @@
     roundedSection.insertAdjacentHTML('afterbegin', experienceHTML);
   }
 
-  // 선택한 프로젝트에서는 Experience를 히어로 바로 아래로 이동한다.
+  // 모든 프로젝트에서 역할과 기간을 히어로 바로 아래에 먼저 보여준다.
   // 나머지 섹션이 Experience를 기준으로 렌더링되므로 모든 렌더링이 끝난 뒤 호출한다.
   function placeExperience(project) {
-    if (project.experiencePlacement !== 'afterHero') return;
-
     const mainContent = document.querySelector('.main-content');
     const experienceSection = document.querySelector('.experience-section');
     if (!mainContent || !experienceSection) return;
