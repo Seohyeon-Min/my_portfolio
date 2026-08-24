@@ -7,22 +7,37 @@ const projectsData = {
     title: "New MANZO",
     subtitle: "Hear the Ocean's Call",
     pageTitle: "NEWMANZO - MSH PORTFOILO",
-    heroType: "video", // "video" or "image"
-    heroMedia: "../img/NEWMANZO/hunting_mode.mp4",
+    heroType: "youtube",
+    heroMedia: "XwNLMpe7O3A",
     overview: "Manzo는 <strong>심해 리듬 어드벤처 게임</strong>으로, 심리적 공포와 탐험 요소가 결합된 작품입니다. 플레이어는 수수께끼의 모스 부호 신호를 따라 바다 깊숙이 숨겨진 비밀을 밝혀나갑니다.",
     features: [
-      "리듬 기반 이동",
-      "탐험 중심 스토리텔링",
-      "역동적인 해저 세계",
-      "독특한 보스 전투"
+      "FMOD 기반 정박 판정과 싱크 보정",
+      "프로시저럴 보스 다리 애니메이션",
+      "세이브 및 이벤트 관리 시스템",
+      "Bloom을 활용한 통일된 수중 비주얼",
+      "완결 가능한 보스러시 구조"
     ],
     experience: {
-      role: "Project Lead",
-      period: "2025년 8월 – 현재",
-      description: "프로젝트 관리, 팀 내 커뮤니케이션, 그래픽스 파이프라인의 기술적 지원을 담당합니다."
+      role: "Project Lead · Gameplay / Systems Programmer · Visual Direction",
+      period: "2025년 8월 – 최종 빌드",
+      description: "프로젝트가 장기화되며 참여가 느슨해졌을 때 팀의 가용 인원과 핵심 범위를 다시 정리하고, 2주 마감 스프린트로 재편해 플레이 가능한 빌드를 완성했습니다."
     },    
 
     videos: [
+      {
+        title: "최종 빌드 · 보스 전투",
+        subtitle: "인게임 플레이",
+        description: "리듬 타이밍에 맞춰 공격을 피하고 물고기를 사냥하는 보스 전투 장면입니다.",
+        src: "../img/NEWMANZO/ingame.mp4",
+        poster: null
+      },
+      {
+        title: "최종 빌드 · 심해 탐험",
+        subtitle: "인게임 플레이",
+        description: "제한된 시야와 탐지 UI를 활용해 심해 환경을 탐색하는 실제 플레이 장면입니다.",
+        src: "../img/NEWMANZO/ingmae.mp4",
+        poster: null
+      },
       {
         title: "물고기 AI",
         subtitle: "(개발 중 프로토타입)",
@@ -49,10 +64,25 @@ const projectsData = {
     contributions: {
       sections: [
         {
+          title: "게임플레이 및 기반 시스템",
+          category: "Technical",
+          htmlContent: `<section><h2>게임플레이 및 기반 시스템</h2><h3>프로시저럴 다리 애니메이션</h3><p>보스의 다리가 지면과 움직임에 반응하도록 절차적 애니메이션을 구현해, 수작업 애니메이션만으로는 만들기 어려운 유기적인 움직임을 구성했습니다.</p><h3>FMOD 리듬 동기화</h3><p>FMOD의 오디오 타임라인을 기준으로 정박 판정을 구성하고, 플레이 환경에서 발생하는 체감 오차를 보정할 수 있도록 싱크 조절 기능을 만들었습니다.</p><h3>세이브 및 이벤트 관리</h3><p>플레이 진행 상태를 유지하는 세이브 시스템과 게임 내 사건의 발생·진행을 관리하는 이벤트 시스템을 구현해 보스러시 흐름을 연결했습니다.</p></section>`
+        },
+        {
+          title: "비주얼 디렉션",
+          category: "Art",
+          htmlContent: `<section><h2>하나의 게임처럼 보이게 만들기</h2><p>서로 다른 시기에 제작된 환경·캐릭터·이펙트가 한 화면에서 이질적으로 보이지 않도록 색, 밝기, 실루엣과 효과 강도를 반복해서 조정했습니다.</p><h3>Bloom과 화면 가독성</h3><p>발광 효과가 수중 분위기에는 기여하면서도 공격 예고와 플레이어 정보를 덮지 않도록 Bloom의 임계값과 강도, 주변 색의 대비를 함께 다듬었습니다.</p></section>`
+        },
+        {
           title: "Project Lead",
           category: "Project Lead",
           items: [
-            "프로젝트 관리, 팀 내 커뮤니케이션, 그래픽스 파이프라인의 기술적 지원"
+            "프로젝트 관리, 팀 내 커뮤니케이션, 그래픽스 파이프라인의 기술적 지원",
+            "여러 차례 바뀐 기획과 팀의 실제 개발 상태, 구성원별 가용 시간, 남은 일정을 함께 검토해 기존 범위로는 완수가 어렵다고 판단",
+            "핵심 재미를 보스 전투에 집중시키고 탐험·부가 기능을 줄여 프로젝트를 완결 가능한 보스러시 구조로 재정의",
+            "팀 규모가 커지고 구성원들의 우선순위가 분산되면서 일정과 책임이 불명확해진 문제를 진단",
+            "계속 참여할 수 있는 구성원을 다시 확인하고 핵심 인원 중심으로 역할과 범위를 재편",
+            "완료 조건을 정한 2주 마감 스프린트를 선언하고, 남은 작업을 우선순위화해 최종 빌드까지 완수"
           ]
         }
       ]
@@ -1428,30 +1458,78 @@ function applyEnglishProjectOverride(projectId, english) {
 
 applyEnglishProjectOverride("00_NewManzo", {
   pageTitle: "New MANZO — Min Seohyeon Portfolio",
-  overview: "An in-development deep-sea rhythm adventure prototype exploring beat-linked hunting, fish behavior, and atmospheric rendering.",
+  overview: "A completed playable build of a deep-sea rhythm adventure exploring beat-linked hunting, fish behavior, and atmospheric rendering.",
   features: [
-    "Beat-linked hunting and movement prototypes",
-    "Schooling fish behavior, obstacle avoidance, and player response",
-    "Raycasting and post-processing experiments for underwater presentation"
+    "FMOD-driven on-beat gameplay with adjustable sync offset",
+    "Procedural boss-leg animation",
+    "Save and event-management systems",
+    "Cohesive underwater visuals with readability-aware bloom",
+    "A production-reset boss-rush scope carried to a playable build"
   ],
   experience: {
-    role: "Graphics Prototyping · Technical Support · Production Lead",
-    period: "August 2025 – Present",
-    description: "Prototype graphics and gameplay features, support the team's technical pipeline, and coordinate scope and communication."
+    role: "Gameplay / Systems Programmer · Visual Direction · Production Lead",
+    period: "August 2025 – Final Build",
+    description: "When the long-running secondary project lost momentum, I reset team commitment and scope, formed a smaller delivery-focused group, and led a two-week closing sprint to a playable build."
   },
+  videos: [
+    {
+      title: "Final Build · Boss Encounter",
+      subtitle: "In-game footage",
+      description: "A playable boss sequence combining rhythm-timed evasion, fish hunting, and attack telegraphs.",
+      src: "../img/NEWMANZO/ingame.mp4",
+      poster: null
+    },
+    {
+      title: "Final Build · Deep-Sea Exploration",
+      subtitle: "In-game footage",
+      description: "Playable exploration footage using limited visibility and detection UI to navigate the underwater environment.",
+      src: "../img/NEWMANZO/ingmae.mp4",
+      poster: null
+    },
+    {
+      title: "Schooling Fish AI",
+      subtitle: "Development prototype",
+      description: "An early test of schooling behavior, obstacle avoidance, and player response.",
+      src: "../img/NEWMANZO/fishAI.mp4",
+      poster: null
+    },
+    {
+      title: "Beat-linked Hunting",
+      subtitle: "Development prototype",
+      description: "A gameplay test connecting fish hunting to the project's beat system.",
+      src: "../img/NEWMANZO/hunting_mode.mp4",
+      poster: null
+    },
+    {
+      title: "Raycasting & Post-processing",
+      subtitle: "Development prototype",
+      description: "An early presentation test for constrained underwater visibility.",
+      src: "../img/NEWMANZO/postprocessing.mp4",
+      poster: null
+    }
+  ],
   contributions: {
     sections: [
       {
         title: "Graphics & Gameplay Prototypes",
         category: "Technical",
-        htmlContent: `<section><h2>Graphics & Gameplay Prototypes</h2><h3>Fish Behavior</h3><p>Prototyped schooling behavior, obstacle avoidance, and player response to test whether groups of fish could remain readable and reactive during play.</p><h3>Beat-linked Hunting</h3><p>Connected the hunting interaction to the beat system and iterated on timing feedback for the core rhythm-action loop.</p><h3>Rendering Experiments</h3><p>Tested raycasting and post-processing approaches for the underwater presentation while the project direction was still being established.</p></section>`
+        htmlContent: `<section><h2>Gameplay & Foundation Systems</h2><h3>Procedural Leg Animation</h3><p>Built procedural animation for the boss's legs so they could respond organically to movement and the ground instead of relying entirely on authored animation clips.</p><h3>FMOD Rhythm Synchronization</h3><p>Used the FMOD audio timeline as the source of truth for on-beat gameplay and implemented a sync-offset control to compensate for perceived timing differences across play environments.</p><h3>Save & Event Management</h3><p>Implemented the save system for persistent progression and an event-management system that coordinates gameplay events across the boss-rush flow.</p><h3>Fish Behavior & Hunting</h3><p>Prototyped schooling, obstacle avoidance, and player response, then connected hunting interactions to the beat-driven gameplay loop.</p></section>`
+      },
+      {
+        title: "Visual Direction",
+        category: "Art",
+        htmlContent: `<section><h2>A Cohesive Underwater Look</h2><p>Repeatedly adjusted color, value, silhouettes, and effect intensity so environments, characters, and VFX produced at different stages still read as one coherent game.</p><h3>Bloom with Gameplay Readability</h3><p>Tuned bloom threshold, intensity, and surrounding contrast so the glow supported the underwater atmosphere without obscuring attack telegraphs or essential player information.</p></section>`
       },
       {
         title: "Production",
         category: "Project Lead",
         items: [
-          "Coordinate project scope, ownership, and team communication",
-          "Provide technical support for graphics integration and prototypes"
+          "Evaluated repeated design changes against the team's actual implementation state, member availability, and remaining schedule, then determined that the existing scope was not realistically finishable",
+          "Preserved the strongest combat work and reframed the game as a focused boss rush, cutting exploration and secondary features to create a coherent, shippable scope",
+          "Diagnosed stalled delivery as the team expanded and members' primary commitments reduced reliable availability",
+          "Reconfirmed who could commit, reorganized ownership around a smaller active team, and cut nonessential scope",
+          "Set a two-week finish window with explicit completion criteria, prioritized the remaining work, and drove the project to a playable final build",
+          "Provided technical support for graphics integration and prototypes throughout the recovery sprint"
         ]
       }
     ]

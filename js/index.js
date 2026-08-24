@@ -145,7 +145,7 @@ function applyPortfolioTrack(requestedTrack, updateUrl = true) {
     button.setAttribute('aria-pressed', String(selected));
   });
 
-  updateResumeLinks(currentLanguage);
+  updateResumeLinks();
 
   if (updateUrl) {
     const url = new URL(window.location.href);
@@ -166,27 +166,18 @@ function ensureLanguageToggle() {
   `);
 }
 
-function updateResumeLinks(language) {
+function updateResumeLinks() {
   const activeTrack = document.querySelector('.link-start-app')?.dataset.track || localStorage.getItem('portfolio-track') || 'graphics';
   const productionTrack = activeTrack === 'product';
-  const resumeSelector = 'a[href$="Resume.pdf"], a[href$="Resume_KR.pdf"], a[href$="Resume_Production.pdf"]';
+  const resumeSelector = 'a[href$="Resume.pdf"], a[href$="Resume_KR.pdf"], a[href$="Resume_TA_Graphics.pdf"], a[href$="Resume_Production.pdf"]';
   document.querySelectorAll(resumeSelector).forEach(link => {
     const currentHref = link.getAttribute('href') || '';
     const prefix = currentHref.startsWith('../') ? '../docs/' : 'docs/';
     const isAlternate = link.hasAttribute('data-resume-alternate');
 
-    if (language === 'ko') {
-      link.classList.toggle('is-hidden', isAlternate);
-      if (!isAlternate) {
-        link.setAttribute('href', `${prefix}Resume_KR.pdf`);
-        link.textContent = '이력서 ↗';
-      }
-      return;
-    }
-
     link.classList.remove('is-hidden');
     const useProduction = isAlternate ? !productionTrack : productionTrack;
-    link.setAttribute('href', `${prefix}${useProduction ? 'Resume_Production.pdf' : 'Resume.pdf'}`);
+    link.setAttribute('href', `${prefix}${useProduction ? 'Resume_Production.pdf' : 'Resume_TA_Graphics.pdf'}`);
     link.textContent = useProduction ? 'PRODUCTION RESUME ↗' : 'TA / GRAPHICS RESUME ↗';
   });
 }
@@ -199,7 +190,7 @@ function applyLanguage(language) {
     element.textContent = element.dataset[currentLanguage];
   });
 
-  updateResumeLinks(currentLanguage);
+  updateResumeLinks();
 
   document.querySelectorAll('.language-toggle button[data-lang]').forEach(button => {
     const isActive = button.dataset.lang === currentLanguage;
@@ -225,6 +216,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (techDetail && !document.querySelector('.link-start-app')) {
     document.body.classList.add('project-detail-page', 'tech-project-page');
     const track = localStorage.getItem('portfolio-track') || 'graphics';
+    const resumeFile = track === 'product' ? 'Resume_Production.pdf' : 'Resume_TA_Graphics.pdf';
+    const resumeLabel = track === 'product' ? 'PRODUCTION RESUME ↗' : 'TA / GRAPHICS RESUME ↗';
     const navbar = document.querySelector('.navbar');
     if (navbar) {
       navbar.innerHTML = `
@@ -232,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <nav class="navbar-menu">
           <a href="../index.html?track=${track}#proof">PROOF REEL</a>
           <a href="../index.html?track=${track}#archive">ALL PROJECTS</a>
-          <a href="../docs/Resume.pdf" target="_blank" rel="noopener">RESUME ↗</a>
+          <a href="../docs/${resumeFile}" target="_blank" rel="noopener">${resumeLabel}</a>
         </nav>
       `;
     }

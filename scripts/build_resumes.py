@@ -119,7 +119,7 @@ def main(build_ta=True, build_prod=True, build_student=False):
         ("Workflow", "Git branching and merge review, GitHub Projects/Issues, Notion, CMake, Visual Studio, WSL, profiling, technical specification"),
     ]
     if build_ta:
-        build(DOCS/"Resume.pdf", "TECHNICAL ARTIST | GRAPHICS PROGRAMMER", "Technical artist and graphics programmer who works across code, shaders, VFX, UI, and art integration. I directly build C++/OpenGL engine features and Unity visual systems, diagnose rendering and gameplay failures, and translate visual goals into testable technical requirements without obscuring authorship boundaries.", ta_selected, ta_add, ta_skills, BLUE)
+        build(DOCS/"Resume_TA_Graphics.pdf", "TECHNICAL ARTIST | GRAPHICS PROGRAMMER", "Technical artist and graphics programmer who works across code, shaders, VFX, UI, and art integration. I directly build C++/OpenGL engine features and Unity visual systems, diagnose rendering and gameplay failures, and translate visual goals into testable technical requirements without obscuring authorship boundaries.", ta_selected, ta_add, ta_skills, BLUE)
 
     prod_selected = [
         ("DANGLING GAME JAM", "FOUNDER / PRODUCER / PROJECT LEAD | 2025", [
@@ -200,8 +200,9 @@ def main(build_ta=True, build_prod=True, build_student=False):
 if __name__ == "__main__":
     student_only = "--student-leadership-only" in sys.argv
     production_only = "--production-only" in sys.argv
+    ta_only = "--ta-only" in sys.argv
     main(
-        build_ta=not student_only and not production_only,
-        build_prod=production_only or (not student_only and not production_only),
+        build_ta=ta_only or (not student_only and not production_only),
+        build_prod=production_only or (not student_only and not production_only and not ta_only),
         build_student=student_only,
     )

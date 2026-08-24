@@ -54,6 +54,8 @@
       document.head.appendChild(fontLink);
     }
     const track = getPreferredTrack();
+    const resumeFile = track === 'product' ? 'Resume_Production.pdf' : 'Resume_TA_Graphics.pdf';
+    const resumeLabel = track === 'product' ? 'PRODUCTION RESUME ↗' : 'TA / GRAPHICS RESUME ↗';
     const navbar = document.querySelector('.navbar');
     if (navbar) {
       navbar.innerHTML = `
@@ -61,7 +63,7 @@
         <nav class="navbar-menu">
           <a href="../index.html?track=${track}#proof">PROOF REEL</a>
           <a href="../index.html?track=${track}#archive">ALL PROJECTS</a>
-          <a href="../docs/Resume.pdf" target="_blank" rel="noopener">RESUME ↗</a>
+          <a href="../docs/${resumeFile}" target="_blank" rel="noopener">${resumeLabel}</a>
         </nav>
       `;
     }
@@ -76,7 +78,16 @@
     heroSection.id = 'title';
 
     // Hero 미디어 설정 - 기존 내용을 완전히 교체
-    if (project.heroType === 'video') {
+    if (project.heroType === 'youtube') {
+      const youtubeId = project.youtubeId || project.heroMedia;
+      heroSection.innerHTML = `
+        <iframe class="hero-youtube" src="https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&loop=1&playlist=${youtubeId}&controls=1&playsinline=1&rel=0&modestbranding=1" title="${project.title} gameplay video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        <div class="video-overlay video-overlay--youtube">
+          <h1 class="${project.heroTitleClass || 'game-title'}">${project.title}</h1>
+          <p class="${project.heroSubtitleClass || 'game-subtitle'}">${project.subtitle}</p>
+        </div>
+      `;
+    } else if (project.heroType === 'video') {
       heroSection.innerHTML = `
         <video src="${project.heroMedia}" autoplay muted loop playsinline preload="auto" ${project.heroPoster ? `poster="${project.heroPoster}"` : ''}></video>
         <div class="video-overlay">
