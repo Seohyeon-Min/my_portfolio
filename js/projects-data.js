@@ -99,12 +99,12 @@ const projectsData = {
     pageTitle: "MANZO - MSH PORTFOLIO",
     heroType: "video",
     heroMedia: "../img/MANZO/MANZO_trailer.mp4",
-    overview: "Manzo는 <strong>심해 리듬 어드벤처 게임</strong>으로, 심리적 공포와 탐험 요소가 결합된 작품입니다. 플레이어는 수수께끼의 모스 부호 신호를 따라 바다 깊숙이 숨겨진 비밀을 밝혀나갑니다.",
+    overview: "리듬 기반 대시 이동으로 심해를 탐험하고 모스 부호를 해독하며 바다의 비밀을 밝혀나가는 Rhythm Metroidvania Psychological Horror 게임입니다. 해양 드론 \"Dal\"을 조종해 박자에 맞춰 대시하고, 물고기를 포획해 모듈·스킬을 강화하며, 보스가 보내는 모스 부호를 청각으로 추적해 전투를 벌입니다. 탐험 방식과 선택에 따라 서로 다른 결말에 도달합니다.",
     features: [
-      "리듬 기반 이동",
-      "탐험 중심 스토리텔링",
-      "커스텀 렌더러와 멀티패스 후처리",
-      "다중 충돌 형태와 CCD 기반 고속 충돌 처리"
+      "리듬 기반 이동: 박자에 맞춰 대시하며 탐험",
+      "사운드 기반 보스 트래킹: 모스 부호를 청각으로 탐지해 보스 위치 추적",
+      "메트로배니아 탐험: 모듈과 스킬로 더 깊은 심해까지 진출",
+      "딥씨 사이코 호러: 심해로 갈수록 어둡고 불안해지는 분위기"
     ],
     experience: {
       role: "Project Lead & 그래픽스 기술 프로그래머",
@@ -136,61 +136,6 @@ const projectsData = {
       }
     ],
     overviewImage: "../img/MANZO/Character.png",  // Overview/Features 옆에 표시될 이미지
-    gameIntro: `<section class="game-overview">
-
-  <h2>Game Overview</h2>
-
-  <p>
-    <strong>리듬 기반 대시 이동으로 심해를 탐험하고 모스 부호를 해독하며 
-    바다의 비밀을 밝혀나가는 Rhythm Metroidvania Psychological Horror 게임입니다.</strong>
-  </p>
-
-  <p>
-    플레이어는 해양 드론 <strong>"Dal"</strong>을 조종하여 바닷속을 탐험합니다. 
-    박자에 맞춰 대시 이동을 수행하며 물고기를 포획하고 위험을 회피합니다. 
-    포획한 물고기는 상인에게 판매하여 자원을 획득할 수 있으며, 
-    이를 통해 다양한 <strong>모듈과 스킬을 구매하여 탐험 능력을 강화합니다.</strong>
-  </p>
-
-  <p>
-    탐험 과정에서는 <strong>모스 부호를 송신하는 보스의 신호</strong>를 소리로 탐지할 수 있습니다. 
-    플레이어는 청각 정보를 단서로 보스의 위치를 추적하고 
-    <strong>리듬 기반 패턴을 회피하며 전투를 진행합니다.</strong> 
-    보스를 처치하면 스토리 진행에 필요한 <strong>모스 코드 단어</strong>를 획득하며, 
-    이를 통해 심해에 숨겨진 비밀을 해독해 나갑니다.
-  </p>
-
-  <p>
-    맵 곳곳에는 <strong>숨겨진 보물</strong>과 더 강력한 보스들이 존재하며, 
-    플레이어의 탐험 방식과 선택에 따라 <strong>서로 다른 결말</strong>로 이어집니다.
-  </p>
-
-
-  <h2>Core Features</h2>
-
-  <ul>
-    <li>
-      <strong>Rhythm-based Movement</strong><br>
-      박자에 맞춰 대시하며 이동하는 리듬 기반 탐험 시스템을 제공합니다.
-    </li>
-
-    <li>
-      <strong>Sound-driven Boss Tracking</strong><br>
-      보스가 송신하는 모스 부호를 청각적으로 탐지하여 위치를 추적하는 탐험 구조를 구현합니다.
-    </li>
-
-    <li>
-      <strong>Metroidvania Exploration</strong><br>
-      모듈과 스킬을 통해 새로운 지역을 탐험하고 점진적으로 더 깊은 심해로 진입합니다.
-    </li>
-
-    <li>
-      <strong>Deep Sea Psychological Horror</strong><br>
-      얕은 바다에서 시작하여 심해로 갈수록 분위기와 시각적 연출이 점차 어둡고 불안하게 변화합니다.
-    </li>
-  </ul>
-
-</section>`,
     contributions: {
       sections: [
         {
@@ -908,55 +853,9 @@ const projectsData = {
           </section>`
         },
         {
-          title: "개발",
+          title: "UI 셰이더 시스템",
           category: "Technical",
-          htmlContent: `<section class="development">
-  <h3>Custom UI Shader System</h3>
-  <p>
-    Unity <strong>URP 기반 UI 셰이더 시스템</strong>을 제작하여 
-    다양한 UI 스타일을 하나의 재사용 가능한 구조로 구현했습니다.
-  </p>
-
-  <ul>
-    <li><strong>SDF 기반 UI 렌더링</strong> : Rounded Rectangle, Capsule 등 해상도 독립적인 도형 렌더링</li>
-    <li><strong>UI 스타일 시스템</strong> : Gradient, Shadow, Edge Highlight, Material 표현(Plastic/Metal/Glass)</li>
-    <li><strong>Micro Noise 및 색상 보정</strong> : HSV 변환 기반 색상 조정과 미세 노이즈 효과</li>
-    <li><strong>실시간 파라미터 제어</strong> : Inspector에서 UI 스타일을 즉시 수정 가능</li>
-  </ul>
-
-  <h3>Shader Modules</h3>
-  <ul>
-    <li><strong>UIStyle.shader</strong> : 통합 UI 스타일링 셰이더</li>
-    <li><strong>UIBlur.shader</strong> : 9-Tap 최적화 블러 효과</li>
-    <li><strong>SimpleGradient.shader</strong> : 경량 UI 그라디언트 셰이더</li>
-    <li><strong>UIColorTint.shader</strong> : 텍스처 알파 기반 컬러 틴트</li>
-    <li><strong>WaveNoise.shader</strong> : 다중 레이어 애니메이션 노이즈</li>
-  </ul>
-
-  <h3>Editor Tooling</h3>
-  <p>
-    <strong>UIStyle.cs</strong> 스크립트를 제작하여 
-    Inspector에서 셰이더 파라미터를 직관적으로 제어하고 
-    UI 스타일 프리셋을 저장 및 적용할 수 있는 시스템을 구현했습니다.
-  </p>
-
-  <h3>Technical Stack</h3>
-  <ul>
-    <li>Unity Universal Render Pipeline (URP)</li>
-    <li>HLSL Shader Programming</li>
-    <li>Signed Distance Field (SDF) Rendering</li>
-    <li>C# Editor Tooling</li>
-  </ul>
-
-  <h3>Development Notes</h3>
-  <p>
-    셰이더 구조 설계와 시스템 통합 과정에서 
-    AI 기반 개발 도구를 적극 활용하여 반복 작업과 실험 속도를 높였습니다.
-    이를 통해 약 <strong>1,000+ lines 규모의 셰이더 코드</strong>와 
-    재사용 가능한 UI 스타일 시스템을 구축했습니다.
-  </p>
-
-</section>`
+          htmlContent: `<section class="development" id="ui-style-origin"><span class="case-label">최초 개발</span><h2>UI 셰이더 시스템은 여기서 시작됐습니다</h2><p class="case-study-lede">둥근 버튼, 게이지, 카드마다 그림을 새로 그리는 대신, 하나의 Unity <strong>URP UI 셰이더</strong>(<code>UIStyle.shader</code>)를 컴포넌트 하나(<code>UIStyle.cs</code>)로 제어하도록 만들어서, 어떤 <code>Image</code>든 Inspector에서 값만 조절하면 원하는 모양으로 스타일링되게 했습니다.</p><div class="engineering-summary" aria-label="시스템 규모"><article><span class="engineering-icon" aria-hidden="true">◆</span><strong>4</strong><small>셰이더·컴포넌트·에디터·프리셋 스크립트</small></article><article><span class="engineering-icon" aria-hidden="true">▦</span><strong>9</strong><small>Inspector에 노출된 스타일 그룹</small></article><article><span class="engineering-icon" aria-hidden="true">✦</span><strong>실시간</strong><small>OnValidate로 플레이 모드 없이 즉시 미리보기</small></article><article><span class="engineering-icon" aria-hidden="true">↗</span><strong>재사용</strong><small>.unitypackage로 패키징해 스트리트 타이퍼로 이식</small></article></div><h3>Inspector 필드 (ThinkThink 기준)</h3><div class="decision-table-wrap"><table class="decision-table"><thead><tr><th>그룹</th><th>주요 필드</th><th>기능</th></tr></thead><tbody><tr><th scope="row">모서리 둥글기</th><td>Corner Radius, Capsule/Pill 토글</td><td>SDF 기반 라운딩, 해상도 독립적</td></tr><tr><th scope="row">드롭 섀도우</th><td>Offset, Color, Blur, Size</td><td>별도 스프라이트 없이 외부 그림자 표현</td></tr><tr><th scope="row">인사이드 섀도우</th><td>Offset, Color, Blur</td><td>눌린/파인 느낌의 내부 그림자</td></tr><tr><th scope="row">그래디언트</th><td>기본 색상; Color Gradient(시작/끝/방향/블렌드); Light Gradient(강도/방향); Hue Shift(웜/쿨)</td><td>색상과 명암 그래디언트를 한 패스에서 겹겹이 표현</td></tr><tr><th scope="row">엣지 하이라이트</th><td>Strength, Size</td><td>림 라이트 느낌의 가장자리 발광</td></tr><tr><th scope="row">Material</th><td>Material Type(Plastic / Metal / Glass / Paper)</td><td>표면 질감 프리셋 전환</td></tr><tr><th scope="row">노이즈</th><td>Enable, Strength</td><td>단색이 밴딩되지 않도록 미세 노이즈 추가</td></tr><tr><th scope="row">Bottom Edge Line</th><td>Thickness, Intensity, Color, Sharpness</td><td>그림자와 별개로 정의하는 아래쪽 엣지 라인</td></tr><tr><th scope="row">Preset</th><td><code>UIStylePreset</code> 에셋</td><td>스타일 전체를 에셋 하나로 저장·재적용</td></tr></tbody></table></div><h3>패키지 안의 셰이더 모듈</h3><ul><li><strong>UIStyle.shader</strong>: 위의 통합 스타일링 셰이더</li><li><strong>UIBlur.shader</strong>: 9-Tap 최적화 블러</li><li><strong>SimpleGradient.shader</strong>: 경량 UI 그라디언트</li><li><strong>UIColorTint.shader</strong>: 텍스처 알파 기반 컬러 틴트</li><li><strong>WaveNoise.shader</strong>: 다중 레이어 애니메이션 노이즈</li></ul><div class="system-map"><h3>스트리트 타이퍼에서 확장된 부분</h3><ol><li><span>01</span><strong>모서리 개별 둥글기</strong><small>하나의 값 대신 네 모서리를 각각 독립적으로 조절</small></li><li><span>02</span><strong>다이아몬드 모양</strong><small>변의 곡률과 기울기(skew)까지 조절 가능한 새 도형</small></li><li><span>03</span><strong>방사형 그래디언트</strong><small>방향성 그래디언트 옆에 중심→가장자리 방식 추가</small></li><li><span>04</span><strong>윤곽선(Outline)</strong><small>엣지 라인과 별도로 안쪽을 따라가는 전용 윤곽선</small></li><li><span>05</span><strong>게이지 Fill</strong><small>HP바·타이머용 Fill Amount 추가, 줄어들어도 모서리 유지</small></li></ol></div><p>핵심 셰이더와 컴포넌트는 그대로 가져갔고, 스트리트 타이퍼의 카드 전투 UI에 필요했던 모양과 테두리 표현만 새로 늘렸습니다.</p><a class="evidence-link" href="06_StreetTyper.html?contributionTab=Art#ui-style-extended">스트리트 타이퍼에서 확장된 모습 보기 ↗</a><h3>Editor Tooling</h3><p><strong>UIStyle.cs</strong> 스크립트를 제작하여 Inspector에서 셰이더 파라미터를 직관적으로 제어하고 UI 스타일 프리셋을 저장 및 적용할 수 있는 시스템을 구현했습니다.</p><h3>Technical Stack</h3><ul><li>Unity Universal Render Pipeline (URP)</li><li>HLSL Shader Programming</li><li>Signed Distance Field (SDF) Rendering</li><li>C# Editor Tooling</li></ul><h3>Development Notes</h3><p>셰이더 구조 설계와 시스템 통합 과정에서 AI 기반 개발 도구를 적극 활용하여 반복 작업과 실험 속도를 높였습니다. 이를 통해 약 <strong>1,000+ lines 규모의 셰이더 코드</strong>와 재사용 가능한 UI 스타일 시스템을 구축했습니다.</p></section>`
         }
       ]
     },
@@ -1088,13 +987,12 @@ const projectsData = {
         { src: "../img/Plush/real2.jpg", alt: "Close-up of a completed custom plush", title: "Finished product detail" }
       ]
     },
-    gameIntro: `<div class="impact-metrics" aria-label="Project outcomes"><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">₩</span><strong>₩10M</strong><span>Total revenue</span></div><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">●</span><strong>235</strong><span>Account followers</span></div><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">↻</span><strong>1,000+</strong><span>Cumulative reposts</span></div></div><p class="metric-source-note">Account figures as of August 24, 2026.</p><p>I opened a prepaid preorder form through Witchform and used confirmed order counts to determine the production quantity. This made-to-order structure let me secure demand before placing the factory order, reducing upfront capital exposure and the risk of unsold inventory.</p><p>I sourced a manufacturer through Taobao, negotiated a workable price and schedule, and reviewed physical samples to confirm that shapes, expressions, costume details, and colors matched the intended designs before approving production.</p><p>I then connected the factory, an international freight forwarder, a defect-inspection and delivery service, and the buyers into one fulfillment workflow. Finished products moved from production to inspection and final delivery without passing through my hands. I centralized buyer questions through Peing, using it to answer order and delivery inquiries while communicating status updates throughout fulfillment. This let me run the project efficiently while keeping quality, price, and customer communication under control.</p><p class="case-study-note"><strong>Authorship note:</strong> The featured characters are fan merchandise based on existing intellectual property. My work shown here is the plush-format visual adaptation, production preparation, vendor coordination, logistics, and customer support.</p>`,
     contributions: {
       sections: [
         {
           title: "Product & Production",
           category: "Design · Operations",
-          htmlContent: `<section><h2>From artwork to a manufacturable product</h2><p>Adapted each character to a consistent round-plush format and prepared production artwork that preserved readable silhouettes, expressions, costume details, and colors at a small physical scale.</p><h3>Preorders through Witchform</h3><p>Opened a prepaid purchase form through Witchform and finalized the production quantity from confirmed orders. Producing against validated demand minimized excess inventory, upfront investment, and the financial risk of unsold products.</p><h3>Factory sourcing and negotiation</h3><p>Contacted a manufacturer through Taobao and negotiated the production schedule and unit price directly. I commissioned samples, compared the physical results with the intended designs, and communicated revisions before approving mass production, achieving the expected quality at a reasonable cost.</p><h3>End-to-end fulfillment workflow</h3><div class="fulfillment-flow" role="list" aria-label="Fulfillment process"><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">✎</span><strong>01</strong><span>Production<br>artwork</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">⚙</span><strong>02</strong><span>Factory<br>order</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">▣</span><strong>03</strong><span>Freight<br>forwarder</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">✓</span><strong>04</strong><span>Inspection<br>& delivery</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">⌂</span><strong>05</strong><span>Buyer</span></div></div><p>Designed a direct flow from production artwork to factory order, international freight forwarder, defect inspection and domestic delivery service, and finally the buyer. Products could move from the factory to customers without passing through my hands, while I remained responsible for status tracking and exception handling.</p><h3>Buyer Q&A through Peing</h3><p>Used Peing as the project's centralized Q&A channel, responding to order, production, and delivery questions and keeping buyer communication organized throughout fulfillment.</p><h3>What I learned</h3><p>I learned how to turn a creative concept into a repeatable operation: validate demand before production, define requirements clearly, negotiate cost and schedule, verify quality through samples, connect multiple external partners, and maintain a clear customer communication channel.</p></section>`
+          htmlContent: `<section><div class="impact-metrics" aria-label="Project outcomes"><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">₩</span><strong>₩10M</strong><span>Total revenue</span></div><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">●</span><strong>235</strong><span>Account followers</span></div><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">↻</span><strong>1,000+</strong><span>Cumulative reposts</span></div></div><p class="metric-source-note">Account figures as of August 24, 2026.</p><h2>From artwork to a manufacturable product</h2><p>Adapted each character to a consistent round-plush format and prepared production artwork that preserved readable silhouettes, expressions, costume details, and colors at a small physical scale.</p><h3>Preorders through Witchform</h3><p>Opened a prepaid purchase form through Witchform and finalized the production quantity from confirmed orders. Producing against validated demand minimized excess inventory, upfront investment, and the financial risk of unsold products.</p><h3>Factory sourcing and negotiation</h3><p>Contacted a manufacturer through Taobao and negotiated the production schedule and unit price directly. I commissioned samples, compared the physical results with the intended designs, and communicated revisions before approving mass production, achieving the expected quality at a reasonable cost.</p><h3>End-to-end fulfillment workflow</h3><div class="fulfillment-flow" role="list" aria-label="Fulfillment process"><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">✎</span><strong>01</strong><span>Production<br>artwork</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">⚙</span><strong>02</strong><span>Factory<br>order</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">▣</span><strong>03</strong><span>Freight<br>forwarder</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">✓</span><strong>04</strong><span>Inspection<br>& delivery</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">⌂</span><strong>05</strong><span>Buyer</span></div></div><p>Designed a direct flow from production artwork to factory order, international freight forwarder, defect inspection and domestic delivery service, and finally the buyer. Products could move from the factory to customers without passing through my hands, while I remained responsible for status tracking and exception handling.</p><h3>Buyer Q&A through Peing</h3><p>Used Peing as the project's centralized Q&A channel, responding to order, production, and delivery questions and keeping buyer communication organized throughout fulfillment.</p><h3>What I learned</h3><p>I learned how to turn a creative concept into a repeatable operation: validate demand before production, define requirements clearly, negotiate cost and schedule, verify quality through samples, connect multiple external partners, and maintain a clear customer communication channel.</p><p class="case-study-note"><strong>Authorship note:</strong> The featured characters are fan merchandise based on existing intellectual property. My work shown here is the plush-format visual adaptation, production preparation, vendor coordination, logistics, and customer support.</p></section>`
         }
       ]
     },
@@ -1126,13 +1024,12 @@ const projectsData = {
             { src: "../img/Plush/real2.jpg", alt: "완성된 맞춤형 인형 클로즈업", title: "완성 제품 디테일" }
           ]
         },
-        gameIntro: `<div class="impact-metrics" aria-label="프로젝트 성과"><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">₩</span><strong>약 1,000만 원</strong><span>총매출</span></div><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">●</span><strong>235명</strong><span>계정 팔로워</span></div><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">↻</span><strong>1,000회+</strong><span>누적 리포스트</span></div></div><p class="metric-source-note">계정 수치는 2026년 8월 24일 기준입니다.</p><p>Witchform에서 선입금 구매폼을 열고, 결제가 완료된 확정 주문 수량을 기준으로 생산량을 결정했습니다. 수요를 먼저 확보한 뒤 공장에 발주하는 주문제작 구조를 통해 초기 자금 부담과 미판매 재고로 인한 손실 위험을 최소화했습니다.</p><p>타오바오에서 중국 제조업체를 직접 찾아 일정과 단가를 협상하고, 실물 샘플을 제작해 형태와 표정, 의상 디테일과 색상이 의도대로 구현됐는지 확인했습니다. 수정 사항을 공장에 전달한 뒤 양산을 승인해, 원하는 품질을 합리적인 가격으로 확보했습니다.</p><p>생산 이후에는 공장 → 배대지 → 불량 검수 및 배송대행사 → 구매자로 이어지는 직접배송 흐름을 구성했습니다. 완제품을 제가 직접 보관하거나 재포장하지 않아도 주문이 최종 수령까지 이어졌으며, Peing을 구매자 Q&A 창구로 활용해 주문·제작·배송 문의와 진행 상황 안내를 한곳에서 관리했습니다.</p><p class="case-study-note"><strong>기여 범위:</strong> 등장 캐릭터의 원저작권은 각 권리자에게 있습니다. 여기서 소개하는 제 작업은 인형 형태에 맞춘 시각적 각색, 생산 자료 준비, 공장 조율, 물류와 구매자 지원입니다.</p>`,
         contributions: {
           sections: [
             {
               title: "제품과 생산",
               category: "디자인 · 운영",
-              htmlContent: `<section><h2>도안에서 생산 가능한 제품까지</h2><p>캐릭터를 일관된 둥근 인형 형태로 각색하고, 작은 실물에서도 형태와 표정, 의상 특징과 색상이 명확하게 보이도록 생산용 도안을 준비했습니다.</p><h3>Witchform을 활용한 선주문 판매</h3><p>Witchform에서 선입금 구매폼을 열고 결제가 완료된 주문량을 기준으로 최종 생산 수량을 확정했습니다. 실제 수요를 먼저 검증한 뒤 주문제작하는 방식으로 불필요한 선투자와 미판매 재고를 줄이고, 금전적 손실 위험을 최소화했습니다.</p><h3>공장 발굴과 가격·일정 협상</h3><p>타오바오에서 중국 제조업체를 직접 찾아 생산 일정과 단가를 협상했습니다. 실물 샘플을 발주해 도안과 비교하고, 형태와 자수, 색상 등의 수정 사항을 전달한 뒤 양산을 승인함으로써 예상한 품질을 합리적인 가격에 확보했습니다.</p><h3>직접 취급 없이 작동하는 배송 프로세스</h3><div class="fulfillment-flow" role="list" aria-label="배송 프로세스"><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">✎</span><strong>01</strong><span>생산용<br>도안 제작</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">⚙</span><strong>02</strong><span>공장<br>발주</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">▣</span><strong>03</strong><span>해외<br>배대지</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">✓</span><strong>04</strong><span>불량 검수<br>배송대행</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">⌂</span><strong>05</strong><span>구매자<br>수령</span></div></div><p>도안 제작 → 공장 발주 → 배대지 → 불량 검수 및 배송대행사 → 구매자로 이어지는 전체 흐름을 설계했습니다. 완제품이 제 손을 거치지 않아도 검수와 최종 배송까지 진행되도록 각 업체를 연결했고, 저는 진행 상황 추적과 예외 상황 대응을 맡았습니다.</p><h3>Peing을 활용한 구매자 Q&A</h3><p>Peing을 프로젝트의 통합 문의 창구로 활용해 주문, 제작 진행 상황과 배송 관련 질문에 답변했습니다. 구매자 커뮤니케이션을 한곳에 모아 전체 이행 과정에서 문의와 안내가 누락되지 않도록 관리했습니다.</p><h3>배운 점</h3><p>창작물을 실제 제품으로 만드는 일은 디자인만의 문제가 아니었습니다. 수요를 먼저 검증하고, 요구사항을 명확히 정의하며, 가격과 일정을 협상하고, 샘플로 품질을 확인하고, 여러 외부 업체와 고객 소통 채널을 하나의 운영 구조로 연결하는 일까지 모두 제품 경험의 일부라는 점을 배웠습니다.</p></section>`
+              htmlContent: `<section><div class="impact-metrics" aria-label="프로젝트 성과"><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">₩</span><strong>약 1,000만 원</strong><span>총매출</span></div><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">●</span><strong>235명</strong><span>계정 팔로워</span></div><div class="impact-metric"><span class="impact-metric-icon" aria-hidden="true">↻</span><strong>1,000회+</strong><span>누적 리포스트</span></div></div><p class="metric-source-note">계정 수치는 2026년 8월 24일 기준입니다.</p><h2>도안에서 생산 가능한 제품까지</h2><p>캐릭터를 일관된 둥근 인형 형태로 각색하고, 작은 실물에서도 형태와 표정, 의상 특징과 색상이 명확하게 보이도록 생산용 도안을 준비했습니다.</p><h3>Witchform을 활용한 선주문 판매</h3><p>Witchform에서 선입금 구매폼을 열고 결제가 완료된 주문량을 기준으로 최종 생산 수량을 확정했습니다. 실제 수요를 먼저 검증한 뒤 주문제작하는 방식으로 불필요한 선투자와 미판매 재고를 줄이고, 금전적 손실 위험을 최소화했습니다.</p><h3>공장 발굴과 가격·일정 협상</h3><p>타오바오에서 중국 제조업체를 직접 찾아 생산 일정과 단가를 협상했습니다. 실물 샘플을 발주해 도안과 비교하고, 형태와 자수, 색상 등의 수정 사항을 전달한 뒤 양산을 승인함으로써 예상한 품질을 합리적인 가격에 확보했습니다.</p><h3>직접 취급 없이 작동하는 배송 프로세스</h3><div class="fulfillment-flow" role="list" aria-label="배송 프로세스"><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">✎</span><strong>01</strong><span>생산용<br>도안 제작</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">⚙</span><strong>02</strong><span>공장<br>발주</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">▣</span><strong>03</strong><span>해외<br>배대지</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">✓</span><strong>04</strong><span>불량 검수<br>배송대행</span></div><div class="fulfillment-step" role="listitem"><span class="fulfillment-icon" aria-hidden="true">⌂</span><strong>05</strong><span>구매자<br>수령</span></div></div><p>도안 제작 → 공장 발주 → 배대지 → 불량 검수 및 배송대행사 → 구매자로 이어지는 전체 흐름을 설계했습니다. 완제품이 제 손을 거치지 않아도 검수와 최종 배송까지 진행되도록 각 업체를 연결했고, 저는 진행 상황 추적과 예외 상황 대응을 맡았습니다.</p><h3>Peing을 활용한 구매자 Q&A</h3><p>Peing을 프로젝트의 통합 문의 창구로 활용해 주문, 제작 진행 상황과 배송 관련 질문에 답변했습니다. 구매자 커뮤니케이션을 한곳에 모아 전체 이행 과정에서 문의와 안내가 누락되지 않도록 관리했습니다.</p><h3>배운 점</h3><p>창작물을 실제 제품으로 만드는 일은 디자인만의 문제가 아니었습니다. 수요를 먼저 검증하고, 요구사항을 명확히 정의하며, 가격과 일정을 협상하고, 샘플로 품질을 확인하고, 여러 외부 업체와 고객 소통 채널을 하나의 운영 구조로 연결하는 일까지 모두 제품 경험의 일부라는 점을 배웠습니다.</p><p class="case-study-note"><strong>기여 범위:</strong> 등장 캐릭터의 원저작권은 각 권리자에게 있습니다. 여기서 소개하는 제 작업은 인형 형태에 맞춘 시각적 각색, 생산 자료 준비, 공장 조율, 물류와 구매자 지원입니다.</p></section>`
             }
           ]
         },
@@ -1152,16 +1049,16 @@ const projectsData = {
     heroLink: "https://handalhandal.itch.io/streettyper",
     heroImageContainsTitle: true,
     overviewImage: "../img/StreetTyper/concept.png",
-    overview: "I originated Street Typer's core concept and built the first gameplay prototype: bilingual typing becomes an action-RPG combat rule, where players chain five on-screen words and finish with an action word to resolve an attack. The team's game designer later developed level design and polished the design around that foundation.",
+    overview: "Type and fight! A deck-building typing-action roguelite about a girl fighting to earn her dragon mother's approval.",
     features: [
-      "Korean and English typing treated as gameplay rules, with custom IME-aware input handling",
-      "Card-chain combat with command resolution, status effects, rewards, and enemy turns",
-      "Original 2D art, impact shaders, particles, camera shake, hit feedback, and animated UI"
+      "Fight by typing the words that appear on screen, quickly and accurately",
+      "Collect cards through combat and build your own deck",
+      "Your card choices shape how you play — find a build that fits you and take on tougher enemies"
     ],
     experience: {
       role: "Art · Technical Art · Producer (Team Project)",
       period: "2026 · 10-day scope",
-      description: "Originated the game's central typing-combat concept and built the initial prototype that established its playable loop. The team's game designer focused on level design and subsequent design polish. I then produced the 10-day scope and directly owned the visual direction, art integration, UI, VFX, and moment-to-moment feedback through the playable build."
+      description: "I had the idea for a typing card game built around physical, reflex-based skill, and built the initial prototype myself using Codex to validate it. The team's game designer then took over level design and design polish on top of that foundation. I produced the 10-day scope and directly owned the visual direction, art integration, UI, VFX, and moment-to-moment feedback through the playable build."
     },
     trailers: [],
     videos: [],
@@ -1194,7 +1091,7 @@ const projectsData = {
         {
           title: "Art & Animation",
           category: "Art",
-          htmlContent: `<section><h2>Rigged in Spriter, Baked for Unity</h2><p>I drew every character, background, card, and UI icon in Street Typer myself. Combat characters were rigged with 2D skeletal (bone-based) animation in Spriter Pro, then baked and exported as sprite frame sheets for Unity, where an Animator state machine plays them back. That pipeline let me animate idle, punch, guard, and hit-react poses quickly and reuse motion across states inside a 10-day production window.</p><div class="engineering-summary" aria-label="Art coverage"><article><span class="engineering-icon" aria-hidden="true">🎨</span><strong>2D</strong><small>Characters · backgrounds · cards</small></article><article><span class="engineering-icon" aria-hidden="true">🦴</span><strong>Skeletal</strong><small>Rigged in Spriter Pro, baked to sprite sheets</small></article><article><span class="engineering-icon" aria-hidden="true">✨</span><strong>VFX</strong><small>Impact, particles, camera shake</small></article><article><span class="engineering-icon" aria-hidden="true">🧩</span><strong>UI</strong><small>Shader-driven styling</small></article></div><div class="asset-portrait-grid" aria-label="Character portraits from the project's asset folder"><figure><div><img src="../img/StreetTyper/assets/character-demi.png" alt="Demi character portrait, the player character" /></div><figcaption><span>Raw asset</span><strong>Demi — player character</strong></figcaption></figure><figure><div><img src="../img/StreetTyper/assets/character-dragon1.png" alt="Dragon 1 enemy character portrait" /></div><figcaption><span>Raw asset</span><strong>Dragon 1 — enemy</strong></figcaption></figure><figure><div><img src="../img/StreetTyper/assets/character-mom.png" alt="Mother Dragon character portrait" /></div><figcaption><span>Raw asset</span><strong>Mother Dragon</strong></figcaption></figure></div><div class="asset-frame-strips" aria-label="Animation clips"><figure class="asset-frame-strip"><div><video src="../img/StreetTyper/vd1.mp4" controls muted loop playsinline preload="metadata"></video></div><figcaption><span>Raw capture</span><strong>Attack animation</strong><small>Baked playback of the Spriter Pro skeletal rig, in-engine</small></figcaption></figure><figure class="asset-frame-strip"><div><video src="../img/StreetTyper/vd2-Skeleton.mp4" controls muted loop playsinline preload="metadata"></video></div><figcaption><span>Raw capture</span><strong>Skeletal idle</strong><small>The bone rig itself, visible and moving in Spriter Pro</small></figcaption></figure></div><p class="art-count-note">Pulled directly from the project's asset folder (Demi, Dragon 1, and Mother Dragon) — images are downscaled for the web but otherwise unedited.</p><h3>UI styling workflow</h3><p>Defined the desired look and iterated with AI assistance on a Unity UI shader/tool for per-corner rounding, gradients, shadows, blur, reusable presets, and inspector controls. My contribution is the visual specification, art direction, evaluation, and project integration—not a claim that every generated code line was handwritten.</p><h3>Color direction</h3><p>I built the palette around a <span class="tone-blue">blue</span>-and-<span class="tone-pink">pink</span> pairing and kept it consistent across characters, cards, and UI so the accent color would read as one deliberate identity rather than scattered choices. The goal was a funky, casual tone—playful and a little loud, but still cohesive enough to feel art-directed rather than random.</p></section>`
+          htmlContent: `<section><h2>Rigged in Spriter, Baked for Unity</h2><p>I drew every character, background, card, and UI icon in Street Typer myself. Combat characters were rigged with 2D skeletal (bone-based) animation in Spriter Pro, then baked and exported as sprite frame sheets for Unity, where an Animator state machine plays them back. That pipeline let me animate idle, punch, guard, and hit-react poses quickly and reuse motion across states inside a 10-day production window.</p><div class="engineering-summary" aria-label="Art coverage"><article><span class="engineering-icon" aria-hidden="true">🎨</span><strong>2D</strong><small>Characters · backgrounds · cards</small></article><article><span class="engineering-icon" aria-hidden="true">🦴</span><strong>Skeletal</strong><small>Rigged in Spriter Pro, baked to sprite sheets</small></article><article><span class="engineering-icon" aria-hidden="true">✨</span><strong>VFX</strong><small>Impact, particles, camera shake</small></article><article><span class="engineering-icon" aria-hidden="true">🧩</span><strong>UI</strong><small>Shader-driven styling</small></article></div><div class="asset-portrait-grid" aria-label="Character portraits from the project's asset folder"><figure><div><img src="../img/StreetTyper/assets/character-demi.png" alt="Demi character portrait, the player character" /></div><figcaption><span>Raw asset</span><strong>Demi — player character</strong></figcaption></figure><figure><div><img src="../img/StreetTyper/assets/character-dragon1.png" alt="Dragon 1 enemy character portrait" /></div><figcaption><span>Raw asset</span><strong>Dragon 1 — enemy</strong></figcaption></figure><figure><div><img src="../img/StreetTyper/assets/character-mom.png" alt="Mother Dragon character portrait" /></div><figcaption><span>Raw asset</span><strong>Mother Dragon</strong></figcaption></figure></div><div class="asset-frame-strips" aria-label="Animation clips"><figure class="asset-frame-strip"><div><video src="../img/StreetTyper/vd1.mp4" controls muted loop playsinline preload="metadata"></video></div><figcaption><span>Raw capture</span><strong>Attack animation</strong><small>Baked playback of the Spriter Pro skeletal rig, in-engine</small></figcaption></figure><figure class="asset-frame-strip"><div><video src="../img/StreetTyper/vd2-Skeleton.mp4" controls muted loop playsinline preload="metadata"></video></div><figcaption><span>Raw capture</span><strong>Skeletal idle</strong><small>The bone rig itself, visible and moving in Spriter Pro</small></figcaption></figure></div><p class="art-count-note">Pulled directly from the project's asset folder (Demi, Dragon 1, and Mother Dragon) — images are downscaled for the web but otherwise unedited.</p><h3 id="ui-style-extended">UI styling workflow</h3><p>I designed the UI through a custom-built UI Style shader. This shader started in <strong>ThinkThink!</strong> — a reusable Unity UI shader with per-corner rounding, gradients, shadows, blur, presets, and inspector controls. For Street Typer's card-combat UI I extended it with per-corner radii, a diamond shape, a radial gradient option, and a dedicated outline.</p><a class="evidence-link" href="05_ThinkThink.html?contributionTab=Technical#ui-style-origin">Where this shader system started (ThinkThink!) ↗</a><h3>Color direction</h3><p>I built the palette around a <span class="tone-blue">blue</span>-and-<span class="tone-pink">pink</span> pairing and kept it consistent across characters, cards, and UI so the accent color would read as one deliberate identity rather than scattered choices. The goal was a funky, casual tone—playful and a little loud, but still cohesive enough to feel art-directed rather than random.</p></section>`
         },
         {
           title: "Production",
@@ -1215,12 +1112,13 @@ const projectsData = {
     localized: {
       ko: {
         subtitle: "단어를 이어 기술을 만들고, 마지막 입력으로 공격하세요.",
-        overview: "제가 제안한 ‘타이핑 자체를 전투로 만들면 어떨까?’라는 핵심 아이디어와 초기 플레이 프로토타입에서 출발한 10일 게임잼 프로젝트입니다. 단어 다섯 개를 이어 기술을 만들고 마지막 행동 단어로 공격을 실행하는 기본 루프를 먼저 만들었고, 이후 팀의 게임 디자이너가 이 기반 위에서 레벨 디자인과 디자인 폴리싱을 맡았습니다.",
+        overview: "타이핑하고 싸워라! 드래곤 엄마에게 인정받기 위해 싸우는 소녀의 이야기를 담은 덱빌딩 타이핑 액션 로그라이트.",
         features: [
-          "IME 입력을 직접 처리해 한글과 영어 모두 자연스럽게 이어지는 타이핑 전투 구현",
-          "단어 조합부터 행동 판정, 상태 효과, 보상과 적 턴까지 연결되는 카드 전투 구조",
-          "직접 제작한 2D 아트에 셰이더, 파티클, 카메라 셰이크와 UI 모션을 더해 타격감 강화"
+          "화면에 나타나는 단어를 빠르고 정확하게 입력해 적을 공격하세요",
+          "전투를 거듭하며 카드를 획득하고 나만의 덱을 완성하세요",
+          "어떤 카드를 선택하느냐에 따라 플레이 방식이 달라집니다 — 자신에게 맞는 조합을 찾아 더 강력한 적에게 도전하세요"
         ],
+        gameIntro: `<p>'피지컬을 쓰는 타이핑 카드게임이면 어떨까?'라는 아이디어에서 출발한 10일 게임잼 프로젝트입니다. 코덱스(Codex)를 활용해 이 아이디어를 검증하는 초기 프로토타입을 직접 만들었습니다.</p><p>이후 팀의 게임 디자이너가 이 기반 위에서 레벨 디자인과 디자인 폴리싱을 맡았습니다.</p>`,
         experience: {
           role: "아트 · 테크니컬 아트 · 프로듀서 (팀 프로젝트)",
           period: "2026 · 10일 제작",
@@ -1255,7 +1153,7 @@ const projectsData = {
             {
               title: "아트 · 애니메이션",
               category: "Art",
-              htmlContent: `<section><h2>Spriter로 리깅하고, Unity용으로 구워냈습니다</h2><p>캐릭터, 배경, 카드, UI 아이콘까지 게임에 나오는 그림은 전부 제가 그렸습니다. 전투 캐릭터는 Spriter Pro에서 2D 스켈레톤(뼈대) 애니메이션으로 리깅한 뒤, 이를 스프라이트 프레임 시트로 구워 Unity로 내보내고 Animator 상태 머신으로 재생합니다. 이 파이프라인 덕분에 대기·펀치·가드·피격 같은 포즈를 빠르게 만들고 상태 간 모션을 재사용할 수 있었고, 10일이라는 짧은 제작 기간 안에서도 애니메이션을 빠르게 완성할 수 있었습니다.</p><div class="engineering-summary" aria-label="아트 제작 범위"><article><span class="engineering-icon" aria-hidden="true">🎨</span><strong>2D</strong><small>캐릭터 · 배경 · 카드</small></article><article><span class="engineering-icon" aria-hidden="true">🦴</span><strong>스켈레톤</strong><small>Spriter Pro로 리깅, 스프라이트 시트로 익스포트</small></article><article><span class="engineering-icon" aria-hidden="true">✨</span><strong>VFX</strong><small>타격 이펙트 · 파티클 · 카메라 셰이크</small></article><article><span class="engineering-icon" aria-hidden="true">🧩</span><strong>UI</strong><small>셰이더 기반 스타일링</small></article></div><div class="asset-portrait-grid" aria-label="프로젝트 에셋 폴더의 캐릭터 원화"><figure><div><img src="../img/StreetTyper/assets/character-demi.png" alt="플레이어 캐릭터 데미 원화" /></div><figcaption><span>원본 에셋</span><strong>데미 — 플레이어 캐릭터</strong></figcaption></figure><figure><div><img src="../img/StreetTyper/assets/character-dragon1.png" alt="적 캐릭터 드래곤1 원화" /></div><figcaption><span>원본 에셋</span><strong>드래곤1 — 적 캐릭터</strong></figcaption></figure><figure><div><img src="../img/StreetTyper/assets/character-mom.png" alt="마더 드래곤 원화" /></div><figcaption><span>원본 에셋</span><strong>마더 드래곤</strong></figcaption></figure></div><div class="asset-frame-strips" aria-label="애니메이션 영상"><figure class="asset-frame-strip"><div><video src="../img/StreetTyper/vd1.mp4" controls muted loop playsinline preload="metadata"></video></div><figcaption><span>원본 캡처</span><strong>공격 애니메이션</strong><small>Spriter Pro 스켈레톤 리그를 구워 인게임에서 재생한 모습</small></figcaption></figure><figure class="asset-frame-strip"><div><video src="../img/StreetTyper/vd2-Skeleton.mp4" controls muted loop playsinline preload="metadata"></video></div><figcaption><span>원본 캡처</span><strong>스켈레톤 idle</strong><small>Spriter Pro에서 뼈대가 그대로 보이는 상태로 움직이는 모습</small></figcaption></figure></div><p class="art-count-note">프로젝트의 에셋 폴더(데미, 드래곤1, 마미용)에서 직접 가져온 원본 파일입니다 — 웹용으로 크기만 줄였을 뿐 그 외에는 수정하지 않았습니다.</p><h3>UI 스타일 제작</h3><p>버튼마다 이미지를 새로 만들지 않아도 원하는 분위기를 빠르게 맞출 수 있도록 UI 셰이더와 조절 도구를 구성했습니다. 모서리 둥글기, 그라디언트, 그림자와 블러를 인스펙터에서 조절하고 프리셋으로 재사용할 수 있습니다. 구현 과정에서는 AI의 도움을 받았으며, 저는 필요한 기능과 화면 기준을 정하고 결과를 검토해 실제 프로젝트에 맞게 수정·통합했습니다.</p><h3>색감 디렉션</h3><p><span class="tone-blue">블루</span>와 <span class="tone-pink">핑크</span>를 메인 포인트 컬러로 잡고, 캐릭터·카드·UI 전반에 같은 색 조합을 일관되게 써서 흩어진 선택이 아니라 하나의 정체성으로 읽히게 신경 썼습니다. 펑키하면서도 캐주얼한 분위기 — 통통 튀고 살짝 시끄럽지만, 그래도 일관되게 아트 디렉팅된 느낌을 목표로 했습니다.</p></section>`
+              htmlContent: `<section><h2>Spriter로 리깅하고, Unity용으로 구워냈습니다</h2><p>캐릭터, 배경, 카드, UI 아이콘까지 게임에 나오는 그림은 전부 제가 그렸습니다. 전투 캐릭터는 Spriter Pro에서 2D 스켈레톤(뼈대) 애니메이션으로 리깅한 뒤, 이를 스프라이트 프레임 시트로 구워 Unity로 내보내고 Animator 상태 머신으로 재생합니다. 이 파이프라인 덕분에 대기·펀치·가드·피격 같은 포즈를 빠르게 만들고 상태 간 모션을 재사용할 수 있었고, 10일이라는 짧은 제작 기간 안에서도 애니메이션을 빠르게 완성할 수 있었습니다.</p><div class="engineering-summary" aria-label="아트 제작 범위"><article><span class="engineering-icon" aria-hidden="true">🎨</span><strong>2D</strong><small>캐릭터 · 배경 · 카드</small></article><article><span class="engineering-icon" aria-hidden="true">🦴</span><strong>스켈레톤</strong><small>Spriter Pro로 리깅, 스프라이트 시트로 익스포트</small></article><article><span class="engineering-icon" aria-hidden="true">✨</span><strong>VFX</strong><small>타격 이펙트 · 파티클 · 카메라 셰이크</small></article><article><span class="engineering-icon" aria-hidden="true">🧩</span><strong>UI</strong><small>셰이더 기반 스타일링</small></article></div><div class="asset-portrait-grid" aria-label="프로젝트 에셋 폴더의 캐릭터 원화"><figure><div><img src="../img/StreetTyper/assets/character-demi.png" alt="플레이어 캐릭터 데미 원화" /></div><figcaption><span>원본 에셋</span><strong>데미 — 플레이어 캐릭터</strong></figcaption></figure><figure><div><img src="../img/StreetTyper/assets/character-dragon1.png" alt="적 캐릭터 드래곤1 원화" /></div><figcaption><span>원본 에셋</span><strong>드래곤1 — 적 캐릭터</strong></figcaption></figure><figure><div><img src="../img/StreetTyper/assets/character-mom.png" alt="마더 드래곤 원화" /></div><figcaption><span>원본 에셋</span><strong>마더 드래곤</strong></figcaption></figure></div><div class="asset-frame-strips" aria-label="애니메이션 영상"><figure class="asset-frame-strip"><div><video src="../img/StreetTyper/vd1.mp4" controls muted loop playsinline preload="metadata"></video></div><figcaption><span>원본 캡처</span><strong>공격 애니메이션</strong><small>Spriter Pro 스켈레톤 리그를 구워 인게임에서 재생한 모습</small></figcaption></figure><figure class="asset-frame-strip"><div><video src="../img/StreetTyper/vd2-Skeleton.mp4" controls muted loop playsinline preload="metadata"></video></div><figcaption><span>원본 캡처</span><strong>스켈레톤 idle</strong><small>Spriter Pro에서 뼈대가 그대로 보이는 상태로 움직이는 모습</small></figcaption></figure></div><p class="art-count-note">프로젝트의 에셋 폴더(데미, 드래곤1, 마미용)에서 직접 가져온 원본 파일입니다 — 웹용으로 크기만 줄였을 뿐 그 외에는 수정하지 않았습니다.</p><h3 id="ui-style-extended">UI 스타일 제작</h3><p>직접 제작한 UI Style 셰이더를 통해 UI를 디자인했습니다. 이 셰이더는 <strong>ThinkThink!</strong>에서 처음 만든 것으로, 모서리 둥글기·그라디언트·그림자·블러·프리셋과 인스펙터 조작까지 갖춘 재사용 가능한 Unity UI 셰이더입니다. 스트리트 타이퍼의 카드 전투 UI에 맞춰 모서리 개별 둥글기, 다이아몬드 모양, 방사형 그래디언트, 전용 윤곽선(Outline)을 새로 추가해 확장했습니다.</p><a class="evidence-link" href="05_ThinkThink.html?contributionTab=Technical#ui-style-origin">이 셰이더 시스템이 시작된 곳 (ThinkThink!) ↗</a><h3>색감 디렉션</h3><p><span class="tone-blue">블루</span>와 <span class="tone-pink">핑크</span>를 메인 포인트 컬러로 잡고, 캐릭터·카드·UI 전반에 같은 색 조합을 일관되게 써서 흩어진 선택이 아니라 하나의 정체성으로 읽히게 신경 썼습니다. 펑키하면서도 캐주얼한 분위기 — 통통 튀고 살짝 시끄럽지만, 그래도 일관되게 아트 디렉팅된 느낌을 목표로 했습니다.</p></section>`
             },
             {
               title: "프로듀싱",
@@ -1286,7 +1184,7 @@ const projectsData = {
     heroType: "video",
     heroMedia: "../img/TooHot/트레일러1_low.mp4",
     heroPoster: "../img/TooHot/hero.png",
-    overviewImage: "../img/TooHot/hero.png",
+    overviewImage: "../img/TooHot/Boss1.png",
     overview: "A Unity game-jam boss-action project built around readable attack patterns, escalating encounters, and responsive visual feedback.",
     features: [
       "A custom shadow shader integrated and art-directed for a cohesive, grounded combat presentation",
@@ -1314,7 +1212,7 @@ const projectsData = {
         {
           title: "Art & VFX",
           category: "Art",
-          htmlContent: `<section><h2>Implemented by Me</h2><p>Created and integrated game art, composed the combat presentation, and added a custom shadow shader, pattern-specific VFX, UI styling, animation, and impact feedback. I tuned color, scale, timing, and hierarchy so players could read danger quickly while attacks still felt forceful.</p><div class="engineering-summary" aria-label="Art coverage"><article><span class="engineering-icon" aria-hidden="true">🌑</span><strong>Shader</strong><small>Custom shadow treatment</small></article><article><span class="engineering-icon" aria-hidden="true">✨</span><strong>VFX</strong><small>Telegraphs · projectiles · beams</small></article><article><span class="engineering-icon" aria-hidden="true">🧩</span><strong>UI</strong><small>Gradients · rounding · URP blur</small></article><article><span class="engineering-icon" aria-hidden="true">🎬</span><strong>Animation</strong><small>Boss + portrait feedback</small></article></div><figure style="margin:1rem 0"><img src="../img/TooHot/CardUI.png" alt="Too Hot card UI styled with the custom UI shader" style="max-width:100%;border-radius:.8rem" /></figure><h3>Custom shadow shader</h3><p>I built and integrated the shadow treatment as part of the real-time visual pipeline, then tuned it against the characters, arena, and effects. It gives the 2D artwork a consistent sense of contact and depth inside Unity instead of relying on individually painted shadow assets.</p><h3>Visual systems in the build</h3><p>The shadow shader works alongside telegraphs, hit zones, projectile and beam effects, player feedback, portraits, boss animation, and shader-driven UI presentation. My focus was connecting those elements into a coherent player experience rather than treating them as isolated assets.</p><h3>Authorship note</h3><p>This was collaborative game-jam work. The shadow shader, art, composition, VFX, UI, animation, and integration described here are my direct contributions; gameplay systems written by teammates are credited as team output.</p></section>`
+          htmlContent: `<section><h2>Implemented by Me</h2><p>Created and integrated game art, composed the combat presentation, and added a custom shadow shader, pattern-specific VFX, UI styling, animation, and impact feedback. I tuned color, scale, timing, and hierarchy so players could read danger quickly while attacks still felt forceful.</p><div class="engineering-summary" aria-label="Art coverage"><article><span class="engineering-icon" aria-hidden="true">🌑</span><strong>Shader</strong><small>Custom shadow treatment</small></article><article><span class="engineering-icon" aria-hidden="true">✨</span><strong>VFX</strong><small>Telegraphs · projectiles · beams</small></article><article><span class="engineering-icon" aria-hidden="true">🧩</span><strong>UI</strong><small>Gradients · rounding · URP blur</small></article><article><span class="engineering-icon" aria-hidden="true">🎬</span><strong>Animation</strong><small>Boss + portrait feedback</small></article></div><figure style="margin:1rem 0"><img src="../img/TooHot/CardUI.png" alt="Too Hot card UI styled with the custom UI shader" style="max-width:100%;border-radius:.8rem" /></figure><figure style="margin:1rem 0"><video src="../img/TooHot/effect.mp4" controls muted loop playsinline preload="metadata" style="max-width:100%;border-radius:.8rem"></video><figcaption style="margin-top:.5rem;font-size:.72rem;opacity:.75">A handful of the VFX I built, composited together on one screen — not the full set, just a sample.</figcaption></figure><p style="font-size:.78rem;opacity:.8">The map artwork at the top of this page is also mine, hand-drawn for the project.</p><h3>Custom shadow shader</h3><p>I built and integrated the shadow treatment as part of the real-time visual pipeline, then tuned it against the characters, arena, and effects. It gives the 2D artwork a consistent sense of contact and depth inside Unity instead of relying on individually painted shadow assets.</p><h3>Visual systems in the build</h3><p>The shadow shader works alongside telegraphs, hit zones, projectile and beam effects, player feedback, portraits, boss animation, and shader-driven UI presentation. My focus was connecting those elements into a coherent player experience rather than treating them as isolated assets.</p><h3>Authorship note</h3><p>This was collaborative game-jam work. The shadow shader, art, composition, VFX, UI, animation, and integration described here are my direct contributions; gameplay systems written by teammates are credited as team output.</p></section>`
         },
         {
           title: "Producing",
@@ -1356,7 +1254,7 @@ const projectsData = {
             {
               title: "아트 · VFX",
               category: "Art",
-              htmlContent: `<section><h2>제가 직접 구현한 작업</h2><p>게임 아트를 제작·적용하고 전투 화면을 구성했으며, 커스텀 그림자 셰이더와 패턴별 VFX, UI 스타일, 애니메이션, 타격 피드백을 추가했습니다. 플레이어가 위험을 빠르게 읽으면서도 공격은 강하게 느끼도록 색과 크기, 타이밍, 화면의 위계를 반복해서 조절했습니다.</p><div class="engineering-summary" aria-label="아트 제작 범위"><article><span class="engineering-icon" aria-hidden="true">🌑</span><strong>셰이더</strong><small>커스텀 그림자 표현</small></article><article><span class="engineering-icon" aria-hidden="true">✨</span><strong>VFX</strong><small>전조 · 투사체 · 빔</small></article><article><span class="engineering-icon" aria-hidden="true">🧩</span><strong>UI</strong><small>그라디언트 · 라운딩 · URP 블러</small></article><article><span class="engineering-icon" aria-hidden="true">🎬</span><strong>애니메이션</strong><small>보스 · 포트레이트 피드백</small></article></div><figure style="margin:1rem 0"><img src="../img/TooHot/CardUI.png" alt="커스텀 UI 셰이더를 적용한 Too Hot 카드 UI" style="max-width:100%;border-radius:.8rem" /></figure><h3>커스텀 그림자 셰이더</h3><p>캐릭터와 전투 공간이 따로 떠 보이지 않도록 실시간 그림자 표현을 제작해 Unity에 적용했습니다. 에셋마다 그림자를 별도로 그려 넣는 대신, 캐릭터와 배경, 이펙트를 함께 보며 그림자 표현을 조절해 2D 화면에 일관된 접지감과 깊이를 만들었습니다.</p><h3>플레이 화면에 연결된 요소</h3><p>그림자 셰이더를 공격 전조와 피격 범위, 투사체·빔 이펙트, 플레이어 피드백, 포트레이트, 보스 애니메이션, 셰이더 기반 UI와 하나의 경험으로 연결했습니다. 개별 에셋보다 실제 플레이에서 함께 작동하는 화면을 만드는 데 집중했습니다.</p><h3>기여 범위</h3><p>이 프로젝트는 팀으로 만든 게임잼 작품입니다. 여기서 소개하는 그림자 셰이더와 아트, 화면 구성, VFX, UI, 애니메이션, 통합은 제가 직접 맡았으며, 팀원이 작성한 게임플레이 시스템은 팀 결과물로 구분합니다.</p></section>`
+              htmlContent: `<section><h2>제가 직접 구현한 작업</h2><p>게임 아트를 제작·적용하고 전투 화면을 구성했으며, 커스텀 그림자 셰이더와 패턴별 VFX, UI 스타일, 애니메이션, 타격 피드백을 추가했습니다. 플레이어가 위험을 빠르게 읽으면서도 공격은 강하게 느끼도록 색과 크기, 타이밍, 화면의 위계를 반복해서 조절했습니다.</p><div class="engineering-summary" aria-label="아트 제작 범위"><article><span class="engineering-icon" aria-hidden="true">🌑</span><strong>셰이더</strong><small>커스텀 그림자 표현</small></article><article><span class="engineering-icon" aria-hidden="true">✨</span><strong>VFX</strong><small>전조 · 투사체 · 빔</small></article><article><span class="engineering-icon" aria-hidden="true">🧩</span><strong>UI</strong><small>그라디언트 · 라운딩 · URP 블러</small></article><article><span class="engineering-icon" aria-hidden="true">🎬</span><strong>애니메이션</strong><small>보스 · 포트레이트 피드백</small></article></div><figure style="margin:1rem 0"><img src="../img/TooHot/CardUI.png" alt="커스텀 UI 셰이더를 적용한 Too Hot 카드 UI" style="max-width:100%;border-radius:.8rem" /></figure><figure style="margin:1rem 0"><video src="../img/TooHot/effect.mp4" controls muted loop playsinline preload="metadata" style="max-width:100%;border-radius:.8rem"></video><figcaption style="margin-top:.5rem;font-size:.72rem;opacity:.75">제가 만든 이펙트 중 일부를 한 화면에 모아본 영상입니다 — 전부는 아니고 몇 개만 골랐습니다.</figcaption></figure><p style="font-size:.78rem;opacity:.8">페이지 맨 위의 맵 아트워크도 제가 직접 그렸습니다.</p><h3>커스텀 그림자 셰이더</h3><p>캐릭터와 전투 공간이 따로 떠 보이지 않도록 실시간 그림자 표현을 제작해 Unity에 적용했습니다. 에셋마다 그림자를 별도로 그려 넣는 대신, 캐릭터와 배경, 이펙트를 함께 보며 그림자 표현을 조절해 2D 화면에 일관된 접지감과 깊이를 만들었습니다.</p><h3>플레이 화면에 연결된 요소</h3><p>그림자 셰이더를 공격 전조와 피격 범위, 투사체·빔 이펙트, 플레이어 피드백, 포트레이트, 보스 애니메이션, 셰이더 기반 UI와 하나의 경험으로 연결했습니다. 개별 에셋보다 실제 플레이에서 함께 작동하는 화면을 만드는 데 집중했습니다.</p><h3>기여 범위</h3><p>이 프로젝트는 팀으로 만든 게임잼 작품입니다. 여기서 소개하는 그림자 셰이더와 아트, 화면 구성, VFX, UI, 애니메이션, 통합은 제가 직접 맡았으며, 팀원이 작성한 게임플레이 시스템은 팀 결과물로 구분합니다.</p></section>`
             },
             {
               title: "프로듀싱",
@@ -1454,6 +1352,11 @@ function renderDoubleHitEngineFeature(lang = "en") {
   return `<section class="engine-feature" id="custom-engine-foundation"><span class="renderer-eyebrow">C++ · raylib</span><h2>CUSTOM<br>ENGINE<span>.</span></h2><p class="renderer-lede">${ko ? "게임 하나에 종속된 기능을 나열하는 대신, 이후 프로젝트에서도 확장할 수 있는 오브젝트·컴포넌트·서비스 기반을 직접 만들었습니다." : "Rather than building isolated game-specific features, I created an object, component, and service foundation that could evolve into later projects."}</p><div class="engine-foundation-grid"><article><span>01</span><strong>GameObject</strong><p>${ko ? "식별자, Transform과 객체 수명을 담당하는 공통 단위" : "A common unit for identity, transforms, and object lifetime"}</p></article><article><span>02</span><strong>GameComponent</strong><p>${ko ? "행동을 상속 계층이 아닌 조합으로 추가" : "Behavior added through composition instead of a deep hierarchy"}</p></article><article><span>03</span><strong>Engine Services</strong><p>${ko ? "렌더링·충돌 등 공유 시스템의 접근과 수명을 통제" : "Controlled access and lifetime for rendering, collision, and shared systems"}</p></article><article><span>04</span><strong>Sprite + Collision</strong><p>${ko ? "텍스처·스프라이트 관리와 상호작용의 실행 기반" : "Runtime foundation for textures, sprites, and interaction"}</p></article></div><p class="engine-evolution">${ko ? "이 구조는 MANZO에서 레이어 렌더 큐, 프레임버퍼 후처리, CCD, 리듬과 시나리오 시스템으로 확장됐습니다." : "This architecture later expanded in MANZO into layer-based rendering, framebuffer post-processing, CCD, rhythm, and scenario systems."}</p></section>`;
 }
 
+function renderNewManzoPatternArchitectureFeature(lang = "en") {
+  const ko = lang === "ko";
+  return `<section class="renderer-feature" id="pattern-architecture"><span class="renderer-eyebrow">Unity · C# · ScriptableObject</span><h2>PATTERN<br>ARCHITECTURE<span>.</span></h2><p class="renderer-lede">${ko ? "보스 공격을 코드 복붙 없이 조합할 수 있도록, 공통 로직을 한 곳에 고정하는 Template Method 베이스와 여러 패턴을 순서대로 엮는 Composite 구조를 설계·구현했습니다." : "I designed and implemented a Template Method base that fixes shared logic in one place, plus a Composite layer that chains multiple patterns together — so boss attacks compose without copy-pasted code."}</p><div class="renderer-flow" aria-label="${ko ? "보스 패턴 아키텍처 처리 순서" : "Boss pattern architecture flow"}"><article><span>01</span><strong>MonsterPatternSO</strong><small>${ko ? "추상 베이스 · Template Method" : "Abstract base · Template Method"}</small></article><i>→</i><article><span>02</span><strong>${ko ? "21개 패턴 클래스" : "21 Pattern Classes"}</strong><small>DashLine · SpinLaser · BossBullet …</small></article><i>→</i><article class="renderer-ping"><span>03</span><strong>CombinePatternSO</strong><small>${ko ? "Composite 오케스트레이션" : "Composite orchestration"}</small></article><i>→</i><article><span>04</span><strong>${ko ? "인스펙터 조합" : "Inspector Assembly"}</strong><small>${ko ? "코드 없이 보스 제작" : "No-code boss authoring"}</small></article></div><div class="renderer-explanation"><article><h3>${ko ? "왜 Template Method인가" : "Why Template Method"}</h3><p>${ko ? "준비 단계(super armor, prepare damage), 쿨다운, 텔레그래프 스폰처럼 모든 패턴에 공통인 로직을 MonsterPatternSO 베이스 하나에 고정했습니다. 개별 패턴은 OnStart / OnTickUpdate / OnTickFixed / OnExit 훅만 오버라이드하면 되고, 21개 패턴을 늘리는 동안 이 공통 로직을 다시 짜거나 실수로 깨뜨릴 여지가 없었습니다." : "Shared logic — prepare phase (super armor, prepare damage), cooldown, telegraph spawning — lives once in the MonsterPatternSO base. Each concrete pattern only overrides OnStart / OnTickUpdate / OnTickFixed / OnExit, so growing the roster to 21 patterns never meant re-deriving or accidentally breaking the common logic."}</p></article><article><h3>${ko ? "왜 Composite인가" : "Why Composite"}</h3><p>${ko ? "보스가 여러 공격을 이어 붙인 콤보를 쓸 때, CombinePatternSO가 subPatterns[] 배열을 받아 서브패턴을 하나씩 Instantiate해서 실행하고 끝나면 다음으로 넘어갑니다. 콤보 자체도 MonsterPatternSO를 상속하기 때문에 콤보 안에 또 다른 콤보를 넣는 것도 별도 코드 없이 가능합니다." : "For bosses that chain multiple attacks into one combo, CombinePatternSO takes a subPatterns[] array, instantiates each sub-pattern in turn, runs it to completion, then advances. Because the combo itself also inherits MonsterPatternSO, nesting a combo inside another combo needs no extra code."}</p></article></div><pre class="renderer-code"><code>runningSubInstance = Instantiate(runningSubOriginal);\nrunningSubInstance.StartPattern(c);\n\n// OnTickUpdate\nrunningSubInstance.TickUpdate();\nif (runningSubInstance.IsFinished) {\n  StopCurrentSubPattern();\n  StartNextSubPattern();\n}</code></pre><p class="engine-evolution">${ko ? "발사체의 이동 로직(IBossBulletMotionConfigurable)과 소환 방식(IPrimableProjectile)은 별도 인터페이스로 분리해, 패턴 쪽 코드가 발사체의 구체 구현에 의존하지 않도록 했습니다. 팀 저장소는 비공개라 소스 링크는 제공하지 않습니다." : "Projectile motion (IBossBulletMotionConfigurable) and spawn behavior (IPrimableProjectile) are split into separate interfaces so pattern code never depends on a concrete projectile implementation. The team repository is private, so no source link is provided here."}</p></section>`;
+}
+
 applyEnglishProjectOverride("00_NewManzo", {
   pageTitle: "New MANZO — Min Seohyeon Portfolio",
   overview: "A completed playable build of a deep-sea rhythm adventure exploring beat-linked hunting, fish behavior, and atmospheric rendering.",
@@ -1536,19 +1439,18 @@ applyEnglishProjectOverride("00_NewManzo", {
 
 applyEnglishProjectOverride("01_Manzo", {
   pageTitle: "MANZO — Min Seohyeon Portfolio",
-  overview: "A C++/OpenGL custom-renderer project built around layer-based draw queues, ping-pong framebuffer post-processing, and a rhythm-driven deep-sea game.",
+  overview: "MANZO is a rhythm Metroidvania psychological horror where you pilot the underwater drone Dal, dashing to the beat to hunt fish and dodge danger. Track bosses by ear through the Morse code they broadcast, decode what you find to uncover the ocean's buried secrets, and reach one of several different endings.",
   features: [
-    "Custom renderer with layer-based draw-call queues",
-    "Ping-pong framebuffer pipeline for multi-pass post-processing",
-    "Multiple collider types with time-of-impact continuous collision detection",
-    "Engine-level scenario and dialogue system refactor"
+    "Rhythm-based movement: dash on the beat to explore",
+    "Sound-driven boss tracking: detect Morse-code signals by ear to locate bosses",
+    "Metroidvania exploration: unlock modules and skills to reach deeper waters",
+    "Deep-sea psychological horror: the tone darkens the deeper you descend"
   ],
   experience: {
     role: "Graphics / Engine Programmer · Technical Artist · Production Lead",
     period: "September 2024 – 2025",
     description: "Implemented rendering and rhythm systems, integrated visual effects, resolved engine-level stability and performance issues, and coordinated the project toward a playable build."
   },
-  gameIntro: `<section class="game-overview"><h2>Game Overview</h2><p><strong>MANZO is a rhythm-driven deep-sea adventure built on a student custom engine.</strong> Players control an underwater drone, dash on the beat, hunt fish, follow Morse-code signals, and descend into a darker psychological-horror atmosphere.</p><p>The project combined rhythm synchronization, exploration, boss encounters, narrative events, custom rendering, and original game art. My primary contribution was turning those requirements into engine systems and real-time visual feedback.</p></section>`,
   contributions: {
     sections: [
       {
@@ -1669,8 +1571,8 @@ applyEnglishProjectOverride("04_BirdStrike", {
 
 const koreanCaseLabels = { systemMap:"시스템 구조", problem:"문제", decision:"판단", implementation:"구현", verification:"검증", keyDecisions:"내가 내린 핵심 판단", decisionLog:"기술 결정", decisionTitle:"이 구조를 선택한 이유", system:"시스템", choice:"선택", why:"이유", tradeoff:"트레이드오프", codeEvidence:"코드 증거", viewSource:"원본 코드 보기 ↗" };
 
-projectsData["01_Manzo"].localized.ko.overview = "레이어 기반 드로우 큐와 핑퐁 프레임버퍼 후처리를 중심으로 직접 제작한 C++/OpenGL 커스텀 렌더러 프로젝트입니다.";
-projectsData["01_Manzo"].localized.ko.features = ["레이어 기반 드로우 콜 큐를 갖춘 커스텀 렌더러", "멀티패스 후처리를 위한 핑퐁 프레임버퍼 파이프라인", "BPM 기반 이동과 게임플레이 동기화", "다중 충돌 형태와 TOI 기반 CCD", "엔진 수준 시나리오·대화 시스템"];
+projectsData["01_Manzo"].localized.ko.overview = "리듬 기반 대시 이동으로 심해를 탐험하고 모스 부호를 해독하며 바다의 비밀을 밝혀나가는 Rhythm Metroidvania Psychological Horror 게임입니다. 해양 드론 \"Dal\"을 조종해 박자에 맞춰 대시하고, 물고기를 포획해 모듈·스킬을 강화하며, 보스가 보내는 모스 부호를 청각으로 추적해 전투를 벌입니다. 탐험 방식과 선택에 따라 서로 다른 결말에 도달합니다.";
+projectsData["01_Manzo"].localized.ko.features = ["리듬 기반 이동: 박자에 맞춰 대시하며 탐험", "사운드 기반 보스 트래킹: 모스 부호를 청각으로 탐지해 보스 위치 추적", "메트로배니아 탐험: 모듈과 스킬로 더 깊은 심해까지 진출", "딥씨 사이코 호러: 심해로 갈수록 어둡고 불안해지는 분위기"];
 projectsData["03_DoubleHit"].localized.ko.overview = "MANZO로 확장된 GameObject, GameComponent, 공유 서비스, 스프라이트와 충돌 구조의 기틀을 직접 만든 C++ 커스텀 엔진 프로젝트입니다.";
 projectsData["03_DoubleHit"].localized.ko.features = ["GameObject·GameComponent 아키텍처", "공유 엔진 서비스", "스프라이트·텍스처 관리", "충돌 시스템", "2인 협동 게임플레이"];
 
@@ -1685,8 +1587,58 @@ projectsData["01_Manzo"].contributions.sections.find(section => section.category
 koreanManzoTechnical.htmlContent = renderManzoRendererFeature("ko") + koreanManzoTechnical.htmlContent;
 projectsData["03_DoubleHit"].contributions.sections.find(section => section.category === "Technical").htmlContent = renderDoubleHitEngineFeature("en") + projectsData["03_DoubleHit"].contributions.sections.find(section => section.category === "Technical").htmlContent;
 projectsData["03_DoubleHit"].localized.ko.contributions.sections.find(section => section.category === "Technical").htmlContent = renderDoubleHitEngineFeature("ko") + projectsData["03_DoubleHit"].localized.ko.contributions.sections.find(section => section.category === "Technical").htmlContent;
+projectsData["00_NewManzo"].contributions.sections.find(section => section.category === "Technical").htmlContent = renderNewManzoPatternArchitectureFeature("en") + projectsData["00_NewManzo"].contributions.sections.find(section => section.category === "Technical").htmlContent;
+projectsData["00_NewManzo"].localized.ko.contributions.sections.find(section => section.category === "Technical").htmlContent = renderNewManzoPatternArchitectureFeature("ko") + projectsData["00_NewManzo"].localized.ko.contributions.sections.find(section => section.category === "Technical").htmlContent;
 
 projectsData["04_BirdStrike"].localized.ko.contributions.sections.find(section => section.category === "Technical").htmlContent = `<section><h2>리듬 게임플레이 구현</h2><p class="case-study-lede">상용 엔진 없이 음악 타임라인을 점점 강해지는 화면 압박으로 바꾼 첫 대학 게임 프로젝트입니다.</p>${renderEngineeringCaseStudy({labels:koreanCaseLabels,metrics:[{icon:"♫",value:"4×",label:"최대 비트 세분화"},{icon:"C++",value:"0",label:"상용 엔진 사용"}],architecture:[{title:"음악 타임라인",detail:"비트 타이밍 기준"},{title:"세분화 규칙",detail:"연결 수에 따라 공격 간격 변화"},{title:"스폰 관리자",detail:"무작위 방향과 속도"},{title:"이동",detail:"목적지·속도·atan2 방향"},{title:"압박 루프",detail:"화면이 차기 전에 타깃 제거"}],cases:[{label:"게임 시스템",title:"플레이어의 연결 행동으로 난이도 생성",problem:"고정 스폰 리듬만으로는 숙련된 타깃 선택을 보상하거나 강한 상승 곡선을 만들기 어려웠습니다.",decision:"연결 수가 늘어날수록 비트를 더 잘게 나눠 공격 빈도를 높였습니다.",implementation:"4개, 6개, 8개 타깃 연결 시 한 비트의 공격 횟수가 각각 2회, 3회, 4회로 증가합니다.",verification:"점수 도전이 템포와 화면 관리에 직접 연결되며, 2페이즈에서는 추가 적과 더 빠른 진행으로 압박을 높였습니다."}],note:"프레시맨 시절 두 달 동안 팀 프로젝트로 완성했습니다."})}</section>`;
+
+applyEnglishProjectOverride("05_ThinkThink", {
+  pageTitle: "ThinkThink! Rhythm Challenge — Min Seohyeon Portfolio",
+  overview: "Match the beat and pick the right word card!",
+  features: [
+    "Rhythm-based gameplay",
+    "Challenge mode",
+    "Easy to learn, hard to master"
+  ],
+  experience: {
+    role: "Project Lead",
+    period: "2026",
+    description: "Project management and UI design"
+  },
+  gallery: {
+    title: "Gallery",
+    subtitle: "Gameplay screenshots",
+    images: [
+      { src: "../img/ThinkThink/2.jpg", alt: "Gameplay screenshot 2", title: "Gameplay screenshot 2" },
+      { src: "../img/ThinkThink/3.jpg", alt: "Gameplay screenshot 3", title: "Gameplay screenshot 3" },
+      { src: "../img/ThinkThink/5.jpg", alt: "Gameplay screenshot 4", title: "Gameplay screenshot 4" },
+      { src: "../img/ThinkThink/7.jpg", alt: "Gameplay screenshot 5", title: "Gameplay screenshot 5" },
+      { src: "../img/ThinkThink/6.jpg", alt: "Gameplay screenshot 6", title: "Gameplay screenshot 6" },
+      { src: "../img/ThinkThink/4.jpg", alt: "Gameplay screenshot 7", title: "Gameplay screenshot 7" },
+      { src: "../img/ThinkThink/8.jpg", alt: "Gameplay screenshot 8", title: "Gameplay screenshot 8" }
+    ]
+  },
+  gameIntro: `<p>Rhythm Challenge is a mobile rhythm-puzzle game built on the short-form "rhythm challenge" format popular on Reels.</p><p>Players match on-screen prompt cards to answer cards in time with the beat. The game runs on the music's rhythm, and as the BPM climbs it demands both quick reactions and memory.</p><p>The screen always keeps 8 prompt cards and 4 answer cards on screen, and players must choose the correct answer within a limited window.</p><p>A single wrong answer ends the run, so players replay to push their max level and beat their best record.</p>`,
+  contributions: {
+    sections: [
+      {
+        title: "Project Lead",
+        category: "Project Lead",
+        htmlContent: `<section class="project-lead"><h2>Project Leadership</h2><div class="lead-section"><h3>Game Design</h3><p>Wrote the game design document around a rhythm-based card-matching structure, designing the core rules, card system, and BPM-driven difficulty curve that shape the full play flow.</p></div><div class="lead-section"><h3>Production Coordination</h3><p>Scoped the features needed during development and communicated task requests and priorities to the developer, keeping implementation aligned with the design intent.</p></div><div class="lead-section"><h3>Release &amp; Deployment</h3><p>Created a Google Developer account and registered the project on <strong>Google Play Console</strong> for mobile release, handling build uploads, store listing, and review submission.</p></div></section>`
+      },
+      {
+        title: "Design",
+        category: "Planning",
+        htmlContent: `<section class="design"><h2>Game Design</h2><h3>Core Concept</h3><p>Designed a mobile casual game that combines rhythm input with pattern recognition, built on the short-form "rhythm challenge" format popular on Reels.</p><p>Players read the card information that appears on screen in time with the music's beat, then quickly pick the matching answer card. The rules stay simple, while rising rhythm and difficulty are what drive players to replay.</p><h3>Core Gameplay System</h3><h4>Card Matching Structure</h4><p>The screen always keeps <strong>8 prompt cards and 4 answer cards</strong> on screen. Prompt cards are shown as images, and the player picks the answer card that matches them.</p><h4>Rhythm Interaction</h4><ul><li>Card display: appears in time with the rhythm</li><li>Player input: selection timed to the beat</li><li>Sound feedback: a rhythm sound plays on a successful input</li></ul><h3>Difficulty Design</h3><p>Difficulty is designed to let players learn the rules naturally while the challenge ramps up gradually.</p><ul><li><strong>Progressive BPM increase</strong>: BPM rises gradually as levels increase, demanding faster reactions.</li><li><strong>Selective card update</strong>: moving to the next level swaps <strong>only 1 of 3 randomly chosen</strong> answer cards.</li></ul><p>This lets players keep playing by remembering existing card positions, creating a difficulty structure that combines rhythm with memory rather than pure reaction speed.</p><h3>Game Loop</h3><ol><li>Initial rhythm count-in</li><li>Cards appear in time with the rhythm</li><li>Player input</li><li>Correct answer advances to the next round</li><li>Wrong answer ends the run and saves the record</li></ol></section>`
+      },
+      {
+        title: "UI Shader System",
+        category: "Technical",
+        htmlContent: `<section class="development" id="ui-style-origin"><span class="case-label">ORIGINAL SYSTEM</span><h2>The UI Shader System Started Here</h2><p class="case-study-lede">Instead of hand-making art for every rounded button, gauge, and card, I built a single Unity <strong>URP UI shader</strong> (<code>UIStyle.shader</code>) driven by one component (<code>UIStyle.cs</code>), so any <code>Image</code> could become a styled shape just by tuning parameters in the Inspector.</p><div class="engineering-summary" aria-label="System scope"><article><span class="engineering-icon" aria-hidden="true">◆</span><strong>4</strong><small>Runtime/editor scripts: shader, component, editor, preset</small></article><article><span class="engineering-icon" aria-hidden="true">▦</span><strong>9</strong><small>Style groups exposed in the Inspector</small></article><article><span class="engineering-icon" aria-hidden="true">✦</span><strong>Live</strong><small>Previews instantly via OnValidate, no Play mode needed</small></article><article><span class="engineering-icon" aria-hidden="true">↗</span><strong>Reused</strong><small>Packaged as a .unitypackage and carried into Street Typer</small></article></div><h3>Inspector fields (as built for ThinkThink)</h3><div class="decision-table-wrap"><table class="decision-table"><thead><tr><th>Group</th><th>Key fields</th><th>What it does</th></tr></thead><tbody><tr><th scope="row">Rounded Corners</th><td>Corner Radius, Capsule/Pill toggles</td><td>SDF-based rounding, resolution-independent</td></tr><tr><th scope="row">Drop Shadow</th><td>Offset, Color, Blur, Size</td><td>Outer shadow without a separate sprite</td></tr><tr><th scope="row">Inner Shadow</th><td>Offset, Color, Blur</td><td>Inset shadow for a pressed/recessed look</td></tr><tr><th scope="row">Gradient</th><td>Base Color; Color Gradient (Start/End/Direction/Blend); Light Gradient (Strength/Direction); Hue Shift (Warm/Cool)</td><td>Layered color + lighting gradient in one pass</td></tr><tr><th scope="row">Edge Highlight</th><td>Strength, Size</td><td>Rim-light style edge glow</td></tr><tr><th scope="row">Material</th><td>Material Type (Plastic / Metal / Glass / Paper)</td><td>Swaps the surface-response preset</td></tr><tr><th scope="row">Noise</th><td>Enable, Strength</td><td>Micro-noise so flat colors don't band</td></tr><tr><th scope="row">Bottom Edge Line</th><td>Thickness, Intensity, Color, Sharpness</td><td>A defined base edge line, independent of shadows</td></tr><tr><th scope="row">Preset</th><td><code>UIStylePreset</code> asset</td><td>Save and re-apply an entire style as one asset</td></tr></tbody></table></div><h3>Shader modules in the package</h3><ul><li><strong>UIStyle.shader</strong>: the unified styling shader above</li><li><strong>UIBlur.shader</strong>: 9-tap optimized blur</li><li><strong>SimpleGradient.shader</strong>: lightweight UI gradient</li><li><strong>UIColorTint.shader</strong>: texture-alpha-based color tint</li><li><strong>WaveNoise.shader</strong>: multi-layer animated noise</li></ul><div class="system-map"><h3>Extended in Street Typer</h3><ol><li><span>01</span><strong>Per-corner radius</strong><small>Each of the 4 corners rounds independently instead of sharing one value</small></li><li><span>02</span><strong>Diamond shape</strong><small>New primitive with adjustable edge curvature and skew</small></li><li><span>03</span><strong>Radial gradient</strong><small>Center-to-edge gradient option added next to the directional one</small></li><li><span>04</span><strong>Outline</strong><small>A dedicated inward-facing outline, separate from the edge line</small></li><li><span>05</span><strong>Gauge fill</strong><small>Fill-amount control added for HP/timer-style bars, corners preserved as it drains</small></li></ol></div><p>The core shader and component carried over unchanged; Street Typer's card-combat UI just needed shapes and edges the original button-and-card set didn't.</p><a class="evidence-link" href="06_StreetTyper.html?contributionTab=Art#ui-style-extended">See it extended in Street Typer's Art tab ↗</a><h3>Editor Tooling</h3><p>Built a <strong>UIStyle.cs</strong> script that lets shader parameters be controlled intuitively from the Inspector, with a system for saving and applying UI style presets.</p><h3>Technical Stack</h3><ul><li>Unity Universal Render Pipeline (URP)</li><li>HLSL shader programming</li><li>Signed Distance Field (SDF) rendering</li><li>C# editor tooling</li></ul><h3>Development Notes</h3><p>Used AI-assisted development tools throughout shader design and system integration to speed up iteration and experimentation, building roughly <strong>1,000+ lines of shader code</strong> and a reusable UI style system.</p></section>`
+      }
+    ]
+  }
+});
 
 applyEnglishProjectOverride("Dangling", {
   pageTitle: "Dangling Game Jam — Min Seohyeon Portfolio",

@@ -149,9 +149,12 @@
 
     // Overview 섹션
     if (project.overview) {
+      // 게임 프로젝트는 "게임 소개"로, 그 외(테크/기획)는 "Overview"로 라벨 표시
+      const overviewLabel = project.type === 'game' ? t('Game Overview', '게임 소개') : t('Overview', 'Overview');
+      const featuresLabel = t('Features', '특징');
       // overviewImage가 있으면 Overview/Features 옆에 표시
       const overviewImage = project.overviewImage || project.characterImage;
-      
+
       if (overviewImage) {
         overviewHTML += `
           <section class="main-background-section">
@@ -160,10 +163,10 @@
                 <img src="${overviewImage}" alt="Overview Image">
               </div>
               <div class="right-text">
-                <h2>Overview</h2>
+                <h2>${overviewLabel}</h2>
                 <p>${project.overview}</p>
                 ${project.features ? `
-                  <h2>Features</h2>
+                  <h2>${featuresLabel}</h2>
                   <ul>
                     ${project.features.map(f => `<li>${f}</li>`).join('')}
                   </ul>
@@ -177,10 +180,10 @@
         overviewHTML += `
           <section class="main-background-section">
             <div class="bottom-text">
-              <h2>Overview</h2>
+              <h2>${overviewLabel}</h2>
               <p>${project.overview}</p>
               ${project.features ? `
-                <h2>Features</h2>
+                <h2>${featuresLabel}</h2>
                 <ul>
                   ${project.features.map(f => `<li>${f}</li>`).join('')}
                 </ul>
@@ -845,6 +848,14 @@
     roundedSection.insertAdjacentHTML('beforeend', detailsHTML);
   }
 
+  // 맨 아래 기타 공간 - 제목 없이, 오버뷰/Experience로 옮기기 애매한 부가 설명을 그냥 둔다
+  function renderMiscNotes(project) {
+    if (!project.gameIntro) return;
+    const roundedSection = document.querySelector('.rounded-section');
+    if (!roundedSection) return;
+    roundedSection.insertAdjacentHTML('beforeend', `<section class="misc-notes">${project.gameIntro}</section>`);
+  }
+
   // Source 섹션 렌더링
   function renderSource(project) {
     if (!project.source) return;
@@ -1215,10 +1226,10 @@
       renderTrailer(project);      // 트레일러 (첫 번째만)
       renderVideoGallery(project); // 갤러리 (이미지 + 비디오)
       renderConceptComparison(project);
-      renderGameIntro(project);    // 게임소개/설명 (텍스트 + 이미지) - 갤러리 밑, 컨트리뷰션 위
       renderContributions(project);  // 탭 방식으로 렌더링
       renderProjectDetails(project);
       renderSource(project);
+      renderMiscNotes(project);    // 맨 아래, 제목 없는 기타 공간
       prioritizeContributions();
       placeExperience(project);
       renderWaypointNavigation(project);  // 이정표 네비게이션

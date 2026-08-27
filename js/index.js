@@ -417,7 +417,8 @@ function sortPortfolioItems(filter) {
 }
 
 // Single-viewport depth navigation for the Link Start homepage.
-// Temporarily disabled for layout review. Change to true to restore the Entry → Proof Reel warp.
+// Full tunnel-warp transition (canvas flight effect) is disabled — kept here in case
+// it's wanted again later. Only a lightweight title zoom plays now (see is-title-zoom-out below).
 const ENABLE_ENTRY_WARP = false;
 document.addEventListener('DOMContentLoaded', () => {
   const app = document.querySelector('.link-start-app');
@@ -799,7 +800,16 @@ document.addEventListener('DOMContentLoaded', () => {
     app.classList.toggle('has-left-entry', activeIndex > 0);
 
     scenes.forEach((scene, sceneIndex) => {
-      scene.hidden = sceneIndex === 0 && activeIndex > 0;
+      const shouldHideEntry = sceneIndex === 0 && activeIndex > 0;
+      // The entry title scene has its own scale/blur/fade transition (.is-past) that
+      // is meant to play as it leaves — setting `hidden` (display:none) in the same
+      // tick as the class change would skip that transition entirely. Let it finish
+      // (matches the 950ms transform transition on .link-scene) before hiding for real.
+      if (shouldHideEntry && !immediate && scene.hidden !== shouldHideEntry) {
+        window.setTimeout(() => { scene.hidden = true; }, reduceMotion.matches ? 0 : 950);
+      } else {
+        scene.hidden = shouldHideEntry;
+      }
       scene.classList.toggle('is-active', sceneIndex === activeIndex);
       scene.classList.toggle('is-past', sceneIndex < activeIndex);
       scene.classList.toggle('is-near-next', sceneIndex === activeIndex + 1);
