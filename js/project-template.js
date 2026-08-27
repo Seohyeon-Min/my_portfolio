@@ -520,6 +520,11 @@
   function renderContributions(project) {
     const roundedSection = document.querySelector('.rounded-section');
     if (!roundedSection) return;
+    const contributionUrl = new URL(window.location.href);
+    // 언어 전환 리로드 직후에만 켜지는 "탭 유지" 신호. 프로젝트별로 영구히 남는
+    // sticky 기억(portfolio-active-contribution:*)과 분리해야, 다른 트랙으로
+    // 새로 들어왔을 때 이전에 봤던 탭이 트랙 추천 탭을 덮어쓰지 않는다.
+    const reloadPreserveCategory = contributionUrl.searchParams.get('contributionTab') || localStorage.getItem('portfolio-contribution-tab-once') || sessionStorage.getItem('portfolio-contribution-tab');
 
     // contributions가 없으면 빈 탭 섹션만 표시
     if (!project.contributions || project.contributions.sections.length === 0) {
@@ -588,13 +593,15 @@
     const remainingSections = project.contributions.sections.slice(1);
 
     // 사용 가능한 카테고리 추출 (첫 번째 섹션 제외)
-    const allCategories = ['Planning', 'Technical', 'Art', 'Audio', 'Project Lead', 'Direction · Production', '디렉팅 · 프로덕션'];
+    const allCategories = ['Planning', 'Technical', 'Art', 'Audio', 'Project Lead', 'Producing', '프로듀싱', 'Direction · Production', '디렉팅 · 프로덕션'];
     const categoryLabels = {
       'Planning': t('Design', '기획'),
       'Technical': t('Technical', '기술'),
       'Art': t('Art', '아트'),
       'Audio': t('Audio', '음악'),
       'Project Lead': t('Production', '프로덕션'),
+      'Producing': t('Producing', '프로듀싱'),
+      '프로듀싱': t('Producing', '프로듀싱'),
       'Direction · Production': t('Direction + Production', '디렉팅 + 프로덕션'),
       '디렉팅 · 프로덕션': t('Direction + Production', '디렉팅 + 프로덕션')
     };
@@ -760,6 +767,7 @@
           `.contribution-tab-content[data-category="${category}"]`
         );
         if (targetContent) targetContent.classList.add('active');
+        localStorage.setItem(`portfolio-active-contribution:${getProjectId()}`, tab.dataset.sourceCategory || category);
       };
 
       tabs.forEach(tab => {
@@ -768,14 +776,34 @@
 
       const track = getPreferredTrack();
       const preference = track === 'product'
-        ? ['Project Lead', 'Direction · Production', '디렉팅 · 프로덕션', 'Planning']
+        ? ['Project Lead', 'Producing', '프로듀싱', 'Direction · Production', '디렉팅 · 프로덕션', 'Planning']
         : ['Technical', 'Art'];
       const preferredTab = preference
         .map(category => Array.from(tabs).find(tab =>
           tab.dataset.category === category || tab.dataset.sourceCategory === category
         ))
         .find(Boolean);
-      activateTab(preferredTab || roundedSection.querySelector('.contribution-tab-main'));
+      const reloadTab = reloadPreserveCategory && Array.from(tabs).find(tab =>
+        tab.dataset.category === reloadPreserveCategory || tab.dataset.sourceCategory === reloadPreserveCategory
+      );
+      const stickyCategory = localStorage.getItem(`portfolio-active-contribution:${getProjectId()}`);
+      const stickyTab = stickyCategory && Array.from(tabs).find(tab =>
+        tab.dataset.category === stickyCategory || tab.dataset.sourceCategory === stickyCategory
+      );
+      // 우선순위: 언어전환 직후 탭 유지 > 방문 트랙(프로덕션/기술) 추천 탭 > 이 프로젝트에서 마지막으로 본 탭 > 주요기여 탭
+      activateTab(reloadTab || preferredTab || stickyTab || roundedSection.querySelector('.contribution-tab-main'));
+      sessionStorage.removeItem('portfolio-contribution-tab');
+      localStorage.removeItem('portfolio-contribution-tab-once');
+      if (contributionUrl.searchParams.has('contributionTab')) {
+        contributionUrl.searchParams.delete('contributionTab');
+        history.replaceState(null, '', `${contributionUrl.pathname}${contributionUrl.search}${contributionUrl.hash}`);
+      }
+
+      const savedScroll = Number(sessionStorage.getItem('portfolio-language-scroll'));
+      if (Number.isFinite(savedScroll)) {
+        requestAnimationFrame(() => window.scrollTo({ top: savedScroll, behavior: 'auto' }));
+        sessionStorage.removeItem('portfolio-language-scroll');
+      }
     }, 100);
   }
 
@@ -1195,6 +1223,7 @@
       placeExperience(project);
       renderWaypointNavigation(project);  // 이정표 네비게이션
       renderContributionButton();   // 컨트리뷰션 보기 버튼
+      enableAssetLightbox();        // 아트 탭 등의 에셋 그리드를 클릭하면 크게 보기
     }
   }
 
@@ -1220,42 +1249,29 @@
       return;
     }
 
-    // 초기에는 숨김
-    button.style.display = 'none';
+    // 초기에는 숨김 (오른쪽으로 슬라이드아웃된 상태로 시작)
+    button.classList.add('is-hidden');
 
     // 스크롤 감지 함수
     function checkButtonVisibility() {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      
+
       // 컨트리뷰션 섹션의 제목 위치 확인
       const titleElement = contributionsSection.querySelector('h2.highlighted-title');
       if (!titleElement) {
-        button.style.display = 'none';
+        button.classList.add('is-hidden');
         return;
       }
-      
+
       const titleRect = titleElement.getBoundingClientRect();
       const contributionsTitleTop = titleRect.top + scrollTop;
-      
-      // 타이틀 섹션 확인 (맨 위)
-      const titleSection = document.getElementById('title');
-      let titleSectionBottom = 0;
-      if (titleSection) {
-        const titleRect = titleSection.getBoundingClientRect();
-        titleSectionBottom = titleRect.bottom + scrollTop;
-      }
-      
-      // 버튼 표시 조건:
-      // 1. 타이틀 섹션을 벗어났고
-      // 2. 컨트리뷰션 제목이 아직 화면 상단에 도달하지 않았을 때
-      const isPastTitle = scrollTop > titleSectionBottom + 50;
+
+      // 버튼 표시 조건: 컨트리뷰션 제목이 아직 화면 상단에 도달하지 않았을 때
+      // (타이틀 화면에 들어오자마자부터 바로 보이도록, 스크롤을 내려야 나타나지 않게 함)
       const isBeforeContributions = scrollTop < contributionsTitleTop - 150;
-      
-      if (isPastTitle && isBeforeContributions) {
-        button.style.display = 'flex';
-      } else {
-        button.style.display = 'none';
-      }
+
+      // 사라질 때는 display:none 대신 클래스 토글로 오른쪽으로 스르륵 빠지는 애니메이션을 탄다.
+      button.classList.toggle('is-hidden', !isBeforeContributions);
     }
 
     // 스크롤 이벤트
@@ -1310,6 +1326,85 @@
     
     // 초기 상태 확인
     updateWaypointVisibility();
+  }
+
+  // 컨트리뷰션 탭 안의 에셋 그리드(스프라이트 시트, 카드 아트 등) 이미지를
+  // 클릭하면 갤러리처럼 크게 볼 수 있게 하는 라이트박스.
+  let assetLightboxEl = null;
+  let assetLightboxFigures = [];
+  let assetLightboxIndex = 0;
+
+  function renderAssetLightbox() {
+    const el = document.createElement('div');
+    el.className = 'asset-lightbox';
+    el.innerHTML = `
+      <div class="asset-lightbox-backdrop"></div>
+      <button type="button" class="asset-lightbox-close" aria-label="Close">&times;</button>
+      <button type="button" class="asset-lightbox-prev" aria-label="Previous">&#10094;</button>
+      <div class="asset-lightbox-content">
+        <img src="" alt="">
+        <p class="asset-lightbox-caption"></p>
+      </div>
+      <button type="button" class="asset-lightbox-next" aria-label="Next">&#10095;</button>
+    `;
+    document.body.appendChild(el);
+    el.querySelector('.asset-lightbox-backdrop').addEventListener('click', closeAssetLightbox);
+    el.querySelector('.asset-lightbox-close').addEventListener('click', closeAssetLightbox);
+    el.querySelector('.asset-lightbox-prev').addEventListener('click', () => stepAssetLightbox(-1));
+    el.querySelector('.asset-lightbox-next').addEventListener('click', () => stepAssetLightbox(1));
+    document.addEventListener('keydown', (e) => {
+      if (!el.classList.contains('is-open')) return;
+      if (e.key === 'Escape') closeAssetLightbox();
+      if (e.key === 'ArrowLeft') stepAssetLightbox(-1);
+      if (e.key === 'ArrowRight') stepAssetLightbox(1);
+    });
+    return el;
+  }
+
+  function renderAssetLightboxFrame() {
+    const figure = assetLightboxFigures[assetLightboxIndex];
+    const img = figure.querySelector('img');
+    const caption = figure.querySelector('figcaption');
+    const lightboxImg = assetLightboxEl.querySelector('img');
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt || '';
+    assetLightboxEl.querySelector('.asset-lightbox-caption').textContent = caption ? caption.textContent : '';
+    const multi = assetLightboxFigures.length > 1;
+    assetLightboxEl.querySelector('.asset-lightbox-prev').style.display = multi ? '' : 'none';
+    assetLightboxEl.querySelector('.asset-lightbox-next').style.display = multi ? '' : 'none';
+  }
+
+  function stepAssetLightbox(delta) {
+    assetLightboxIndex = (assetLightboxIndex + delta + assetLightboxFigures.length) % assetLightboxFigures.length;
+    renderAssetLightboxFrame();
+  }
+
+  function openAssetLightbox(figures, startIndex) {
+    if (!assetLightboxEl) assetLightboxEl = renderAssetLightbox();
+    assetLightboxFigures = figures;
+    assetLightboxIndex = startIndex;
+    renderAssetLightboxFrame();
+    assetLightboxEl.classList.add('is-open');
+    document.body.classList.add('asset-lightbox-open');
+  }
+
+  function closeAssetLightbox() {
+    if (!assetLightboxEl) return;
+    assetLightboxEl.classList.remove('is-open');
+    document.body.classList.remove('asset-lightbox-open');
+  }
+
+  function enableAssetLightbox() {
+    document.querySelectorAll('.asset-showcase-grid, .asset-portrait-grid, .asset-frame-strips').forEach(grid => {
+      if (grid.dataset.lightboxBound) return;
+      grid.dataset.lightboxBound = 'true';
+      const figures = Array.from(grid.querySelectorAll('figure'));
+      figures.forEach((figure, index) => {
+        if (!figure.querySelector('img')) return;
+        figure.classList.add('is-clickable');
+        figure.addEventListener('click', () => openAssetLightbox(figures, index));
+      });
+    });
   }
 
   // DOM 로드 완료 시 렌더링

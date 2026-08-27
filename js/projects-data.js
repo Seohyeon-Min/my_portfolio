@@ -6,21 +6,21 @@ const projectsData = {
     pinned: true,
     title: "New MANZO",
     subtitle: "Hear the Ocean's Call",
-    pageTitle: "NEWMANZO - MSH PORTFOILO",
+    pageTitle: "NEWMANZO - MSH PORTFOLIO",
     heroType: "youtube",
     heroMedia: "XwNLMpe7O3A",
     overview: "Manzo는 <strong>심해 리듬 어드벤처 게임</strong>으로, 심리적 공포와 탐험 요소가 결합된 작품입니다. 플레이어는 수수께끼의 모스 부호 신호를 따라 바다 깊숙이 숨겨진 비밀을 밝혀나갑니다.",
     features: [
       "FMOD 기반 정박 판정과 싱크 보정",
-      "프로시저럴 보스 다리 애니메이션",
-      "세이브 및 이벤트 관리 시스템",
-      "Bloom을 활용한 통일된 수중 비주얼",
-      "완결 가능한 보스러시 구조"
+      "보스 패턴 프레임워크와 프로시저럴 다리 애니메이션",
+      "사냥·함선·인벤토리·세이브·게임 플로우 시스템",
+      "재사용 가능한 UI, 셰이더와 Unity 에디터 도구",
+      "팀 저장소 585개 커밋 중 418개 기여"
     ],
     experience: {
-      role: "Project Lead · Gameplay / Systems Programmer · Visual Direction",
+      role: "Project Lead · Primary C# Programmer · Game Artist / Visual Direction",
       period: "2025년 8월 – 최종 빌드",
-      description: "프로젝트가 장기화되며 참여가 느슨해졌을 때 팀의 가용 인원과 핵심 범위를 다시 정리하고, 2주 마감 스프린트로 재편해 플레이 가능한 빌드를 완성했습니다."
+      description: "주요 C# 기여자로서 게임플레이, 보스, 리듬, UI, 툴과 비주얼 시스템 전반을 구현했습니다. 저장소 기록상 전체 585개 커밋 중 418개를 기여했으며, 프로젝트가 장기화된 뒤에는 범위와 인원을 재편해 2주 마감 스프린트로 플레이 가능한 빌드를 완성했습니다."
     },    
 
     videos: [
@@ -66,12 +66,12 @@ const projectsData = {
         {
           title: "게임플레이 및 기반 시스템",
           category: "Technical",
-          htmlContent: `<section><h2>게임플레이 및 기반 시스템</h2><h3>프로시저럴 다리 애니메이션</h3><p>보스의 다리가 지면과 움직임에 반응하도록 절차적 애니메이션을 구현해, 수작업 애니메이션만으로는 만들기 어려운 유기적인 움직임을 구성했습니다.</p><h3>FMOD 리듬 동기화</h3><p>FMOD의 오디오 타임라인을 기준으로 정박 판정을 구성하고, 플레이 환경에서 발생하는 체감 오차를 보정할 수 있도록 싱크 조절 기능을 만들었습니다.</p><h3>세이브 및 이벤트 관리</h3><p>플레이 진행 상태를 유지하는 세이브 시스템과 게임 내 사건의 발생·진행을 관리하는 이벤트 시스템을 구현해 보스러시 흐름을 연결했습니다.</p></section>`
+          htmlContent: `<section><h2>Unity/C# 시스템 오너십</h2><p><strong>저장소 기록:</strong> 전체 585개 커밋 중 418개를 기여했고, 플러그인을 제외한 주요 C#·셰이더·에디터 코드 367개 파일 중 328개에 작업 기록이 있습니다. 단순 통합이 아니라 게임의 주요 런타임 시스템 대부분을 직접 설계·구현·수정했습니다.</p><h3>게임플레이와 전투</h3><p>함선 이동과 모듈, 사냥 모드, 콤보·차지, 대미지 처리, 보스 상태와 재사용 가능한 패턴 구조를 구현했습니다. 투사체와 텔레그래프, 여러 보스 패턴을 데이터 중심으로 조합할 수 있도록 구성했습니다.</p><h3>FMOD 리듬 동기화</h3><p>FMOD 타임라인을 기준으로 박자 이벤트와 판정 창을 만들고, 플레이 환경별 체감 오차를 조정하는 캘리브레이션과 디버그 UI까지 연결했습니다.</p><h3>보스와 프로시저럴 애니메이션</h3><p>게 보스의 다리 IK와 절차적 보행, 껍질 파괴와 단계 전환, 거대화 연출을 구현해 패턴 로직과 시각적 상태가 함께 움직이도록 구성했습니다.</p><h3>게임 플로우·데이터·UI</h3><p>챕터와 시퀀스, 세이브·인벤토리·상점, 대사와 말풍선, HUD와 모니터형 UI를 연결했습니다. 반복 제작을 줄이기 위해 씬 빌더, 범위 편집기, UI 스타일 프리셋 등 Unity 에디터 도구도 제작했습니다.</p></section>`
         },
         {
-          title: "비주얼 디렉션",
+          title: "전체 게임 아트 제작 및 비주얼 디렉션",
           category: "Art",
-          htmlContent: `<section><h2>하나의 게임처럼 보이게 만들기</h2><p>서로 다른 시기에 제작된 환경·캐릭터·이펙트가 한 화면에서 이질적으로 보이지 않도록 색, 밝기, 실루엣과 효과 강도를 반복해서 조정했습니다.</p><h3>Bloom과 화면 가독성</h3><p>발광 효과가 수중 분위기에는 기여하면서도 공격 예고와 플레이어 정보를 덮지 않도록 Bloom의 임계값과 강도, 주변 색의 대비를 함께 다듬었습니다.</p></section>`
+          htmlContent: `<section><h2>게임의 아트 에셋 전체를 제작했습니다</h2><p><strong>New MANZO에 사용된 캐릭터, 보스, 물고기, 환경, 배경, UI와 주요 VFX용 아트 에셋을 모두 직접 그렸습니다.</strong> 콘셉트 단계에서 끝내지 않고 Unity에 임포트하고 화면에 배치해, 게임플레이 중 실제로 읽히는 최종 결과까지 책임졌습니다.</p><h3>하나의 게임처럼 보이게 만들기</h3><p>전체 에셋의 색, 명도, 실루엣과 디테일 밀도를 통일하고, 각 보스와 환경이 고유한 인상을 가지면서도 동일한 수중 세계에 속하도록 비주얼 기준을 정했습니다.</p><h3>Bloom과 화면 가독성</h3><p>발광 효과가 수중 분위기에는 기여하면서도 공격 예고와 플레이어 정보를 덮지 않도록 Bloom의 임계값과 강도, 주변 색의 대비를 함께 다듬었습니다.</p></section>`
         },
         {
           title: "Project Lead",
@@ -96,15 +96,15 @@ const projectsData = {
     pinned: true,
     title: "MANZO",
     subtitle: "Hear the Ocean's Call",
-    pageTitle: "MANZO - MSH PORTFOILO",
+    pageTitle: "MANZO - MSH PORTFOLIO",
     heroType: "video",
     heroMedia: "../img/MANZO/MANZO_trailer.mp4",
     overview: "Manzo는 <strong>심해 리듬 어드벤처 게임</strong>으로, 심리적 공포와 탐험 요소가 결합된 작품입니다. 플레이어는 수수께끼의 모스 부호 신호를 따라 바다 깊숙이 숨겨진 비밀을 밝혀나갑니다.",
     features: [
       "리듬 기반 이동",
       "탐험 중심 스토리텔링",
-      "역동적인 해저 세계",
-      "독특한 보스 전투"
+      "커스텀 렌더러와 멀티패스 후처리",
+      "다중 충돌 형태와 CCD 기반 고속 충돌 처리"
     ],
     experience: {
       role: "Project Lead & 그래픽스 기술 프로그래머",
@@ -559,49 +559,11 @@ const projectsData = {
     }
   },
 
-  "02_EdgeDirve": {
-    type: "game",
-    title: "EDGE DRIVE",
-    subtitle: "보스러쉬",
-    pageTitle: "EDGE DRIVE - MSH PORTFOILO",
-    heroType: "video",
-    heroMedia: "../img/EDGE_DRIVE/trailer.mp4",
-    overview: "보스러쉬 액션게임",
-    features: [
-      "다양한 보스패턴",
-      "시간 정지 기믹"
-    ],
-    experience: {
-      role: "VFX 리드",
-      period: "2025년 1월 ~ 2월",
-      description: "각종 VFX의 제작을 맡았습니다."
-    },
-    videos: [
-      {
-        title: null,
-        src: "../img/EDGE_DRIVE/trailer.mp4",
-        poster: null
-      }
-    ],
-    contributions: {
-      sections: [
-        {
-          title: "언리얼 엔진",
-          category: "Art",
-          items: [
-            "Cascade 파티클 효과, 트레일, 기타 다양한 시각 효과를 제작함."
-          ]
-        }
-      ]
-    },
-    source: null
-  },
-
   "03_DoubleHit": {
     type: "game",
     title: "DOUBLE HIT",
     subtitle: "2인용 액션게임",
-    pageTitle: "DOUBLE HIT - MSH PORTFOILO",
+    pageTitle: "DOUBLE HIT - MSH PORTFOLIO",
     heroType: "image",
     heroMedia: "../img/DOUBLE_HIT/back.png",
     overview: "두명이 하나! 서로 스킬을 조합하며 협동해 오래 살아남자!",
@@ -657,7 +619,7 @@ const projectsData = {
     pinned: true,
     title: "BIRD STRIKE",
     subtitle: "리듬 액션 게임",
-    pageTitle: "BIRD STRIKE - MSH PORTFOILO",
+    pageTitle: "BIRD STRIKE - MSH PORTFOLIO",
     heroType: "image",
     heroMedia: "../img/BIRD_STRIKE/back.jpg",
     heroTitleClass: "game-title-bird",
@@ -806,7 +768,7 @@ const projectsData = {
     pinned: true,
     title: "",
     subtitle: "",
-    pageTitle: "ThinkThink! 리듬챌린지 - MSH PORTFOILO",
+    pageTitle: "ThinkThink! 리듬챌린지 - MSH PORTFOLIO",
     heroType: "image",
     heroMedia: "../img/ThinkThink/1.png",
     heroTitleClass: "game-title-bird",
@@ -1006,7 +968,7 @@ const projectsData = {
     type: "planning",
     title: "Dangling*",
     subtitle: "Dangling* : The First GameJam",
-    pageTitle: "Dangling* - MSH PORTFOILO",
+    pageTitle: "Dangling* - MSH PORTFOLIO",
     heroType: "image",
     heroMedia: "../img/portfolio_thumbnails/Dangling.jpg",
     experience: {
@@ -1230,9 +1192,14 @@ const projectsData = {
     contributions: {
       sections: [
         {
-          title: "Art to Engine",
-          category: "Technical Art",
-          htmlContent: `<section><h2>Core Concept to Playable Build</h2><p>I proposed the main idea and built the initial prototype: combine five typed words into a skill, then enter an action word to execute it. That prototype established the project's core loop before the team expanded it. Our game designer owned level design and helped polish the design; the originating concept and first playable proof were mine.</p><h3>Art to Engine</h3><p>Built the visual layer around that typing-combat loop: original 2D assets, screen composition, hit VFX, outlines, particles, camera shake, floating damage, and UI motion.</p><h3>UI styling workflow</h3><p>Defined the desired look and iterated with AI assistance on a Unity UI shader/tool for per-corner rounding, gradients, shadows, blur, reusable presets, and inspector controls. My contribution is the visual specification, art direction, evaluation, and project integration—not a claim that every generated code line was handwritten.</p><h3>Why it matters</h3><p>The work connects the original game idea to gameplay clarity: typed-word state, action resolution, impact timing, and bilingual input feedback remain legible during combat.</p></section>`
+          title: "Art & Animation",
+          category: "Art",
+          htmlContent: `<section><h2>Rigged in Spriter, Baked for Unity</h2><p>I drew every character, background, card, and UI icon in Street Typer myself. Combat characters were rigged with 2D skeletal (bone-based) animation in Spriter Pro, then baked and exported as sprite frame sheets for Unity, where an Animator state machine plays them back. That pipeline let me animate idle, punch, guard, and hit-react poses quickly and reuse motion across states inside a 10-day production window.</p><div class="engineering-summary" aria-label="Art coverage"><article><span class="engineering-icon" aria-hidden="true">🎨</span><strong>2D</strong><small>Characters · backgrounds · cards</small></article><article><span class="engineering-icon" aria-hidden="true">🦴</span><strong>Skeletal</strong><small>Rigged in Spriter Pro, baked to sprite sheets</small></article><article><span class="engineering-icon" aria-hidden="true">✨</span><strong>VFX</strong><small>Impact, particles, camera shake</small></article><article><span class="engineering-icon" aria-hidden="true">🧩</span><strong>UI</strong><small>Shader-driven styling</small></article></div><div class="asset-portrait-grid" aria-label="Character portraits from the project's asset folder"><figure><div><img src="../img/StreetTyper/assets/character-demi.png" alt="Demi character portrait, the player character" /></div><figcaption><span>Raw asset</span><strong>Demi — player character</strong></figcaption></figure><figure><div><img src="../img/StreetTyper/assets/character-dragon1.png" alt="Dragon 1 enemy character portrait" /></div><figcaption><span>Raw asset</span><strong>Dragon 1 — enemy</strong></figcaption></figure><figure><div><img src="../img/StreetTyper/assets/character-mom.png" alt="Mother Dragon character portrait" /></div><figcaption><span>Raw asset</span><strong>Mother Dragon</strong></figcaption></figure></div><div class="asset-frame-strips" aria-label="Animation clips"><figure class="asset-frame-strip"><div><video src="../img/StreetTyper/vd1.mp4" controls muted loop playsinline preload="metadata"></video></div><figcaption><span>Raw capture</span><strong>Attack animation</strong><small>Baked playback of the Spriter Pro skeletal rig, in-engine</small></figcaption></figure><figure class="asset-frame-strip"><div><video src="../img/StreetTyper/vd2-Skeleton.mp4" controls muted loop playsinline preload="metadata"></video></div><figcaption><span>Raw capture</span><strong>Skeletal idle</strong><small>The bone rig itself, visible and moving in Spriter Pro</small></figcaption></figure></div><p class="art-count-note">Pulled directly from the project's asset folder (Demi, Dragon 1, and Mother Dragon) — images are downscaled for the web but otherwise unedited.</p><h3>UI styling workflow</h3><p>Defined the desired look and iterated with AI assistance on a Unity UI shader/tool for per-corner rounding, gradients, shadows, blur, reusable presets, and inspector controls. My contribution is the visual specification, art direction, evaluation, and project integration—not a claim that every generated code line was handwritten.</p><h3>Color direction</h3><p>I built the palette around a <span class="tone-blue">blue</span>-and-<span class="tone-pink">pink</span> pairing and kept it consistent across characters, cards, and UI so the accent color would read as one deliberate identity rather than scattered choices. The goal was a funky, casual tone—playful and a little loud, but still cohesive enough to feel art-directed rather than random.</p></section>`
+        },
+        {
+          title: "Production",
+          category: "Producing",
+          htmlContent: `<section><h2>Owned the 10-Day Scope End to End</h2><p>Beyond originating the core concept, I ran production for the 10-day jam window: splitting the scope into a schedule the team could actually hit, assigning and confirming ownership per system, and signing off on scope changes as they came up.</p><div class="system-map"><h3>10-day schedule</h3><ol><li><span>01</span><strong>Prototype</strong><small>Validate the typing-combat loop</small></li><li><span>02</span><strong>Scope lock</strong><small>Cut features to fit 10 days</small></li><li><span>03</span><strong>Production</strong><small>Art, systems, and UI in parallel</small></li><li><span>04</span><strong>Integration</strong><small>Merge systems into one playable build</small></li><li><span>05</span><strong>Polish & ship</strong><small>Bug pass, feel tuning, submission</small></li></ol></div><div class="production-evidence"><div><strong>Scope allocation</strong><span>Broke the concept into a 10-day plan and cut anything that couldn't be finished cleanly in that window.</span></div><div><strong>Role distribution</strong><span>Assigned ownership per system (design, art, engineering) and confirmed each teammate's scope before production started.</span></div><div><strong>Confirmations</strong><span>Reviewed and signed off on scope or design changes mid-sprint so the team kept building toward the same target.</span></div><div><strong>Steam release prep</strong><span>Currently preparing the Steam release paperwork and store materials — store page copy, key art, build packaging, and content/ratings documentation.</span></div></div></section>`
         }
       ]
     },
@@ -1286,9 +1253,14 @@ const projectsData = {
         contributions: {
           sections: [
             {
-              title: "아트에서 엔진까지",
-              category: "테크니컬 아트",
-              htmlContent: `<section><h2>핵심 아이디어에서 플레이 가능한 빌드까지</h2><p>단어 다섯 개를 입력해 기술을 조합하고 마지막 행동 단어로 실행한다는 메인 아이디어를 제가 제안하고, 이 루프를 검증하는 초기 프로토타입도 직접 만들었습니다. 팀의 게임 디자이너는 이 기반 위에서 레벨 디자인과 이후 디자인 폴리싱을 맡았습니다. 따라서 게임 디자인 전체를 혼자 했다는 뜻은 아니지만, 프로젝트를 시작시킨 핵심 콘셉트와 최초의 플레이 증명은 제 작업입니다.</p><h3>아트에서 엔진까지</h3><p>캐릭터와 배경을 그리는 데서 끝내지 않고, 피격 이펙트와 외곽선, 파티클, 카메라 셰이크, 대미지 숫자와 UI 움직임까지 Unity 안에서 직접 맞췄습니다. 타이핑에 집중하는 동안에도 전투 상황과 공격 결과가 바로 읽히는 것이 목표였습니다.</p><h3>UI 스타일 제작</h3><p>버튼마다 이미지를 새로 만들지 않아도 원하는 분위기를 빠르게 맞출 수 있도록 UI 셰이더와 조절 도구를 구성했습니다. 모서리 둥글기, 그라디언트, 그림자와 블러를 인스펙터에서 조절하고 프리셋으로 재사용할 수 있습니다. 구현 과정에서는 AI의 도움을 받았으며, 저는 필요한 기능과 화면 기준을 정하고 결과를 검토해 실제 프로젝트에 맞게 수정·통합했습니다.</p><h3>플레이에 필요한 정보를 먼저</h3><p>현재 입력 중인 단어, 기술 완성 여부와 공격 타이밍이 화려한 효과에 묻히지 않도록 색과 움직임의 우선순위를 정했습니다. 보기 좋은 화면보다 플레이 중 바로 이해되는 화면을 만드는 데 집중했습니다.</p></section>`
+              title: "아트 · 애니메이션",
+              category: "Art",
+              htmlContent: `<section><h2>Spriter로 리깅하고, Unity용으로 구워냈습니다</h2><p>캐릭터, 배경, 카드, UI 아이콘까지 게임에 나오는 그림은 전부 제가 그렸습니다. 전투 캐릭터는 Spriter Pro에서 2D 스켈레톤(뼈대) 애니메이션으로 리깅한 뒤, 이를 스프라이트 프레임 시트로 구워 Unity로 내보내고 Animator 상태 머신으로 재생합니다. 이 파이프라인 덕분에 대기·펀치·가드·피격 같은 포즈를 빠르게 만들고 상태 간 모션을 재사용할 수 있었고, 10일이라는 짧은 제작 기간 안에서도 애니메이션을 빠르게 완성할 수 있었습니다.</p><div class="engineering-summary" aria-label="아트 제작 범위"><article><span class="engineering-icon" aria-hidden="true">🎨</span><strong>2D</strong><small>캐릭터 · 배경 · 카드</small></article><article><span class="engineering-icon" aria-hidden="true">🦴</span><strong>스켈레톤</strong><small>Spriter Pro로 리깅, 스프라이트 시트로 익스포트</small></article><article><span class="engineering-icon" aria-hidden="true">✨</span><strong>VFX</strong><small>타격 이펙트 · 파티클 · 카메라 셰이크</small></article><article><span class="engineering-icon" aria-hidden="true">🧩</span><strong>UI</strong><small>셰이더 기반 스타일링</small></article></div><div class="asset-portrait-grid" aria-label="프로젝트 에셋 폴더의 캐릭터 원화"><figure><div><img src="../img/StreetTyper/assets/character-demi.png" alt="플레이어 캐릭터 데미 원화" /></div><figcaption><span>원본 에셋</span><strong>데미 — 플레이어 캐릭터</strong></figcaption></figure><figure><div><img src="../img/StreetTyper/assets/character-dragon1.png" alt="적 캐릭터 드래곤1 원화" /></div><figcaption><span>원본 에셋</span><strong>드래곤1 — 적 캐릭터</strong></figcaption></figure><figure><div><img src="../img/StreetTyper/assets/character-mom.png" alt="마더 드래곤 원화" /></div><figcaption><span>원본 에셋</span><strong>마더 드래곤</strong></figcaption></figure></div><div class="asset-frame-strips" aria-label="애니메이션 영상"><figure class="asset-frame-strip"><div><video src="../img/StreetTyper/vd1.mp4" controls muted loop playsinline preload="metadata"></video></div><figcaption><span>원본 캡처</span><strong>공격 애니메이션</strong><small>Spriter Pro 스켈레톤 리그를 구워 인게임에서 재생한 모습</small></figcaption></figure><figure class="asset-frame-strip"><div><video src="../img/StreetTyper/vd2-Skeleton.mp4" controls muted loop playsinline preload="metadata"></video></div><figcaption><span>원본 캡처</span><strong>스켈레톤 idle</strong><small>Spriter Pro에서 뼈대가 그대로 보이는 상태로 움직이는 모습</small></figcaption></figure></div><p class="art-count-note">프로젝트의 에셋 폴더(데미, 드래곤1, 마미용)에서 직접 가져온 원본 파일입니다 — 웹용으로 크기만 줄였을 뿐 그 외에는 수정하지 않았습니다.</p><h3>UI 스타일 제작</h3><p>버튼마다 이미지를 새로 만들지 않아도 원하는 분위기를 빠르게 맞출 수 있도록 UI 셰이더와 조절 도구를 구성했습니다. 모서리 둥글기, 그라디언트, 그림자와 블러를 인스펙터에서 조절하고 프리셋으로 재사용할 수 있습니다. 구현 과정에서는 AI의 도움을 받았으며, 저는 필요한 기능과 화면 기준을 정하고 결과를 검토해 실제 프로젝트에 맞게 수정·통합했습니다.</p><h3>색감 디렉션</h3><p><span class="tone-blue">블루</span>와 <span class="tone-pink">핑크</span>를 메인 포인트 컬러로 잡고, 캐릭터·카드·UI 전반에 같은 색 조합을 일관되게 써서 흩어진 선택이 아니라 하나의 정체성으로 읽히게 신경 썼습니다. 펑키하면서도 캐주얼한 분위기 — 통통 튀고 살짝 시끄럽지만, 그래도 일관되게 아트 디렉팅된 느낌을 목표로 했습니다.</p></section>`
+            },
+            {
+              title: "프로듀싱",
+              category: "Producing",
+              htmlContent: `<section><h2>10일 스코프를 처음부터 끝까지 운영했습니다</h2><p>핵심 콘셉트를 제안한 것에서 그치지 않고, 10일짜리 게임잼 일정의 프로듀싱도 맡았습니다. 실제로 끝낼 수 있는 범위로 스코프를 나누고, 시스템별 담당을 배정·확인했으며, 중간에 생기는 스코프 변경 사항을 컨펌했습니다.</p><div class="system-map"><h3>10일 일정</h3><ol><li><span>01</span><strong>프로토타입</strong><small>타이핑 전투 루프 검증</small></li><li><span>02</span><strong>스코프 확정</strong><small>10일 안에 끝낼 수 있는 범위로 정리</small></li><li><span>03</span><strong>제작</strong><small>아트 · 시스템 · UI 병행 제작</small></li><li><span>04</span><strong>통합</strong><small>각 시스템을 하나의 플레이 가능한 빌드로 병합</small></li><li><span>05</span><strong>폴리싱 · 제출</strong><small>버그 수정, 손맛 조절, 제출</small></li></ol></div><div class="production-evidence"><div><strong>스코프 할당</strong><span>핵심 콘셉트를 10일 일정으로 쪼개고, 그 안에서 깔끔히 끝내기 어려운 부분은 과감히 덜어냈습니다.</span></div><div><strong>역할 배분</strong><span>기획 · 아트 · 개발 등 시스템별 담당을 배정하고, 제작 시작 전에 각자의 범위를 서로 확인했습니다.</span></div><div><strong>컨펌</strong><span>중간에 나오는 스코프·디자인 변경 사항을 검토하고 승인해, 팀이 같은 목표를 보고 계속 만들 수 있게 했습니다.</span></div><div><strong>스팀 출시 준비</strong><span>현재 스팀 출시를 위한 서류와 스토어 자료(스토어 페이지 문구, 키아트, 빌드 패키징, 등급·콘텐츠 서류)를 준비하고 있습니다.</span></div></div></section>`
             }
           ]
         },
@@ -1340,14 +1312,14 @@ const projectsData = {
     contributions: {
       sections: [
         {
-          title: "Visual Polish",
-          category: "Technical Art",
-          htmlContent: `<section><h2>Implemented by Me</h2><p>Created and integrated game art, composed the combat presentation, and added a custom shadow shader, pattern-specific VFX, UI styling, animation, and impact feedback. I tuned color, scale, timing, and hierarchy so players could read danger quickly while attacks still felt forceful.</p><h3>Custom shadow shader</h3><p>I built and integrated the shadow treatment as part of the real-time visual pipeline, then tuned it against the characters, arena, and effects. It gives the 2D artwork a consistent sense of contact and depth inside Unity instead of relying on individually painted shadow assets.</p><h3>Visual systems in the build</h3><p>The shadow shader works alongside telegraphs, hit zones, projectile and beam effects, player feedback, portraits, boss animation, and shader-driven UI presentation. My focus was connecting those elements into a coherent player experience rather than treating them as isolated assets.</p><h3>Authorship note</h3><p>This was collaborative game-jam work. The shadow shader, art, composition, VFX, UI, animation, and integration described here are my direct contributions; gameplay systems written by teammates are credited as team output.</p></section>`
+          title: "Art & VFX",
+          category: "Art",
+          htmlContent: `<section><h2>Implemented by Me</h2><p>Created and integrated game art, composed the combat presentation, and added a custom shadow shader, pattern-specific VFX, UI styling, animation, and impact feedback. I tuned color, scale, timing, and hierarchy so players could read danger quickly while attacks still felt forceful.</p><div class="engineering-summary" aria-label="Art coverage"><article><span class="engineering-icon" aria-hidden="true">🌑</span><strong>Shader</strong><small>Custom shadow treatment</small></article><article><span class="engineering-icon" aria-hidden="true">✨</span><strong>VFX</strong><small>Telegraphs · projectiles · beams</small></article><article><span class="engineering-icon" aria-hidden="true">🧩</span><strong>UI</strong><small>Gradients · rounding · URP blur</small></article><article><span class="engineering-icon" aria-hidden="true">🎬</span><strong>Animation</strong><small>Boss + portrait feedback</small></article></div><figure style="margin:1rem 0"><img src="../img/TooHot/CardUI.png" alt="Too Hot card UI styled with the custom UI shader" style="max-width:100%;border-radius:.8rem" /></figure><h3>Custom shadow shader</h3><p>I built and integrated the shadow treatment as part of the real-time visual pipeline, then tuned it against the characters, arena, and effects. It gives the 2D artwork a consistent sense of contact and depth inside Unity instead of relying on individually painted shadow assets.</p><h3>Visual systems in the build</h3><p>The shadow shader works alongside telegraphs, hit zones, projectile and beam effects, player feedback, portraits, boss animation, and shader-driven UI presentation. My focus was connecting those elements into a coherent player experience rather than treating them as isolated assets.</p><h3>Authorship note</h3><p>This was collaborative game-jam work. The shadow shader, art, composition, VFX, UI, animation, and integration described here are my direct contributions; gameplay systems written by teammates are credited as team output.</p></section>`
         },
         {
-          title: "Technical Direction & Production Ownership",
-          category: "Direction · Production",
-          htmlContent: `<section><h2>I Defined the Systems and Drove Their Delivery</h2><p>I owned the connection between design intent, technical structure, and production. I decided what the systems needed to do, documented implementation-ready requirements, set priorities and ownership, reviewed the resulting work, requested revisions, tested it in context, and coordinated integration. This was more than scheduling: the backlog encoded the product and technical decisions that guided the programmers' work.</p><div class="direction-case-grid"><article><span class="case-label">Architecture Direction</span><h3>Data-driven stage flow</h3><p>Directed the replacement of scene-specific dialogue loading with a centralized <code>GameplayManager</code> and per-stage <code>StageData</code> ScriptableObjects coordinating boss, dialogue, progression, and ending conditions.</p></article><article><span class="case-label">Reliability Direction</span><h3>Progression safeguards</h3><p>Identified final-stage out-of-range failure cases and defined validation and recovery requirements for corrupted or unexpected save values.</p></article><article><span class="case-label">Workflow Design</span><h3>Faster playtesting</h3><p>Specified editor-facing chapter selection and clean-state reset controls so stages and relic state could be tested directly without replaying from the title screen.</p></article><article><span class="case-label">Creative Prioritization</span><h3>Spent the remaining time on impact</h3><p>Rejected redundant damage numbers because the boss HP bar already communicated the result, then redirected the remaining effort to camera response for stronger hit feedback.</p></article></div><h3>From direction to delivery</h3><p>I maintained a cross-discipline backlog of more than 130 tasks spanning gameplay systems, content, art, UI, VFX, audio, and presentation.</p><div class="production-evidence"><div><strong>P0 · Must ship</strong><span>Dialogue, save/continue, boss phases, and critical boss patterns</span></div><div><strong>P1 · Should ship</strong><span>Stage warnings, transition presentation, and full-health HP-bar visibility</span></div><div><strong>P3 · Defer if needed</strong><span>Camera polish and optional interaction refinements after the playable core</span></div></div><ul><li>Assigned system ownership and let programmers dynamically claim remaining P0 work.</li><li>Tracked every item through implementation, review, rework, testing, and completion.</li><li>Ran a separate bug workflow with severity, reproduction steps, branch, reporter, and assignee.</li><li>Reviewed completed systems before main-branch integration, then scheduled the visual pass around finished boss patterns.</li></ul><p class="case-study-note"><strong>Authorship boundary:</strong> teammates wrote the gameplay code. I authored the system requirements and production plan, made the architecture and priority calls documented here, reviewed and tested the implementations, and directly created the visual work identified in the Technical Art section.</p></section>`
+          title: "Producing",
+          category: "Producing",
+          htmlContent: `<section><h2>I Defined the Systems and Drove Their Delivery</h2><p>I owned the connection between design intent, technical structure, and production. I decided what the systems needed to do, documented implementation-ready requirements, set priorities and ownership, reviewed the resulting work, requested revisions, tested it in context, and coordinated integration. This was more than scheduling: the backlog encoded the product and technical decisions that guided the programmers' work.</p><div class="direction-case-grid"><article><span class="case-label">Architecture Direction</span><h3>Data-driven stage flow</h3><p>Directed the replacement of scene-specific dialogue loading with a centralized <code>GameplayManager</code> and per-stage <code>StageData</code> ScriptableObjects coordinating boss, dialogue, progression, and ending conditions.</p></article><article><span class="case-label">Reliability Direction</span><h3>Progression safeguards</h3><p>Identified final-stage out-of-range failure cases and defined validation and recovery requirements for corrupted or unexpected save values.</p></article><article><span class="case-label">Workflow Design</span><h3>Faster playtesting</h3><p>Specified editor-facing chapter selection and clean-state reset controls so stages and relic state could be tested directly without replaying from the title screen.</p></article><article><span class="case-label">Creative Prioritization</span><h3>Spent the remaining time on impact</h3><p>Rejected redundant damage numbers because the boss HP bar already communicated the result, then redirected the remaining effort to camera response for stronger hit feedback.</p></article></div><h3>From direction to delivery</h3><p>I maintained a cross-discipline backlog of more than 130 tasks spanning gameplay systems, content, art, UI, VFX, audio, and presentation.</p><div class="production-evidence"><div><strong>P0 · Must ship</strong><span>Dialogue, save/continue, boss phases, and critical boss patterns</span></div><div><strong>P1 · Should ship</strong><span>Stage warnings, transition presentation, and full-health HP-bar visibility</span></div><div><strong>P3 · Defer if needed</strong><span>Camera polish and optional interaction refinements after the playable core</span></div></div><ul><li>Assigned system ownership and let programmers dynamically claim remaining P0 work.</li><li>Tracked every item through implementation, review, rework, testing, and completion.</li><li>Ran a separate bug workflow with severity, reproduction steps, branch, reporter, and assignee.</li><li>Reviewed completed systems before main-branch integration, then scheduled the visual pass around finished boss patterns.</li></ul><p class="case-study-note"><strong>Authorship boundary:</strong> teammates wrote the gameplay code. I authored the system requirements and production plan, made the architecture and priority calls documented here, reviewed and tested the implementations, and directly created the visual work identified in the Art tab.</p></section>`
         }
       ]
     },
@@ -1382,14 +1354,14 @@ const projectsData = {
         contributions: {
           sections: [
             {
-              title: "비주얼 폴리시",
-              category: "테크니컬 아트",
-              htmlContent: `<section><h2>제가 직접 구현한 작업</h2><p>게임 아트를 제작·적용하고 전투 화면을 구성했으며, 커스텀 그림자 셰이더와 패턴별 VFX, UI 스타일, 애니메이션, 타격 피드백을 추가했습니다. 플레이어가 위험을 빠르게 읽으면서도 공격은 강하게 느끼도록 색과 크기, 타이밍, 화면의 위계를 반복해서 조절했습니다.</p><h3>커스텀 그림자 셰이더</h3><p>캐릭터와 전투 공간이 따로 떠 보이지 않도록 실시간 그림자 표현을 제작해 Unity에 적용했습니다. 에셋마다 그림자를 별도로 그려 넣는 대신, 캐릭터와 배경, 이펙트를 함께 보며 그림자 표현을 조절해 2D 화면에 일관된 접지감과 깊이를 만들었습니다.</p><h3>플레이 화면에 연결된 요소</h3><p>그림자 셰이더를 공격 전조와 피격 범위, 투사체·빔 이펙트, 플레이어 피드백, 포트레이트, 보스 애니메이션, 셰이더 기반 UI와 하나의 경험으로 연결했습니다. 개별 에셋보다 실제 플레이에서 함께 작동하는 화면을 만드는 데 집중했습니다.</p><h3>기여 범위</h3><p>이 프로젝트는 팀으로 만든 게임잼 작품입니다. 여기서 소개하는 그림자 셰이더와 아트, 화면 구성, VFX, UI, 애니메이션, 통합은 제가 직접 맡았으며, 팀원이 작성한 게임플레이 시스템은 팀 결과물로 구분합니다.</p></section>`
+              title: "아트 · VFX",
+              category: "Art",
+              htmlContent: `<section><h2>제가 직접 구현한 작업</h2><p>게임 아트를 제작·적용하고 전투 화면을 구성했으며, 커스텀 그림자 셰이더와 패턴별 VFX, UI 스타일, 애니메이션, 타격 피드백을 추가했습니다. 플레이어가 위험을 빠르게 읽으면서도 공격은 강하게 느끼도록 색과 크기, 타이밍, 화면의 위계를 반복해서 조절했습니다.</p><div class="engineering-summary" aria-label="아트 제작 범위"><article><span class="engineering-icon" aria-hidden="true">🌑</span><strong>셰이더</strong><small>커스텀 그림자 표현</small></article><article><span class="engineering-icon" aria-hidden="true">✨</span><strong>VFX</strong><small>전조 · 투사체 · 빔</small></article><article><span class="engineering-icon" aria-hidden="true">🧩</span><strong>UI</strong><small>그라디언트 · 라운딩 · URP 블러</small></article><article><span class="engineering-icon" aria-hidden="true">🎬</span><strong>애니메이션</strong><small>보스 · 포트레이트 피드백</small></article></div><figure style="margin:1rem 0"><img src="../img/TooHot/CardUI.png" alt="커스텀 UI 셰이더를 적용한 Too Hot 카드 UI" style="max-width:100%;border-radius:.8rem" /></figure><h3>커스텀 그림자 셰이더</h3><p>캐릭터와 전투 공간이 따로 떠 보이지 않도록 실시간 그림자 표현을 제작해 Unity에 적용했습니다. 에셋마다 그림자를 별도로 그려 넣는 대신, 캐릭터와 배경, 이펙트를 함께 보며 그림자 표현을 조절해 2D 화면에 일관된 접지감과 깊이를 만들었습니다.</p><h3>플레이 화면에 연결된 요소</h3><p>그림자 셰이더를 공격 전조와 피격 범위, 투사체·빔 이펙트, 플레이어 피드백, 포트레이트, 보스 애니메이션, 셰이더 기반 UI와 하나의 경험으로 연결했습니다. 개별 에셋보다 실제 플레이에서 함께 작동하는 화면을 만드는 데 집중했습니다.</p><h3>기여 범위</h3><p>이 프로젝트는 팀으로 만든 게임잼 작품입니다. 여기서 소개하는 그림자 셰이더와 아트, 화면 구성, VFX, UI, 애니메이션, 통합은 제가 직접 맡았으며, 팀원이 작성한 게임플레이 시스템은 팀 결과물로 구분합니다.</p></section>`
             },
             {
-              title: "기술 디렉팅과 프로덕션 오너십",
-              category: "디렉팅 · 프로덕션",
-              htmlContent: `<section><h2>시스템을 정의하고 완성까지 이끌었습니다</h2><p>기획 의도와 기술 구조, 실제 제작을 잇는 역할을 맡았습니다. 시스템이 어떻게 동작해야 하는지 결정하고 개발자가 바로 구현할 수 있는 요구사항으로 정리한 뒤, 우선순위와 담당자를 정하고 구현 결과를 리뷰했습니다. 수정 요청과 테스트, 통합까지 이어졌기 때문에 단순한 일정 관리가 아니라 개발 방향 자체를 작업 보드에 구체화한 일이었습니다.</p><div class="direction-case-grid"><article><span class="case-label">구조 디렉팅</span><h3>데이터 중심 스테이지 흐름</h3><p>씬마다 대화를 불러오던 구조를 <code>GameplayManager</code>와 스테이지별 <code>StageData</code> ScriptableObject 중심으로 바꾸도록 방향을 정했습니다. 보스와 대화, 진행 데이터, 마지막 챕터 이후 엔딩 조건을 한 흐름에서 관리하도록 요구사항을 제시했습니다.</p></article><article><span class="case-label">안정성 디렉팅</span><h3>진행 데이터 방어</h3><p>마지막 챕터 이후 인덱스가 범위를 벗어나는 문제를 먼저 발견하고, 손상되거나 예상 밖인 세이브 값을 검사·보정하는 조건을 정의했습니다.</p></article><article><span class="case-label">워크플로 설계</span><h3>빠른 스테이지 테스트</h3><p>타이틀부터 반복 플레이하지 않아도 되도록 챕터 선택과 유물 데이터까지 포함한 클린 상태 초기화를 에디터 디버그 기능으로 지정했습니다.</p></article><article><span class="case-label">크리에이티브 우선순위</span><h3>남은 시간은 타격감에 집중</h3><p>보스 HP바와 정보가 겹치는 대미지 숫자는 제외하고, 제한된 시간을 공격 적중 순간의 카메라 반응에 사용하도록 방향을 전환했습니다.</p></article></div><h3>방향 결정에서 완성까지</h3><p>게임플레이 시스템과 콘텐츠, 아트, UI, VFX, 사운드, 연출에 걸친 130개 이상의 작업을 하나의 우선순위 보드로 운영했습니다.</p><div class="production-evidence"><div><strong>P0 · 반드시 완성</strong><span>다이얼로그, 세이브·이어하기, 보스 페이즈와 핵심 패턴</span></div><div><strong>P1 · 중요</strong><span>스테이지 경고, 전환 연출과 풀피 몬스터 HP 표시 규칙</span></div><div><strong>P3 · 여유가 있을 때</strong><span>카메라 폴리시와 선택 조작 등 코어 이후의 개선</span></div></div><ul><li>시스템별 담당을 정하고 남은 P0 작업은 프로그래머가 유동적으로 가져가도록 운영했습니다.</li><li>모든 작업을 구현, 리뷰, 재작업, 테스트, 완료 단계로 나눠 추적했습니다.</li><li>심각도와 재현 방법, 브랜치, 작성자, 수정자를 기록하는 별도 버그 흐름을 운영했습니다.</li><li>완성된 시스템을 메인 브랜치에 합치기 전에 검토하고, 보스 패턴 구현 순서에 맞춰 후속 비주얼 작업을 배치했습니다.</li></ul><p class="case-study-note"><strong>기여 범위:</strong> 게임플레이 코드는 팀원이 작성했습니다. 저는 시스템 요구사항과 제작 계획을 작성하고, 여기 소개한 구조와 우선순위를 결정했으며, 구현 리뷰와 테스트를 맡았습니다. 테크니컬 아트 탭의 비주얼 작업은 제가 직접 구현했습니다.</p></section>`
+              title: "프로듀싱",
+              category: "Producing",
+              htmlContent: `<section><h2>시스템을 정의하고 완성까지 이끌었습니다</h2><p>기획 의도와 기술 구조, 실제 제작을 잇는 역할을 맡았습니다. 시스템이 어떻게 동작해야 하는지 결정하고 개발자가 바로 구현할 수 있는 요구사항으로 정리한 뒤, 우선순위와 담당자를 정하고 구현 결과를 리뷰했습니다. 수정 요청과 테스트, 통합까지 이어졌기 때문에 단순한 일정 관리가 아니라 개발 방향 자체를 작업 보드에 구체화한 일이었습니다.</p><div class="direction-case-grid"><article><span class="case-label">구조 디렉팅</span><h3>데이터 중심 스테이지 흐름</h3><p>씬마다 대화를 불러오던 구조를 <code>GameplayManager</code>와 스테이지별 <code>StageData</code> ScriptableObject 중심으로 바꾸도록 방향을 정했습니다. 보스와 대화, 진행 데이터, 마지막 챕터 이후 엔딩 조건을 한 흐름에서 관리하도록 요구사항을 제시했습니다.</p></article><article><span class="case-label">안정성 디렉팅</span><h3>진행 데이터 방어</h3><p>마지막 챕터 이후 인덱스가 범위를 벗어나는 문제를 먼저 발견하고, 손상되거나 예상 밖인 세이브 값을 검사·보정하는 조건을 정의했습니다.</p></article><article><span class="case-label">워크플로 설계</span><h3>빠른 스테이지 테스트</h3><p>타이틀부터 반복 플레이하지 않아도 되도록 챕터 선택과 유물 데이터까지 포함한 클린 상태 초기화를 에디터 디버그 기능으로 지정했습니다.</p></article><article><span class="case-label">크리에이티브 우선순위</span><h3>남은 시간은 타격감에 집중</h3><p>보스 HP바와 정보가 겹치는 대미지 숫자는 제외하고, 제한된 시간을 공격 적중 순간의 카메라 반응에 사용하도록 방향을 전환했습니다.</p></article></div><h3>방향 결정에서 완성까지</h3><p>게임플레이 시스템과 콘텐츠, 아트, UI, VFX, 사운드, 연출에 걸친 130개 이상의 작업을 하나의 우선순위 보드로 운영했습니다.</p><div class="production-evidence"><div><strong>P0 · 반드시 완성</strong><span>다이얼로그, 세이브·이어하기, 보스 페이즈와 핵심 패턴</span></div><div><strong>P1 · 중요</strong><span>스테이지 경고, 전환 연출과 풀피 몬스터 HP 표시 규칙</span></div><div><strong>P3 · 여유가 있을 때</strong><span>카메라 폴리시와 선택 조작 등 코어 이후의 개선</span></div></div><ul><li>시스템별 담당을 정하고 남은 P0 작업은 프로그래머가 유동적으로 가져가도록 운영했습니다.</li><li>모든 작업을 구현, 리뷰, 재작업, 테스트, 완료 단계로 나눠 추적했습니다.</li><li>심각도와 재현 방법, 브랜치, 작성자, 수정자를 기록하는 별도 버그 흐름을 운영했습니다.</li><li>완성된 시스템을 메인 브랜치에 합치기 전에 검토하고, 보스 패턴 구현 순서에 맞춰 후속 비주얼 작업을 배치했습니다.</li></ul><p class="case-study-note"><strong>기여 범위:</strong> 게임플레이 코드는 팀원이 작성했습니다. 저는 시스템 요구사항과 제작 계획을 작성하고, 여기 소개한 구조와 우선순위를 결정했으며, 구현 리뷰와 테스트를 맡았습니다. 아트 탭의 비주얼 작업은 제가 직접 구현했습니다.</p></section>`
             }
           ]
         },
@@ -1406,7 +1378,7 @@ const projectsData = {
   "01_hello": {
     type: "tech",
     title: "Hello Quad",
-    pageTitle: "TECH - MSH PORTFOILO",
+    pageTitle: "TECH - MSH PORTFOLIO",
     thumbnail: "../img/portfolio_thumbnails/01_hello.jpg",
     overview: "이 프로젝트는 WebGL을 사용하여 단순한 사각형에 셰이더를 구현하는 과제였습니다. 주요 목표는 마우스 움직임에 따라 오브젝트의 변환을 적용하고 모델의 크기에 따라 변하는 부드러운 무지개 그라디언트 색상을 렌더링하는 것이었습니다.",
     tasks: [
@@ -1424,7 +1396,7 @@ const projectsData = {
   "02_meshes": {
     type: "tech",
     title: "Procedural Geometric Modeling",
-    pageTitle: "TECH - MSH PORTFOILO",
+    pageTitle: "TECH - MSH PORTFOLIO",
     thumbnail: "../img/portfolio_thumbnails/02_meshes.jpg",
     overview: "이 프로젝트는 OpenGL과 GLSL을 활용해 3D 기하학 모델을 프로시저 방식으로 생성하는 데 중점을 두었습니다. 주요 목표는 정육면체, 구, 원기둥, 원뿔, 토러스와 같은 다양한 도형을 파라메트릭 방정식을 이용해 생성하고 이를 렌더링하기 위한 인덱스 버퍼와 정점 속성을 구성하는 것이었습니다.",
     tasks: [
@@ -1456,20 +1428,46 @@ function applyEnglishProjectOverride(projectId, english) {
   Object.assign(project, english);
 }
 
+function renderEngineeringCaseStudy({ metrics = [], architecture = [], cases = [], decisions = [], code = null, note = "", labels = {} }) {
+  const copy = { systemMap: "System map", problem: "Problem", decision: "Decision", implementation: "Implementation", verification: "Verification", keyDecisions: "Key decisions I made", decisionLog: "Decision log", decisionTitle: "Why the systems were structured this way", system: "System", choice: "Choice", why: "Why", tradeoff: "Tradeoff", codeEvidence: "Code evidence", viewSource: "View source file ↗", ...labels };
+  const metricsHTML = metrics.map(metric => `<article><span class="engineering-icon" aria-hidden="true">${metric.icon}</span><strong>${metric.value}</strong><small>${metric.label}</small></article>`).join("");
+  const architectureHTML = architecture.map((step, index) => `<li><span>${String(index + 1).padStart(2, "0")}</span><strong>${step.title}</strong><small>${step.detail}</small></li>`).join("");
+  const casesHTML = cases.map(item => `<article><span class="case-label">${item.label}</span><h3>${item.title}</h3><dl><div><dt>${copy.problem}</dt><dd>${item.problem}</dd></div><div><dt>${copy.decision}</dt><dd>${item.decision}</dd></div><div><dt>${copy.implementation}</dt><dd>${item.implementation}</dd></div><div><dt>${copy.verification}</dt><dd>${item.verification}</dd></div></dl></article>`).join("");
+  const decisionsHTML = decisions.map(item => `<tr><th scope="row">${item.system}</th><td>${item.choice}</td><td>${item.reason}</td><td>${item.tradeoff}</td></tr>`).join("");
+  const decisionSpotlightHTML = decisions.length ? `<section class="decision-spotlight"><h3>${copy.keyDecisions}</h3><div>${decisions.slice(0, 4).map((item, index) => `<article><span>${String(index + 1).padStart(2, "0")}</span><strong>${item.choice}</strong><p>${item.reason}</p><small>${copy.tradeoff}: ${item.tradeoff}</small></article>`).join("")}</div></section>` : "";
+  const codeHTML = code ? `<details class="technical-deep-dive"><summary><span>${copy.codeEvidence}</span><strong>${code.title}</strong></summary><div class="technical-deep-dive-body"><p>${code.description}</p><pre><code>${code.snippet}</code></pre><a class="evidence-link" href="${code.url}" target="_blank" rel="noopener noreferrer">${copy.viewSource}</a></div></details>` : "";
+  return `<div class="engineering-summary" aria-label="Project evidence summary">${metricsHTML}</div>${decisionSpotlightHTML}<div class="system-map"><h3>${copy.systemMap}</h3><ol>${architectureHTML}</ol></div><div class="engineering-case-grid">${casesHTML}</div>${decisions.length ? `<details class="technical-deep-dive"><summary><span>${copy.decisionLog}</span><strong>${copy.decisionTitle}</strong></summary><div class="technical-deep-dive-body"><div class="decision-table-wrap"><table class="decision-table"><thead><tr><th>${copy.system}</th><th>${copy.choice}</th><th>${copy.why}</th><th>${copy.tradeoff}</th></tr></thead><tbody>${decisionsHTML}</tbody></table></div></div></details>` : ""}${codeHTML}${note ? `<p class="engineering-note">${note}</p>` : ""}`;
+}
+
+function renderNewManzoArtShowcase(lang = "en") {
+  const ko = lang === "ko";
+  return `<section class="newmanzo-art-case"><div class="art-case-intro"><div><span class="case-label">${ko ? "비주얼 디자인 · 아트" : "Visual Design · Art"}</span><h2>${ko ? "New MANZO의 모든 비주얼을 제작했습니다" : "I created every visual in New MANZO"}</h2><p>${ko ? "캐릭터와 환경부터 UI, VFX까지 직접 제작하고 Unity에서 최종 화면으로 완성했습니다." : "I created everything from characters and environments to UI and VFX, then brought it together in the final Unity build."}</p></div><img src="../img/NEWMANZO/art/manzo-mark.png" alt="MANZO game mark" /></div><div class="art-coverage" aria-label="${ko ? "저장소 아트 카테고리별 PNG 수" : "PNG counts by repository art category"}"><article><strong>21</strong><span>${ko ? "보스" : "Boss"}</span></article><article><strong>17</strong><span>NPC</span></article><article><strong>11</strong><span>${ko ? "물고기" : "Fish"}</span></article><article><strong>17</strong><span>UI</span></article><article><strong>22</strong><span>${ko ? "환경" : "Environment"}</span></article><article><strong>5</strong><span>VFX</span></article></div><p class="art-count-note">${ko ? "Assets/1_Art 아래 PNG 파일 기준이며 애니메이션 프레임, PSD 및 기타 소스 파일은 제외한 보수적인 수치입니다." : "Conservative count of PNG files under Assets/1_Art; animation frames, PSDs, and other source formats are not included."}</p><div class="asset-showcase-grid"><figure class="asset-feature asset-tani"><div><img src="../img/NEWMANZO/art/tani-portrait.png" alt="Tani character portrait production asset" /></div><figcaption><span>${ko ? "캐릭터" : "Character"}</span><strong>Tani</strong><small>${ko ? "포트레이트와 표정 변형" : "Portrait and expression variants"}</small></figcaption></figure><figure class="asset-feature asset-crab"><div><img src="../img/NEWMANZO/art/crab-boss.png" alt="Crab boss production sprite" /></div><figcaption><span>${ko ? "보스" : "Boss"}</span><strong>${ko ? "게 보스" : "Crab Boss"}</strong><small>${ko ? "절차적 다리 구조와 함께 사용" : "Built for the procedural leg system"}</small></figcaption></figure><figure class="asset-small asset-marlin"><div><img src="../img/NEWMANZO/art/blue-marlin.png" alt="Blue marlin boss sprite" /></div><figcaption><span>${ko ? "보스" : "Boss"}</span><strong>Blue Marlin</strong></figcaption></figure><figure class="asset-small asset-fish"><div><img src="../img/NEWMANZO/art/fish-03.png" alt="Schooling fish sprite" /></div><figcaption><span>${ko ? "생태계" : "Ecosystem"}</span><strong>${ko ? "군집 물고기" : "Schooling Fish"}</strong></figcaption></figure><figure class="asset-small asset-ui"><div><img src="../img/NEWMANZO/art/dialog-ui.png" alt="Dialogue interface production asset" /></div><figcaption><span>UI</span><strong>${ko ? "대화 프레임" : "Dialogue Frame"}</strong></figcaption></figure><figure class="asset-small asset-vfx"><div><img src="../img/NEWMANZO/art/attack-vfx.png" alt="Attack VFX sprite sheet" /></div><figcaption><span>VFX</span><strong>${ko ? "공격 스프라이트" : "Attack Sprite"}</strong></figcaption></figure></div><div class="visual-direction-notes"><article><span>01</span><div><h3>${ko ? "하나의 수중 세계" : "One underwater world"}</h3><p>${ko ? "색, 명도, 실루엣과 디테일 밀도를 통일하면서 보스와 구역별 개성을 분리했습니다." : "Unified color, value, silhouette, and detail density while keeping each boss and area distinct."}</p></div></article><article><span>02</span><div><h3>${ko ? "게임플레이 가독성" : "Gameplay readability"}</h3><p>${ko ? "작은 물고기와 공격 전조가 Bloom과 어두운 심해 배경에서도 읽히도록 대비와 발광 임계값을 함께 조절했습니다." : "Tuned contrast and bloom thresholds so small fish and attack telegraphs remain readable against the dark ocean."}</p></div></article><article><span>03</span><div><h3>${ko ? "에셋에서 최종 화면까지" : "Asset to final frame"}</h3><p>${ko ? "그림 제작에 그치지 않고 스프라이트 분할, 임포트, 애니메이션, 셰이더와 UI 통합까지 책임졌습니다." : "Owned sprite preparation, import, animation, shader treatment, and UI integration—not only illustration."}</p></div></article></div></section>`;
+}
+
+function renderManzoRendererFeature(lang = "en") {
+  const ko = lang === "ko";
+  return `<section class="renderer-feature" id="custom-renderer"><span class="renderer-eyebrow">C++ · OpenGL · GLSL</span><h2>CUSTOM<br>RENDERER<span>.</span></h2><p class="renderer-lede">${ko ? "게임의 드로우 순서와 화면 효과를 직접 제어하기 위해 레이어 기반 드로우 큐와 멀티패스 후처리 파이프라인을 설계·구현했습니다." : "I designed and implemented a layer-based draw queue and multi-pass post-processing pipeline to control draw order and screen effects directly."}</p><div class="renderer-flow" aria-label="${ko ? "커스텀 렌더러 처리 순서" : "Custom renderer pipeline"}"><article><span>01</span><strong>${ko ? "드로우 큐" : "Draw queues"}</strong><small>${ko ? "배경 · 월드 · UI · Late" : "Background · World · UI · Late"}</small></article><i>→</i><article><span>02</span><strong>${ko ? "씬 FBO" : "Scene FBO"}</strong><small>${ko ? "한 프레임을 텍스처로 렌더" : "Render the frame to texture"}</small></article><i>→</i><article class="renderer-ping"><span>03</span><strong>Ping-Pong FBO</strong><small>${ko ? "두 버퍼를 번갈아 읽고 쓰기" : "Alternate read and write targets"}</small></article><i>→</i><article><span>04</span><strong>${ko ? "최종 합성" : "Final composite"}</strong><small>${ko ? "기본 프레임버퍼로 출력" : "Present to the default framebuffer"}</small></article></div><div class="renderer-explanation"><article><h3>${ko ? "왜 핑퐁 구조인가" : "Why ping-pong framebuffers"}</h3><p>${ko ? "하나의 텍스처를 동시에 읽고 쓰면 이전 패스의 결과를 안전하게 다음 패스로 전달할 수 없습니다. 두 개의 FBO를 만들고, 현재 패스는 한쪽 color attachment를 입력으로 읽으면서 반대쪽에 출력한 뒤 매 패스마다 역할을 교환했습니다." : "A texture cannot safely act as both the source and destination of the same pass. I created two FBOs so each pass reads the previous color attachment, writes to the opposite target, then swaps their roles."}</p></article><article><h3>${ko ? "패스를 데이터 흐름으로 이해하기" : "Thinking in render-pass data flow"}</h3><p>${ko ? "수중 왜곡 → Bloom → God Ray처럼 각 셰이더는 이전 패스의 완성된 화면을 입력으로 받습니다. 효과를 오브젝트마다 붙이는 대신 전체 화면 처리 단계로 분리해 순서, 입력과 출력을 명확하게 관리했습니다." : "Each shader receives the completed output of the previous pass—underwater distortion → bloom → god rays. Treating effects as full-screen stages made ordering, inputs, and outputs explicit."}</p></article></div><pre class="renderer-code"><code>postProcessFramebuffer[horizontal].Bind();\nglBindTexture(GL_TEXTURE_2D,\n  postProcessFramebuffer[!horizontal].GetColorAttachment());\nRenderQuad();\nhorizontal = !horizontal;</code></pre><a class="renderer-source" href="https://github.com/Seohyeon-Min/manzo/blob/main/Manzo/Manzo/Engine/Render.cpp" target="_blank" rel="noopener noreferrer">Render.cpp ↗</a><a class="engine-foundation-link" href="03_DoubleHit.html?track=software#custom-engine-foundation"><span>${ko ? "이 렌더러의 기틀" : "Foundation of this renderer"}</span><strong>${ko ? "Double Hit에서 제작한 커스텀 엔진 →" : "The custom engine built for Double Hit →"}</strong></a></section>`;
+}
+
+function renderDoubleHitEngineFeature(lang = "en") {
+  const ko = lang === "ko";
+  return `<section class="engine-feature" id="custom-engine-foundation"><span class="renderer-eyebrow">C++ · raylib</span><h2>CUSTOM<br>ENGINE<span>.</span></h2><p class="renderer-lede">${ko ? "게임 하나에 종속된 기능을 나열하는 대신, 이후 프로젝트에서도 확장할 수 있는 오브젝트·컴포넌트·서비스 기반을 직접 만들었습니다." : "Rather than building isolated game-specific features, I created an object, component, and service foundation that could evolve into later projects."}</p><div class="engine-foundation-grid"><article><span>01</span><strong>GameObject</strong><p>${ko ? "식별자, Transform과 객체 수명을 담당하는 공통 단위" : "A common unit for identity, transforms, and object lifetime"}</p></article><article><span>02</span><strong>GameComponent</strong><p>${ko ? "행동을 상속 계층이 아닌 조합으로 추가" : "Behavior added through composition instead of a deep hierarchy"}</p></article><article><span>03</span><strong>Engine Services</strong><p>${ko ? "렌더링·충돌 등 공유 시스템의 접근과 수명을 통제" : "Controlled access and lifetime for rendering, collision, and shared systems"}</p></article><article><span>04</span><strong>Sprite + Collision</strong><p>${ko ? "텍스처·스프라이트 관리와 상호작용의 실행 기반" : "Runtime foundation for textures, sprites, and interaction"}</p></article></div><p class="engine-evolution">${ko ? "이 구조는 MANZO에서 레이어 렌더 큐, 프레임버퍼 후처리, CCD, 리듬과 시나리오 시스템으로 확장됐습니다." : "This architecture later expanded in MANZO into layer-based rendering, framebuffer post-processing, CCD, rhythm, and scenario systems."}</p></section>`;
+}
+
 applyEnglishProjectOverride("00_NewManzo", {
   pageTitle: "New MANZO — Min Seohyeon Portfolio",
   overview: "A completed playable build of a deep-sea rhythm adventure exploring beat-linked hunting, fish behavior, and atmospheric rendering.",
   features: [
     "FMOD-driven on-beat gameplay with adjustable sync offset",
-    "Procedural boss-leg animation",
-    "Save and event-management systems",
-    "Cohesive underwater visuals with readability-aware bloom",
-    "A production-reset boss-rush scope carried to a playable build"
+    "Reusable boss-pattern framework and procedural leg animation",
+    "Hunting, ship, inventory, save, and game-flow systems",
+    "Reusable UI, shader, and Unity Editor tooling",
+    "418 of 585 repository commits"
   ],
   experience: {
-    role: "Gameplay / Systems Programmer · Visual Direction · Production Lead",
+    role: "Primary C# Programmer · Game Artist / Visual Director · Production Lead",
     period: "August 2025 – Final Build",
-    description: "When the long-running secondary project lost momentum, I reset team commitment and scope, formed a smaller delivery-focused group, and led a two-week closing sprint to a playable build."
+    description: "Served as the primary C# contributor across gameplay, bosses, rhythm, UI, tools, and visual systems. Repository history records 418 of 585 commits under my account; after the project lost momentum, I also reset scope and led a two-week closing sprint to a playable build."
   },
   videos: [
     {
@@ -1511,14 +1509,14 @@ applyEnglishProjectOverride("00_NewManzo", {
   contributions: {
     sections: [
       {
-        title: "Graphics & Gameplay Prototypes",
+        title: "Unity/C# Systems Ownership",
         category: "Technical",
-        htmlContent: `<section><h2>Gameplay & Foundation Systems</h2><h3>Procedural Leg Animation</h3><p>Built procedural animation for the boss's legs so they could respond organically to movement and the ground instead of relying entirely on authored animation clips.</p><h3>FMOD Rhythm Synchronization</h3><p>Used the FMOD audio timeline as the source of truth for on-beat gameplay and implemented a sync-offset control to compensate for perceived timing differences across play environments.</p><h3>Save & Event Management</h3><p>Implemented the save system for persistent progression and an event-management system that coordinates gameplay events across the boss-rush flow.</p><h3>Fish Behavior & Hunting</h3><p>Prototyped schooling, obstacle avoidance, and player response, then connected hunting interactions to the beat-driven gameplay loop.</p></section>`
+        htmlContent: `<section><h2>Primary Unity/C# Contributor</h2><p class="case-study-lede">I owned the path from audio timing and gameplay architecture to boss behavior, tools, UI, and final integration. The evidence below separates decisions from implementation details so the scope stays scannable.</p>${renderEngineeringCaseStudy({metrics:[{icon:"↗",value:"418 / 585",label:"repository commits"},{icon:"{ }",value:"328 / 367",label:"first-party code files touched"},{icon:"◉",value:"Unity · C#",label:"runtime, tools & FMOD"},{icon:"✦",value:"100%",label:"in-game art authored"}],architecture:[{title:"FMOD timeline",detail:"Beat callbacks and song position"},{title:"Main-thread rhythm core",detail:"Safe snapshots, timing windows, calibration"},{title:"Gameplay systems",detail:"Ship, hunting, fish, damage, combo"},{title:"Data-driven encounters",detail:"Boss states, patterns, telegraphs, phases"},{title:"Player-facing output",detail:"Animation, VFX, UI, save flow, tools"}],cases:[{label:"Concurrency",title:"Audio-thread beats without unsafe Unity calls",problem:"FMOD callbacks can arrive off Unity's main thread, where scene and gameplay API calls are unsafe.",decision:"Capture callback data only, then consume the newest immutable snapshot during Update.",implementation:"Published beat, bar, and timeline data with an increasing sequence; Volatile.Read gates delivery to BeatSystem on the main thread.",verification:"Runtime offset controls and beat-debug UI expose missed, duplicated, or perceptually late events."},{label:"Gameplay AI",title:"Readable schooling instead of rigid paths",problem:"Fish needed to feel alive, remain huntable, and avoid obstacles without expensive authored routes.",decision:"Compose local steering behaviors and keep species/group parameters in reusable data.",implementation:"Built leader/follower roles, group spawning, zone constraints, player response, separation, cohesion, and avoidance around FishData.",verification:"A dedicated prototype scene validates schooling, avoidance, and player response before hunting-mode integration."},{label:"Procedural Motion",title:"Crab legs that follow combat movement",problem:"A large multi-legged boss looked detached when feet simply inherited the moving body transform.",decision:"Detach foot targets and move alternating leg groups only after planted distance crosses a threshold.",implementation:"Combined ground raycasts, velocity lead, step arcs, reach clamps, body alignment, and tunable step values.",verification:"Feet snap to valid ground at startup; inspector controls expose groups and thresholds for animation tuning."},{label:"Workflow",title:"Tools for repeatable content setup",problem:"Boss scenes, current zones, ranges, and UI styles required repeated manual setup that could drift or break.",decision:"Move common setup and validation into Editor utilities and reusable presets.",implementation:"Created scene builders, range visualizers, UI-style controls, and ocean-current setup tools beside runtime systems.",verification:"Design changes can be rebuilt from known settings instead of undocumented scene edits."}],decisions:[{system:"Rhythm",choice:"FMOD timeline source",reason:"Aligns gameplay to authored markers.",tradeoff:"Needs thread-safe handoff and calibration."},{system:"Boss attacks",choice:"Pattern ScriptableObjects",reason:"Reusable, tunable telegraphs and attacks.",tradeoff:"Data contracts require validation."},{system:"Fish",choice:"Local steering + shared data",reason:"Emergent schools without authored paths.",tradeoff:"Boundary and obstacle tuning."},{system:"Content",choice:"Editor tools and presets",reason:"Less repetition and configuration drift.",tradeoff:"Tools must evolve with runtime data."}],code:{title:"FMOD callback → Unity main thread",description:"The callback publishes a lightweight snapshot; Update consumes only a new sequence before touching gameplay systems.",snippet:`// Audio thread: publish data only\n_latestBeat = new BeatSnapshot(beat, bar, timelineMs);\nInterlocked.Increment(ref _latestBeatSeq);\n\n// Unity main thread\nint seq = Volatile.Read(ref _latestBeatSeq);\nif (seq == _handledBeatSeq) return;\n_handledBeatSeq = seq;\nBeatSystem.Instance?.OnFmodBeat(_latestBeat);`,url:"https://github.com/Seohyeon-Min/NewManzo/blob/main/Assets/4_Scripts/System/BeatSystem/FmodBeatDriver.cs"},note:"Repository counts exclude third-party plugins and are scope evidence, not a substitute for explaining the work."})}</section>`
       },
       {
-        title: "Visual Direction",
+        title: "Complete Game Art & Visual Direction",
         category: "Art",
-        htmlContent: `<section><h2>A Cohesive Underwater Look</h2><p>Repeatedly adjusted color, value, silhouettes, and effect intensity so environments, characters, and VFX produced at different stages still read as one coherent game.</p><h3>Bloom with Gameplay Readability</h3><p>Tuned bloom threshold, intensity, and surrounding contrast so the glow supported the underwater atmosphere without obscuring attack telegraphs or essential player information.</p></section>`
+        htmlContent: renderNewManzoArtShowcase("en")
       },
       {
         title: "Production",
@@ -1538,11 +1536,11 @@ applyEnglishProjectOverride("00_NewManzo", {
 
 applyEnglishProjectOverride("01_Manzo", {
   pageTitle: "MANZO — Min Seohyeon Portfolio",
-  overview: "A custom-engine rhythm adventure set in the deep sea. Players move on the beat, follow Morse-code signals, and explore an increasingly unsettling underwater world.",
+  overview: "A C++/OpenGL custom-renderer project built around layer-based draw queues, ping-pong framebuffer post-processing, and a rhythm-driven deep-sea game.",
   features: [
-    "BPM-driven movement and gameplay synchronization",
-    "Custom draw-call pipeline and multi-pass post-processing",
-    "Particle effects, underwater shaders, and screen transitions",
+    "Custom renderer with layer-based draw-call queues",
+    "Ping-pong framebuffer pipeline for multi-pass post-processing",
+    "Multiple collider types with time-of-impact continuous collision detection",
     "Engine-level scenario and dialogue system refactor"
   ],
   experience: {
@@ -1556,7 +1554,7 @@ applyEnglishProjectOverride("01_Manzo", {
       {
         title: "Rendering & Engine Systems",
         category: "Technical",
-        htmlContent: `<section><h2>Rendering & Engine Systems</h2><h3>Rhythm Core</h3><p>Implemented BPM-based beat detection, timing windows, beat and bar counting, and synchronized player movement and boss patterns with the audio timeline.</p><h3>Rendering Pipeline</h3><p>Built layer-based draw-call queues for background, world, UI, and late rendering. Added framebuffer-based multi-pass processing for bloom, underwater distortion, god rays, ripple effects, and screen transitions.</p><h3>Particle Integration</h3><p>Integrated lifetime-based particles with linear, curved, random, player-targeted, radial, and spray motion for boss attacks, impacts, and environmental feedback.</p><h3>Architecture & Stability</h3><p>Refactored scenario and dialogue handling out of game-mode ownership into engine-level systems, removing dangling-pointer failures and stabilizing event flow across state changes.</p><h3>Performance</h3><p>Tracked a severe boss-fight slowdown to redundant brute-force collision checks, removed repeated work, and stabilized the encounter. Exact profiling figures were not retained, so the portfolio does not claim unverified measurements.</p></section>`
+        htmlContent: `<section><h2>Rendering & Engine Systems</h2><p class="case-study-lede">The component foundation built for Double Hit evolved into this fuller C++/OpenGL engine. I extended it across timing, collision, rendering, effects, narrative flow, and debugging.</p>${renderEngineeringCaseStudy({metrics:[{icon:"C++",value:"Custom",label:"engine architecture"},{icon:"▧",value:"Multi-pass",label:"OpenGL renderer"},{icon:"→|",value:"CCD",label:"time-of-impact collision"},{icon:"♫",value:"BPM",label:"rhythm-driven systems"}],architecture:[{title:"Audio & input",detail:"Song time, calibration, player intent"},{title:"Engine services",detail:"Beat, scenario, object, state managers"},{title:"Simulation",detail:"Components, CCD, particles, boss logic"},{title:"Layer queues",detail:"Background, world, UI, late draws"},{title:"Framebuffer chain",detail:"Bloom, distortion, rays, ripples"}],cases:[{label:"Collision",title:"Preventing fast-movement tunneling",problem:"Beat-driven dashes could cross thin geometry between discrete frames.",decision:"Test the swept next-frame state and resolve the earliest contact time instead of only the final position.",implementation:"Added next-frame collider tests and binary-searched normalized frame time until the time-of-impact interval reached a small threshold.",verification:"Movement stops at calculated contact; current-frame and next-frame early-outs keep the test bounded."},{label:"Rendering",title:"Effects without mixing scene concerns",problem:"World, UI, lighting, and screen effects required different ordering and render targets.",decision:"Queue draw calls by layer and make post-processing an explicit framebuffer pipeline.",implementation:"Separated background, world, UI, and late rendering; chained bloom, distortion, god rays, ripples, and transitions.",verification:"Effects can be enabled and tuned independently while preserving deterministic draw order."},{label:"Architecture",title:"Stable narrative events across state changes",problem:"Dialogue and scenario objects owned by a game mode became invalid during state changes.",decision:"Promote scenario and dialogue lifetime to engine-level services.",implementation:"Refactored ownership and event flow so transitions no longer destroy data still required by narrative systems.",verification:"Dialogue and scripted events continue reliably across scene and state transitions."},{label:"Performance",title:"Boss slowdown traced to repeated collision work",problem:"The boss encounter slowed severely as attacks and objects accumulated.",decision:"Audit repeated collision paths before reducing gameplay or visual scope.",implementation:"Located redundant brute-force checks and removed duplicate work from the encounter path.",verification:"The fight stabilized; because profiler figures were not retained, no unsupported percentage is claimed."}],decisions:[{system:"Movement collision",choice:"Binary-search TOI",reason:"Compact solution for dash tunneling.",tradeoff:"Iterative, not a general analytic solver."},{system:"Renderer",choice:"Layer queues + FBO passes",reason:"Explicit ordering and effects.",tradeoff:"More render-target state management."},{system:"Narrative",choice:"Engine-level lifetime",reason:"Survives game-mode transitions.",tradeoff:"Requires disciplined service ownership."},{system:"Particles",choice:"Shared lifetime + motion variants",reason:"One pipeline for attacks and ambience.",tradeoff:"Variants need clear defaults."}],code:{title:"Continuous collision with time of impact",description:"After current/next-frame early-outs, the solver narrows the first colliding moment inside the frame.",snippet:`float begin = 0.0f, end = 1.0f;\nwhile (end - begin > 0.001f) {\n  const float mid = (begin + end) * 0.5f;\n  Rect probe = start_rect;\n  probe.position += velocity * dt * mid;\n  if (probe.IsColliding(other_rect)) end = mid;\n  else begin = mid;\n}\ntoi = end;`,url:"https://github.com/Seohyeon-Min/manzo/blob/main/Manzo/Manzo/Engine/Collision.cpp"},note:"Verified implementation details are shown separately from performance figures that were not retained."})}</section>`
       },
       {
         title: "Art & Visual Direction",
@@ -1591,10 +1589,10 @@ applyEnglishProjectOverride("01_Manzo", {
 });
 
 applyEnglishProjectOverride("03_DoubleHit", {
-  subtitle: "Two-player cooperative action",
+  subtitle: "Custom Engine · Two-player cooperative action",
   pageTitle: "Double Hit — Min Seohyeon Portfolio",
-  overview: "A two-player action project focused on cooperative skill combinations and survival, built while learning the foundations of a small custom engine.",
-  features: ["Two-player cooperation", "Composable skills", "Boss encounter", "Custom engine architecture"],
+  overview: "A C++ custom-engine project that established my GameObject, GameComponent, shared-service, sprite, and collision architecture before it evolved into MANZO.",
+  features: ["Custom GameObject and GameComponent architecture", "Shared engine services", "Sprite and texture management", "Collision system", "Two-player cooperative gameplay"],
   experience: {
     role: "Engine Programmer · Art / Audio · Production Lead",
     period: "March – July 2024",
@@ -1605,12 +1603,7 @@ applyEnglishProjectOverride("03_DoubleHit", {
       {
         title: "Custom Engine Foundations",
         category: "Technical",
-        items: [
-          "Implemented texture handling and a SpriteManager",
-          "Built the collision system",
-          "Created GameObject and GameComponent architecture",
-          "Structured shared engine services for the game"
-        ]
+        htmlContent: `<section><h2>Custom Engine Foundations</h2><p class="case-study-lede">This project established the reusable component and service model that I later expanded into MANZO.</p>${renderEngineeringCaseStudy({metrics:[{icon:"C++",value:"4",label:"core engine areas"},{icon:"◇",value:"2P",label:"co-op gameplay"}],architecture:[{title:"Engine services",detail:"Shared access and lifetime"},{title:"Game objects",detail:"Identity and transforms"},{title:"Components",detail:"Composable behavior"},{title:"Sprite & collision",detail:"Rendering and interaction"}],cases:[{label:"Architecture",title:"Composition over one-off object code",problem:"Player, skills, enemies, and boss behavior would become tightly coupled if every object owned bespoke logic.",decision:"Separate object identity from reusable behavior through GameObject and GameComponent.",implementation:"Built the component structure alongside shared services, SpriteManager/texture handling, and collision.",verification:"The same foundation supported the co-op game and became the starting architecture for MANZO."}],decisions:[],note:"The later MANZO page shows how this foundation grew into rendering, CCD, rhythm, and narrative systems."})}</section>`
       },
       {
         title: "Cross-discipline Production",
@@ -1641,13 +1634,13 @@ applyEnglishProjectOverride("04_BirdStrike", {
     period: "November – December 2023",
     description: "Designed and implemented the rhythm-action loop, created the visual and audio direction, and coordinated the two-month team scope."
   },
-  gameIntro: `<p>Bird Strike was my first university game project and was built in C++ without a commercial engine. Crows enter from random directions in time with the music, and players connect targets to maintain control of the screen.</p><p>Chaining more targets increases attack speed through dynamic beat subdivision. A sun acts as the stage timer, while the second phase raises the tempo and introduces a disruptive enemy. The project also includes score competition and achievements for replayability.</p>`,
+  gameIntro: `<p>Bird Strike was my first university game project, created during my freshman year and built in C++ without a commercial engine. Crows enter from random directions in time with the music, and players connect targets to maintain control of the screen.</p><p>Chaining more targets increases attack speed through dynamic beat subdivision. A sun acts as the stage timer, while the second phase raises the tempo and introduces a disruptive enemy. The project also includes score competition and achievements for replayability.</p>`,
   contributions: {
     sections: [
       {
         title: "Rhythm Gameplay Implementation",
         category: "Technical",
-        htmlContent: `<section><h2>Rhythm Gameplay Implementation</h2><p>Implemented beat detection against the music timeline and synchronized enemy spawning with the rhythm. The attack interval subdivides as the player connects more targets: two times at four targets, three times at six, and four times at eight.</p><p>Built C++ systems for player motion, crow spawning and management, destination-based movement, dynamic velocity, and direction calculation using <code>atan2</code>.</p></section>`
+        htmlContent: `<section><h2>Rhythm Gameplay Implementation</h2><p class="case-study-lede">My first university game project focused on turning a music timeline into escalating screen pressure without a commercial engine.</p>${renderEngineeringCaseStudy({metrics:[{icon:"♫",value:"4×",label:"maximum beat subdivision"},{icon:"C++",value:"0",label:"commercial engines used"}],architecture:[{title:"Music timeline",detail:"Beat timing source"},{title:"Subdivision rules",detail:"Chain thresholds change attack interval"},{title:"Spawn manager",detail:"Random direction and pacing"},{title:"Movement",detail:"Destination, velocity, atan2 heading"},{title:"Pressure loop",detail:"Clear targets before overflow"}],cases:[{label:"Game System",title:"Difficulty generated from player chaining",problem:"A fixed spawn rhythm would not reward skilled target selection or create a strong escalation curve.",decision:"Let longer chains subdivide the beat and increase attack frequency.",implementation:"At four, six, and eight connected targets, the interval increases to two, three, and four attacks per beat.",verification:"The mechanic connects score-seeking directly to tempo and screen control, while phase two adds another enemy and faster pacing."}],decisions:[],note:"Completed during my freshman year over a two-month team schedule."})}</section>`
       },
       {
         title: "Game Design & Art",
@@ -1673,6 +1666,27 @@ applyEnglishProjectOverride("04_BirdStrike", {
     label: "GitHub"
   }
 });
+
+const koreanCaseLabels = { systemMap:"시스템 구조", problem:"문제", decision:"판단", implementation:"구현", verification:"검증", keyDecisions:"내가 내린 핵심 판단", decisionLog:"기술 결정", decisionTitle:"이 구조를 선택한 이유", system:"시스템", choice:"선택", why:"이유", tradeoff:"트레이드오프", codeEvidence:"코드 증거", viewSource:"원본 코드 보기 ↗" };
+
+projectsData["01_Manzo"].localized.ko.overview = "레이어 기반 드로우 큐와 핑퐁 프레임버퍼 후처리를 중심으로 직접 제작한 C++/OpenGL 커스텀 렌더러 프로젝트입니다.";
+projectsData["01_Manzo"].localized.ko.features = ["레이어 기반 드로우 콜 큐를 갖춘 커스텀 렌더러", "멀티패스 후처리를 위한 핑퐁 프레임버퍼 파이프라인", "BPM 기반 이동과 게임플레이 동기화", "다중 충돌 형태와 TOI 기반 CCD", "엔진 수준 시나리오·대화 시스템"];
+projectsData["03_DoubleHit"].localized.ko.overview = "MANZO로 확장된 GameObject, GameComponent, 공유 서비스, 스프라이트와 충돌 구조의 기틀을 직접 만든 C++ 커스텀 엔진 프로젝트입니다.";
+projectsData["03_DoubleHit"].localized.ko.features = ["GameObject·GameComponent 아키텍처", "공유 엔진 서비스", "스프라이트·텍스처 관리", "충돌 시스템", "2인 협동 게임플레이"];
+
+projectsData["00_NewManzo"].localized.ko.contributions.sections[0].htmlContent = `<section><h2>Unity/C# 주요 시스템 오너십</h2><p class="case-study-lede">오디오 타이밍과 게임플레이 구조부터 보스 동작, 제작 도구, UI, 최종 통합까지 직접 담당했습니다. 작업 범위를 빠르게 읽을 수 있도록 판단과 구현 증거를 분리했습니다.</p>${renderEngineeringCaseStudy({labels:koreanCaseLabels,metrics:[{icon:"↗",value:"418 / 585",label:"저장소 커밋"},{icon:"{ }",value:"328 / 367",label:"주요 코드 파일 작업"},{icon:"◉",value:"Unity · C#",label:"런타임·툴·FMOD"},{icon:"✦",value:"100%",label:"인게임 아트 직접 제작"}],architecture:[{title:"FMOD 타임라인",detail:"비트 콜백과 곡 재생 위치"},{title:"메인 스레드 리듬 코어",detail:"안전한 스냅샷·판정 창·싱크 보정"},{title:"게임플레이 시스템",detail:"함선·사냥·물고기·대미지·콤보"},{title:"데이터 중심 전투",detail:"보스 상태·패턴·전조·페이즈"},{title:"플레이어 출력",detail:"애니메이션·VFX·UI·세이브·툴"}],cases:[{label:"동시성",title:"Unity API를 안전하게 호출하는 비트 전달",problem:"FMOD 타임라인 콜백은 Unity 메인 스레드 밖에서 들어올 수 있어 씬과 게임플레이 API를 직접 호출하면 안전하지 않습니다.",decision:"콜백에서는 데이터만 기록하고 Update에서 가장 최신의 불변 스냅샷을 소비하도록 했습니다.",implementation:"비트·마디·타임라인 값과 증가하는 시퀀스를 발행하고, Volatile.Read로 새 이벤트를 확인한 뒤 메인 스레드의 BeatSystem에 전달했습니다.",verification:"런타임 오프셋 조절과 비트 디버그 UI로 누락·중복·체감 지연을 확인할 수 있게 했습니다."},{label:"게임플레이 AI",title:"고정 경로 대신 읽기 쉬운 군집 행동",problem:"물고기가 살아 움직이면서도 사냥 가능해야 하고, 수작업 경로 없이 장애물을 피해야 했습니다.",decision:"지역 조향 행동을 조합하고 종과 무리별 설정을 재사용 가능한 데이터로 분리했습니다.",implementation:"FishData를 중심으로 리더·팔로워, 무리 스폰, 구역 제한, 플레이어 반응, 분리·응집·회피를 구현했습니다.",verification:"전용 프로토타입 씬에서 군집, 장애물 회피, 플레이어 반응을 먼저 확인한 뒤 사냥 모드에 통합했습니다."},{label:"절차적 모션",title:"전투 이동을 따라가는 게 보스 다리",problem:"발 타깃이 몸체 Transform을 그대로 따라가면 거대한 다관절 보스가 바닥에서 떠 보였습니다.",decision:"발 타깃을 몸체에서 분리하고, 고정된 발과 몸의 거리가 임계값을 넘을 때 교차 다리 그룹만 이동시켰습니다.",implementation:"지면 레이캐스트, 속도 예측, 스텝 곡선, 도달 거리 제한, 몸체 정렬과 조절 가능한 스텝 값을 결합했습니다.",verification:"시작 시 발이 유효한 지면에 스냅되며, 그룹과 임계값을 Inspector에서 조절할 수 있습니다."},{label:"워크플로",title:"반복 가능한 콘텐츠 제작 도구",problem:"보스 씬, 해류 구역, 범위와 UI 스타일을 매번 수동 설정하면 누락과 설정 차이가 생겼습니다.",decision:"공통 설정과 검증을 에디터 유틸리티와 프리셋으로 옮겼습니다.",implementation:"씬 빌더, 범위 시각화, UI 스타일 제어와 해류 설정 도구를 런타임 시스템과 함께 제작했습니다.",verification:"기록되지 않은 씬 수정에 의존하지 않고 동일한 설정으로 콘텐츠를 다시 구성할 수 있습니다."}],decisions:[{system:"리듬",choice:"FMOD 타임라인 기준",reason:"저작된 음악 마커와 게임플레이를 정렬합니다.",tradeoff:"스레드 안전 전달과 싱크 보정이 필요합니다."},{system:"보스 공격",choice:"패턴 ScriptableObject",reason:"공격과 전조를 재사용하고 조절하기 쉽습니다.",tradeoff:"데이터 유효성 검사가 필요합니다."},{system:"물고기",choice:"지역 조향 + 공유 데이터",reason:"수작업 경로 없이 자연스러운 무리를 만듭니다.",tradeoff:"경계와 장애물 근처 튜닝이 필요합니다."},{system:"콘텐츠",choice:"에디터 툴과 프리셋",reason:"반복 작업과 설정 편차를 줄입니다.",tradeoff:"런타임 데이터 변경에 맞춰 툴도 관리해야 합니다."}],code:{title:"FMOD 콜백 → Unity 메인 스레드",description:"콜백은 가벼운 스냅샷만 발행하고, Update가 새로운 시퀀스만 소비한 뒤 게임플레이 시스템을 호출합니다.",snippet:`// 오디오 스레드: 데이터만 발행\n_latestBeat = new BeatSnapshot(beat, bar, timelineMs);\nInterlocked.Increment(ref _latestBeatSeq);\n\n// Unity 메인 스레드\nint seq = Volatile.Read(ref _latestBeatSeq);\nif (seq == _handledBeatSeq) return;\n_handledBeatSeq = seq;\nBeatSystem.Instance?.OnFmodBeat(_latestBeat);`,url:"https://github.com/Seohyeon-Min/NewManzo/blob/main/Assets/4_Scripts/System/BeatSystem/FmodBeatDriver.cs"},note:"저장소 수치는 외부 플러그인을 제외했으며, 작업 설명을 대신하는 숫자가 아니라 범위를 확인하는 증거로 사용했습니다."})}</section>`;
+projectsData["00_NewManzo"].localized.ko.contributions.sections[1].htmlContent = renderNewManzoArtShowcase("ko");
+
+const koreanManzoTechnical = projectsData["01_Manzo"].localized.ko.contributions.sections.find(section => section.category === "Technical");
+koreanManzoTechnical.htmlContent = `<section><h2>렌더링 및 엔진 시스템</h2><p class="case-study-lede">Double Hit에서 만든 컴포넌트 기반을 더 완전한 C++/OpenGL 엔진으로 확장해 타이밍, 충돌, 렌더링, 이펙트, 내러티브 흐름과 디버깅을 구현했습니다.</p>${renderEngineeringCaseStudy({labels:koreanCaseLabels,metrics:[{icon:"C++",value:"Custom",label:"엔진 아키텍처"},{icon:"▧",value:"Multi-pass",label:"OpenGL 렌더러"},{icon:"→|",value:"CCD",label:"충돌 시점 계산"},{icon:"♫",value:"BPM",label:"리듬 기반 시스템"}],architecture:[{title:"오디오와 입력",detail:"곡 시간·보정·플레이어 의도"},{title:"엔진 서비스",detail:"비트·시나리오·오브젝트·상태 관리자"},{title:"시뮬레이션",detail:"컴포넌트·CCD·파티클·보스 로직"},{title:"레이어 큐",detail:"배경·월드·UI·후순위 드로우"},{title:"프레임버퍼 체인",detail:"Bloom·왜곡·God ray·Ripple"}],cases:[{label:"충돌",title:"빠른 이동의 터널링 방지",problem:"박자에 맞춘 대시가 프레임 사이에서 얇은 지형을 통과할 수 있었습니다.",decision:"마지막 위치만 검사하지 않고 다음 프레임의 이동 구간에서 최초 충돌 시점을 계산했습니다.",implementation:"현재·다음 프레임의 조기 검사를 추가하고 정규화된 프레임 시간을 이진 탐색해 TOI 구간을 좁혔습니다.",verification:"이동체가 계산된 접촉 지점에서 멈추며, 조기 종료로 불필요한 반복을 줄였습니다."},{label:"렌더링",title:"씬 로직과 분리된 화면 효과",problem:"월드, UI, 조명과 화면 효과에 서로 다른 순서와 렌더 타깃이 필요했습니다.",decision:"드로우 콜을 레이어로 큐잉하고 후처리를 명시적인 프레임버퍼 파이프라인으로 구성했습니다.",implementation:"배경·월드·UI·Late Rendering을 분리하고 Bloom, 수중 왜곡, God ray, Ripple과 화면 전환 패스를 연결했습니다.",verification:"드로우 순서를 유지하면서 각 효과를 독립적으로 켜고 조절할 수 있습니다."},{label:"아키텍처",title:"상태 전환 후에도 안전한 내러티브 이벤트",problem:"게임 모드가 소유한 대화·시나리오 객체가 상태 전환 중 파괴되어 댕글링 포인터가 발생했습니다.",decision:"시나리오와 대화의 수명을 엔진 서비스 수준으로 올렸습니다.",implementation:"상태가 바뀌어도 내러티브 데이터가 먼저 파괴되지 않도록 소유권과 이벤트 흐름을 리팩터링했습니다.",verification:"씬과 상태가 전환된 뒤에도 대화와 스크립트 이벤트가 안정적으로 이어집니다."},{label:"성능",title:"중복 충돌 검사로 인한 보스전 저하 해결",problem:"공격과 오브젝트가 늘어나면서 보스전이 심하게 느려졌습니다.",decision:"비주얼이나 게임플레이를 줄이기 전에 반복되는 충돌 경로부터 추적했습니다.",implementation:"중복된 브루트포스 충돌 검사를 찾아 전투 경로에서 반복 작업을 제거했습니다.",verification:"수정 후 전투가 안정화됐지만 당시 프로파일 수치는 보관하지 않아 검증되지 않은 개선율은 표시하지 않았습니다."}],decisions:[{system:"이동 충돌",choice:"이진 탐색 TOI",reason:"대시 터널링을 해결하는 작고 이해하기 쉬운 방식입니다.",tradeoff:"범용 해석적 솔버보다 반복 비용이 있습니다."},{system:"렌더러",choice:"레이어 큐 + FBO 패스",reason:"순서와 효과 단계를 명확히 분리합니다.",tradeoff:"렌더 타깃 상태 관리가 늘어납니다."},{system:"내러티브",choice:"엔진 수준 수명",reason:"게임 모드 전환 후에도 유지됩니다.",tradeoff:"서비스 소유권 규칙이 필요합니다."},{system:"파티클",choice:"공통 수명 + 이동 변형",reason:"공격과 환경 효과가 한 파이프라인을 공유합니다.",tradeoff:"변형별 기본값을 명확히 해야 합니다."}],code:{title:"충돌 시점 기반 연속 충돌 검사",description:"현재와 다음 프레임의 조기 검사 후, 프레임 내부에서 최초로 충돌하는 시점을 좁힙니다.",snippet:`float begin = 0.0f, end = 1.0f;\nwhile (end - begin > 0.001f) {\n  const float mid = (begin + end) * 0.5f;\n  Rect probe = start_rect;\n  probe.position += velocity * dt * mid;\n  if (probe.IsColliding(other_rect)) end = mid;\n  else begin = mid;\n}\ntoi = end;`,url:"https://github.com/Seohyeon-Min/manzo/blob/main/Manzo/Manzo/Engine/Collision.cpp"},note:"확인 가능한 구현 내용과 보관되지 않은 성능 수치를 명확히 구분했습니다."})}</section>`;
+
+projectsData["03_DoubleHit"].localized.ko.contributions.sections.find(section => section.category === "Technical").htmlContent = `<section><h2>커스텀 엔진 기반 구조</h2><p class="case-study-lede">이 프로젝트에서 만든 컴포넌트와 서비스 구조는 이후 MANZO 엔진의 출발점이 됐습니다.</p>${renderEngineeringCaseStudy({labels:koreanCaseLabels,metrics:[{icon:"C++",value:"4",label:"핵심 엔진 영역"},{icon:"◇",value:"2P",label:"협동 플레이"}],architecture:[{title:"엔진 서비스",detail:"공유 접근과 수명"},{title:"게임 오브젝트",detail:"식별자와 Transform"},{title:"컴포넌트",detail:"조합 가능한 동작"},{title:"스프라이트와 충돌",detail:"렌더링과 상호작용"}],cases:[{label:"아키텍처",title:"일회성 오브젝트 코드 대신 조합",problem:"플레이어, 스킬, 적과 보스가 각자 전용 로직을 가지면 결합도가 빠르게 높아집니다.",decision:"GameObject의 식별과 GameComponent의 재사용 가능한 동작을 분리했습니다.",implementation:"공유 서비스, SpriteManager와 텍스처 처리, 충돌 시스템을 컴포넌트 구조와 함께 구현했습니다.",verification:"같은 기반으로 협동 게임을 완성했고 이후 MANZO 엔진의 시작 구조로 확장했습니다."}],note:"MANZO 페이지에서 이 기반이 렌더링, CCD, 리듬과 내러티브 시스템으로 확장된 과정을 확인할 수 있습니다."})}</section>`;
+projectsData["01_Manzo"].contributions.sections.find(section => section.category === "Technical").htmlContent = renderManzoRendererFeature("en") + projectsData["01_Manzo"].contributions.sections.find(section => section.category === "Technical").htmlContent;
+koreanManzoTechnical.htmlContent = renderManzoRendererFeature("ko") + koreanManzoTechnical.htmlContent;
+projectsData["03_DoubleHit"].contributions.sections.find(section => section.category === "Technical").htmlContent = renderDoubleHitEngineFeature("en") + projectsData["03_DoubleHit"].contributions.sections.find(section => section.category === "Technical").htmlContent;
+projectsData["03_DoubleHit"].localized.ko.contributions.sections.find(section => section.category === "Technical").htmlContent = renderDoubleHitEngineFeature("ko") + projectsData["03_DoubleHit"].localized.ko.contributions.sections.find(section => section.category === "Technical").htmlContent;
+
+projectsData["04_BirdStrike"].localized.ko.contributions.sections.find(section => section.category === "Technical").htmlContent = `<section><h2>리듬 게임플레이 구현</h2><p class="case-study-lede">상용 엔진 없이 음악 타임라인을 점점 강해지는 화면 압박으로 바꾼 첫 대학 게임 프로젝트입니다.</p>${renderEngineeringCaseStudy({labels:koreanCaseLabels,metrics:[{icon:"♫",value:"4×",label:"최대 비트 세분화"},{icon:"C++",value:"0",label:"상용 엔진 사용"}],architecture:[{title:"음악 타임라인",detail:"비트 타이밍 기준"},{title:"세분화 규칙",detail:"연결 수에 따라 공격 간격 변화"},{title:"스폰 관리자",detail:"무작위 방향과 속도"},{title:"이동",detail:"목적지·속도·atan2 방향"},{title:"압박 루프",detail:"화면이 차기 전에 타깃 제거"}],cases:[{label:"게임 시스템",title:"플레이어의 연결 행동으로 난이도 생성",problem:"고정 스폰 리듬만으로는 숙련된 타깃 선택을 보상하거나 강한 상승 곡선을 만들기 어려웠습니다.",decision:"연결 수가 늘어날수록 비트를 더 잘게 나눠 공격 빈도를 높였습니다.",implementation:"4개, 6개, 8개 타깃 연결 시 한 비트의 공격 횟수가 각각 2회, 3회, 4회로 증가합니다.",verification:"점수 도전이 템포와 화면 관리에 직접 연결되며, 2페이즈에서는 추가 적과 더 빠른 진행으로 압박을 높였습니다."}],note:"프레시맨 시절 두 달 동안 팀 프로젝트로 완성했습니다."})}</section>`;
 
 applyEnglishProjectOverride("Dangling", {
   pageTitle: "Dangling Game Jam — Min Seohyeon Portfolio",

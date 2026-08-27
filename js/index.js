@@ -19,9 +19,9 @@ const portfolioTracks = {
     },
     proofFacts: [['BUILT', 'Shaders + real-time VFX'], ['SOLVED', 'Readability + feedback'], ['PROVEN IN', 'Unity + custom engine'], ['EVIDENCE', 'Profiling + captures']],
     proofProjects: [
-      { key: 'street', title: 'STREET TYPER', lead: 'PROJECT LEAD', meta: 'UI SHADERS · VFX · GAME FEEL', href: 'portfolio_game/06_StreetTyper.html', image: 'img/StreetTyper/title2.png' },
+      { key: 'manzo', title: 'MANZO · CUSTOM RENDERER', lead: 'GRAPHICS / ENGINE PROGRAMMER', meta: 'OPENGL · PING-PONG FBO · POST-PROCESSING', href: 'portfolio_game/01_Manzo.html#custom-renderer', image: 'img/portfolio_thumbnails/Manzo.png' },
       { key: 'toohot', title: 'TOO HOT!', lead: 'PROJECT LEAD', meta: 'UNITY · SHADOW SHADER · REAL-TIME VFX', href: 'portfolio_game/07_TooHot.html', image: 'img/portfolio_thumbnails/TooHot.png' },
-      { key: 'manzo', title: 'MANZO', lead: 'PROJECT LEAD', meta: 'C++ · OPENGL · GLSL', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' }
+      { key: 'street', title: 'STREET TYPER', lead: 'PROJECT LEAD', meta: 'UI SHADERS · VFX · GAME FEEL', href: 'portfolio_game/06_StreetTyper.html', image: 'img/StreetTyper/title2.png' }
     ]
   },
   software: {
@@ -39,9 +39,9 @@ const portfolioTracks = {
     },
     proofFacts: [['BUILT WITH', 'C++ · C# · GLSL'], ['SYSTEMS', 'Rendering + gameplay'], ['DEBUGGED', 'Engine + data flow'], ['EVIDENCE', 'Repos + measured results']],
     proofProjects: [
-      { key: 'manzo', title: 'MANZO', lead: 'PROJECT LEAD', meta: 'C++ · OPENGL · ENGINE SYSTEMS', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' },
-      { key: 'doublehit', title: 'DOUBLE HIT', lead: 'PROJECT LEAD', meta: 'C++ · RAYLIB · GAMEPLAY SYSTEMS', href: 'portfolio_game/03_DoubleHit.html', image: 'img/portfolio_thumbnails/DoubleHit.png' },
-      { key: 'birdstrike', title: 'BIRD STRIKE', lead: 'PROJECT LEAD', meta: 'C++ · RHYTHM SYSTEMS · DYNAMIC ATTACKS', href: 'portfolio_game/04_BirdStrike.html', image: 'img/portfolio_thumbnails/BirdStrike.png' }
+      { key: 'newmanzo', title: 'NEW MANZO', lead: 'PRIMARY C# CONTRIBUTOR', meta: 'UNITY · C# · GAMEPLAY / SYSTEMS', href: 'portfolio_game/00_NewManzo.html', image: 'img/portfolio_thumbnails/NewManzo.png' },
+      { key: 'manzo', title: 'MANZO · CUSTOM RENDERER', lead: 'GRAPHICS / ENGINE PROGRAMMER', meta: 'OPENGL · PING-PONG FBO · MULTI-PASS', href: 'portfolio_game/01_Manzo.html#custom-renderer', image: 'img/portfolio_thumbnails/Manzo.png' },
+      { key: 'doublehit', title: 'DOUBLE HIT · CUSTOM ENGINE', lead: 'ENGINE PROGRAMMER', meta: 'GAMEOBJECT · COMPONENTS · COLLISION', href: 'portfolio_game/03_DoubleHit.html#custom-engine-foundation', image: 'img/portfolio_thumbnails/DoubleHit.png' }
     ]
   },
   product: {
@@ -239,9 +239,18 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', () => {
       const requestedLanguage = button.dataset.lang;
       if (requestedLanguage === currentLanguage) return;
+      const languageUrl = new URL(window.location.href);
+      const activeContributionTab = document.querySelector('.contribution-tab.active');
+      if (activeContributionTab) {
+        const contributionCategory = activeContributionTab.dataset.sourceCategory || activeContributionTab.dataset.category || 'main';
+        sessionStorage.setItem('portfolio-contribution-tab', contributionCategory);
+        localStorage.setItem('portfolio-contribution-tab-once', contributionCategory);
+        languageUrl.searchParams.set('contributionTab', contributionCategory);
+      }
+      sessionStorage.setItem('portfolio-language-scroll', String(window.scrollY));
       applyLanguage(requestedLanguage);
       if (document.querySelector('.main-content') && document.querySelector('.video-hero')) {
-        window.location.reload();
+        window.location.assign(languageUrl.href);
       }
     });
   });

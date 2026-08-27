@@ -92,6 +92,10 @@ def build(path, role, summary, selected, additional, skill_rows, accent, educati
 def main(build_ta=True, build_prod=True, build_student=False):
     DOCS.mkdir(exist_ok=True)
     ta_selected = [
+        ("TEACHING ASSISTANT - GAME DEVELOPMENT PROJECT I", "DIGIPEN KOREA | SPRING 2025", [
+            "Supported students in DigiPen's Korea program with C++ implementation, debugging, and technical problem-solving during game project development.",
+            "Reviewed student projects and provided clear, actionable technical feedback to help teams identify issues and improve their implementations."
+        ], None),
         ("MANZO", "C++ / OpenGL / GLSL | 2024-2025", [
             "Implemented BPM timing windows, beat/bar counting, and audio-synchronized player movement and boss patterns in a custom C++ engine.",
             "Built layer-sorted draw queues, framebuffer post-processing for bloom, underwater distortion, god rays, ripples, and transitions, plus particles with linear, curved, radial, spray, random, and player-targeted motion.",
@@ -119,7 +123,10 @@ def main(build_ta=True, build_prod=True, build_student=False):
         ("Workflow", "Git branching and merge review, GitHub Projects/Issues, Notion, CMake, Visual Studio, WSL, profiling, technical specification"),
     ]
     if build_ta:
-        build(DOCS/"Resume_TA_Graphics.pdf", "TECHNICAL ARTIST | GRAPHICS PROGRAMMER", "Technical artist and graphics programmer who works across code, shaders, VFX, UI, and art integration. I directly build C++/OpenGL engine features and Unity visual systems, diagnose rendering and gameplay failures, and translate visual goals into testable technical requirements without obscuring authorship boundaries.", ta_selected, ta_add, ta_skills, BLUE)
+        ta_role = "TECHNICAL ARTIST | GRAPHICS PROGRAMMER"
+        ta_summary = "Technical artist and graphics programmer who works across code, shaders, VFX, UI, and art integration. I directly build C++/OpenGL engine features and Unity visual systems, diagnose rendering and gameplay failures, and translate visual goals into testable technical requirements without obscuring authorship boundaries."
+        build(DOCS/"Resume_TA_Graphics.pdf", ta_role, ta_summary, ta_selected, ta_add, ta_skills, BLUE)
+        build(DOCS/"Resume.pdf", ta_role, ta_summary, ta_selected, ta_add, ta_skills, BLUE)
 
     prod_selected = [
         ("DANGLING GAME JAM", "FOUNDER / PRODUCER / PROJECT LEAD | 2025", [
