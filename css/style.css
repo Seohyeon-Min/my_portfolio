@@ -4874,10 +4874,26 @@ body.asset-lightbox-open { overflow:hidden; }
 @media (max-width: 760px) {
   .project-detail-page .navbar { padding:.8rem 1rem; }
   .project-detail-page .navbar-menu a:not(:last-child) { display:none; }
-  .project-detail-page .video-hero { width:calc(100% - 1rem); min-height:28rem; height:72vh; margin-top:4.2rem; border-radius:1.25rem; }
+  .project-detail-page .video-hero { width:calc(100% - 1rem); min-height:19rem; height:48vh; margin-top:4.2rem; border-radius:1.25rem; }
   .project-detail-page .video-overlay { padding:1.5rem; }
   .project-detail-page .game-title,
-  .project-detail-page .game-title-bird { font-size:clamp(3.4rem,18vw,6rem); }
+  .project-detail-page .game-title-bird { font-size:clamp(2.4rem,13vw,4.2rem); }
+  .project-detail-page .game-subtitle { font-size:clamp(.78rem,3.4vw,1rem); }
+  .project-detail-page .timeline-content2 h3 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .3rem;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  .project-detail-page .timeline-content2 h3 strong {
+    font-size: .68rem;
+    font-weight: 800;
+    color: var(--case-blue);
+    letter-spacing: .02em;
+  }
+  .project-detail-page .timeline-content2 p { font-size: .85rem; line-height: 1.65; }
   .project-detail-page .main-background-section,
   .project-detail-page .rounded-section { width:calc(100% - 1rem); padding:1.1rem; }
   .project-detail-page .info-section { display:block; }

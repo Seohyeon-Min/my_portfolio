@@ -1461,19 +1461,127 @@ applyEnglishProjectOverride("01_Manzo", {
       {
         title: "Art & Visual Direction",
         category: "Art",
-        items: [
-          "Created character portraits, fish and boss pixel art, environment art, and UI assets",
-          "Designed and integrated shaders and post-processing for the underwater atmosphere"
+        subsections: [
+          {
+            title: "Game Art",
+            items: [
+              "Character portrait illustrations",
+              "Fish pixel art",
+              "Boss pixel art",
+              "Character's house interior art"
+            ],
+            images: [
+              { src: "../img/MANZO/1.png", alt: "Character portrait illustration 1", title: "Character portrait illustration 1" },
+              { src: "../img/MANZO/2.png", alt: "Character portrait illustration 2", title: "Character portrait illustration 2" },
+              { src: "../img/MANZO/4.jpg", alt: "Fish pixel art", title: "Fish pixel art" },
+              { src: "../img/MANZO/5.png", alt: "Boss pixel art", title: "Boss pixel art" },
+              { src: "../img/MANZO/6.png", alt: "Character's house interior art", title: "Character's house interior art" }
+            ]
+          },
+          {
+            title: "UI/UX Design",
+            items: [
+              "Designed FuelUI and other UI elements"
+            ]
+          },
+          {
+            title: "Shader Development",
+            items: [
+              "Created a range of custom shaders",
+              "Implemented and designed post-processing"
+            ]
+          }
         ]
       },
       {
         title: "Production Leadership",
         category: "Project Lead",
-        items: [
-          "Defined the rhythm-driven deep-sea direction and aligned design, art, and programming",
-          "Reduced scope around the core loop and coordinated feature integration and Git merges",
-          "Took ownership of debugging, effects, and system integration to reach a playable build"
-        ]
+        htmlContent: `<section class="project-lead">
+
+  <h2>Production Leadership</h2>
+
+  <div class="lead-section">
+    <h3>Vision &amp; Direction</h3>
+    <p>
+      Defined the project's overall direction and core experience, and aligned the team around a shared goal.
+    </p>
+    <p>
+      Early on, I set the core concept as
+      <strong>"Rhythm-based Deep Sea Exploration Horror"</strong>,
+      then organized concept art and design documents so every teammate could picture the same play experience.
+    </p>
+    <p>
+      This gave design, art, and programming a shared foundation to move in the same direction.
+    </p>
+  </div>
+
+  <div class="lead-section">
+    <h3>Scope Management</h3>
+    <p>
+      Continuously adjusted the project's scope throughout development to
+      <strong>keep the core experience intact while keeping the project achievable</strong>.
+    </p>
+    <p>
+      Early plans called for a large, story-driven structure with many systems; as development progressed, I re-scoped around technical difficulty and schedule constraints.
+    </p>
+    <ul>
+      <li>Scaled back the story-driven structure</li>
+      <li><strong>Strengthened the core play loop</strong> (Rhythm Movement + Exploration + Boss Fights)</li>
+      <li>Concentrated development resources on boss combat and exploration</li>
+    </ul>
+    <p>
+      This prevented feature creep and kept the project in a stable, completable shape.
+    </p>
+  </div>
+
+  <div class="lead-section">
+    <h3>Team Coordination</h3>
+    <p>
+      As producer, managed collaboration structure and workflow to prevent conflicts between teammates' work.
+    </p>
+    <ul>
+      <li>Organized task priorities and the schedule</li>
+      <li>Distributed work by feature</li>
+      <li>Managed Git merges and feature integration</li>
+      <li>Coordinated dependencies between systems</li>
+    </ul>
+    <p>
+      Structured development around each teammate's owned systems, <strong>minimizing conflicts and duplicate work</strong>.
+    </p>
+  </div>
+
+  <div class="lead-section">
+    <h3>Problem Solving &amp; Integration</h3>
+    <p>
+      In the later stages, resolved issues from multiple systems running at once and integrated the game into one coherent experience.
+    </p>
+    <ul>
+      <li>Analyzed the Scenario and Dialog system structure and <strong>restructured them as engine-level systems</strong></li>
+      <li><strong>Added shader- and particle-based effects</strong> to strengthen visual feedback in boss combat</li>
+      <li><strong>Fixed boss-combat performance issues</strong> by improving the collision computation structure</li>
+    </ul>
+    <p>
+      This improved the game's stability and the play experience at the same time.
+    </p>
+  </div>
+
+  <div class="lead-section">
+    <h3>Production Leadership</h3>
+    <p>
+      When team focus dropped late in development, I picked up hands-on work myself to drive the project to completion.
+    </p>
+    <ul>
+      <li>Debugging</li>
+      <li>System fixes</li>
+      <li>Visual effects work</li>
+      <li>Feature integration</li>
+    </ul>
+    <p>
+      Worked across multiple areas in parallel, playing a key role in <strong>bringing the project to an actually playable state</strong>.
+    </p>
+  </div>
+
+</section>`
       }
     ]
   },
@@ -1545,20 +1653,88 @@ applyEnglishProjectOverride("04_BirdStrike", {
         htmlContent: `<section><h2>Rhythm Gameplay Implementation</h2><p class="case-study-lede">My first university game project focused on turning a music timeline into escalating screen pressure without a commercial engine.</p>${renderEngineeringCaseStudy({metrics:[{icon:"♫",value:"4×",label:"maximum beat subdivision"},{icon:"C++",value:"0",label:"commercial engines used"}],architecture:[{title:"Music timeline",detail:"Beat timing source"},{title:"Subdivision rules",detail:"Chain thresholds change attack interval"},{title:"Spawn manager",detail:"Random direction and pacing"},{title:"Movement",detail:"Destination, velocity, atan2 heading"},{title:"Pressure loop",detail:"Clear targets before overflow"}],cases:[{label:"Game System",title:"Difficulty generated from player chaining",problem:"A fixed spawn rhythm would not reward skilled target selection or create a strong escalation curve.",decision:"Let longer chains subdivide the beat and increase attack frequency.",implementation:"At four, six, and eight connected targets, the interval increases to two, three, and four attacks per beat.",verification:"The mechanic connects score-seeking directly to tempo and screen control, while phase two adds another enemy and faster pacing."}],decisions:[],note:"Completed during my freshman year over a two-month team schedule."})}</section>`
       },
       {
-        title: "Game Design & Art",
+        title: "Game Design",
+        category: "Planning",
+        htmlContent: `<section class="design">
+          <h2>Game Design</h2>
+          <h3>Rhythm-Action Core</h3>
+          <p>
+            Designed a core play structure combining rhythm and action. Players drag to connect crows entering from random directions, and inputting on the beat clears them most efficiently — making rhythm-aware play emerge naturally instead of plain clicking.
+          </p>
+          <h3>Random Spawn &amp; Replayability</h3>
+          <p>
+            Used randomly spawning enemies instead of the fixed note patterns typical of rhythm games, so play differs each run even on the same track, keeping repeat play viable.
+          </p>
+          <h3>Combo &amp; Speed Feedback</h3>
+          <p>
+            Chaining more crows at once increases the player's attack speed, naturally forming a risk-reward structure that pushes players to connect more targets.
+          </p>
+          <h3>Input Control &amp; Rhythm Emphasis</h3>
+          <p>
+            Blocked additional input during the attack animation, so timing-aware rhythm play matters instead of random button-mashing.
+          </p>
+          <h3>Screen Pressure System</h3>
+          <p>
+            Up to 20 crows can stack on screen; if that state holds for 3+ seconds, the game ends — designed to create pressure that forces players to keep clearing the screen.
+          </p>
+          <h3>Stage Progression</h3>
+          <p>
+            The game runs in two phases. The sun acts as a timer, and phase one ends when it touches the horizon. Reaching a score threshold unlocks phase two, giving players a score-based goal to play toward.
+          </p>
+          <h3>Difficulty Escalation</h3>
+          <p>
+            Phase two adds a faster music tempo and a new enemy, the "decoy crow," raising rhythm focus and difficulty together in the back half.
+          </p>
+          <h3>Long-term Motivation</h3>
+          <p>
+            Added a leaderboard and an achievement system to encourage repeat play, giving players score competition and challenge goals.
+          </p>
+        </section>`
+      },
+      {
+        title: "Art",
         category: "Art",
-        items: [
-          "Designed the random-spawn rhythm loop, screen-pressure loss condition, two-stage progression, and risk-reward chaining",
-          "Created concept art, character designs, logo, and audio assets"
-        ]
+        htmlContent: `<section class="design">
+          <h2>Art</h2>
+          <h3>Concept Art</h3>
+          <div class="contribution-image"><img src="../img/BIRD_STRIKE/1.jpg" alt="Concept art 1" title="Concept art 1" /></div>
+          <div class="contribution-image"><img src="../img/BIRD_STRIKE/2.jpg" alt="Concept art 2" title="Concept art 2" /></div>
+          <h3>Character Design</h3>
+          <div class="contribution-image"><img src="../img/BIRD_STRIKE/3.jpg" alt="Character design" title="Character design" /></div>
+          <h3>Logo Design</h3>
+          <div class="contribution-image"><img src="../img/BIRD_STRIKE/4.png" alt="Logo design" title="Logo design" /></div>
+        </section>`
       },
       {
         title: "Production",
         category: "Project Lead",
-        items: [
-          "Scoped replayability around systemic spawning instead of authored note charts",
-          "Aligned the team around a shared visual and gameplay target using concept art"
-        ]
+        htmlContent: `<section class="project-lead">
+          <h2>Project Leadership</h2>
+          <div class="lead-section">
+            <h3>Scope Management</h3>
+            <p>
+              Given the limited development time and team size, I focused on scoping the project to create the most play experience from the fewest resources.
+            </p>
+            <p>
+              Instead of authoring notes per track like a typical rhythm game, I designed a structure where randomly spawning enemies are cleared to the beat, enabling repeat play with no per-track content cost.
+            </p>
+            <p>
+              A two-phase structure also let me shift tempo and add a new enemy without a big jump in system complexity, creating variation in difficulty and feel.
+            </p>
+          </div>
+          <div class="lead-section">
+            <h3>Project Direction</h3>
+            <p>
+              On the production side, I focused on getting the whole team aligned around the same goal and direction. Before development started, I made concept art that captured the gameplay at a glance so it could serve as the team's shared reference.
+            </p>
+          </div>
+          <div class="lead-section">
+            <h3>Team Alignment</h3>
+            <p>
+              Clearly defining the visual direction and play flow early on let the team work from the same target, and kept that direction from drifting during later design and implementation.
+            </p>
+          </div>
+        </section>`
       }
     ]
   },
