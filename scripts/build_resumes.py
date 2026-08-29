@@ -135,6 +135,26 @@ def build(path, role, summary, selected, additional, skill_rows, accent, educati
     doc.build(story)
 
 
+def build_cover_letter(path, role, date_str, recipient_lines, paragraphs, closing, accent):
+    s = styles(accent)
+    letter_styles = {
+        "date": ParagraphStyle("date", fontName="Helvetica", fontSize=9, leading=12, textColor=MUTED, spaceBefore=10, spaceAfter=14),
+        "recipient": ParagraphStyle("recipient", fontName="Helvetica-Bold", fontSize=9.5, leading=13, textColor=NAVY, spaceAfter=16),
+        "body": ParagraphStyle("body", fontName="Helvetica", fontSize=10, leading=15.5, textColor=NAVY, spaceAfter=12),
+        "closing": ParagraphStyle("closing", fontName="Helvetica", fontSize=10, leading=15.5, textColor=NAVY, spaceBefore=6),
+        "signoff": ParagraphStyle("signoff", fontName="Helvetica-Bold", fontSize=10.5, leading=15, textColor=NAVY, spaceBefore=18),
+    }
+    doc = SimpleDocTemplate(str(path), pagesize=letter, rightMargin=.85*inch, leftMargin=.85*inch, topMargin=.6*inch, bottomMargin=.6*inch,
+                            title=f"Min Seohyeon - Cover Letter - {role}", author="Min Seohyeon")
+    story = [header(s, role), Spacer(1, 4), rule(accent), Paragraph(date_str, letter_styles["date"])]
+    story.append(Paragraph("<br/>".join(recipient_lines), letter_styles["recipient"]))
+    for p in paragraphs:
+        story.append(Paragraph(p, letter_styles["body"]))
+    story.append(Paragraph("Thank you for considering my application.", letter_styles["closing"]))
+    story.append(Paragraph(f"Sincerely,<br/>{closing}", letter_styles["signoff"]))
+    doc.build(story)
+
+
 def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=False):
     DOCS.mkdir(exist_ok=True)
     ta_selected = [
@@ -209,6 +229,22 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
         gameplay_role = "GAMEPLAY ENGINEER"
         gameplay_summary = "Gameplay engineer who builds gameplay and engine-level systems in C++ and Unity — from object/component architectures and boss pattern systems to collision and rendering pipelines — then debugs and optimizes them under real performance constraints."
         build(DOCS/"Resume_Gameplay_Engineer.pdf", gameplay_role, gameplay_summary, gameplay_selected, gameplay_add, gameplay_skills, FOREST)
+
+        epic_paragraphs = [
+            "I enjoy object-oriented programming, particularly designing and structuring systems with maintainability and reusability in mind. When I write code, I enjoy thinking beyond simply implementing the feature I need at the moment and considering how the code I have already written can be reused. While implementing boss patterns in Unity, I spent considerable time thinking about how to structure them so that I would not have to write everything from scratch whenever I added a new pattern.",
+            "I bring the same thinking to C++. For Manzo, I built the game's renderer — a layer-based draw queue and a ping-pong framebuffer pipeline for post-processing effects like bloom and underwater distortion — and later, when boss fights started dropping frames badly, traced the cause to redundant collision checks running every frame and rewrote the logic to remove them. I enjoy that kind of work: not just making something run, but figuring out why it doesn't and fixing it properly.",
+            "I also enjoy the process of making games as a team. Working alongside teammates with different responsibilities toward a shared goal, and eventually seeing everyone's work come together into a finished game, is one of the most rewarding parts of game development for me. While developing Too Hot, I reviewed every teammate's code and gave feedback, and just as often took feedback on my own work in return — I care as much about how a team gets to a working build together as I do about my individual contribution.",
+            "Since deciding in high school that I wanted to work in the game industry, I have pursued that goal by studying computer science and game development at DigiPen. I am applying for the Gameplay Programmer Intern position at Epic Games because I would like to bring together the two things I have enjoyed throughout that path: programming and building games as part of a team.",
+        ]
+        build_cover_letter(
+            DOCS/"CoverLetter_Epic_Gameplay_Programmer.pdf",
+            gameplay_role,
+            "August 29, 2026",
+            ["Epic Games Hiring Team", "Gameplay Programmer Intern — Fortnite"],
+            epic_paragraphs,
+            "Seohyeon Min",
+            FOREST,
+        )
 
     prod_selected = [
         ("DANGLING GAME JAM", "FOUNDER / PRODUCER / PROJECT LEAD | 2025", [

@@ -8,6 +8,32 @@
     return (localStorage.getItem('portfolio-language') || 'en') === 'ko' ? ko : en;
   }
 
+  // Swipe-left/right to go next/prev on mobile, without hijacking vertical scroll or pinch-zoom.
+  function attachSwipeNav(el, onPrev, onNext) {
+    if (!el || el.dataset.swipeBound) return;
+    el.dataset.swipeBound = 'true';
+    let startX = 0;
+    let startY = 0;
+    let tracking = false;
+    const THRESHOLD = 40;
+    el.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) { tracking = false; return; }
+      tracking = true;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }, { passive: true });
+    el.addEventListener('touchend', (e) => {
+      if (!tracking) return;
+      tracking = false;
+      const touch = e.changedTouches[0];
+      const dx = touch.clientX - startX;
+      const dy = touch.clientY - startY;
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > THRESHOLD) {
+        if (dx < 0) onNext(); else onPrev();
+      }
+    }, { passive: true });
+  }
+
   function getPreferredTrack() {
     const queryTrack = new URLSearchParams(window.location.search).get('track');
     const savedTrack = localStorage.getItem('portfolio-track');
@@ -433,6 +459,18 @@
     });
 
     insertAfter.insertAdjacentHTML('afterend', galleryHTML);
+
+    document.querySelectorAll('.lightbox').forEach(box => {
+      const content = box.querySelector('.lightbox-content');
+      const prevLink = box.querySelector('.prev');
+      const nextLink = box.querySelector('.next');
+      if (!content) return;
+      attachSwipeNav(
+        content,
+        () => { if (prevLink) window.location.hash = prevLink.getAttribute('href').slice(1); },
+        () => { if (nextLink) window.location.hash = nextLink.getAttribute('href').slice(1); }
+      );
+    });
   }
 
   // 게임소개 섹션 렌더링 (텍스트, 이미지) - 갤러리 밑, 컨트리뷰션 위
@@ -1435,6 +1473,7 @@
     el.querySelector('.asset-lightbox-close').addEventListener('click', closeAssetLightbox);
     el.querySelector('.asset-lightbox-prev').addEventListener('click', () => stepAssetLightbox(-1));
     el.querySelector('.asset-lightbox-next').addEventListener('click', () => stepAssetLightbox(1));
+    attachSwipeNav(el.querySelector('.asset-lightbox-content'), () => stepAssetLightbox(-1), () => stepAssetLightbox(1));
     document.addEventListener('keydown', (e) => {
       if (!el.classList.contains('is-open')) return;
       if (e.key === 'Escape') closeAssetLightbox();
