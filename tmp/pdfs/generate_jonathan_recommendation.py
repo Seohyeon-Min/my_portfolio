@@ -67,10 +67,10 @@ story = [
 author = Table(
     [[
         Paragraph("Jonathan Holmes", styles["name"]),
-        Paragraph("Former instructor of Seohyeon Min", styles["role"]),
+        Paragraph("DigiPen (Korea) Professor &middot; Former Instructor of Seohyeon Min", styles["role"]),
     ], [
         Paragraph("Game Designer &amp; Software Engineer", styles["role"]),
-        Paragraph('<link href="https://www.linkedin.com/in/crait/">LinkedIn profile</link>', styles["role"]),
+        Paragraph('<link href="https://www.linkedin.com/in/crait/"><font color="#3867D6"><u>LinkedIn profile</u></font></link>', styles["role"]),
     ]],
     colWidths=[3.7 * inch, 2.35 * inch],
 )

@@ -2808,10 +2808,15 @@ body, html {
   font-size: 0.9rem;
 }
 
-/* 반응형: 작은 화면에서는 숨김 */
+/* 반응형: 작은 화면에서는 크기와 위치만 축소 (언어 토글은 하단 우측에 있으므로 겹치지 않게 상단에 유지) */
 @media (max-width: 768px) {
   .contribution-cta-button {
-    display: none;
+    right: 1rem;
+    height: 44px;
+    padding: 0 1.1rem;
+  }
+  .contribution-cta-button .cta-text {
+    font-size: 0.78rem;
   }
 }
 
@@ -4711,6 +4716,15 @@ body.asset-lightbox-open { overflow:hidden; }
   .project-detail-page .renderer-flow > i { justify-self:center; transform:rotate(90deg); }
   .project-detail-page .renderer-explanation { grid-template-columns:1fr; }
   .project-detail-page .engine-foundation-grid { grid-template-columns:1fr 1fr; }
+  .project-detail-page .renderer-feature,
+  .project-detail-page .engine-feature {
+    margin-left: -2.5rem;
+    margin-right: -2.5rem;
+    padding: 1.4rem 1.1rem;
+    border-radius: 0;
+  }
+  .project-detail-page .renderer-feature > h2,
+  .project-detail-page .engine-feature > h2 { font-size:clamp(2rem,10.5vw,3rem); overflow-wrap:break-word; }
 }
 .project-detail-page .contribution-stack-card .contribution-image {
   max-width:min(100%,52rem);

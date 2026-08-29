@@ -1,5 +1,6 @@
 from pathlib import Path
 import sys
+from PIL import Image, ImageDraw
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import letter
@@ -9,6 +10,26 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
+ASSETS = ROOT / "docs" / ".assets"
+
+
+def link_icon_path(accent):
+    ASSETS.mkdir(parents=True, exist_ok=True)
+    rgb = (round(accent.red*255), round(accent.green*255), round(accent.blue*255))
+    path = ASSETS / f"link-{rgb[0]:02x}{rgb[1]:02x}{rgb[2]:02x}.png"
+    if path.exists():
+        return str(path)
+    # "external link" glyph: a box with an arrow breaking out of its top-right corner
+    scale = 8
+    size = 16 * scale
+    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    w = 2 * scale
+    d.rectangle([1*scale, 5*scale, 11*scale, 15*scale], outline=rgb, width=w)
+    d.line([7*scale, 9*scale, 15*scale, 1*scale], fill=rgb, width=w)
+    d.polygon([(15*scale, 1*scale), (15*scale, 6*scale), (10*scale, 1*scale)], fill=rgb)
+    img.save(path)
+    return str(path)
 
 NAVY = colors.HexColor("#10172A")
 BLUE = colors.HexColor("#4263EB")
@@ -17,6 +38,7 @@ BURGUNDY = colors.HexColor("#8B2635")
 MUTED = colors.HexColor("#536078")
 LINE = colors.HexColor("#DDE3F0")
 PALE = colors.HexColor("#F5F7FC")
+LINKCOLOR = colors.HexColor("#7C4DFF")
 
 
 def styles(accent):
@@ -30,6 +52,7 @@ def styles(accent):
         "meta": ParagraphStyle("meta", fontName="Helvetica-Bold", fontSize=7.1, leading=9, textColor=accent),
         "bullet": ParagraphStyle("bullet", fontName="Helvetica", fontSize=7.55, leading=9.55, textColor=NAVY, leftIndent=9, firstLineIndent=-6, bulletIndent=0, spaceAfter=1.2),
         "small": ParagraphStyle("small", fontName="Helvetica", fontSize=7.25, leading=9.2, textColor=NAVY),
+        "quote": ParagraphStyle("quote", fontName="Helvetica-Oblique", fontSize=7.3, leading=9.3, textColor=MUTED, spaceAfter=6),
         "skill": ParagraphStyle("skill", fontName="Helvetica", fontSize=7.15, leading=9.2, textColor=NAVY),
     }
 
@@ -40,7 +63,8 @@ def header(s, role):
         '<link href="mailto:weare1842@gmail.com">weare1842@gmail.com</link><br/>'
         'Temporary U.S. (206) 990-4593 | +82 10-8655-4365<br/>'
         '<link href="https://github.com/Seohyeon-Min">github.com/Seohyeon-Min</link> | '
-        '<link href="https://seohyeon-min.github.io/my_portfolio/">seohyeon-min.github.io/my_portfolio</link>', s["contact"])
+        '<link href="https://seohyeon-min.github.io/my_portfolio/">seohyeon-min.github.io/my_portfolio</link><br/>'
+        '<link href="https://www.linkedin.com/in/seohyeon-min-781362250/">linkedin.com/in/seohyeon-min</link>', s["contact"])
     t = Table([[left, right]], colWidths=[4.15*inch, 2.45*inch])
     t.setStyle(TableStyle([("VALIGN", (0,0), (-1,-1), "TOP"), ("ALIGN", (1,0), (1,0), "RIGHT"), ("LEFTPADDING",(0,0),(-1,-1),0), ("RIGHTPADDING",(0,0),(-1,-1),0)]))
     return t
@@ -56,8 +80,17 @@ def section(title, s, accent):
     return [Paragraph(title.upper(), s["section"]), rule(accent)]
 
 
-def project(title, meta, bullets, url, s):
-    label = f'<link href="{url}">{title}</link>' if url else title
+def linked_label(title, url, accent, size=7):
+    if not url:
+        return title
+    link_hex = "%02X%02X%02X" % (round(LINKCOLOR.red*255), round(LINKCOLOR.green*255), round(LINKCOLOR.blue*255))
+    icon = link_icon_path(LINKCOLOR)
+    return (f'<link href="{url}"><u><font color="#{link_hex}">{title}</font></u> '
+            f'<img src="{icon}" width="{size}" height="{size}" valign="0"/></link>')
+
+
+def project(title, meta, bullets, url, s, accent):
+    label = linked_label(title, url, accent)
     rows = [[Paragraph(label, s["project"]), Paragraph(meta, s["meta"])]]
     tab = Table(rows, colWidths=[4.35*inch, 2.25*inch])
     tab.setStyle(TableStyle([("VALIGN",(0,0),(-1,-1),"BOTTOM"), ("ALIGN",(1,0),(1,0),"RIGHT"), ("LEFTPADDING",(0,0),(-1,-1),0), ("RIGHTPADDING",(0,0),(-1,-1),0)]))
@@ -66,18 +99,31 @@ def project(title, meta, bullets, url, s):
     return KeepTogether(body)
 
 
+RECOMMENDATION_URL = "https://www.linkedin.com/in/seohyeon-min-781362250/"
+RECOMMENDATION_QUOTE = (
+    'She was able to care just as much about her teammates as she did about her own work.',
+    'Jonathan Holmes, DigiPen Instructor',
+)
+
+
 def build(path, role, summary, selected, additional, skill_rows, accent, education=True,
-          selected_title="Selected Experience", additional_title="Additional Evidence"):
+          selected_title="Selected Experience", additional_title="Additional Evidence", quote=RECOMMENDATION_QUOTE):
     s = styles(accent)
     doc = SimpleDocTemplate(str(path), pagesize=letter, rightMargin=.55*inch, leftMargin=.55*inch, topMargin=.42*inch, bottomMargin=.38*inch,
                             title=f"Min Seohyeon - {role}", author="Min Seohyeon")
     story = [header(s, role), Spacer(1, 4), rule(accent), Paragraph(summary, s["summary"])]
+    if quote:
+        text, attribution = quote
+        attribution_label = linked_label(attribution, RECOMMENDATION_URL, accent, size=6.2)
+        story.append(Paragraph(f'“{text}” — {attribution_label}', s["quote"]))
     story += section(selected_title, s, accent)
     for p in selected:
-        story += [project(*p, s), Spacer(1, 2.2)]
+        story += [project(*p, s, accent), Spacer(1, 2.2)]
     story += section(additional_title, s, accent)
-    for title, text in additional:
-        story.append(Paragraph(f"<b>{title}</b> - {text}", s["small"]))
+    for item in additional:
+        title, text, url = (*item, None)[:3]
+        label = linked_label(title, url, accent, size=6.2)
+        story.append(Paragraph(f"<b>{label}</b> - {text}", s["small"]))
     story += section("Skills", s, accent)
     data = [[Paragraph(f"<b>{k}</b>", s["skill"]), Paragraph(v, s["skill"])] for k,v in skill_rows]
     st = Table(data, colWidths=[1.18*inch, 5.42*inch], hAlign="LEFT")
@@ -93,13 +139,13 @@ def main(build_ta=True, build_prod=True, build_student=False):
     DOCS.mkdir(exist_ok=True)
     ta_selected = [
         ("TEACHING ASSISTANT - GAME DEVELOPMENT PROJECT I", "DIGIPEN KOREA | SPRING 2025", [
-            "Supported students in DigiPen's Korea program with C++ implementation, debugging, and technical problem-solving during game project development.",
-            "Reviewed student projects and provided clear, actionable technical feedback to help teams identify issues and improve their implementations."
+            "Supported ~30 students across DigiPen Korea's Game Development Project I cohort with C++ implementation, debugging, and technical problem-solving throughout the term.",
+            "Diagnosed issues across student projects and delivered clear, actionable technical feedback to help teams identify problems and improve their implementations."
         ], None),
         ("MANZO", "C++ / OpenGL / GLSL | 2024-2025", [
             "Implemented BPM timing windows, beat/bar counting, and audio-synchronized player movement and boss patterns in a custom C++ engine.",
             "Built layer-sorted draw queues, framebuffer post-processing for bloom, underwater distortion, god rays, ripples, and transitions, plus particles with linear, curved, radial, spray, random, and player-targeted motion.",
-            "Moved scenario/dialogue ownership into engine-level systems to eliminate dangling-pointer failures; traced severe boss slowdown to redundant collision checks and removed repeated work. Largest repository contributor: 366 commits."
+            "Moved scenario/dialogue ownership into engine-level systems to eliminate dangling-pointer failures; diagnosed and eliminated per-frame redundant collision checks causing severe boss-fight frame drops, restoring stable performance. Largest repository contributor: 366 commits."
         ], "https://github.com/Seohyeon-Min/manzo"),
         ("TOO HOT!", "Unity / ShaderLab / VFX / UI | 2026", [
             "Created and integrated the game's 2D shadow treatment, pattern-specific VFX, UI, animation, hit feedback, and visual hierarchy; tuned width and length controls for readable shadows across characters and combat spaces.",
@@ -113,12 +159,12 @@ def main(build_ta=True, build_prod=True, build_student=False):
         ], "https://github.com/Seohyeon-Min/StreetTyper"),
     ]
     ta_add = [
-        ("DOUBLE HIT", "Implemented C++ texture/sprite management, collision, GameObject/GameComponent architecture, and shared engine services."),
-        ("BIRD STRIKE", "Implemented audio-timeline beat detection, rhythm-synchronized spawning, dynamic attack subdivision, player/crow movement, and atan2 direction logic; also produced original art and audio."),
-        ("NEW MANZO", "Contribute Unity gameplay and technical systems for fish schooling, obstacle avoidance, beat-linked hunting, raycasting, and post-processing; repository lead contributor with 417 commits."),
+        ("DOUBLE HIT", "Implemented C++ texture/sprite management, collision, GameObject/GameComponent architecture, and shared engine services.", "https://github.com/Seohyeon-Min/DoubleHit"),
+        ("BIRD STRIKE", "Implemented audio-timeline beat detection, rhythm-synchronized spawning, dynamic attack subdivision, player/crow movement, and atan2 direction logic; also produced original art and audio.", "https://github.com/Seohyeon-Min/bird_sprite_2"),
+        ("NEW MANZO", "Contribute Unity gameplay and technical systems for fish schooling, obstacle avoidance, beat-linked hunting, raycasting, and post-processing; repository lead contributor with 417 commits.", "https://seohyeon-min.github.io/my_portfolio/portfolio_game/00_NewManzo.html"),
     ]
     ta_skills = [
-        ("Graphics", "OpenGL, GLSL, Unity URP, ShaderLab, framebuffer/post-processing, custom shadows, particles, VFX, UI shaders"),
+        ("Graphics", "OpenGL, GLSL, Unity URP, ShaderLab, Unreal Engine (Niagara particle systems, project exposure), framebuffer/post-processing, custom shadows, particles, VFX, UI shaders"),
         ("Programming", "C++, C#, C, Python, JavaScript; gameplay and engine architecture, collision, debugging, memory/lifetime fixes"),
         ("Workflow", "Git branching and merge review, GitHub Projects/Issues, Notion, CMake, Visual Studio, WSL, profiling, technical specification"),
     ]
@@ -134,10 +180,10 @@ def main(build_ta=True, build_prod=True, build_student=False):
             "Owned the event from proposal through closeout, including university approvals, an approximately KRW 800,000 budget, promotion, participant communication, on-site operations, final submissions, and visual materials.",
             "Achieved a 4.87/5 participant satisfaction score across 23 post-event responses while coordinating cross-disciplinary participants and keeping all six teams on track to finish."
         ], None),
-        ("PLUSH PRODUCTION", "PRODUCT DESIGNER / VENDOR & FULFILLMENT LEAD | INDEPENDENT", [
+        ("PLUSH PRODUCTION", "PRODUCT DESIGNER / VENDOR &amp; FULFILLMENT LEAD | INDEPENDENT", [
             "Opened prepaid preorders through Witchform and set production quantities from confirmed paid demand, minimizing upfront capital exposure and unsold inventory risk while generating approximately KRW 10 million in total revenue.",
             "Sourced a manufacturer through Taobao, negotiated schedule and unit pricing, commissioned and reviewed physical samples, communicated revisions, and approved mass production at the intended quality and cost.",
-            "Built a direct factory-to-customer workflow across freight forwarding, defect inspection, and domestic delivery; centralized order, production, and shipping Q&A through Peing. The public account reached 235 followers and 1,000+ cumulative reposts."
+            "Built a direct factory-to-customer workflow across freight forwarding, defect inspection, and domestic delivery; centralized order, production, and shipping Q&amp;A through Peing. The public account reached 235 followers and 1,000+ cumulative reposts."
         ], "https://x.com/mallang707"),
         ("TOO HOT!", "TECHNICAL / CREATIVE PRODUCER | 2026", [
             "Directed two gameplay programmers, defined the project's technical structure and implementation priorities, and coordinated gameplay, art, UI, VFX, audio, and presentation through a 130+ item P0-P3 backlog.",
@@ -146,10 +192,11 @@ def main(build_ta=True, build_prod=True, build_student=False):
         ], "https://github.com/Seohyeon-Min/team17_gamejam"),
     ]
     prod_add = [
+        ("TEACHING ASSISTANT", "Supported ~30 students across DigiPen Korea's Game Development Project I cohort with technical problem-solving, debugging, and actionable project feedback."),
         ("JOINT BAND PERFORMANCE", "Co-organized a two-hour live show featuring six acts from DigiPen, BARD, and an independent band; coordinated rehearsals, team communication, setlists, equipment load-in, show order, and post-event logistics."),
-        ("NEW MANZO", "Lead long-term scope, ownership, milestones, cross-discipline communication, and delivery planning while contributing hands-on technical support; repository lead contributor with 417 commits."),
-        ("STREET TYPER", "Scoped and coordinated a public 10-day team build, published it on itch.io, and support its preparation for Steam release while owning visual direction, UI, VFX, and gameplay readability."),
-        ("MANZO", "Bridged design, art, and engineering while directly implementing rhythm, rendering, particles, debugging, Git integration, and final presentation; 366 commits."),
+        ("NEW MANZO", "Lead long-term scope, ownership, milestones, cross-discipline communication, and delivery planning while contributing hands-on technical support; repository lead contributor with 417 commits.", "https://seohyeon-min.github.io/my_portfolio/portfolio_game/00_NewManzo.html"),
+        ("STREET TYPER", "Scoped and coordinated a public 10-day team build, published it on itch.io, and support its preparation for Steam release while owning visual direction, UI, VFX, and gameplay readability.", "https://github.com/Seohyeon-Min/StreetTyper"),
+        ("MANZO", "Bridged design, art, and engineering while directly implementing rhythm, rendering, particles, debugging, Git integration, and final presentation; 366 commits.", "https://github.com/Seohyeon-Min/manzo"),
     ]
     prod_skills = [
         ("Production", "Scope/milestone planning, P0-P3 prioritization, ownership, risk identification, acceptance criteria, review, testing, integration"),
@@ -173,7 +220,7 @@ def main(build_ta=True, build_prod=True, build_student=False):
             ], None),
             ("PLUSH PRODUCTION", "INDEPENDENT PROJECT / EXTERNAL OPERATIONS", [
                 "Generated approximately KRW 10 million in total revenue through prepaid Witchform orders, setting production quantities from confirmed demand to avoid unsold inventory risk.",
-                "Sourced and negotiated with a Chinese manufacturer, reviewed samples and revisions, and connected freight forwarding, defect inspection, domestic delivery, and Peing buyer Q&A into a factory-to-customer workflow."
+                "Sourced and negotiated with a Chinese manufacturer, reviewed samples and revisions, and connected freight forwarding, defect inspection, domestic delivery, and Peing buyer Q&amp;A into a factory-to-customer workflow."
             ], "https://x.com/mallang707"),
             ("TOO HOT!", "PROJECT LEAD / TECHNICAL PRODUCER | 2026", [
                 "Directed two programmers and coordinated gameplay, art, UI, VFX, audio, and presentation through a 130+ item prioritized backlog.",
@@ -181,8 +228,8 @@ def main(build_ta=True, build_prod=True, build_student=False):
             ], "https://github.com/Seohyeon-Min/team17_gamejam"),
         ]
         student_add = [
-            ("NEW MANZO", "Lead long-term scope, milestones, ownership, cross-discipline communication, and delivery planning while contributing hands-on technical support."),
-            ("STREET TYPER", "Scoped and coordinated a public 10-day team build, aligned visual and technical work, published it on itch.io, and support its preparation for Steam release."),
+            ("NEW MANZO", "Lead long-term scope, milestones, ownership, cross-discipline communication, and delivery planning while contributing hands-on technical support.", "https://seohyeon-min.github.io/my_portfolio/portfolio_game/00_NewManzo.html"),
+            ("STREET TYPER", "Scoped and coordinated a public 10-day team build, aligned visual and technical work, published it on itch.io, and support its preparation for Steam release.", "https://github.com/Seohyeon-Min/StreetTyper"),
         ]
         student_skills = [
             ("Event Production", "Proposals, approvals, schedules, run-of-show planning, promotion, participant communication, on-site operations"),
@@ -193,13 +240,13 @@ def main(build_ta=True, build_prod=True, build_student=False):
         ]
         build(
             DOCS/"Resume_Student_Leadership.pdf",
-            "STUDENT LEADER | EVENT & PROJECT ORGANIZER",
+            "STUDENT LEADER | EVENT &amp; PROJECT ORGANIZER",
             "Student organizer who brought together 24 participants across six game-jam teams and six live acts from DigiPen, BARD, and an independent band. I build the communication and operating structure that helps different student groups work together, then carry each initiative through budgeting, scheduling, on-site execution, and closeout.",
             student_selected,
             student_add,
             student_skills,
             BURGUNDY,
-            selected_title="Leadership & Event Experience",
+            selected_title="Leadership &amp; Event Experience",
             additional_title="Additional Project Leadership",
         )
 
