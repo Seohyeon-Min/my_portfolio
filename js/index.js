@@ -880,6 +880,45 @@ document.addEventListener('DOMContentLoaded', () => {
     stepScene(direction);
   }, { passive: false });
 
+  // Touch devices never fire 'wheel', so the scene stepper above is silently
+  // unreachable on mobile without this: swipe up/down pages between scenes,
+  // same boundary rules as the wheel handler (inner panels scroll first,
+  // the horizontal hobby-gallery track is left alone).
+  let touchStartX = null;
+  let touchStartY = null;
+  app.addEventListener('touchstart', event => {
+    if (event.touches.length !== 1) { touchStartX = null; touchStartY = null; return; }
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+  }, { passive: true });
+
+  app.addEventListener('touchend', event => {
+    if (touchStartY === null) return;
+    const startX = touchStartX;
+    const startY = touchStartY;
+    touchStartX = null;
+    touchStartY = null;
+
+    if (event.target.closest('.hobby-gallery__track')) return;
+    if (hobbyMap?.classList.contains('is-open') || graphicsCollection?.classList.contains('is-open')) return;
+    if (locked) return;
+
+    const touch = event.changedTouches[0];
+    const dy = startY - touch.clientY;
+    const dx = startX - touch.clientX;
+    if (Math.abs(dx) > Math.abs(dy) || Math.abs(dy) < 48) return;
+
+    const wantsNext = dy > 0;
+    const sceneScroller = event.target.closest('.archive-panel, .experience-board');
+    if (sceneScroller && sceneScroller.scrollHeight > sceneScroller.clientHeight) {
+      const atTop = sceneScroller.scrollTop <= 1;
+      const atBottom = sceneScroller.scrollTop + sceneScroller.clientHeight >= sceneScroller.scrollHeight - 1;
+      const canScrollInner = (wantsNext && !atBottom) || (!wantsNext && !atTop);
+      if (canScrollInner) return;
+    }
+    stepScene(wantsNext ? 1 : -1);
+  }, { passive: true });
+
   window.addEventListener('keydown', event => {
     if (!document.body.classList.contains('link-start-home')) return;
     if (event.key === 'Escape' && hobbyMap?.classList.contains('is-open')) {

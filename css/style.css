@@ -4342,6 +4342,11 @@ html:has(.project-detail-page) { background: var(--case-paper, #f6f3ed); }
 
 .project-detail-page .experience-section,
 .project-detail-page .contributions-tabs-section { max-width:none; padding:0; }
+/* .rounded-section > section already gives every wrapped section card padding;
+   contributions-tabs-section manages its own tab-content card instead, so it needs
+   to actually win that padding:0 reset (it was losing to the generic rule's higher
+   specificity — a real bug, not just a mobile-only tweak). */
+.project-detail-page .rounded-section > section.contributions-tabs-section { padding:clamp(1.2rem,3vw,2.5rem) clamp(.9rem,3vw,3.5rem); border:0; background:transparent; }
 .project-detail-page .experience-section--hero-adjacent {
   width:min(88vw,76rem);
   margin:1rem auto 0;
@@ -4547,6 +4552,9 @@ body.hero-lightbox-open { overflow:hidden; }
 .project-detail-page .asset-portrait-grid figure > div { display:grid; height:11rem; place-items:center; overflow:hidden; }
 .project-detail-page .asset-portrait-grid img { display:block; width:78%; height:78%; object-fit:contain; transition:transform 300ms ease; }
 .project-detail-page .asset-portrait-grid figure:hover img { transform:scale(1.045); }
+.project-detail-page .asset-portrait-grid figcaption { display:grid; gap:.15rem; padding:.65rem .8rem; }
+.project-detail-page .asset-portrait-grid figcaption span { color:var(--case-blue); font-size:.56rem; font-weight:900; letter-spacing:.11em; text-transform:uppercase; }
+.project-detail-page .asset-portrait-grid figcaption strong { font-size:.8rem; line-height:1.3; }
 .project-detail-page .asset-frame-strips { display:grid; grid-template-columns:repeat(2,1fr); gap:.65rem; margin-top:.65rem; }
 .project-detail-page .asset-frame-strip { display:grid; margin:0; overflow:hidden; border:1px solid rgba(255,255,255,.55); border-radius:1.15rem; background:#eef2ff; box-shadow:0 .6rem 1.4rem rgba(23,30,54,.07); cursor:zoom-in; }
 .project-detail-page .asset-frame-strip > div { display:grid; place-items:center; padding:.6rem; background:#fff; }
@@ -4619,6 +4627,8 @@ body.asset-lightbox-open { overflow:hidden; }
 .project-detail-page[data-track="software"] #custom-renderer .renderer-flow strong { color:var(--case-ink)!important; }
 .project-detail-page[data-track="software"] #custom-renderer .renderer-flow small { color:var(--case-muted)!important; }
 .project-detail-page[data-track="software"] #custom-renderer .renderer-source { background:var(--case-ink); }
+.project-detail-page[data-track="software"] #custom-renderer .engine-foundation-link { border-color:var(--case-line); background:rgba(23,27,45,.04); color:var(--case-ink); }
+.project-detail-page[data-track="software"] #custom-renderer .engine-foundation-link:hover { background:var(--feature-accent-soft); }
 .project-detail-page .renderer-eyebrow { display:inline-block; margin-bottom:1.1rem; color:var(--feature-accent); font-size:.66rem; font-weight:900; letter-spacing:.16em; text-transform:uppercase; }
 .project-detail-page .renderer-feature > h2,.project-detail-page .engine-feature > h2 { margin:0; color:#fff!important; font-size:clamp(3.8rem,10vw,8.5rem); line-height:.73; letter-spacing:-.075em; }
 .project-detail-page .renderer-feature > h2 span,.project-detail-page .engine-feature > h2 span { color:var(--feature-accent); }
@@ -4737,14 +4747,53 @@ body.asset-lightbox-open { overflow:hidden; }
   .project-detail-page .fulfillment-step strong { margin:0; }
   .project-detail-page .fulfillment-step > span:last-child { font-size:.82rem; }
   .project-detail-page .fulfillment-step br { display:none; }
-  .project-detail-page .system-map ol { grid-template-columns:1fr; }
-  .project-detail-page .system-map li { min-height:0; }
-  .project-detail-page .system-map li:not(:last-child)::after { top:auto; right:50%; bottom:-.72rem; transform:translateX(50%) rotate(90deg); }
-  .project-detail-page .engineering-case-grid { grid-template-columns:1fr; }
-  .project-detail-page .decision-spotlight > div { grid-template-columns:1fr; }
-  .project-detail-page .engineering-case-grid dl div { grid-template-columns:5.1rem 1fr; }
-  .project-detail-page .technical-deep-dive summary { grid-template-columns:1fr auto; }
-  .project-detail-page .technical-deep-dive summary span { grid-column:1 / -1; }
+  /* Case-study panel clusters (problem/decision cards, decision log, code
+     deep-dive) stack to one column on phone width instead of squeezing into
+     forced multi-column grids. engineering-summary / system-map inside them
+     pick up their own compact/scroll rules below automatically. */
+  .project-detail-page .engineering-case-grid { grid-template-columns: 1fr; }
+  .project-detail-page .engineering-case-grid dl div { grid-template-columns: 1fr; gap: .2rem; }
+  .project-detail-page .engineering-case-grid dt { padding-top: .5rem; }
+  .project-detail-page .decision-spotlight > div { grid-template-columns: 1fr; }
+  .project-detail-page .technical-deep-dive summary { grid-template-columns: 1fr; gap: .2rem; }
+  .project-detail-page .decision-table-wrap { overflow-x: auto; }
+  /* engineering-summary / system-map also appear on their own outside the
+     engine-evidence-group wrapper above (e.g. Street Typer's shader write-ups) —
+     those forced-N-equal-columns grids overlap and truncate on phone width, so
+     turn them into a small horizontal scroll strip like renderer-flow instead. */
+  .project-detail-page .system-map ol {
+    grid-template-columns: none !important;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(7.6rem, 42vw);
+    gap: .5rem;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding-bottom: .3rem;
+  }
+  .project-detail-page .system-map li { min-height: 6.2rem; scroll-snap-align: start; }
+  .project-detail-page .system-map li:not(:last-child)::after { display: none; }
+  /* Short one-word labels (2D / Skeletal / VFX / UI, etc.) — shrink to fit the
+     row instead of scrolling; system-map's longer sentences still need scroll room. */
+  .project-detail-page .engineering-summary {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: .35rem;
+    margin: 0 0 1.2rem;
+  }
+  .project-detail-page .engineering-summary article {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 0;
+    padding: .55rem .4rem;
+  }
+  .project-detail-page .engineering-icon { width: 1.6rem; height: 1.6rem; margin-bottom: .4rem; font-size: .6rem; }
+  .project-detail-page .engineering-summary strong { font-size: .82rem; overflow-wrap: break-word; word-break: break-word; }
+  .project-detail-page .engineering-summary small { margin-top: .3rem; font-size: .52rem; line-height: 1.25; overflow-wrap: break-word; word-break: break-word; }
+  .project-detail-page .system-map li > strong { font-size: .74rem; }
+  .project-detail-page .system-map li > small { font-size: .62rem; }
+  .project-detail-page .contribution-tab { padding: .45rem .7rem; font-size: .74rem; }
+  .project-detail-page .contribution-tab-main { padding: .5rem .85rem; font-size: .8rem; }
+  .project-detail-page .contributions-tabs { flex-wrap: nowrap; overflow: auto; gap: .3rem; padding: .3rem .35rem .5rem; margin: 0 -0.35rem 1rem; }
   .project-detail-page .art-case-intro { grid-template-columns:1fr; }
   .project-detail-page .art-case-intro > img { width:8rem; justify-self:start; }
   .project-detail-page .art-coverage { grid-template-columns:repeat(3,1fr); }
@@ -4752,15 +4801,47 @@ body.asset-lightbox-open { overflow:hidden; }
   .project-detail-page .asset-feature { grid-column:span 2; }
   .project-detail-page .asset-feature > div { min-height:20rem; }
   .project-detail-page .visual-direction-notes { grid-template-columns:1fr; }
-  .project-detail-page .renderer-flow { grid-template-columns:1fr; }
-  .project-detail-page .renderer-flow > i { justify-self:center; transform:rotate(90deg); }
+  .project-detail-page .renderer-flow {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(7.4rem, 40vw);
+    gap: .5rem;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding-bottom: .35rem;
+    margin: 1.2rem -0.2rem 1.2rem;
+  }
+  .project-detail-page .renderer-flow article { min-height: 6rem; padding: .75rem; scroll-snap-align: start; }
+  .project-detail-page .renderer-flow strong { font-size: .74rem; }
+  .project-detail-page .renderer-flow small { font-size: .6rem; }
+  .project-detail-page .renderer-flow > i { display: none; }
+  /* 4 steps or fewer: shrink to fit the row instead of scrolling. */
+  .project-detail-page .renderer-flow:not(:has(article:nth-of-type(5))),
+  .project-detail-page .system-map ol:not(:has(li:nth-child(5))) {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: visible;
+    grid-auto-columns: unset;
+  }
+  .project-detail-page .renderer-flow:not(:has(article:nth-of-type(5))) article,
+  .project-detail-page .system-map ol:not(:has(li:nth-child(5))) li {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 5rem;
+    padding: .5rem .4rem;
+  }
+  .project-detail-page .renderer-flow:not(:has(article:nth-of-type(5))) strong,
+  .project-detail-page .system-map ol:not(:has(li:nth-child(5))) li > strong { font-size: .64rem; overflow-wrap: break-word; }
+  .project-detail-page .renderer-flow:not(:has(article:nth-of-type(5))) small,
+  .project-detail-page .system-map ol:not(:has(li:nth-child(5))) li > small { font-size: .52rem; line-height: 1.25; }
   .project-detail-page .renderer-explanation { grid-template-columns:1fr; }
   .project-detail-page .engine-foundation-grid { grid-template-columns:1fr 1fr; }
+  .project-detail-page .contribution-tab-content { padding:.6rem!important; }
   .project-detail-page .renderer-feature,
   .project-detail-page .engine-feature {
-    margin-left: -2.5rem;
-    margin-right: -2.5rem;
-    padding: 1.4rem 1.1rem;
+    margin-left: -.7rem;
+    margin-right: -.7rem;
+    padding: 1.4rem 1rem;
     border-radius: 0;
   }
   .project-detail-page .renderer-feature > h2,
@@ -4949,7 +5030,7 @@ body.asset-lightbox-open { overflow:hidden; }
   }
   .project-detail-page .timeline-content2 p { font-size: .85rem; line-height: 1.65; }
   .project-detail-page .main-background-section,
-  .project-detail-page .rounded-section { width:calc(100% - 1rem); padding:1.1rem; }
+  .project-detail-page .rounded-section { width:calc(100% - 1rem); padding:1.1rem 0; }
   .project-detail-page .info-section { display:block; }
   .project-detail-page .left-image { min-width:0; margin-bottom:1.5rem; }
   .project-detail-page .gallery { grid-template-columns:repeat(2,1fr); gap:.55rem; }

@@ -653,21 +653,25 @@
         .filter(c => c && allCategories.includes(c))
     )];
 
-    // 탭 방식으로 렌더링
+    // 탭 방식으로 렌더링. 카테고리가 하나뿐이면 탭으로 고를 게 없으니 버튼 바 자체를 생략한다
+    // (제목 바로 밑에 알약 하나만 떠 있는 건 UI가 아니라 장식 부스러기로 보인다).
+    const hasMultipleTabs = usedCategories.length > 0;
     let contributionsHTML = `
       <section class="contributions-tabs-section">
         <h2 class="highlighted-title">Contributions</h2>
-        <div class="contributions-tabs">
+        ${hasMultipleTabs ? '<div class="contributions-tabs">' : ''}
     `;
 
     // 첫 번째 탭: 주요기여 (첫 번째 섹션) - categoryLabels에 있으면 해당 라벨 사용
     const firstTabLabel = categoryLabels[mainSection.category] || mainSection.title;
-    contributionsHTML += `
-      <button class="contribution-tab contribution-tab-main active" data-category="main" data-source-category="${mainSection.category || ''}">
-        <span class="crown-icon">👑</span>
-        <span>${firstTabLabel}</span>
-      </button>
-    `;
+    if (hasMultipleTabs) {
+      contributionsHTML += `
+        <button class="contribution-tab contribution-tab-main active" data-category="main" data-source-category="${mainSection.category || ''}">
+          <span class="crown-icon">👑</span>
+          <span>${firstTabLabel}</span>
+        </button>
+      `;
+    }
 
     // 나머지 카테고리 탭들
     if (usedCategories.length > 0) {
@@ -681,7 +685,7 @@
       });
     }
 
-    contributionsHTML += `</div>`;
+    if (hasMultipleTabs) contributionsHTML += `</div>`;
 
     // 첫 번째 탭(주요기여)에 첫 번째 섹션만 표시
     let mainContentHTML = `
