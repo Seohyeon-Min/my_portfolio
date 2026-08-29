@@ -19,7 +19,7 @@ const portfolioTracks = {
     },
     proofFacts: [['BUILT', 'Shaders + real-time VFX'], ['SOLVED', 'Readability + feedback'], ['PROVEN IN', 'Unity + custom engine'], ['EVIDENCE', 'Profiling + captures']],
     proofProjects: [
-      { key: 'manzo', title: 'MANZO · CUSTOM RENDERER', lead: 'GRAPHICS / ENGINE PROGRAMMER', meta: 'OPENGL · PING-PONG FBO · POST-PROCESSING', href: 'portfolio_game/01_Manzo.html#custom-renderer', image: 'img/portfolio_thumbnails/Manzo.png' },
+      { key: 'manzo', title: 'MANZO · CUSTOM RENDERER', lead: 'GRAPHICS / ENGINE PROGRAMMER', meta: 'OPENGL · PING-PONG FBO · POST-PROCESSING', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' },
       { key: 'toohot', title: 'TOO HOT!', lead: 'PROJECT LEAD', meta: 'UNITY · SHADOW SHADER · REAL-TIME VFX', href: 'portfolio_game/07_TooHot.html', image: 'img/portfolio_thumbnails/TooHot.png' },
       { key: 'street', title: 'STREET TYPER', lead: 'PROJECT LEAD', meta: 'UI SHADERS · VFX · GAME FEEL', href: 'portfolio_game/06_StreetTyper.html', image: 'img/StreetTyper/title2.png' }
     ]
@@ -40,8 +40,8 @@ const portfolioTracks = {
     proofFacts: [['BUILT WITH', 'C++ · C# · GLSL'], ['SYSTEMS', 'Rendering + gameplay'], ['DEBUGGED', 'Engine + data flow'], ['EVIDENCE', 'Repos + measured results']],
     proofProjects: [
       { key: 'newmanzo', title: 'NEW MANZO', lead: 'PRIMARY C# CONTRIBUTOR', meta: 'UNITY · C# · GAMEPLAY / SYSTEMS', href: 'portfolio_game/00_NewManzo.html', image: 'img/portfolio_thumbnails/NewManzo.png' },
-      { key: 'manzo', title: 'MANZO · CUSTOM RENDERER', lead: 'GRAPHICS / ENGINE PROGRAMMER', meta: 'OPENGL · PING-PONG FBO · MULTI-PASS', href: 'portfolio_game/01_Manzo.html#custom-renderer', image: 'img/portfolio_thumbnails/Manzo.png' },
-      { key: 'doublehit', title: 'DOUBLE HIT · CUSTOM ENGINE', lead: 'ENGINE PROGRAMMER', meta: 'GAMEOBJECT · COMPONENTS · COLLISION', href: 'portfolio_game/03_DoubleHit.html#custom-engine-foundation', image: 'img/portfolio_thumbnails/DoubleHit.png' }
+      { key: 'manzo', title: 'MANZO · CUSTOM RENDERER', lead: 'GRAPHICS / ENGINE PROGRAMMER', meta: 'OPENGL · PING-PONG FBO · MULTI-PASS', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' },
+      { key: 'doublehit', title: 'DOUBLE HIT · CUSTOM ENGINE', lead: 'ENGINE PROGRAMMER', meta: 'GAMEOBJECT · COMPONENTS · COLLISION', href: 'portfolio_game/03_DoubleHit.html', image: 'img/portfolio_thumbnails/DoubleHit.png' }
     ]
   },
   product: {
@@ -166,19 +166,26 @@ function ensureLanguageToggle() {
   `);
 }
 
+const RESUME_BY_TRACK = {
+  graphics: { file: 'Resume_TA_Graphics.pdf', label: 'TA / GRAPHICS RESUME ↗' },
+  software: { file: 'Resume_Gameplay_Engineer.pdf', label: 'GAMEPLAY ENGINEER RESUME ↗' },
+  product: { file: 'Resume_Production.pdf', label: 'PRODUCTION RESUME ↗' }
+};
+
 function updateResumeLinks() {
   const activeTrack = document.querySelector('.link-start-app')?.dataset.track || localStorage.getItem('portfolio-track') || 'graphics';
-  const productionTrack = activeTrack === 'product';
-  const resumeSelector = 'a[href$="Resume.pdf"], a[href$="Resume_KR.pdf"], a[href$="Resume_TA_Graphics.pdf"], a[href$="Resume_Production.pdf"]';
+  const primary = RESUME_BY_TRACK[activeTrack] || RESUME_BY_TRACK.graphics;
+  const alternate = activeTrack === 'product' ? RESUME_BY_TRACK.graphics : RESUME_BY_TRACK.product;
+  const resumeSelector = 'a[href$="Resume.pdf"], a[href$="Resume_KR.pdf"], a[href$="Resume_TA_Graphics.pdf"], a[href$="Resume_Production.pdf"], a[href$="Resume_Gameplay_Engineer.pdf"]';
   document.querySelectorAll(resumeSelector).forEach(link => {
     const currentHref = link.getAttribute('href') || '';
     const prefix = currentHref.startsWith('../') ? '../docs/' : 'docs/';
     const isAlternate = link.hasAttribute('data-resume-alternate');
 
     link.classList.remove('is-hidden');
-    const useProduction = isAlternate ? !productionTrack : productionTrack;
-    link.setAttribute('href', `${prefix}${useProduction ? 'Resume_Production.pdf' : 'Resume_TA_Graphics.pdf'}`);
-    link.textContent = useProduction ? 'PRODUCTION RESUME ↗' : 'TA / GRAPHICS RESUME ↗';
+    const target = isAlternate ? alternate : primary;
+    link.setAttribute('href', `${prefix}${target.file}`);
+    link.textContent = target.label;
   });
 }
 
@@ -216,8 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (techDetail && !document.querySelector('.link-start-app')) {
     document.body.classList.add('project-detail-page', 'tech-project-page');
     const track = localStorage.getItem('portfolio-track') || 'graphics';
-    const resumeFile = track === 'product' ? 'Resume_Production.pdf' : 'Resume_TA_Graphics.pdf';
-    const resumeLabel = track === 'product' ? 'PRODUCTION RESUME ↗' : 'TA / GRAPHICS RESUME ↗';
+    const { file: resumeFile, label: resumeLabel } = RESUME_BY_TRACK[track] || RESUME_BY_TRACK.graphics;
     const navbar = document.querySelector('.navbar');
     if (navbar) {
       navbar.innerHTML = `

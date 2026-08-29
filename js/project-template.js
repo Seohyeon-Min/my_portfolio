@@ -46,6 +46,7 @@
 
     document.body.classList.add('project-detail-page');
     document.body.dataset.project = getProjectId();
+    document.body.dataset.track = getPreferredTrack();
     if (!document.querySelector('link[data-case-font]')) {
       const fontLink = document.createElement('link');
       fontLink.rel = 'stylesheet';
@@ -54,8 +55,8 @@
       document.head.appendChild(fontLink);
     }
     const track = getPreferredTrack();
-    const resumeFile = track === 'product' ? 'Resume_Production.pdf' : 'Resume_TA_Graphics.pdf';
-    const resumeLabel = track === 'product' ? 'PRODUCTION RESUME ↗' : 'TA / GRAPHICS RESUME ↗';
+    const { file: resumeFile, label: resumeLabel } = (typeof RESUME_BY_TRACK !== 'undefined' && RESUME_BY_TRACK[track])
+      || { file: 'Resume_TA_Graphics.pdf', label: 'TA / GRAPHICS RESUME ↗' };
     const navbar = document.querySelector('.navbar');
     if (navbar) {
       navbar.innerHTML = `
@@ -802,10 +803,19 @@
         history.replaceState(null, '', `${contributionUrl.pathname}${contributionUrl.search}${contributionUrl.hash}`);
       }
 
-      const savedScroll = Number(sessionStorage.getItem('portfolio-language-scroll'));
+      const savedScrollRaw = sessionStorage.getItem('portfolio-language-scroll');
+      const savedScroll = savedScrollRaw !== null ? Number(savedScrollRaw) : NaN;
       if (Number.isFinite(savedScroll)) {
         requestAnimationFrame(() => window.scrollTo({ top: savedScroll, behavior: 'auto' }));
         sessionStorage.removeItem('portfolio-language-scroll');
+      } else if (window.location.hash && !window.location.hash.startsWith('#media')) {
+        // The target panel is rendered dynamically, so the browser's native
+        // load-time anchor scroll misses it — scroll to it manually once the
+        // right tab is active and the element exists.
+        const target = document.getElementById(window.location.hash.slice(1));
+        if (target) {
+          requestAnimationFrame(() => target.scrollIntoView({ behavior: 'auto', block: 'start' }));
+        }
       }
     }, 100);
   }
@@ -1235,7 +1245,69 @@
       renderWaypointNavigation(project);  // 이정표 네비게이션
       renderContributionButton();   // 컨트리뷰션 보기 버튼
       enableAssetLightbox();        // 아트 탭 등의 에셋 그리드를 클릭하면 크게 보기
+      enableCaseCardHeroJump();     // 케이스 카드를 클릭하면 해당 히어로 패널로 스크롤
     }
+  }
+
+  // engineering-case-grid의 카드 중, 같은 페이지 어딘가에 히어로 패널로 확장된 버전이 있는 카드를
+  // 클릭하면 그 히어로 섹션을 갤러리(라이트박스)처럼 팝업으로 띄운다 (예: Performance 케이스 → PERFORMANCE DEBUGGING 히어로)
+  let heroLightboxEl = null;
+  function openHeroLightbox(target) {
+    if (!heroLightboxEl) {
+      heroLightboxEl = document.createElement('div');
+      heroLightboxEl.className = 'hero-lightbox';
+      heroLightboxEl.innerHTML = `
+        <div class="hero-lightbox-backdrop"></div>
+        <div class="hero-lightbox-panel">
+          <button type="button" class="hero-lightbox-close" aria-label="Close">&times;</button>
+          <div class="hero-lightbox-body"></div>
+        </div>
+      `;
+      document.body.appendChild(heroLightboxEl);
+      heroLightboxEl.querySelector('.hero-lightbox-backdrop').addEventListener('click', closeHeroLightbox);
+      heroLightboxEl.querySelector('.hero-lightbox-close').addEventListener('click', closeHeroLightbox);
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && heroLightboxEl.classList.contains('open')) closeHeroLightbox();
+      });
+    }
+    const clone = target.cloneNode(true);
+    clone.removeAttribute('id'); // 원본 id를 가지고 있으면 "다른 트랙에서 숨김" CSS 규칙이 복제본에도 걸려 안 보이게 됨
+    const body = heroLightboxEl.querySelector('.hero-lightbox-body');
+    body.innerHTML = '';
+    body.appendChild(clone);
+    heroLightboxEl.classList.add('open');
+    document.body.classList.add('hero-lightbox-open');
+  }
+  function closeHeroLightbox() {
+    if (!heroLightboxEl) return;
+    heroLightboxEl.classList.remove('open');
+    document.body.classList.remove('hero-lightbox-open');
+  }
+  function enableCaseCardHeroJump() {
+    const heroTargets = {
+      'Performance': 'boss-performance-debugging',
+      '성능': 'boss-performance-debugging'
+    };
+    document.querySelectorAll('.engineering-case-grid > article').forEach(article => {
+      const labelEl = article.querySelector('.case-label');
+      const label = labelEl && labelEl.textContent.trim();
+      const targetId = label && heroTargets[label];
+      const target = targetId && document.getElementById(targetId);
+      if (!target || article === target) return;
+      article.classList.add('case-card-jumpable');
+      article.setAttribute('role', 'button');
+      article.setAttribute('tabindex', '0');
+      const lang = localStorage.getItem('portfolio-language') || 'en';
+      const badge = document.createElement('span');
+      badge.className = 'case-card-expand-badge';
+      badge.textContent = lang === 'ko' ? '전체 스토리 보기 ↗' : 'View full story ↗';
+      article.appendChild(badge);
+      const open = () => openHeroLightbox(target);
+      article.addEventListener('click', open);
+      article.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+      });
+    });
   }
 
   // 컨트리뷰션 보기 버튼 렌더링
