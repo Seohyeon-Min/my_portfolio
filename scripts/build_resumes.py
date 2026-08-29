@@ -192,7 +192,7 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
             ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/00_NewManzo.html"),
             ("DOUBLE HIT", "C++ / raylib | 2024", [
                 "Implemented a custom sprite-file parser that loads textures, animation frames, hotspots, and collision shapes, then wires collision components onto GameObjects from parsed data — built within a composition-based GameObject/Component engine.",
-                "Built the texture manager (filename-based caching and dedup, offscreen render-texture mode) and the GameObjectManager driving per-frame update/draw and pairwise collision dispatch across all live objects.",
+                "Replaced ~30 hardcoded platform coordinates with a PlatformManager that parses a custom .plf text format to load level geometry from data instead of recompiled C++, plus the GameObjectManager driving per-frame update/draw and pairwise collision dispatch across all live objects.",
                 "This implementation became the base Manzo later expanded into layer-based rendering, framebuffer post-processing, CCD, rhythm, and scenario systems."
             ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/03_DoubleHit.html"),
         ]

@@ -25,7 +25,7 @@ const portfolioTracks = {
     ]
   },
   software: {
-    role: 'SOFTWARE ENGINEER · INTERACTIVE SYSTEMS',
+    role: 'GAMEPLAY PROGRAMMER',
     title: 'Min Seohyeon — Software Engineering Portfolio',
     statement: {
       en: 'I design interactive systems, debug production problems, and turn visual ideas into maintainable code.',
