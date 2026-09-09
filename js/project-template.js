@@ -235,23 +235,23 @@
     const myRole = project.myRole || project.experience;
     if (!myRole) return;
     const defaultTools = {
-      '00_NewManzo': 'C# · FMOD · HLSL · Clip Studio Paint · Aseprite',
-      '01_Manzo': 'C++ · OpenGL · GLSL · Custom Engine',
-      '03_DoubleHit': 'C++ · GLSL · OpenGL',
-      '04_BirdStrike': 'C++ · Clip Studio Paint · Cakewalk · raylib',
-      '05_ThinkThink': 'Unity · HLSL · C#',
-      '06_StreetTyper': 'C# · Unity · Spriter Pro · 2D Rigging · Animation · HLSL · Clip Studio Paint',
-      '07_TooHot': 'C# · Unity · HLSL',
+      '00_NewManzo': 'C# · FMOD · HLSL · Clip Studio Paint · Aseprite · GitHub',
+      '01_Manzo': 'C++ · OpenGL · GLSL · Custom Engine · Clip Studio Paint · GitHub',
+      '03_DoubleHit': 'C++ · GLSL · OpenGL · Spriter Pro · Clip Studio Paint · GitHub',
+      '04_BirdStrike': 'C++ · Clip Studio Paint · Cakewalk · raylib · GitHub',
+      '05_ThinkThink': 'Unity · HLSL · C# · GitHub',
+      '06_StreetTyper': 'C# · Unity · Spriter Pro · 2D Rigging · Animation · HLSL · Clip Studio Paint · GitHub',
+      '07_TooHot': 'C# · Unity · HLSL · GitHub',
       'Dangling': 'Unity · C#',
       'PlushProduction': 'Clip Studio Paint · Notion',
-      '01_hello': 'WebGL · JavaScript · GLSL',
-      '02_meshes': 'WebGL · JavaScript · GLSL',
-      '03_fog': 'WebGL · JavaScript · GLSL',
-      '04_toon': 'WebGL · JavaScript · GLSL',
-      '05_shadow': 'WebGL · JavaScript · GLSL',
-      '06_value': 'WebGL · JavaScript · GLSL',
-      '07_gradient': 'WebGL · JavaScript · GLSL',
-      '08_demo_fun': 'WebGL · JavaScript · GLSL'
+      '01_hello': 'WebGL · JavaScript · GLSL · GitHub',
+      '02_meshes': 'WebGL · JavaScript · GLSL · GitHub',
+      '03_fog': 'WebGL · JavaScript · GLSL · GitHub',
+      '04_toon': 'WebGL · JavaScript · GLSL · GitHub',
+      '05_shadow': 'WebGL · JavaScript · GLSL · GitHub',
+      '06_value': 'WebGL · JavaScript · GLSL · GitHub',
+      '07_gradient': 'WebGL · JavaScript · GLSL · GitHub',
+      '08_demo_fun': 'WebGL · JavaScript · GLSL · GitHub'
     };
     const tools = project.tools || project.projectDetails?.tool || defaultTools[getProjectId()];
 

@@ -42,36 +42,39 @@ PALE = colors.HexColor("#F5F7FC")
 LINKCOLOR = colors.HexColor("#7C4DFF")
 
 
-def styles(accent):
+def styles(accent, bullet_size=7.4, rolestack_gap=0.8, rolestack_gap_emphasis=2.6):
+    bullet_leading = round(bullet_size * 1.237, 2)
     return {
         "name": ParagraphStyle("name", fontName="Helvetica-Bold", fontSize=22, leading=22, textColor=NAVY),
         "role": ParagraphStyle("role", fontName="Helvetica-Bold", fontSize=9, leading=11, textColor=accent, spaceBefore=3),
         "contact": ParagraphStyle("contact", fontName="Helvetica", fontSize=7.5, leading=10, textColor=MUTED, alignment=TA_LEFT),
-        "summary": ParagraphStyle("summary", fontName="Helvetica", fontSize=8.1, leading=11, textColor=NAVY, spaceBefore=7, spaceAfter=7),
-        "section": ParagraphStyle("section", fontName="Helvetica-Bold", fontSize=8.2, leading=10, textColor=accent, spaceBefore=5, spaceAfter=3),
-        "project": ParagraphStyle("project", fontName="Helvetica-Bold", fontSize=9.2, leading=11, textColor=NAVY, spaceBefore=2),
+        "summary": ParagraphStyle("summary", fontName="Helvetica", fontSize=8.1, leading=10.6, textColor=NAVY, spaceBefore=5, spaceAfter=5),
+        "section": ParagraphStyle("section", fontName="Helvetica-Bold", fontSize=8.2, leading=10, textColor=accent, spaceBefore=4, spaceAfter=2.5),
+        "project": ParagraphStyle("project", fontName="Helvetica-Bold", fontSize=9.2, leading=11, textColor=NAVY, spaceBefore=1),
         "meta": ParagraphStyle("meta", fontName="Helvetica-Bold", fontSize=7.1, leading=9, textColor=accent),
-        "bullet": ParagraphStyle("bullet", fontName="Helvetica", fontSize=7.55, leading=9.55, textColor=NAVY, leftIndent=9, firstLineIndent=-6, bulletIndent=0, spaceAfter=1.2),
+        "bullet": ParagraphStyle("bullet", fontName="Helvetica", fontSize=bullet_size, leading=bullet_leading, textColor=NAVY, leftIndent=9, firstLineIndent=-6, bulletIndent=0, spaceAfter=0.6),
         "small": ParagraphStyle("small", fontName="Helvetica", fontSize=7.25, leading=9.2, textColor=NAVY),
         "quote": ParagraphStyle("quote", fontName="Helvetica-Oblique", fontSize=7.3, leading=9.3, textColor=MUTED, spaceAfter=6),
         "skill": ParagraphStyle("skill", fontName="Helvetica", fontSize=7.15, leading=9.2, textColor=NAVY),
+        "rolestack": ParagraphStyle("rolestack", fontName="Helvetica-Oblique", fontSize=6.95, leading=8.4, textColor=MUTED, spaceAfter=rolestack_gap),
+        "rolestack_emphasis": ParagraphStyle("rolestack_emphasis", fontName="Helvetica-Oblique", fontSize=6.95, leading=8.4, textColor=MUTED, spaceAfter=rolestack_gap_emphasis),
     }
 
 
-def header(s, role):
+def header(s, role, content_width=6.6*inch):
     left = [Paragraph("MIN SEOHYEON", s["name"]), Paragraph(role, s["role"])]
     right = Paragraph(
         '<link href="mailto:weare1842@gmail.com">weare1842@gmail.com</link><br/>'
         '<link href="https://github.com/Seohyeon-Min">github.com/Seohyeon-Min</link> | '
         '<link href="https://seohyeon-min.github.io/my_portfolio/">seohyeon-min.github.io/my_portfolio</link><br/>'
         '<link href="https://www.linkedin.com/in/seohyeon-min-781362250/">linkedin.com/in/seohyeon-min</link>', s["contact"])
-    t = Table([[left, right]], colWidths=[4.15*inch, 2.45*inch])
+    t = Table([[left, right]], colWidths=[content_width - 2.45*inch, 2.45*inch])
     t.setStyle(TableStyle([("VALIGN", (0,0), (-1,-1), "TOP"), ("ALIGN", (1,0), (1,0), "RIGHT"), ("LEFTPADDING",(0,0),(-1,-1),0), ("RIGHTPADDING",(0,0),(-1,-1),0)]))
     return t
 
 
-def rule(accent):
-    t = Table([[""]], colWidths=[6.6*inch], rowHeights=[1.5])
+def rule(accent, content_width=6.6*inch):
+    t = Table([[""]], colWidths=[content_width], rowHeights=[1.5])
     t.setStyle(TableStyle([("BACKGROUND", (0,0), (-1,-1), accent), ("LEFTPADDING",(0,0),(-1,-1),0)]))
     return t
 
@@ -89,12 +92,14 @@ def linked_label(title, url, accent, size=7):
             f'<img src="{icon}" width="{size}" height="{size}" valign="0"/></link>')
 
 
-def project(title, meta, bullets, url, s, accent):
+def project(title, date, bullets, url, role_stack, s, accent, content_width=6.6*inch, emphasis=False):
     label = linked_label(title, url, accent)
-    rows = [[Paragraph(label, s["project"]), Paragraph(meta, s["meta"])]]
-    tab = Table(rows, colWidths=[4.35*inch, 2.25*inch])
+    rows = [[Paragraph(label, s["project"]), Paragraph(date, s["meta"])]]
+    tab = Table(rows, colWidths=[content_width - 2.25*inch, 2.25*inch])
     tab.setStyle(TableStyle([("VALIGN",(0,0),(-1,-1),"BOTTOM"), ("ALIGN",(1,0),(1,0),"RIGHT"), ("LEFTPADDING",(0,0),(-1,-1),0), ("RIGHTPADDING",(0,0),(-1,-1),0)]))
     body = [tab]
+    if role_stack:
+        body.append(Paragraph(role_stack, s["rolestack_emphasis"] if emphasis else s["rolestack"]))
     body += [Paragraph("• " + b, s["bullet"]) for b in bullets]
     return KeepTogether(body)
 
@@ -107,31 +112,36 @@ RECOMMENDATION_QUOTE = (
 
 
 def build(path, role, summary, selected, additional, skill_rows, accent, education=True,
-          selected_title="Selected Experience", additional_title="Additional Evidence", quote=RECOMMENDATION_QUOTE):
-    s = styles(accent)
-    doc = SimpleDocTemplate(str(path), pagesize=letter, rightMargin=.55*inch, leftMargin=.55*inch, topMargin=.42*inch, bottomMargin=.38*inch,
+          selected_title="Experience", additional_title="Additional Evidence", quote=None,
+          bullet_size=7.8, project_gap=6.5, skill_pad=3.6):
+    s = styles(accent, bullet_size=bullet_size)
+    content_width = 6.6*inch
+    doc = SimpleDocTemplate(str(path), pagesize=letter, rightMargin=.55*inch, leftMargin=.55*inch, topMargin=.34*inch, bottomMargin=.3*inch,
                             title=f"Min Seohyeon - {role}", author="Min Seohyeon")
-    story = [header(s, role), Spacer(1, 4), rule(accent), Paragraph(summary, s["summary"])]
+    story = [header(s, role, content_width), Spacer(1, 3), rule(accent, content_width), Paragraph(summary, s["summary"])]
     if quote:
         text, attribution = quote
         attribution_label = linked_label(attribution, RECOMMENDATION_URL, accent, size=6.2)
         story.append(Paragraph(f'“{text}” — {attribution_label}', s["quote"]))
-    story += section(selected_title, s, accent)
-    for p in selected:
-        story += [project(*p, s, accent), Spacer(1, 2.2)]
-    story += section(additional_title, s, accent)
-    for item in additional:
-        title, text, url = (*item, None)[:3]
-        label = linked_label(title, url, accent, size=6.2)
-        story.append(Paragraph(f"<b>{label}</b> - {text}", s["small"]))
     story += section("Skills", s, accent)
     data = [[Paragraph(f"<b>{k}</b>", s["skill"]), Paragraph(v, s["skill"])] for k,v in skill_rows]
-    st = Table(data, colWidths=[1.18*inch, 5.42*inch], hAlign="LEFT")
-    st.setStyle(TableStyle([("VALIGN",(0,0),(-1,-1),"TOP"), ("BACKGROUND",(0,0),(0,-1),PALE), ("LEFTPADDING",(0,0),(-1,-1),4), ("RIGHTPADDING",(0,0),(-1,-1),4), ("TOPPADDING",(0,0),(-1,-1),2.5), ("BOTTOMPADDING",(0,0),(-1,-1),2.5), ("LINEBELOW",(0,0),(-1,-2),.35,LINE)]))
+    skill_label_width = 1.18*inch
+    st = Table(data, colWidths=[skill_label_width, content_width - skill_label_width], hAlign="LEFT")
+    st.setStyle(TableStyle([("VALIGN",(0,0),(-1,-1),"TOP"), ("BACKGROUND",(0,0),(0,-1),PALE), ("LEFTPADDING",(0,0),(-1,-1),4), ("RIGHTPADDING",(0,0),(-1,-1),4), ("TOPPADDING",(0,0),(-1,-1),skill_pad), ("BOTTOMPADDING",(0,0),(-1,-1),skill_pad), ("LINEBELOW",(0,0),(-1,-2),.35,LINE)]))
     story.append(st)
+    story += section(selected_title, s, accent)
+    for p in selected:
+        title, date, bullets, url, role_stack, emphasis = (*p, False)[:6]
+        story += [project(title, date, bullets, url, role_stack, s, accent, content_width, emphasis), Spacer(1, project_gap)]
+    if additional:
+        story += section(additional_title, s, accent)
+        for item in additional:
+            title, text, url = (*item, None)[:3]
+            label = linked_label(title, url, accent, size=6.2)
+            story.append(Paragraph(f"<b>{label}</b> - {text}", s["small"]))
     if education:
         story += section("Education", s, accent)
-        story.append(Paragraph("<b>B.S. Computer Science in Real-Time Interactive Simulation</b> | 2026-Present | Expected Graduation: May 2028<br/>Keimyung University / DigiPen Institute of Technology | GPA 3.958/4.0", s["small"]))
+        story.append(Paragraph("<b>B.S. Computer Science in Real-Time Interactive Simulation</b> | Expected Graduation: May 2028<br/>Keimyung University / DigiPen Institute of Technology | GPA 3.958/4.0", s["small"]))
     doc.build(story)
 
 
@@ -157,32 +167,53 @@ def build_cover_letter(path, role, date_str, recipient_lines, paragraphs, closin
 
 def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=False):
     DOCS.mkdir(exist_ok=True)
+
     ta_selected = [
-        ("TEACHING ASSISTANT - GAME DEVELOPMENT PROJECT I", "DIGIPEN KOREA | SPRING 2025", [
+        ("TEACHING ASSISTANT - GAME DEVELOPMENT PROJECT I", "Spring 2025", [
             "Supported ~30 students across DigiPen Korea's Game Development Project I cohort with C++ implementation, debugging, and technical problem-solving throughout the term.",
             "Diagnosed issues across student projects and delivered clear, actionable technical feedback to help teams identify problems and improve their implementations."
-        ], None),
-        ("MANZO", "C++ / OpenGL / GLSL | 2024-2025", [
-            "Implemented BPM timing windows, beat/bar counting, and audio-synchronized player movement and boss patterns in a custom C++ engine.",
-            "Built layer-sorted draw queues, framebuffer post-processing for bloom, underwater distortion, god rays, ripples, and transitions, plus particles with linear, curved, radial, spray, random, and player-targeted motion.",
-            "Moved scenario/dialogue ownership into engine-level systems to eliminate dangling-pointer failures; diagnosed and eliminated per-frame redundant collision checks causing severe boss-fight frame drops, restoring stable performance. Largest repository contributor: 366 commits."
-        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/01_Manzo.html"),
-        ("TOO HOT!", "Unity / ShaderLab / VFX / UI | 2026", [
-            "Created and integrated the game's 2D shadow treatment, pattern-specific VFX, UI, animation, hit feedback, and visual hierarchy; tuned width and length controls for readable shadows across characters and combat spaces.",
-            "Specified GameplayManager and per-stage ScriptableObject data flow, save-range safeguards, chapter selection, and clean-state debug controls; reviewed and tested teammate-authored gameplay implementations.",
-            "Balanced direct art/technical-art execution with a 130+ item P0-P3 backlog, two-programmer coordination, code review, merges, and final visual integration."
-        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/07_TooHot.html"),
-        ("STREET TYPER", "Unity URP / UI Technical Art | 10-day build, 2026", [
-            "Owned original 2D art, UI composition, particles, outlines, camera shake, hit VFX, and animated feedback for a shipped bilingual typing-combat game.",
-            "Specified, evaluated, debugged, and integrated an AI-assisted reusable UI shader workflow for rounded forms, gradients, drop/inner shadows, blur, presets, and inspector iteration; gameplay code was teammate-authored.",
-            "Published a playable build on <link href='https://handalhandal.itch.io/streettyper'>itch.io</link> and preparing the game for a Steam release."
-        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/06_StreetTyper.html"),
+        ], None, None),
+        ("MANZO", "Sep 2024 – Dec 2025", [
+            "Implemented BPM timing windows, beat/bar counting, and audio-synchronized player movement and boss patterns.",
+            "Built layer-sorted draw queues and a framebuffer post-processing pipeline for bloom, underwater distortion, god rays, and transitions.",
+            "Diagnosed severe boss-fight frame drops to per-frame redundant collision checks and eliminated them, restoring stable performance.",
+            "Eliminated dangling-pointer failures by moving scenario/dialogue ownership into engine-level systems. Largest repository contributor: 366 commits."
+        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/01_Manzo.html",
+           "Graphics / Engine Programmer · Technical Artist · Production Lead  ·  C++ / OpenGL / GLSL", True),
+        ("TOO HOT!", "Jul 2026", [
+            "Created and integrated the game's 2D shadow treatment, pattern-specific VFX, UI, animation, and hit feedback.",
+            "Tuned width and length controls for readable shadows across characters and combat spaces.",
+            "Balanced direct art/technical-art execution with a 130+ item P0-P3 backlog and two-programmer coordination.",
+            "Reviewed and tested teammate-authored gameplay implementations through final visual integration."
+        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/07_TooHot.html",
+           "Technical Art · Creative / Technical Direction · Producer  ·  Unity / ShaderLab / VFX / UI", True),
+        ("STREET TYPER", "Aug 2026", [
+            "Owned original 2D art, UI composition, particles, outlines, camera shake, and animated feedback.",
+            "Specified and integrated an AI-assisted reusable UI shader workflow for rounded forms, gradients, and blur.",
+            "Debugged and iterated the shader workflow's presets and inspector controls; gameplay code was teammate-authored.",
+            "Published a playable build on <link href='https://handalhandal.itch.io/streettyper'>itch.io</link> and prepared the game for a Steam release."
+        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/06_StreetTyper.html",
+           "Art · Technical Art · Producer (Team Project)  ·  Unity URP / UI Technical Art", True),
+        ("DOUBLE HIT", "Mar – Jul 2024", [
+            "Implemented a custom sprite-file parser loading textures, animation frames, hotspots, and collision shapes from data.",
+            "Built the texture manager with filename-based caching, dedup, and an offscreen render-texture mode.",
+            "Built the GameObjectManager driving per-frame update/draw and collision dispatch across all live objects."
+        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/03_DoubleHit.html",
+           "Systems Programmer · Art / Audio · Production Lead  ·  C++ / raylib"),
+        ("BIRD STRIKE", "Nov – Dec 2023", [
+            "Implemented audio-timeline beat detection and rhythm-synchronized crow spawning as the core gameplay loop.",
+            "Built dynamic attack subdivision, player/crow movement, and atan2-based direction logic in a custom engine.",
+            "Produced original art and audio as sole developer on a two-month project without a commercial engine."
+        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/04_BirdStrike.html",
+           "Gameplay Programmer · Game Designer · Artist · Production Lead"),
+        ("NEW MANZO", "Aug 2025 – Sep 2026", [
+            "Built raycasting-based underwater visibility and post-processing for atmospheric rendering.",
+            "Implemented procedural leg animation for a multi-legged boss using ground raycasts and step-arc motion.",
+            "Contributed fish-schooling AI and beat-linked hunting; repository lead contributor with 417 commits."
+        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/00_NewManzo.html",
+           "Primary C# Programmer · Game Artist / Visual Director · Production Lead  ·  Unity / C#", True),
     ]
-    ta_add = [
-        ("DOUBLE HIT", "Implemented sprite/animation parsing, texture caching, and collision-dispatch systems within a composition-based GameObject/Component engine.", "https://seohyeon-min.github.io/my_portfolio/portfolio_game/03_DoubleHit.html"),
-        ("BIRD STRIKE", "Implemented audio-timeline beat detection, rhythm-synchronized spawning, dynamic attack subdivision, player/crow movement, and atan2 direction logic; also produced original art and audio.", "https://seohyeon-min.github.io/my_portfolio/portfolio_game/04_BirdStrike.html"),
-        ("NEW MANZO", "Contribute Unity gameplay and technical systems for fish schooling, obstacle avoidance, beat-linked hunting, raycasting, and post-processing; repository lead contributor with 417 commits.", "https://seohyeon-min.github.io/my_portfolio/portfolio_game/00_NewManzo.html"),
-    ]
+    ta_add = []
     ta_skills = [
         ("Graphics", "OpenGL, GLSL, Unity URP, ShaderLab, Unreal Engine (Niagara particle systems, project exposure), framebuffer/post-processing, custom shadows, particles, VFX, UI shaders"),
         ("Programming", "C++, C#, C, Python, JavaScript; gameplay and engine architecture, collision, debugging, memory/lifetime fixes"),
@@ -199,28 +230,48 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
             ("TEACHING ASSISTANT - GAME DEVELOPMENT PROJECT I", "DIGIPEN KOREA | SPRING 2025", [
                 "Supported ~30 students across DigiPen Korea's Game Development Project I cohort with C++ implementation, debugging, and technical problem-solving throughout the term.",
                 "Diagnosed issues across student projects and delivered clear, actionable technical feedback to help teams identify problems and improve their implementations."
-            ], None),
-            ("MANZO", "C++ / OpenGL / GLSL | 2024-2025", [
-                "Implemented BPM timing windows, beat/bar counting, and audio-synchronized player movement and boss patterns in a custom C++ engine.",
-                "Built layer-sorted draw queues, framebuffer post-processing for bloom, underwater distortion, god rays, ripples, and transitions, plus particles with linear, curved, radial, spray, random, and player-targeted motion.",
-                "Moved scenario/dialogue ownership into engine-level systems to eliminate dangling-pointer failures; diagnosed and eliminated per-frame redundant collision checks causing severe boss-fight frame drops, restoring stable performance. Largest repository contributor: 366 commits."
-            ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/01_Manzo.html"),
-            ("NEW MANZO", "Unity / C# | 2025-2026", [
-                "Designed and implemented a Template Method-based boss pattern architecture (MonsterPatternSO) that fixes shared logic — prepare phase, cooldown, telegraph spawning — in one base class across 21 concrete pattern implementations.",
-                "Built a Composite orchestration layer (CombinePatternSO) that chains sub-patterns into combos at runtime, including combos nested inside combos, through Instantiate-based sequencing with no additional per-combo code.",
-                "Decoupled projectile motion and spawn behavior into standalone interfaces so pattern logic never depends on a concrete projectile implementation; primary C# contributor with 418 of 585 repository commits."
-            ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/00_NewManzo.html"),
-            ("DOUBLE HIT", "C++ / raylib | 2024", [
-                "Implemented a custom sprite-file parser that loads textures, animation frames, hotspots, and collision shapes, then wires collision components onto GameObjects from parsed data — built within a composition-based GameObject/Component engine.",
-                "Replaced ~30 hardcoded platform coordinates with a PlatformManager that parses a custom .plf text format to load level geometry from data instead of recompiled C++, plus the GameObjectManager driving per-frame update/draw and pairwise collision dispatch across all live objects.",
-                "This implementation became the base Manzo later expanded into layer-based rendering, framebuffer post-processing, CCD, rhythm, and scenario systems."
-            ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/03_DoubleHit.html"),
+            ], None, None),
+            ("MANZO", "Sep 2024 – Dec 2025", [
+                "Implemented BPM timing windows, beat/bar counting, and audio-synchronized player movement and boss patterns.",
+                "Built layer-sorted draw queues and a framebuffer post-processing pipeline for bloom, underwater distortion, god rays, and transitions.",
+                "Diagnosed severe boss-fight frame drops to per-frame redundant collision checks and eliminated them, restoring stable performance.",
+                "Eliminated dangling-pointer failures by moving scenario/dialogue ownership into engine-level systems. Largest repository contributor: 366 commits."
+            ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/01_Manzo.html",
+               "Graphics / Engine Programmer · Technical Artist · Production Lead  ·  C++ / OpenGL / GLSL"),
+            ("NEW MANZO", "Aug 2025 – Sep 2026", [
+                "Designed a Template Method-based boss pattern architecture that fixes shared logic across 21 concrete implementations.",
+                "Built a Composite orchestration layer that chains sub-patterns into runtime combos, including combos nested inside combos.",
+                "Decoupled projectile motion and spawn behavior into standalone interfaces independent of any concrete projectile.",
+                "Primary C# contributor with 418 of 585 repository commits."
+            ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/00_NewManzo.html",
+               "Primary C# Programmer · Game Artist / Visual Director · Production Lead  ·  Unity / C#"),
+            ("DOUBLE HIT", "Mar – Jul 2024", [
+                "Implemented a custom sprite-file parser that loads textures, animation frames, hotspots, and collision shapes from data.",
+                "Replaced ~30 hardcoded platform coordinates with a PlatformManager parsing level geometry from a custom .plf format.",
+                "Built the GameObjectManager driving per-frame update/draw and pairwise collision dispatch across all live objects.",
+                "This implementation became the base Manzo later expanded into rendering, CCD, rhythm, and scenario systems."
+            ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/03_DoubleHit.html",
+               "Systems Programmer · Art / Audio · Production Lead  ·  C++ / raylib"),
+            ("BIRD STRIKE", "Nov – Dec 2023", [
+                "Implemented audio-timeline beat detection and rhythm-synchronized crow spawning as the core gameplay loop.",
+                "Built dynamic attack subdivision, player/crow movement, and atan2-based direction logic in a custom engine.",
+                "Produced original art and audio as sole developer on a two-month project without a commercial engine."
+            ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/04_BirdStrike.html",
+               "Gameplay Programmer · Game Designer · Artist · Production Lead"),
+            ("TOO HOT!", "Jul 2026", [
+                "Specified GameplayManager and per-stage ScriptableObject data flow, save-range safeguards, and chapter selection.",
+                "Reviewed and tested teammate-authored gameplay implementations and clean-state debug controls.",
+                "Balanced direct art/technical-art execution with a 130+ item P0-P3 backlog and two-programmer coordination."
+            ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/07_TooHot.html",
+               "Technical Art · Creative / Technical Direction · Producer  ·  Unity / ShaderLab"),
+            ("STREET TYPER", "Aug 2026", [
+                "Specified, evaluated, and integrated a reusable UI shader workflow for rounded forms, gradients, and blur.",
+                "Owned original 2D art, UI composition, particles, and hit VFX; gameplay code was teammate-authored.",
+                "Published a playable build on <link href='https://handalhandal.itch.io/streettyper'>itch.io</link> and prepared the game for a Steam release."
+            ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/06_StreetTyper.html",
+               "Art · Technical Art · Producer (Team Project)  ·  Unity URP"),
         ]
-        gameplay_add = [
-            ("BIRD STRIKE", "Implemented audio-timeline beat detection, rhythm-synchronized spawning, dynamic attack subdivision, player/crow movement, and atan2 direction logic; also produced original art and audio.", "https://seohyeon-min.github.io/my_portfolio/portfolio_game/04_BirdStrike.html"),
-            ("TOO HOT!", "Specified GameplayManager and per-stage ScriptableObject data flow, save-range safeguards, chapter selection, and clean-state debug controls within a 130+ item P0-P3 backlog and two-programmer coordination.", "https://seohyeon-min.github.io/my_portfolio/portfolio_game/07_TooHot.html"),
-            ("STREET TYPER", "Specified, evaluated, debugged, and integrated a reusable UI shader workflow for a bilingual typing-combat game published on itch.io and preparing for a Steam release; gameplay code was teammate-authored.", "https://seohyeon-min.github.io/my_portfolio/portfolio_game/06_StreetTyper.html"),
-        ]
+        gameplay_add = []
         gameplay_skills = [
             ("Programming", "C++, C#, C, Python, JavaScript; gameplay/engine architecture, design patterns (Template Method, Composite), collision, debugging, memory/lifetime fixes"),
             ("Systems", "Custom C++ engines (raylib, OpenGL), Unity gameplay systems, boss/pattern frameworks, state and data-driven design, performance debugging"),
@@ -322,29 +373,53 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
         )
 
     prod_selected = [
-        ("DANGLING GAME JAM", "FOUNDER / PRODUCER / PROJECT LEAD | 2025", [
-            "Founded and delivered the university's first interdepartmental game jam: 24 participants, 6 teams, and a 36-hour production window; every team completed and submitted a playable game.",
-            "Owned the event from proposal through closeout, including university approvals, an approximately KRW 800,000 budget, promotion, participant communication, on-site operations, final submissions, and visual materials.",
-            "Achieved a 4.87/5 participant satisfaction score across 23 post-event responses while coordinating cross-disciplinary participants and keeping all six teams on track to finish."
-        ], None),
-        ("PLUSH PRODUCTION", "PRODUCT DESIGNER / VENDOR &amp; FULFILLMENT LEAD | INDEPENDENT", [
-            "Opened prepaid preorders through Witchform and set production quantities from confirmed paid demand, minimizing upfront capital exposure and unsold inventory risk while generating approximately KRW 10 million in total revenue.",
-            "Sourced a manufacturer through Taobao, negotiated schedule and unit pricing, commissioned and reviewed physical samples, communicated revisions, and approved mass production at the intended quality and cost.",
-            "Built a direct factory-to-customer workflow across freight forwarding, defect inspection, and domestic delivery; centralized order, production, and shipping Q&amp;A through Peing. The public account reached 235 followers and 1,000+ cumulative reposts."
-        ], "https://x.com/mallang707"),
-        ("TOO HOT!", "TECHNICAL / CREATIVE PRODUCER | 2026", [
-            "Directed two gameplay programmers, defined the project's technical structure and implementation priorities, and coordinated gameplay, art, UI, VFX, audio, and presentation through a 130+ item P0-P3 backlog.",
-            "Owned the integration branch and final merges; reviewed every code contribution, identified architectural and gameplay issues, gave actionable feedback, requested revisions, and verified fixes in the build.",
-            "Turned design risks into concrete system requirements and player-feedback decisions; secured an offline booth at a Korean game event for an October 2026 exhibition."
-        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/07_TooHot.html"),
+        ("DANGLING GAME JAM", "Jun 2025", [
+            "Founded and delivered the university's first interdepartmental game jam: 24 participants, 6 teams, 36 hours.",
+            "Owned the event from proposal through closeout, including university approvals and an ~KRW 800,000 budget.",
+            "Ran promotion, participant communication, on-site operations, and final submissions; every team finished.",
+            "Achieved a 4.87/5 participant satisfaction score across 23 post-event responses."
+        ], None, "Founder / Producer / Project Lead"),
+        ("PLUSH PRODUCTION", "Independent", [
+            "Opened prepaid preorders through Witchform and set production quantities from confirmed paid demand.",
+            "Sourced a manufacturer through Taobao, negotiated pricing and schedule, and reviewed physical samples.",
+            "Built a factory-to-customer workflow across freight forwarding, defect inspection, and domestic delivery.",
+            "Generated ~KRW 10 million in revenue; the public account reached 235 followers and 1,000+ reposts."
+        ], "https://x.com/mallang707", "Vendor &amp; Fulfillment Lead · Product Designer"),
+        ("TOO HOT!", "Jul 2026", [
+            "Directed two gameplay programmers and defined the project's technical structure and priorities.",
+            "Owned the integration branch and final merges; reviewed every contribution and requested revisions.",
+            "Coordinated gameplay, art, UI, VFX, audio, and presentation through a 130+ item P0-P3 backlog.",
+            "Secured an offline booth at a Korean game event for an October 2026 exhibition."
+        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/07_TooHot.html",
+           "Producer · Technical / Creative Direction  ·  Unity / ShaderLab"),
+        ("NEW MANZO", "Aug 2025 – Sep 2026", [
+            "Led long-term scope, milestones, and delivery planning across a multi-semester team project.",
+            "Directed cross-discipline communication and ownership while contributing hands-on technical support.",
+            "Repository lead contributor with 417 of 585 commits, driving the project to a completed playable build."
+        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/00_NewManzo.html",
+           "Production Lead · Primary C# Programmer · Game Artist / Visual Director  ·  Unity / C#"),
+        ("MANZO", "Sep 2024 – Dec 2025", [
+            "Bridged design, art, and engineering across a multi-semester, largely solo-engineered C++ project.",
+            "Directly implemented rhythm, rendering, particles, debugging, and Git integration end-to-end.",
+            "Owned final presentation and polish; largest repository contributor with 366 commits."
+        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/01_Manzo.html",
+           "Production Lead · Graphics / Engine Programmer · Technical Artist  ·  C++ / OpenGL / GLSL"),
+        ("STREET TYPER", "Aug 2026", [
+            "Scoped and coordinated a public 10-day team build for a bilingual typing-combat game.",
+            "Owned visual direction, UI, VFX, and gameplay readability across the production.",
+            "Published the build on <link href='https://handalhandal.itch.io/streettyper'>itch.io</link> and coordinated preparation for a Steam release."
+        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/06_StreetTyper.html",
+           "Producer · Art / Technical Art  ·  Unity URP"),
+        ("JOINT BAND PERFORMANCE", "May 2025", [
+            "Co-organized a two-hour live performance featuring six acts from DigiPen, BARD, and an independent band.",
+            "Coordinated rehearsals, setlists, equipment load-in, show order, and post-event logistics."
+        ], None, "Co-Organizer"),
+        ("TEACHING ASSISTANT - GAME DEVELOPMENT PROJECT I", "Spring 2025", [
+            "Supported ~30 students across DigiPen Korea's Game Development Project I cohort with technical problem-solving.",
+            "Diagnosed issues across student projects and delivered clear, actionable feedback throughout the term."
+        ], None, None),
     ]
-    prod_add = [
-        ("TEACHING ASSISTANT", "Supported ~30 students across DigiPen Korea's Game Development Project I cohort with technical problem-solving, debugging, and actionable project feedback."),
-        ("JOINT BAND PERFORMANCE", "Co-organized a two-hour live show featuring six acts from DigiPen, BARD, and an independent band; coordinated rehearsals, team communication, setlists, equipment load-in, show order, and post-event logistics."),
-        ("NEW MANZO", "Lead long-term scope, ownership, milestones, cross-discipline communication, and delivery planning while contributing hands-on technical support; repository lead contributor with 417 commits.", "https://seohyeon-min.github.io/my_portfolio/portfolio_game/00_NewManzo.html"),
-        ("STREET TYPER", "Scoped and coordinated a public 10-day team build, published it on itch.io, and support its preparation for Steam release while owning visual direction, UI, VFX, and gameplay readability.", "https://seohyeon-min.github.io/my_portfolio/portfolio_game/06_StreetTyper.html"),
-        ("MANZO", "Bridged design, art, and engineering while directly implementing rhythm, rendering, particles, debugging, Git integration, and final presentation; 366 commits.", "https://seohyeon-min.github.io/my_portfolio/portfolio_game/01_Manzo.html"),
-    ]
+    prod_add = []
     prod_skills = [
         ("Production", "Scope/milestone planning, P0-P3 prioritization, ownership, risk identification, acceptance criteria, review, testing, integration"),
         ("Operations", "Event production, vendor sourcing and negotiation, sample review, preorder planning, fulfillment, customer communication"),
@@ -352,7 +427,8 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
         ("Technical", "Unity, C++, C#, OpenGL, GLSL, ShaderLab, Git branching and merge review, CMake; graphics/gameplay debugging"),
     ]
     if build_prod:
-        build(DOCS/"Resume_Production.pdf", "PRODUCER | PROJECT LEAD", "Producer and project lead who carries games, events, and physical products from planning through delivery. I align multidisciplinary teams and external partners, negotiate resources and constraints, track execution, resolve delivery risks, and build repeatable operations across production, live events, vendors, logistics, and customer communication.", prod_selected, prod_add, prod_skills, TEAL)
+        build(DOCS/"Resume_Production.pdf", "PRODUCER | PROJECT LEAD", "Producer and project lead who carries games, events, and physical products from planning through delivery. I align multidisciplinary teams and external partners, negotiate resources and constraints, track execution, resolve delivery risks, and build repeatable operations across production, live events, vendors, logistics, and customer communication.", prod_selected, prod_add, prod_skills, TEAL,
+              bullet_size=7.35, project_gap=1.4, skill_pad=2.5)
 
     if build_student:
         student_selected = [
@@ -360,19 +436,19 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
                 "Founded and delivered the university's first interdepartmental game jam, bringing together 24 participants across 6 teams for a 36-hour event; every team completed and submitted a playable game.",
                 "Managed university approvals, an approximately KRW 800,000 budget, promotion, participant communication, scheduling, on-site operations, final submissions, and event materials from proposal through closeout.",
                 "Earned a 4.87/5 satisfaction score from 23 post-event responses by creating a structured environment where cross-disciplinary students could collaborate and finish their work."
-            ], None),
+            ], None, None),
             ("JOINT BAND PERFORMANCE", "CO-ORGANIZER | MAY 2025", [
                 "Co-organized a two-hour live performance featuring six acts from DigiPen, BARD, and an independent band, connecting students and performers across separate communities.",
                 "Coordinated rehearsals, cross-group announcements, setlists, equipment load-in and setup, show order, venue-day communication, and post-event logistics."
-            ], None),
+            ], None, None),
             ("PLUSH PRODUCTION", "INDEPENDENT PROJECT / EXTERNAL OPERATIONS", [
                 "Generated approximately KRW 10 million in total revenue through prepaid Witchform orders, setting production quantities from confirmed demand to avoid unsold inventory risk.",
                 "Sourced and negotiated with a Chinese manufacturer, reviewed samples and revisions, and connected freight forwarding, defect inspection, domestic delivery, and Peing buyer Q&amp;A into a factory-to-customer workflow."
-            ], "https://x.com/mallang707"),
+            ], "https://x.com/mallang707", None),
             ("TOO HOT!", "PROJECT LEAD / TECHNICAL PRODUCER | 2026", [
                 "Directed two programmers and coordinated gameplay, art, UI, VFX, audio, and presentation through a 130+ item prioritized backlog.",
                 "Secured an offline exhibition booth at a Korean game event for October 2026 and coordinated the team's preparation of the project for public presentation."
-            ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/07_TooHot.html"),
+            ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/07_TooHot.html", None),
         ]
         student_add = [
             ("NEW MANZO", "Lead long-term scope, milestones, ownership, cross-discipline communication, and delivery planning while contributing hands-on technical support.", "https://seohyeon-min.github.io/my_portfolio/portfolio_game/00_NewManzo.html"),

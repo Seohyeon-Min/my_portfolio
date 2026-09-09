@@ -213,6 +213,57 @@ function applyLanguage(language) {
 
 document.addEventListener('DOMContentLoaded', () => {
   ensureLanguageToggle();
+  const techStrip = document.querySelector('.tech-stack-strip');
+  if (techStrip) {
+    const skills = [...techStrip.querySelectorAll('.tech-stack-strip__track > span:not(.tech-stack-strip__dup)')];
+    const cards = [...document.querySelectorAll('.link-archive-grid > a, .portfolio__item[href]')];
+    const projectTools = {
+      '00_NewManzo.html': 'C# FMOD HLSL Clip Studio Paint Aseprite GitHub', '01_Manzo.html': 'C++ OpenGL GLSL Custom Engine Clip Studio Paint GitHub',
+      '03_DoubleHit.html': 'C++ GLSL OpenGL Spriter Pro Clip Studio Paint GitHub', '04_BirdStrike.html': 'C++ Clip Studio Paint Cakewalk raylib GitHub',
+      '05_ThinkThink.html': 'Unity HLSL C# GitHub', '06_StreetTyper.html': 'C# Unity Spriter Pro 2D Rigging Animation HLSL Clip Studio Paint GitHub',
+      '07_TooHot.html': 'C# Unity HLSL GitHub', 'Dangling.html': 'Clip Studio Paint', 'PlushProduction.html': 'Clip Studio Paint Notion',
+      '01_hello.html': 'WebGL JavaScript GLSL GitHub', '02_meshes.html': 'WebGL JavaScript GLSL GitHub', '03_fog.html': 'WebGL JavaScript GLSL GitHub',
+      '04_toon.html': 'WebGL JavaScript GLSL GitHub', '05_shadow.html': 'WebGL JavaScript GLSL GitHub', '06_value.html': 'WebGL JavaScript GLSL GitHub',
+      '07_gradient.html': 'WebGL JavaScript GLSL GitHub', '08_demo_fun.html': 'WebGL JavaScript GLSL GitHub'
+    };
+    const cardTools = card => projectTools[card.getAttribute('href').split('/').pop().split('?')[0]] || card.textContent;
+    skills.forEach(skill => {
+      skill.setAttribute('role', 'button');
+      skill.tabIndex = 0;
+      const activate = () => {
+      const value = skill.textContent.trim().toLowerCase();
+        if (skill.classList.contains('is-selected')) {
+          skills.forEach(item => item.classList.remove('is-selected'));
+          cards.forEach(card => { card.classList.remove('skill-match', 'skill-dim'); });
+          return;
+        }
+        skills.forEach(item => item.classList.toggle('is-selected', item === skill));
+        cards.forEach(card => {
+          const matches = cardTools(card).toLowerCase().includes(value);
+          card.classList.toggle('skill-match', matches);
+          card.classList.toggle('skill-dim', !matches);
+        });
+      };
+      skill.addEventListener('click', activate);
+      skill.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activate(); } });
+    });
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        const text = cardTools(card).toLowerCase();
+        skills.forEach(skill => skill.classList.toggle('is-hover-match', text.includes(skill.textContent.trim().toLowerCase())));
+      });
+      card.addEventListener('mouseleave', () => skills.forEach(skill => skill.classList.remove('is-hover-match')));
+    });
+    const fundamentals = document.querySelector('[data-graphics-open]');
+    if (fundamentals) {
+      const highlightFundamentals = () => {
+        const wanted = ['opengl', 'glsl', 'c++', 'github'];
+        skills.forEach(skill => skill.classList.toggle('is-hover-match', wanted.includes(skill.textContent.trim().toLowerCase())));
+      };
+      fundamentals.addEventListener('mouseenter', highlightFundamentals);
+      fundamentals.addEventListener('mouseleave', () => skills.forEach(skill => skill.classList.remove('is-hover-match')));
+    }
+  }
   if (/\/(portfolio_game|portfolio_planning|portfolio)\//.test(location.pathname)) {
     const params = new URLSearchParams(location.search);
     const from = params.get('from') === 'proof' ? 'proof' : 'archive';
