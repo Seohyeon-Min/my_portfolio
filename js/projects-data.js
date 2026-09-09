@@ -109,6 +109,7 @@ const projectsData = {
     experience: {
       role: "Project Lead & 그래픽스 기술 프로그래머",
       period: "2024년 9월 – 현재",
+      tools: "C++ · OpenGL · GLSL · Custom Engine",
       description: "프로젝트 관리, 팀 내 커뮤니케이션, 그래픽스 파이프라인의 기술적 지원을 담당했습니다."
     },
     trailers: [
@@ -491,12 +492,7 @@ const projectsData = {
         }
       ]
     },
-    projectDetails: {
-      tool: "Notion",
-      problems: [
-        "두 장르의 균형 잡기: 리듬게임과 매트로베니아 두 장르의 밸런스를 잡는것이 어려웠습니다. 리듬적 제약이 강하면 이동이 답답해질 수 있기 때문에 자유 이동과 리듬 기반 대시를 모두 허용하여 유연한 플레이와 리듬 몰입을 동시에 만족시켰습니다."
-      ]
-    },
+    projectDetails: null,
     source: {
       text: "프로젝트 소스는 다음에서 확인할 수 있습니다",
       url: "https://github.com/Seohyeon-Min/manzo",
@@ -1071,7 +1067,7 @@ const projectsData = {
       proof: "The final build preserves the same opposing character placement, cyan forest depth, violet arena, card fan, speech-bubble information, and hot-pink/mint accents—then adds live typing state, health, timing, animation, VFX, and hit feedback."
     },
     gallery: {
-      title: "Visual Direction",
+      title: "Gallery",
       subtitle: "Art and presentation assets from the project repository",
       images: [
         { src: "../img/StreetTyper/title.png", alt: "Street Typer title screen", title: "Title screen" },
@@ -1122,8 +1118,9 @@ const projectsData = {
         experience: {
           role: "아트 · 테크니컬 아트 · 프로듀서 (팀 프로젝트)",
           period: "2026 · 10일 제작",
-          description: "게임의 중심이 된 타이핑 전투 아이디어를 제안하고, 실제로 플레이 가능한 초기 프로토타입을 만들어 핵심 루프를 정했습니다. 팀의 게임 디자이너는 이후 레벨 디자인과 디자인 폴리싱을 담당했습니다. 저는 프로듀서로서 10일 제작 범위와 역할을 조율하는 동시에 비주얼 디렉션, 아트 적용, UI, VFX와 타격 피드백을 직접 맡아 플레이 가능한 빌드까지 완성했습니다."
-        },
+      description: "게임의 중심이 된 타이핑 전투 아이디어를 제안하고, 실제로 플레이 가능한 초기 프로토타입을 만들어 핵심 루프를 정했습니다. 팀의 게임 디자이너는 이후 레벨 디자인과 디자인 폴리싱을 담당했습니다. 저는 프로듀서로서 10일 제작 범위와 역할을 조율하는 동시에 비주얼 디렉션, 아트 적용, UI, VFX와 타격 피드백을 직접 맡아 플레이 가능한 빌드까지 완성했습니다."
+    },
+    tools: "C# · Unity · Spriter Pro · 2D Rigging · Animation · HLSL · Clip Studio Paint",
         conceptComparison: {
           eyebrow: "CONCEPT → PLAYABLE BUILD",
           title: "콘셉트의 핵심을 실제 플레이 화면까지 유지했습니다.",
@@ -1198,6 +1195,7 @@ const projectsData = {
       period: "2026 · Game Jam",
       description: "Owned the project's technical and production direction while directly creating and integrating art, VFX, UI, shaders, and animation. I defined system behavior and architecture requirements, translated them into a prioritized 130+ task backlog, assigned and reviewed implementation, tested results, and coordinated main-branch integration. Teammates authored the gameplay code; the specifications, priorities, review decisions, and visual implementation described here were mine."
     },
+    tools: "C# · Unity · HLSL",
     trailers: [],
     videos: [],
     gallery: {
@@ -1454,7 +1452,7 @@ applyEnglishProjectOverride("01_Manzo", {
   experience: {
     role: "Graphics / Engine Programmer · Technical Artist · Production Lead",
     period: "September 2024 – 2025",
-    description: "Implemented rendering and rhythm systems, integrated visual effects, resolved engine-level stability and performance issues, and coordinated the project toward a playable build."
+    tools: "C++ · OpenGL · GLSL · Custom Engine"
   },
   contributions: {
     sections: [
@@ -1590,12 +1588,7 @@ applyEnglishProjectOverride("01_Manzo", {
       }
     ]
   },
-  projectDetails: {
-    tool: "C++ · OpenGL · GLSL · Custom Engine",
-    problems: [
-      "Balanced free movement with beat-driven dashing so rhythm created mastery without making exploration feel restrictive."
-    ]
-  },
+  projectDetails: null,
   source: {
     text: "Review the source and implementation on GitHub.",
     url: "https://github.com/Seohyeon-Min/manzo",

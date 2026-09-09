@@ -234,24 +234,46 @@
   function renderMyRole(project) {
     const myRole = project.myRole || project.experience;
     if (!myRole) return;
+    const defaultTools = {
+      '00_NewManzo': 'C# · FMOD · HLSL · Clip Studio Paint · Aseprite',
+      '01_Manzo': 'C++ · OpenGL · GLSL · Custom Engine',
+      '03_DoubleHit': 'C++ · GLSL · OpenGL',
+      '04_BirdStrike': 'C++ · Clip Studio Paint · Cakewalk · raylib',
+      '05_ThinkThink': 'Unity · HLSL · C#',
+      '06_StreetTyper': 'C# · Unity · Spriter Pro · 2D Rigging · Animation · HLSL · Clip Studio Paint',
+      '07_TooHot': 'C# · Unity · HLSL',
+      'Dangling': 'Unity · C#',
+      'PlushProduction': 'Clip Studio Paint · Notion',
+      '01_hello': 'WebGL · JavaScript · GLSL',
+      '02_meshes': 'WebGL · JavaScript · GLSL',
+      '03_fog': 'WebGL · JavaScript · GLSL',
+      '04_toon': 'WebGL · JavaScript · GLSL',
+      '05_shadow': 'WebGL · JavaScript · GLSL',
+      '06_value': 'WebGL · JavaScript · GLSL',
+      '07_gradient': 'WebGL · JavaScript · GLSL',
+      '08_demo_fun': 'WebGL · JavaScript · GLSL'
+    };
+    const tools = project.tools || project.projectDetails?.tool || defaultTools[getProjectId()];
 
     const roundedSection = document.querySelector('.rounded-section');
     if (!roundedSection) return;
 
     const myRoleHTML = `
-      <section class="my-role-section">
+      <section class="experience-section my-role-section">
         <h2 class="highlighted-title">My Role</h2>
         <div class="my-role-card">
           <div class="my-role-header">
             <h3 class="my-role-title">${myRole.role}</h3>
             <span class="my-role-period">${myRole.period}</span>
           </div>
+          ${tools ? `<p class="my-role-tools"><strong>${t('Technical Stack', '기술 스택')}</strong> · ${tools}</p>` : ''}
           <p class="my-role-description">${myRole.description}</p>
         </div>
       </section>
     `;
 
-    roundedSection.insertAdjacentHTML('afterbegin', myRoleHTML);
+    const mainContent = document.querySelector('.main-content');
+    if (mainContent) mainContent.insertAdjacentHTML('afterbegin', myRoleHTML);
   }
 
   // Experience 섹션 렌더링 (총 요약용 - 항상 표시)
@@ -260,18 +282,23 @@
 
     const roundedSection = document.querySelector('.rounded-section');
     if (!roundedSection) return;
+    const toolsByProject = {
+      '00_NewManzo': 'C# · FMOD · HLSL · Clip Studio Paint · Aseprite',
+      '01_Manzo': 'C++ · OpenGL · GLSL · Custom Engine',
+      '06_StreetTyper': 'C# · Unity · Spriter Pro · 2D Rigging · Animation · HLSL · Clip Studio Paint'
+    };
+    const tools = project.tools || project.projectDetails?.tool || toolsByProject[getProjectId()];
 
     const experienceHTML = `
       <section class="experience-section">
-        <h2 class="highlighted-title">Experience</h2>
+        <h2 class="highlighted-title">Roles</h2>
         <div class="timeline-item2">
           <div class="timeline-icon2"></div>
           <div class="timeline-content2">
             <h3>
-              ${t('Role', '역할')}: ${project.experience.role}
-              <strong>(${project.experience.period})</strong>
+              ${project.experience.role}
             </h3>
-            <p>${project.experience.description}</p>
+            ${tools ? `<p class="my-role-tools"><strong>${t('Technical Stack', '기술 스택')}</strong> · ${tools}</p>` : ''}
           </div>
         </div>
       </section>
@@ -900,6 +927,101 @@
     roundedSection.insertAdjacentHTML('beforeend', detailsHTML);
   }
 
+  function labelTooHotMedia(project) {
+    if (getProjectId() !== '07_TooHot') return;
+    const figures = document.querySelectorAll('.contribution-tab-content figure');
+    figures.forEach((figure, index) => {
+      let caption = figure.querySelector('figcaption');
+      if (!caption) {
+        caption = document.createElement('figcaption');
+        figure.appendChild(caption);
+      }
+      caption.className = 'too-hot-caption';
+      caption.innerHTML = `<span>VISUAL DEVELOPMENT</span><strong>${index === 0 ? 'UI Design' : 'Effect Preview'}</strong>`;
+    });
+  }
+
+  function placeThinkThinkLink(project) {
+    if (getProjectId() !== '06_StreetTyper') return;
+    const link = document.querySelector('.contribution-tab-content a[href*="05_ThinkThink"]');
+    const section = link && link.closest('.contribution-tab-content');
+    if (!link || !section) return;
+    const workflowParagraph = [...section.querySelectorAll('p')].find(p => p.textContent.includes('I designed the UI through'));
+    if (workflowParagraph) workflowParagraph.after(link);
+  }
+
+  function updateStreetTyperStack() {
+    if (getProjectId() !== '06_StreetTyper') return;
+    document.querySelectorAll('.contribution-tab-content h3').forEach(heading => {
+      if (!['Technical Stack', '기술 스택'].includes(heading.textContent.trim())) return;
+      const list = heading.nextElementSibling;
+      if (!list || list.tagName !== 'UL') return;
+      list.innerHTML = ['C#', 'Unity', 'Spriter Pro', '2D rigging', 'Animation', 'HLSL', 'Clip Studio Paint']
+        .map(item => `<li>${item}</li>`).join('');
+    });
+  }
+
+  function updateTooHotStack() {
+    if (getProjectId() !== '07_TooHot') return;
+    document.querySelectorAll('.contribution-tab-content h3').forEach(heading => {
+      if (!['Technical Stack', '기술 스택'].includes(heading.textContent.trim())) return;
+      const list = heading.nextElementSibling;
+      if (!list || list.tagName !== 'UL') return;
+      list.innerHTML = ['C#', 'Unity', 'HLSL'].map(item => `<li>${item}</li>`).join('');
+    });
+  }
+
+  // Overview/Features의 핵심 문장을 읽기 흐름에 맞춰 강조한다.
+  function emphasizeOverviewCopy() {
+    document.querySelectorAll('.main-background-section .right-text, .main-background-section .bottom-text').forEach(section => {
+      section.querySelectorAll('li').forEach(item => {
+        if (item.querySelector('strong')) return;
+        const text = item.textContent.trim();
+        const match = text.match(/^([^:：]{2,30})[:：]/);
+        const prefix = match ? match[1].trim() : (text.match(/^.{2,18}?(?=\s|·|와 |과 | 기반| 시스템| framework| system|:|$)/i) || [text.slice(0, 14)] )[0].trim();
+        if (!prefix) return;
+        const walker = document.createTreeWalker(item, NodeFilter.SHOW_TEXT);
+        let node = walker.nextNode();
+        while (node && node.textContent.indexOf(prefix) < 0) node = walker.nextNode();
+        if (!node) return;
+        const start = node.textContent.indexOf(prefix);
+        const range = document.createRange();
+        range.setStart(node, start);
+        range.setEnd(node, start + prefix.length);
+        const strong = document.createElement('strong');
+        range.surroundContents(strong);
+      });
+      const paragraph = section.querySelector('p');
+      if (paragraph && !paragraph.querySelector('strong')) {
+        const walker = document.createTreeWalker(paragraph, NodeFilter.SHOW_TEXT);
+        const node = walker.nextNode();
+        if (node && node.nodeType === Node.TEXT_NODE) {
+          const match = node.textContent.match(/^\s*(.{18,90}?[.!?])\s+/);
+          if (match) {
+            const range = document.createRange();
+            range.setStart(node, 0);
+            range.setEnd(node, match[1].length);
+            const strong = document.createElement('strong');
+            range.surroundContents(strong);
+          }
+        }
+      }
+      const priorityPhrases = ['rhythm Metroidvania psychological horror', 'Unity game-jam boss-action', 'custom shadow shader', 'real-time VFX', 'custom engine', '게임잼 보스 액션', '게임잼 보스액션', '리듬 메트로배니아 사이코 호러', '심해 리듬 어드벤처'];
+      priorityPhrases.forEach(phrase => {
+        const walker = document.createTreeWalker(section, NodeFilter.SHOW_TEXT);
+        let node = walker.nextNode();
+        while (node && node.textContent.toLowerCase().indexOf(phrase.toLowerCase()) < 0) node = walker.nextNode();
+        if (!node) return;
+        const start = node.textContent.toLowerCase().indexOf(phrase.toLowerCase());
+        const range = document.createRange();
+        range.setStart(node, start);
+        range.setEnd(node, start + phrase.length);
+        const strong = document.createElement('strong');
+        range.surroundContents(strong);
+      });
+    });
+  }
+
   // 맨 아래 기타 공간 - 제목 없이, 오버뷰/Experience로 옮기기 애매한 부가 설명을 그냥 둔다
   function renderMiscNotes(project) {
     if (!project.gameIntro) return;
@@ -1059,7 +1181,7 @@
       waypointHTML += `
         <a href="#experience" class="waypoint" data-section="experience">
           <span class="waypoint-dot"></span>
-          <span class="waypoint-label">${t('Experience', '경험')}</span>
+          <span class="waypoint-label">Roles</span>
         </a>
       `;
     }
@@ -1274,7 +1396,7 @@
       // 게임/기획 프로젝트
       renderGameHero(project);
       renderOverview(project);
-      renderExperience(project);  // 총 요약용
+      renderExperience(project);
       renderTrailer(project);      // 트레일러 (첫 번째만)
       renderVideoGallery(project); // 갤러리 (이미지 + 비디오)
       renderConceptComparison(project);
@@ -1282,10 +1404,15 @@
       renderProjectDetails(project);
       renderSource(project);
       renderMiscNotes(project);    // 맨 아래, 제목 없는 기타 공간
+      labelTooHotMedia(project);
+      placeThinkThinkLink(project);
+      updateStreetTyperStack();
+      updateTooHotStack();
+      emphasizeOverviewCopy();
       prioritizeContributions();
       placeExperience(project);
       renderWaypointNavigation(project);  // 이정표 네비게이션
-      renderContributionButton();   // 컨트리뷰션 보기 버튼
+      setupWaypointLightboxVisibility();
       enableAssetLightbox();        // 아트 탭 등의 에셋 그리드를 클릭하면 크게 보기
       enableCaseCardHeroJump();     // 케이스 카드를 클릭하면 해당 히어로 패널로 스크롤
     }
@@ -1352,83 +1479,7 @@
     });
   }
 
-  // 컨트리뷰션 보기 버튼 렌더링
-  function renderContributionButton() {
-    const body = document.body;
-    
-    const buttonHTML = `
-      <button class="contribution-cta-button" id="contribution-cta">
-        <span class="cta-text">기여 보기</span>
-      </button>
-    `;
-
-    body.insertAdjacentHTML('beforeend', buttonHTML);
-
-    const button = document.getElementById('contribution-cta');
-    const contributionsSection = document.getElementById('contributions');
-
-    if (!button || !contributionsSection) {
-      // contributions 섹션이 없으면 버튼 제거
-      const btn = document.getElementById('contribution-cta');
-      if (btn) btn.remove();
-      return;
-    }
-
-    // 초기에는 숨김 (오른쪽으로 슬라이드아웃된 상태로 시작)
-    button.classList.add('is-hidden');
-
-    // 스크롤 감지 함수
-    function checkButtonVisibility() {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-      // 컨트리뷰션 섹션의 제목 위치 확인
-      const titleElement = contributionsSection.querySelector('h2.highlighted-title');
-      if (!titleElement) {
-        button.classList.add('is-hidden');
-        return;
-      }
-
-      const titleRect = titleElement.getBoundingClientRect();
-      const contributionsTitleTop = titleRect.top + scrollTop;
-
-      // 버튼 표시 조건: 컨트리뷰션 제목이 아직 화면 상단에 도달하지 않았을 때
-      // (타이틀 화면에 들어오자마자부터 바로 보이도록, 스크롤을 내려야 나타나지 않게 함)
-      const isBeforeContributions = scrollTop < contributionsTitleTop - 150;
-
-      // 사라질 때는 display:none 대신 클래스 토글로 오른쪽으로 스르륵 빠지는 애니메이션을 탄다.
-      button.classList.toggle('is-hidden', !isBeforeContributions);
-    }
-
-    // 스크롤 이벤트
-    window.addEventListener('scroll', checkButtonVisibility);
-    checkButtonVisibility(); // 초기 체크
-
-    // 클릭 이벤트 - 컨트리뷰션으로 스크롤 (제목에 맞춤)
-    button.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      const titleElement = contributionsSection.querySelector('h2.highlighted-title');
-      let offsetTop;
-      
-      if (titleElement) {
-        // 제목의 정확한 위치 계산
-        const titleRect = titleElement.getBoundingClientRect();
-        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-        offsetTop = titleRect.top + currentScroll - 100; // 제목이 화면 상단에서 100px 아래에 오도록
-      } else {
-        // 제목을 찾을 수 없으면 섹션 시작 부분
-        const rect = contributionsSection.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        offsetTop = rect.top + scrollTop - 100;
-      }
-      
-      window.scrollTo({
-        top: Math.max(0, offsetTop),
-        behavior: 'smooth'
-      });
-    });
-
+  function setupWaypointLightboxVisibility() {
     // Lightbox가 열릴 때 이정표 숨기기
     function updateWaypointVisibility() {
       const waypointNav = document.querySelector('.waypoint-navigation');

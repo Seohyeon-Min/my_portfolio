@@ -230,6 +230,12 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
         gameplay_summary = "Gameplay engineer who builds gameplay and engine-level systems in C++ and Unity — from object/component architectures and boss pattern systems to collision and rendering pipelines — then debugs and optimizes them under real performance constraints."
         build(DOCS/"Resume_Gameplay_Engineer.pdf", gameplay_role, gameplay_summary, gameplay_selected, gameplay_add, gameplay_skills, FOREST)
 
+        # Same project evidence, neutral title — for non-game applications where
+        # "Gameplay Engineer" reads as a mismatched intent rather than a strength.
+        swe_role = "SOFTWARE ENGINEER"
+        swe_summary = "Software engineer who builds systems in C++ and Unity — object/component architectures, state-machine and pattern-based gameplay systems, collision and rendering pipelines — then debugs and optimizes them under real performance constraints."
+        build(DOCS/"Resume_Software_Engineer.pdf", swe_role, swe_summary, gameplay_selected, gameplay_add, gameplay_skills, FOREST)
+
         epic_paragraphs = [
             "I enjoy object-oriented programming, particularly designing and structuring systems with maintainability and reusability in mind. When I write code, I enjoy thinking beyond simply implementing the feature I need at the moment and considering how the code I have already written can be reused. While implementing boss patterns in Unity, I spent considerable time thinking about how to structure them so that I would not have to write everything from scratch whenever I added a new pattern.",
             "I bring the same thinking to C++. For Manzo, I built the game's renderer — a layer-based draw queue and a ping-pong framebuffer pipeline for post-processing effects like bloom and underwater distortion — and later, when boss fights started dropping frames badly, traced the cause to redundant collision checks running every frame and rewrote the logic to remove them. I enjoy that kind of work: not just making something run, but figuring out why it doesn't and fixing it properly.",
@@ -244,6 +250,75 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
             epic_paragraphs,
             "Seohyeon Min",
             FOREST,
+        )
+
+        core_systems_paragraph = "I enjoy object-oriented programming, particularly designing and structuring systems with maintainability and reusability in mind. When I write code, I enjoy thinking beyond simply implementing the feature I need at the moment and considering how the code I have already written can be reused. For Manzo, I built the game's renderer — a layer-based draw queue and a ping-pong framebuffer pipeline for post-processing — and later, when boss fights started dropping frames badly, traced the cause to redundant collision checks running every frame and rewrote the logic to remove them. I enjoy that kind of work: not just making something run, but figuring out why it doesn't and fixing it properly."
+        team_paragraph = "I also work well as part of a team with people in different roles. While developing Too Hot, I reviewed every teammate's code and gave feedback, and just as often took feedback on my own work in return — I care as much about how a team gets to a working build together as I do about my individual contribution."
+
+        build_cover_letter(
+            DOCS/"CoverLetter_AnaVation.pdf", swe_role, "August 29, 2026",
+            ["AnaVation Hiring Team", "Computer Science Intern — Huntsville, AL"],
+            [
+                core_systems_paragraph,
+                team_paragraph,
+                "I am applying for the Computer Science Intern position because I want to apply the same systems-building and debugging discipline I've developed in game engines (Manzo, a custom C++ engine with 366 commits) to mission-focused software, in a setting where correctness under real constraints matters as directly as it does in a real-time engine.",
+            ],
+            "Seohyeon Min", FOREST,
+        )
+
+        build_cover_letter(
+            DOCS/"CoverLetter_NorthwoodSpace_Embedded.pdf", swe_role, "August 29, 2026",
+            ["Northwood Space Hiring Team", "Embedded Software Engineer Intern — Los Angeles / Torrance, CA"],
+            [
+                core_systems_paragraph,
+                team_paragraph,
+                "I am applying for the Embedded Software Engineer Intern position because I want to bring my C++ and low-level systems background to hardware-adjacent software, where correctness and performance matter as directly as they do in a real-time game engine. Building Manzo's engine meant working close to the metal — manual memory and lifetime management, frame-budget-constrained collision and rendering code — and I'd like to apply that same rigor to embedded systems at Northwood Space.",
+            ],
+            "Seohyeon Min", FOREST,
+        )
+
+        build_cover_letter(
+            DOCS/"CoverLetter_NorthwoodSpace_SWE.pdf", swe_role, "August 29, 2026",
+            ["Northwood Space Hiring Team", "Software Engineer Intern, Multiple Teams — Los Angeles / Torrance, CA"],
+            [
+                core_systems_paragraph,
+                team_paragraph,
+                "I am applying for the Software Engineer Intern role because I want to take the systems-building and debugging habits I've developed in C++ game engines and apply them to Northwood Space's work on space communications infrastructure — software where reliability isn't optional.",
+            ],
+            "Seohyeon Min", FOREST,
+        )
+
+        build_cover_letter(
+            DOCS/"CoverLetter_TELUSDigital.pdf", swe_role, "August 29, 2026",
+            ["TELUS Digital Hiring Team", "Software Engineer Intern — Summer 2027"],
+            [
+                core_systems_paragraph,
+                team_paragraph,
+                "I am applying for the Software Engineer Intern position because I want to grow as a generalist software engineer alongside my game-focused C++/C# work, and TELUS Digital's scale gives me the chance to work on production systems used by a large user base — a different kind of engineering discipline than shipping a 10-day game jam build, and one I want to build alongside it.",
+            ],
+            "Seohyeon Min", FOREST,
+        )
+
+        build_cover_letter(
+            DOCS/"CoverLetter_AutoOwners.pdf", swe_role, "August 29, 2026",
+            ["Auto-Owners Insurance Hiring Team", "Software Developer Intern — Lansing, MI"],
+            [
+                core_systems_paragraph,
+                team_paragraph,
+                "I am applying for the Software Developer Intern position because I want to develop as a software engineer in a setting outside game development, where I can learn how a long-lived, mission-critical codebase is maintained and grown by a large engineering team over years rather than a 10-day production window.",
+            ],
+            "Seohyeon Min", FOREST,
+        )
+
+        build_cover_letter(
+            DOCS/"CoverLetter_Roblox.pdf", gameplay_role, "August 29, 2026",
+            ["Roblox Hiring Team", "Software Engineer Intern — San Mateo, CA"],
+            [
+                core_systems_paragraph,
+                team_paragraph,
+                "I am applying for the Software Engineer Intern position at Roblox because it sits at the intersection of the two things I care about most: engine-level systems programming and building tools that let a huge number of other creators make things. I've spent the last two years building a custom C++ engine from the ground up — layer-based rendering, framebuffer post-processing, collision, and performance debugging — and I want to bring that engine-building instinct to a platform whose entire product is a creation engine used by millions of people.",
+            ],
+            "Seohyeon Min", FOREST,
         )
 
     prod_selected = [

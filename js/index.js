@@ -17,7 +17,6 @@ const portfolioTracks = {
       en: 'Three projects. One through-line: visual intent translated into responsive, engine-ready systems.',
       ko: '서로 다른 세 프로젝트에서 시각적 의도를 실제로 작동하는 실시간 시스템으로 구현했습니다.'
     },
-    proofFacts: [['BUILT', 'Shaders + real-time VFX'], ['SOLVED', 'Readability + feedback'], ['PROVEN IN', 'Unity + custom engine'], ['EVIDENCE', 'Profiling + captures']],
     proofProjects: [
       { key: 'manzo', title: 'MANZO · CUSTOM RENDERER', lead: 'GRAPHICS / ENGINE PROGRAMMER', meta: 'OPENGL · PING-PONG FBO · POST-PROCESSING', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' },
       { key: 'toohot', title: 'TOO HOT!', lead: 'PROJECT LEAD', meta: 'UNITY · SHADOW SHADER · REAL-TIME VFX', href: 'portfolio_game/07_TooHot.html', image: 'img/portfolio_thumbnails/TooHot.png' },
@@ -37,7 +36,6 @@ const portfolioTracks = {
       en: 'Working games that expose implementation, debugging, engine integration, and technical ownership.',
       ko: '실제로 작동하는 게임을 통해 구현과 디버깅, 엔진 통합, 기술적 오너십을 보여줍니다.'
     },
-    proofFacts: [['BUILT WITH', 'C++ · C# · GLSL'], ['SYSTEMS', 'Rendering + gameplay'], ['DEBUGGED', 'Engine + data flow'], ['EVIDENCE', 'Repos + measured results']],
     proofProjects: [
       { key: 'newmanzo', title: 'NEW MANZO', lead: 'PRIMARY C# CONTRIBUTOR', meta: 'UNITY · C# · GAMEPLAY / SYSTEMS', href: 'portfolio_game/00_NewManzo.html', image: 'img/portfolio_thumbnails/NewManzo.png' },
       { key: 'manzo', title: 'MANZO · CUSTOM RENDERER', lead: 'GRAPHICS / ENGINE PROGRAMMER', meta: 'OPENGL · PING-PONG FBO · MULTI-PASS', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' },
@@ -57,12 +55,6 @@ const portfolioTracks = {
       en: 'Events, physical products, and playable projects carried from planning through delivery.',
       ko: '행사와 실물 제품, 플레이 가능한 프로젝트를 기획부터 전달까지 완성한 경험입니다.'
     },
-    proofFacts: [
-      { en: ['LED', '24 people · 6 teams'], ko: ['리더십', '24명 · 6개 팀'] },
-      { en: ['GENERATED', '₩10M total revenue'], ko: ['매출', '총매출 약 1,000만 원'] },
-      { en: ['MANAGED', '130+ task backlog'], ko: ['작업 관리', '130개+ 작업 백로그'] },
-      { en: ['BUILT', 'Factory-to-customer fulfillment'], ko: ['직접배송 구축', '공장 → 검수 → 구매자'] }
-    ],
     proofProjects: [
       { key: 'dangling', title: 'DANGLING*', lead: { en: 'PROJECT LEAD', ko: '프로젝트 리드' }, meta: { en: 'GAME JAM · EVENT OPERATIONS', ko: '게임잼 · 행사 운영' }, href: 'portfolio_planning/Dangling.html', image: 'img/portfolio_thumbnails/Dangling.jpg' },
       { key: 'plush', title: 'PLUSH PRODUCTION', lead: { en: 'INDEPENDENT LEAD', ko: '개인 프로젝트 리드' }, meta: { en: 'DESIGN · VENDOR · FULFILLMENT', ko: '디자인 · 외부 업체 · 배송 운영' }, href: 'portfolio_planning/PlushProduction.html', image: 'img/Plush/real1.jpg' },
@@ -78,6 +70,7 @@ function syncProjectTrackLinks(root, track) {
     if (!rawHref || rawHref.startsWith('http') || rawHref.startsWith('#')) return;
     const url = new URL(rawHref, window.location.href);
     url.searchParams.set('track', track);
+    url.searchParams.set('from', link.closest('[data-scene="proof"]') ? 'proof' : 'archive');
     link.setAttribute('href', `${url.pathname.split('/').slice(-2).join('/')}${url.search}${url.hash}`);
   });
 }
@@ -109,13 +102,6 @@ function applyPortfolioTrack(requestedTrack, updateUrl = true) {
     proofSummary.dataset.ko = profile.proofSummary.ko;
     proofSummary.textContent = profile.proofSummary[currentLanguage];
   }
-  profile.proofFacts.forEach((fact, index) => {
-    const localizedFact = Array.isArray(fact) ? fact : (fact[currentLanguage] || fact.en);
-    const label = document.querySelector(`[data-proof-fact-label="${index}"]`);
-    const value = document.querySelector(`[data-proof-fact-value="${index}"]`);
-    if (label) label.textContent = localizedFact[0];
-    if (value) value.textContent = localizedFact[1];
-  });
   profile.proofProjects.forEach((project, index) => {
     const card = document.querySelector(`[data-proof-project="${index}"]`);
     if (!card) return;
@@ -164,6 +150,14 @@ function ensureLanguageToggle() {
       <button type="button" data-lang="ko">KR</button>
     </div>
   `);
+  if (document.body.classList.contains('project-detail-page') || /\/(portfolio_game|portfolio_planning|portfolio)\//.test(location.pathname)) {
+    const toggle = document.querySelector('.language-toggle');
+    toggle?.classList.add('language-toggle--intro');
+    window.setTimeout(() => {
+      toggle?.classList.remove('language-toggle--intro');
+      toggle?.classList.add('language-toggle--resting');
+    }, 1800);
+  }
 }
 
 const RESUME_BY_TRACK = {
@@ -219,6 +213,72 @@ function applyLanguage(language) {
 
 document.addEventListener('DOMContentLoaded', () => {
   ensureLanguageToggle();
+  if (/\/(portfolio_game|portfolio_planning|portfolio)\//.test(location.pathname)) {
+    const params = new URLSearchParams(location.search);
+    const from = params.get('from') === 'proof' ? 'proof' : 'archive';
+    const track = params.get('track') || localStorage.getItem('portfolio-track') || 'graphics';
+    const destination = `../index.html?track=${encodeURIComponent(track)}#${from}`;
+    let back = document.querySelector('.return-button');
+    if (!back) {
+      back = document.createElement('button');
+      back.className = 'return-button';
+    }
+    back.type = 'button';
+    back.classList.add('project-back-button');
+    back.removeAttribute('onclick');
+    back.innerHTML = `<span aria-hidden="true">←</span><span>${currentLanguage === 'ko' ? '뒤로가기' : 'Back'}</span>`;
+    back.onclick = () => location.assign(destination);
+    document.body.appendChild(back);
+    const allProjects = [
+      ['portfolio_game/06_StreetTyper.html', 'STREET TYPER'],
+      ['portfolio_game/07_TooHot.html', 'TOO HOT!'],
+      ['portfolio_game/01_Manzo.html', 'MANZO'],
+      ['portfolio_game/04_BirdStrike.html', 'BIRD STRIKE'],
+      ['portfolio_game/00_NewManzo.html', 'NEW MANZO'],
+      ['portfolio_game/03_DoubleHit.html', 'DOUBLE HIT'],
+      ['portfolio_game/05_ThinkThink.html', 'THINK THINK'],
+      ['portfolio_planning/Dangling.html', 'DANGLING*'],
+      ['portfolio_planning/PlushProduction.html', 'PLUSH PRODUCTION'],
+      ['portfolio/01_hello.html', 'HELLO GRAPHICS'],
+      ['portfolio/02_meshes.html', 'PROCEDURAL MESHES'],
+      ['portfolio/03_fog.html', 'FOG'],
+      ['portfolio/04_toon.html', 'TOON SHADING'],
+      ['portfolio/05_shadow.html', 'SHADOW MAPPING'],
+      ['portfolio/06_value.html', 'VALUE NOISE'],
+      ['portfolio/07_gradient.html', 'GRADIENT NOISE'],
+      ['portfolio/08_demo_fun.html', 'FLIGHT SIMULATION']
+    ];
+    const proofProjects = (portfolioTracks[track] || portfolioTracks.graphics).proofProjects.map(project => [project.href, project.title]);
+    const matchesCurrent = project => location.pathname.endsWith('/' + project[0]);
+    const sequence = from === 'proof' && proofProjects.some(matchesCurrent) ? proofProjects : allProjects;
+    const currentIndex = sequence.findIndex(matchesCurrent);
+    if (currentIndex !== -1) {
+      [-1, 1].forEach(direction => {
+        const [href, title] = sequence[(currentIndex + direction + sequence.length) % sequence.length];
+        const link = document.createElement('a');
+        const label = currentLanguage === 'ko'
+          ? (direction < 0 ? '이전 프로젝트' : '다음 프로젝트')
+          : (direction < 0 ? 'Previous project' : 'Next project');
+        link.className = `project-step project-step--${direction < 0 ? 'prev' : 'next'}`;
+        link.href = `../${href}?track=${encodeURIComponent(track)}&from=${from}`;
+        link.setAttribute('aria-label', `${label}: ${title}`);
+        link.title = `${label}: ${title}`;
+        link.innerHTML = `<span aria-hidden="true">${direction < 0 ? '‹' : '›'}</span>`;
+        document.body.appendChild(link);
+      });
+    }
+    document.querySelectorAll('a[href]').forEach(link => {
+      const url = new URL(link.href, location.href);
+      if (url.origin !== location.origin || !/\/(portfolio_game|portfolio_planning|portfolio)\//.test(url.pathname) || url.pathname === location.pathname) return;
+      url.searchParams.set('from', from);
+      url.searchParams.set('track', track);
+      link.href = url.href;
+    });
+    document.querySelectorAll('.waypoint-return').forEach(button => {
+      button.removeAttribute('onclick');
+      button.onclick = () => location.assign(destination);
+    });
+  }
   const techDetail = document.querySelector('.portfolio-item-individual');
   if (techDetail && !document.querySelector('.link-start-app')) {
     document.body.classList.add('project-detail-page', 'tech-project-page');
