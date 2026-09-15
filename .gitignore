@@ -1,0 +1,6 @@
+# Private job-search tracker (keep local; do not publish to GitHub)
+/docs/Application_Tracker.xlsx
+/docs/Application_Tracker.xlsx.inspect.ndjson
+
+# Local spreadsheet runtime link
+/node_modules/

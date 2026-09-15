@@ -1,0 +1,26 @@
+MIN SEOHYEON
+SOFTWARE ENGINEER
+weare1842@gmail.com
+github.com/Seohyeon-Min |
+seohyeon-min.github.io/my_portfolio
+linkedin.com/in/seohyeon-min
+August 29, 2026
+TELUS Digital Hiring Team
+Software Engineer Intern — Summer 2027
+I enjoy object-oriented programming, particularly designing and structuring systems with maintainability and
+reusability in mind. When I write code, I enjoy thinking beyond simply implementing the feature I need at the
+moment and considering how the code I have already written can be reused. For Manzo, I built the game's
+renderer — a layer-based draw queue and a ping-pong framebuffer pipeline for post-processing — and
+later, when boss fights started dropping frames badly, traced the cause to redundant collision checks
+running every frame and rewrote the logic to remove them. I enjoy that kind of work: not just making
+something run, but figuring out why it doesn't and fixing it properly.
+I also work well as part of a team with people in different roles. While developing Too Hot, I reviewed every
+teammate's code and gave feedback, and just as often took feedback on my own work in return — I care as
+much about how a team gets to a working build together as I do about my individual contribution.
+I am applying for the Software Engineer Intern position because I want to grow as a generalist software
+engineer alongside my game-focused C++/C# work, and TELUS Digital's scale gives me the chance to work
+on production systems used by a large user base — a different kind of engineering discipline than shipping a
+10-day game jam build, and one I want to build alongside it.
+Thank you for considering my application.
+Sincerely,
+Seohyeon Min

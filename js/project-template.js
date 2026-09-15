@@ -298,7 +298,7 @@
             <h3>
               ${project.experience.role}
             </h3>
-            ${tools ? `<p class="my-role-tools"><strong>${t('Technical Stack', '기술 스택')}</strong> · ${tools}</p>` : ''}
+            ${tools ? `<p class="my-role-tools"><strong>${project.toolsLabel ? t(project.toolsLabel.en, project.toolsLabel.ko) : t('Technical Stack', '기술 스택')}</strong>: ${tools}</p>` : ''}
           </div>
         </div>
       </section>

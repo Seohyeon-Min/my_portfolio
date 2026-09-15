@@ -14,10 +14,11 @@ const portfolioTracks = {
     evidence: ['SHADERS · VFX', 'C++ · OPENGL', 'REAL-TIME SYSTEMS'],
     proofTitle: 'VISUALS THAT\nSHIP IN ENGINE.',
     proofSummary: {
-      en: 'Three projects. One through-line: visual intent translated into responsive, engine-ready systems.',
-      ko: '서로 다른 세 프로젝트에서 시각적 의도를 실제로 작동하는 실시간 시스템으로 구현했습니다.'
+      en: 'Four projects. One through-line: visual intent translated into responsive, engine-ready systems.',
+      ko: '네 개의 프로젝트에서 시각적 의도를 실제로 작동하는 실시간 시스템으로 구현했습니다.'
     },
     proofProjects: [
+      { key: 'wave', title: 'WAVE SIMULATOR', lead: 'TECHNICAL ART / SHADER', meta: 'UNITY URP · HLSL · PROCEDURAL WATER', href: 'portfolio_game/08_WaveSimulator.html', image: 'img/WaveSimulator/img1.png' },
       { key: 'manzo', title: 'MANZO · CUSTOM RENDERER', lead: 'GRAPHICS / ENGINE PROGRAMMER', meta: 'OPENGL · PING-PONG FBO · POST-PROCESSING', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' },
       { key: 'toohot', title: 'TOO HOT!', lead: 'PROJECT LEAD', meta: 'UNITY · SHADOW SHADER · REAL-TIME VFX', href: 'portfolio_game/07_TooHot.html', image: 'img/portfolio_thumbnails/TooHot.png' },
       { key: 'street', title: 'STREET TYPER', lead: 'PROJECT LEAD', meta: 'UI SHADERS · VFX · GAME FEEL', href: 'portfolio_game/06_StreetTyper.html', image: 'img/StreetTyper/title2.png' }
@@ -75,13 +76,72 @@ function syncProjectTrackLinks(root, track) {
   });
 }
 
+function refreshArchiveLayout(track) {
+  const archiveGrid = document.querySelector('.link-archive-grid');
+  if (!archiveGrid) return;
+  const existingCards = [...archiveGrid.querySelectorAll(':scope > a, :scope .archive-category__grid > a')];
+  if (track !== 'graphics') {
+    archiveGrid.querySelectorAll('.archive-category').forEach(section => section.remove());
+    archiveGrid.innerHTML = '';
+    const productionKeys = ['Dangling.html', 'PlushProduction.html'];
+    if (track === 'product') {
+      const groups = [
+        ['PRODUCTION', productionKeys, 'archive-category--production'],
+        ['LEADERSHIP', ['07_TooHot.html', '06_StreetTyper.html', '01_Manzo.html', '00_NewManzo.html'], 'archive-category--leadership'],
+        ['OTHER PROJECTS', [], 'archive-category--other']
+      ];
+      const assigned = new Set();
+      groups.forEach(([label, keys, extraClass]) => {
+        const cards = keys.length
+          ? existingCards.filter(card => keys.some(key => card.getAttribute('href')?.includes(key)))
+          : existingCards.filter(card => !assigned.has(card));
+        cards.forEach(card => assigned.add(card));
+        if (!cards.length) return;
+        const section = document.createElement('section');
+        section.className = `archive-category ${extraClass}`;
+        section.innerHTML = `<h3>${label}</h3><div class="archive-category__grid"></div>`;
+        cards.forEach(card => section.querySelector('.archive-category__grid').appendChild(card));
+        archiveGrid.appendChild(section);
+      });
+      return;
+    }
+    existingCards.filter(card => !productionKeys.some(key => card.getAttribute('href')?.includes(key))).forEach(card => archiveGrid.appendChild(card));
+    const productionCards = existingCards.filter(card => productionKeys.some(key => card.getAttribute('href')?.includes(key)));
+    if (productionCards.length) {
+      const section = document.createElement('section');
+      section.className = 'archive-category archive-category--production';
+      section.innerHTML = '<h3>PRODUCTION</h3><div class="archive-category__grid"></div>';
+      productionCards.forEach(card => section.querySelector('.archive-category__grid').appendChild(card));
+      archiveGrid.appendChild(section);
+    }
+    return;
+  }
+  const groups = [
+    ['SHADERS', ['07_TooHot.html', 'WaveSimulator']],
+    ['RENDERING', ['01_Manzo.html']],
+    ['VISUALS', ['00_NewManzo.html', '06_StreetTyper.html']],
+    ['GAME PROGRAMMING', ['04_BirdStrike.html', '03_DoubleHit.html', '05_ThinkThink.html', '02_EdgeDirve.html']],
+    ['PRODUCTION', ['Dangling.html', 'PlushProduction.html']]
+  ];
+  archiveGrid.innerHTML = '';
+  groups.forEach(([label, keys]) => {
+    const section = document.createElement('section');
+    section.className = `archive-category${label === 'PRODUCTION' ? ' archive-category--production' : ''}`;
+    section.innerHTML = `<h3>${label}</h3><div class="archive-category__grid"></div>`;
+    const target = section.querySelector('.archive-category__grid');
+    existingCards.filter(card => keys.some(key => card.getAttribute('href')?.includes(key))).forEach(card => target.appendChild(card));
+    if (target.children.length) archiveGrid.appendChild(section);
+  });
+}
+
 function applyPortfolioTrack(requestedTrack, updateUrl = true) {
   const track = Object.prototype.hasOwnProperty.call(portfolioTracks, requestedTrack) ? requestedTrack : 'graphics';
   const profile = portfolioTracks[track];
-  const app = document.querySelector('.link-start-app');
-  if (!app) return;
-
+      const app = document.querySelector('.link-start-app');
+    if (!app) return;
   app.dataset.track = track;
+  refreshArchiveLayout(track);
+  window.setTimeout(() => refreshArchiveLayout(track), 0);
   localStorage.setItem('portfolio-track', track);
   document.title = profile.title;
   document.querySelectorAll('[data-track-role]').forEach(element => { element.textContent = profile.role; });
@@ -109,8 +169,12 @@ function applyPortfolioTrack(requestedTrack, updateUrl = true) {
     const title = card.querySelector('[data-proof-project-title]');
     const meta = card.querySelector('[data-proof-project-meta]');
     const projectUrl = new URL(project.href, window.location.href);
-    projectUrl.searchParams.set('track', track);
-    card.href = `${projectUrl.pathname.split('/').slice(-2).join('/')}${projectUrl.search}${projectUrl.hash}`;
+    if (projectUrl.origin === window.location.origin) {
+      projectUrl.searchParams.set('track', track);
+      card.href = `${projectUrl.pathname.split('/').slice(-2).join('/')}${projectUrl.search}${projectUrl.hash}`;
+    } else {
+      card.href = project.href;
+    }
     card.dataset.projectKey = project.key;
     if (title) title.textContent = project.title;
     if (meta) {
@@ -124,6 +188,11 @@ function applyPortfolioTrack(requestedTrack, updateUrl = true) {
       image.alt = project.image ? project.title : '';
     }
   });
+  document.querySelectorAll('[data-proof-project]').forEach(card => {
+    card.hidden = Number(card.dataset.proofProject) >= profile.proofProjects.length;
+  });
+  const proofProjectsGrid = document.querySelector('.proof-reel__projects');
+  proofProjectsGrid?.classList.toggle('is-four', profile.proofProjects.length === 4);
   syncProjectTrackLinks(document, track);
   document.querySelectorAll('[data-track-select]').forEach(button => {
     const selected = button.dataset.trackSelect === track;
@@ -211,13 +280,36 @@ function applyLanguage(language) {
   }));
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
+    const archiveGrid = document.querySelector('.link-archive-grid');
+    const activeTrack = new URLSearchParams(window.location.search).get('track') || localStorage.getItem('portfolio-track') || 'graphics';
+    if (false && archiveGrid && activeTrack === 'graphics') {
+    const groups = [
+      ['SHADERS', ['07_TooHot.html', 'WaveSimulator']],
+      ['RENDERING', ['01_Manzo.html']],
+      ['VISUALS', ['00_NewManzo.html', '06_StreetTyper.html']],
+      ['GAME PROGRAMMING', ['04_BirdStrike.html', '03_DoubleHit.html', '05_ThinkThink.html', '02_EdgeDirve.html']],
+      ['PRODUCTION', ['Dangling.html', 'PlushProduction.html']]
+    ];
+    const cards = [...archiveGrid.children].filter(node => node.tagName === 'A');
+    archiveGrid.innerHTML = '';
+  groups.forEach(([label, keys]) => {
+    const section = document.createElement('section');
+    section.className = `archive-category${label === 'PRODUCTION' ? ' archive-category--production' : ''}`;
+      section.innerHTML = `<h3>${label}</h3><div class="archive-category__grid"></div>`;
+      const target = section.querySelector('.archive-category__grid');
+      cards.filter(card => keys.some(key => card.getAttribute('href')?.includes(key))).forEach(card => target.appendChild(card));
+      if (target.children.length) archiveGrid.appendChild(section);
+    });
+  }
+  refreshArchiveLayout(activeTrack);
   ensureLanguageToggle();
   const techStrip = document.querySelector('.tech-stack-strip');
   if (techStrip) {
     const skills = [...techStrip.querySelectorAll('.tech-stack-strip__track > span:not(.tech-stack-strip__dup)')];
     const cards = [...document.querySelectorAll('.link-archive-grid > a, .portfolio__item[href]')];
     const projectTools = {
+      '02_EdgeDirve.html': 'Unreal Engine',
       '00_NewManzo.html': 'C# FMOD HLSL Clip Studio Paint Aseprite GitHub', '01_Manzo.html': 'C++ OpenGL GLSL Custom Engine Clip Studio Paint GitHub',
       '03_DoubleHit.html': 'C++ GLSL OpenGL Spriter Pro Clip Studio Paint GitHub', '04_BirdStrike.html': 'C++ Clip Studio Paint Cakewalk raylib GitHub',
       '05_ThinkThink.html': 'Unity HLSL C# GitHub', '06_StreetTyper.html': 'C# Unity Spriter Pro 2D Rigging Animation HLSL Clip Studio Paint GitHub',
@@ -288,6 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ['portfolio_game/00_NewManzo.html', 'NEW MANZO'],
       ['portfolio_game/03_DoubleHit.html', 'DOUBLE HIT'],
       ['portfolio_game/05_ThinkThink.html', 'THINK THINK'],
+      ['portfolio_game/02_EdgeDirve.html', 'EDGE DRIVE'],
       ['portfolio_planning/Dangling.html', 'DANGLING*'],
       ['portfolio_planning/PlushProduction.html', 'PLUSH PRODUCTION'],
       ['portfolio/01_hello.html', 'HELLO GRAPHICS'],
@@ -434,10 +527,22 @@ const filterBtns = document.querySelectorAll('.filter-btn');
 const gameWrappers = document.querySelectorAll('.portfolio-wrapper.game');
 const techWrappers = document.querySelectorAll('.portfolio-wrapper.tech');
 const planningWrappers = document.querySelectorAll('.portfolio-wrapper.planning');
+const workWrappers = [...gameWrappers, ...techWrappers];
+const graphicsSubfilters = document.querySelector('[data-graphics-subfilters]');
+const graphicsCategoryByProject = {
+  '00_NewManzo.html': ['visual', 'programming'],
+  '01_Manzo.html': ['renderer', 'programming', 'shader'],
+  '03_DoubleHit.html': ['renderer', 'programming'],
+  '04_BirdStrike.html': ['programming'],
+  '05_ThinkThink.html': ['shader', 'visual'],
+  '06_StreetTyper.html': ['shader', 'visual'],
+  '07_TooHot.html': ['shader', 'visual'],
+  '08_demo_fun.html': ['shader', 'visual', 'renderer']
+};
 
 window.addEventListener('DOMContentLoaded', () => {
-  setActiveFilter('game'); // 초기 활성 필터
-  sortPortfolioItems('game'); // 초기 정렬
+  setActiveFilter('work'); // 초기 활성 필터
+  sortPortfolioItems('work'); // 초기 정렬
 });
 
 filterBtns.forEach(btn => {
@@ -447,25 +552,43 @@ filterBtns.forEach(btn => {
   });
 });
 
+document.querySelectorAll('[data-subfilter]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-subfilter]').forEach(b => b.classList.toggle('active', b === btn));
+    setActiveFilter('tech', btn.dataset.subfilter);
+  });
+});
+
 document.querySelectorAll('[data-portfolio-filter]').forEach(link => {
   link.addEventListener('click', () => {
     setActiveFilter(link.dataset.portfolioFilter);
   });
 });
 
-function setActiveFilter(filter) {
+function setActiveFilter(filter, subfilter = 'all') {
   filterBtns.forEach(b => {
     b.classList.toggle('active', b.dataset.filter === filter);
   });
 
   // 필터에 맞는 래퍼 선택
   let wrappers;
-  if (filter === 'game') {
+  if (filter === 'work') {
+    wrappers = Array.from(workWrappers);
+  } else if (filter === 'game') {
     wrappers = Array.from(gameWrappers);
   } else if (filter === 'tech') {
     wrappers = Array.from(techWrappers);
   } else {
     wrappers = Array.from(planningWrappers);
+  }
+
+  if (graphicsSubfilters) graphicsSubfilters.hidden = filter !== 'work';
+  if (filter === 'work') {
+    workWrappers.forEach(wrapper => {
+      const file = wrapper.querySelector('a')?.getAttribute('href')?.split('/').pop();
+      const matches = wrapper.classList.contains('tech') && (subfilter === 'all' || (graphicsCategoryByProject[file] || []).includes(subfilter));
+      wrapper.style.display = subfilter === 'all' ? 'flex' : (matches ? 'flex' : 'none');
+    });
   }
 
   // 표시/숨김 처리
@@ -474,10 +597,10 @@ function setActiveFilter(filter) {
   });
 
   // 다른 필터의 래퍼는 숨김
-  if (filter !== 'game') {
+  if (filter !== 'game' && filter !== 'work') {
     gameWrappers.forEach(wrapper => wrapper.style.display = 'none');
   }
-  if (filter !== 'tech') {
+  if (filter !== 'tech' && filter !== 'work') {
     techWrappers.forEach(wrapper => wrapper.style.display = 'none');
   }
   if (filter !== 'planning') {
@@ -485,16 +608,18 @@ function setActiveFilter(filter) {
   }
 
   // 정렬: 핀된 것끼리, 안된 것끼리 최신순
-  sortPortfolioItems(filter);
+  sortPortfolioItems(filter, subfilter);
 }
 
-function sortPortfolioItems(filter) {
+function sortPortfolioItems(filter, subfilter = 'all') {
   const portfolioContainer = document.querySelector('.portfolio');
   if (!portfolioContainer) return;
 
   // 필터에 맞는 래퍼 선택
   let wrappers;
-  if (filter === 'game') {
+  if (filter === 'work') {
+    wrappers = Array.from(workWrappers);
+  } else if (filter === 'game') {
     wrappers = Array.from(gameWrappers);
   } else if (filter === 'tech') {
     wrappers = Array.from(techWrappers);
@@ -564,9 +689,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const graphicsOpen = app.querySelector('[data-graphics-open]');
   const graphicsClose = app.querySelector('[data-graphics-close]');
   let activeIndex = 0;
-  let locked = false;
-  let wheelDelta = 0;
-  let wheelReset;
+    let locked = false;
+    let wheelDelta = 0;
+    let wheelReset;
+    let innerScrollBoundaryReady = false;
+    let innerBoundaryReset;
   let dragStartY = null;
   let dragScroller = null;
   let warpFrame = null;
@@ -968,16 +1095,33 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const sceneScroller = event.target.closest('.archive-panel, .experience-board');
-    if (sceneScroller && sceneScroller.scrollHeight > sceneScroller.clientHeight) {
-      const atTop = sceneScroller.scrollTop <= 1;
-      const atBottom = sceneScroller.scrollTop + sceneScroller.clientHeight >= sceneScroller.scrollHeight - 1;
-      const canScroll = (event.deltaY < 0 && !atTop) || (event.deltaY > 0 && !atBottom);
-      if (canScroll) {
-        wheelDelta = 0;
-        return;
+      const sceneScroller = event.target.closest('.archive-panel, .experience-board');
+      if (sceneScroller && sceneScroller.scrollHeight > sceneScroller.clientHeight) {
+        const atTop = sceneScroller.scrollTop <= 1;
+        const atBottom = sceneScroller.scrollTop + sceneScroller.clientHeight >= sceneScroller.scrollHeight - 1;
+        const canScroll = (event.deltaY < 0 && !atTop) || (event.deltaY > 0 && !atBottom);
+        if (canScroll) {
+          event.preventDefault();
+          sceneScroller.scrollBy({ top: event.deltaY, behavior: 'auto' });
+          wheelDelta = 0;
+          innerScrollBoundaryReady = false;
+          window.clearTimeout(innerBoundaryReset);
+          return;
+        }
+        // Keep consuming a continuous wheel stream at the edge. Only after the
+        // input stops briefly may the next distinct wheel gesture change scenes.
+        if (!innerScrollBoundaryReady) {
+          event.preventDefault();
+          wheelDelta = 0;
+          window.clearTimeout(innerBoundaryReset);
+          innerBoundaryReset = window.setTimeout(() => {
+            innerScrollBoundaryReady = true;
+          }, 260);
+          return;
+        }
+        innerScrollBoundaryReady = false;
+        window.clearTimeout(innerBoundaryReset);
       }
-    }
 
     event.preventDefault();
     if (hobbyMap?.classList.contains('is-open') || graphicsCollection?.classList.contains('is-open')) return;

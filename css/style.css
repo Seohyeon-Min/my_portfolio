@@ -3435,6 +3435,17 @@ body .return-button.project-back-button:hover {
   gap: clamp(0.55rem, 1vw, 0.9rem);
   min-height: 0;
 }
+.proof-reel__projects.is-four { grid-template-columns: repeat(4, 1fr); }
+.proof-shot[data-project-key="wave"] { background:linear-gradient(145deg,#102657 0%,#1b6c9f 52%,#54d5d0 100%); }
+.proof-shot[data-project-key="wave"] img { object-fit:cover; mix-blend-mode:screen; opacity:.62; }
+.archive-category { grid-column:1 / -1; min-height:0; height:auto; margin:0; padding:0; }
+.link-archive-grid > .archive-category { grid-column:1 / -1; }
+.archive-category h3 { margin:.55rem 0 .35rem; color:var(--ls-blue); font-size:.62rem; letter-spacing:.12em; }
+.archive-category:first-child h3 { margin-top:0; }
+.archive-category__grid { display:grid; grid-template-columns:repeat(4,1fr); gap:.45rem; }
+.archive-category--production { margin-top:.8rem; padding:.9rem .7rem .15rem; border:1px solid color-mix(in srgb,var(--ls-violet) 20%,transparent); border-radius:.8rem; background:color-mix(in srgb,var(--ls-violet) 3%,transparent); }
+.archive-category--production h3 { color:var(--ls-violet); }
+.archive-category--leadership h3 { color:var(--ls-blue); }
 .proof-shot {
   position: relative;
   overflow: hidden;
@@ -3582,7 +3593,9 @@ body .return-button.project-back-button:hover {
 .archive-panel::-webkit-scrollbar-thumb { border-radius:999px; background:color-mix(in srgb,var(--ls-blue) 62%,transparent); }
 .archive-panel:focus-visible { outline:2px solid var(--ls-blue); outline-offset:3px; }
 .archive-panel h2 { margin-bottom: 0.75rem; font-size: clamp(2.6rem, 4.8vw, 4.8rem); }
-.link-archive-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.7rem; }
+.link-archive-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.7rem; }
+.link-start-app[data-track="graphics"] .link-archive-grid { display:flex; flex-direction:column; align-items:stretch; align-content:flex-start; justify-content:flex-start; gap:.7rem; }
+.link-archive-grid > .archive-category { flex: 0 0 auto; width: 100%; }
 .archive-grid-divider { grid-column: 1 / -1; height: 1px; margin: 0.35rem 0; background: var(--ls-line); }
 .tech-stack-strip {
   display: flex;
@@ -3616,7 +3629,7 @@ body .return-button.project-back-button:hover {
   position: relative;
   display: block;
   overflow: hidden;
-  height: clamp(7.2rem, 16vh, 9rem);
+  height: clamp(5.4rem, 10vh, 6.4rem);
   padding: 0;
   border: 1px solid var(--ls-line);
   border-radius: 1rem;
@@ -3632,7 +3645,7 @@ body .return-button.project-back-button:hover {
 .link-archive-grid a[href*="06_StreetTyper"] { background:linear-gradient(180deg,#b9ddf2 0%,#8abce3 100%); }
 .link-archive-grid a[href*="06_StreetTyper"] img { object-fit:contain; object-position:center top; }
 .link-archive-grid a:hover img { transform: scale(1.04); }
-.archive-card__copy { position: absolute; inset: 42% 0 0; display: grid; align-content: end; gap: 0.14rem; padding: 0.72rem; background: linear-gradient(transparent, rgba(10,14,28,0.9)); color: #fff; }
+.archive-card__copy { position: absolute; inset: 42% 0 0; display: grid; align-content: end; gap: 0.1rem; padding: 0.48rem; background: linear-gradient(transparent, rgba(10,14,28,0.9)); color: #fff; }
 .link-archive-grid b { font-size: 0.72rem; }
 .archive-featured-star { color:#f1b83b; font-size:.82em; text-shadow:0 .12rem .4rem rgba(241,184,59,.35); }
 .link-archive-grid small { color: rgba(255,255,255,0.76); font-size: 0.49rem; font-weight: 800; letter-spacing: 0.04em; }
@@ -3850,9 +3863,8 @@ a[data-resume-alternate].is-hidden { display:none !important; }
   .proof-reel__header { display: block; }
   .proof-reel__header h2 { font-size: clamp(2.25rem, 11vw, 3.3rem); }
   .proof-reel__header > p { margin-top: 0.65rem; font-size: 0.7rem; }
-  .proof-reel__projects { grid-template-columns: 1.25fr 0.8fr; grid-template-rows: repeat(2, 1fr); }
+  .proof-reel__projects { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
   .proof-shot { min-height: 0; }
-  .proof-shot--street { grid-row: 1 / 3; }
   .proof-shot span { left: 0.65rem; right: 0.65rem; bottom: 0.6rem; }
   .proof-shot small { display: none; }
   .link-enter { width: 7.7rem; }

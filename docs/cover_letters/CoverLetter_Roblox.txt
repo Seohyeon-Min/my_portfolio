@@ -1,0 +1,15 @@
+September 10, 2026
+
+Roblox Hiring Team
+Software Engineer Intern - Summer 2027
+
+I enjoy object-oriented programming, particularly designing and structuring systems with maintainability and reusability in mind. When I write code, I enjoy thinking beyond simply implementing the feature I need at the moment and considering how the code I have already written can be reused. For Manzo, I built the game's renderer - a layer-based draw queue and a ping-pong framebuffer pipeline for post-processing - and later, when boss fights started dropping frames badly, traced the cause to redundant collision checks running every frame and rewrote the logic to remove them. I enjoy that kind of work: not just making something run, but figuring out why it doesn't and fixing it properly.
+
+I also work well as part of a team with people in different roles. While developing Too Hot, I reviewed every teammate's code and gave feedback, and just as often took feedback on my own work in return - I care as much about how a team gets to a working build together as I do about my individual contribution.
+
+I am applying for the Summer 2027 Software Engineer Intern position at Roblox because I want to build systems that help other people create and share interactive experiences. I am especially interested in the Engine team and rendering work, where I could build on my C++ and OpenGL experience while learning how those systems operate at the scale of Roblox. The opportunity to own a project from implementation and testing through deployment, with guidance from a mentor and collaboration across teams, is particularly appealing to me. I would also welcome the chance to contribute to other software engineering teams where my systems-building and debugging experience would be useful.
+
+Thank you for considering my application.
+
+Sincerely,
+Seohyeon Min

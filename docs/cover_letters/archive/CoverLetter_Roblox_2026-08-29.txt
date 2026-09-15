@@ -1,0 +1,28 @@
+MIN SEOHYEON
+GAMEPLAY ENGINEER
+weare1842@gmail.com
+github.com/Seohyeon-Min |
+seohyeon-min.github.io/my_portfolio
+linkedin.com/in/seohyeon-min
+August 29, 2026
+Roblox Hiring Team
+Software Engineer Intern — San Mateo, CA
+I enjoy object-oriented programming, particularly designing and structuring systems with maintainability and
+reusability in mind. When I write code, I enjoy thinking beyond simply implementing the feature I need at the
+moment and considering how the code I have already written can be reused. For Manzo, I built the game's
+renderer — a layer-based draw queue and a ping-pong framebuffer pipeline for post-processing — and
+later, when boss fights started dropping frames badly, traced the cause to redundant collision checks
+running every frame and rewrote the logic to remove them. I enjoy that kind of work: not just making
+something run, but figuring out why it doesn't and fixing it properly.
+I also work well as part of a team with people in different roles. While developing Too Hot, I reviewed every
+teammate's code and gave feedback, and just as often took feedback on my own work in return — I care as
+much about how a team gets to a working build together as I do about my individual contribution.
+I am applying for the Software Engineer Intern position at Roblox because it sits at the intersection of the two
+things I care about most: engine-level systems programming and building tools that let a huge number of
+other creators make things. I've spent the last two years building a custom C++ engine from the ground up
+— layer-based rendering, framebuffer post-processing, collision, and performance debugging — and I want
+to bring that engine-building instinct to a platform whose entire product is a creation engine used by millions
+of people.
+Thank you for considering my application.
+Sincerely,
+Seohyeon Min
