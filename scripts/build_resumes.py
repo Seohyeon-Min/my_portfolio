@@ -179,21 +179,21 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
             "Diagnosed severe boss-fight frame drops to per-frame redundant collision checks and eliminated them, restoring stable performance.",
             "Eliminated dangling-pointer failures by moving scenario/dialogue ownership into engine-level systems. Largest repository contributor: 366 commits."
         ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/01_Manzo.html",
-           "Graphics / Engine Programmer · Technical Artist · Production Lead  ·  C++ / OpenGL / GLSL", True),
+           "Graphics / Engine Programmer · Technical Artist · Production Lead  ·  C++ / OpenGL / GLSL / Notion", True),
         ("TOO HOT!", "Jul 2026", [
             "Created and integrated the game's 2D shadow treatment, pattern-specific VFX, UI, animation, and hit feedback.",
             "Tuned width and length controls for readable shadows across characters and combat spaces.",
             "Balanced direct art/technical-art execution with a 130+ item P0-P3 backlog and two-programmer coordination.",
             "Reviewed and tested teammate-authored gameplay implementations through final visual integration."
         ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/07_TooHot.html",
-           "Technical Art · Creative / Technical Direction · Producer  ·  Unity / ShaderLab / VFX / UI", True),
+           "Technical Art · Creative / Technical Direction · Producer  ·  Unity / ShaderLab / VFX / UI / Notion", True),
         ("STREET TYPER", "Aug 2026", [
             "Owned original 2D art, UI composition, particles, outlines, camera shake, and animated feedback.",
             "Specified and integrated an AI-assisted reusable UI shader workflow for rounded forms, gradients, and blur.",
             "Debugged and iterated the shader workflow's presets and inspector controls; gameplay code was teammate-authored.",
             "Published a playable build on <link href='https://handalhandal.itch.io/streettyper'>itch.io</link> and prepared the game for a Steam release."
         ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/06_StreetTyper.html",
-           "Art · Technical Art · Producer (Team Project)  ·  Unity URP / UI Technical Art", True),
+           "Art · Technical Art · Producer (Team Project)  ·  Unity URP / UI Technical Art / Notion", True),
         ("WAVE SIMULATOR", "Sep 2026", [
             "Built a Unity URP water-surface study with custom HLSL, procedural vertex displacement, and layered noise-driven surface motion.",
             "Implemented reusable wave and halfpipe geometry controls in C#, exposing parameters for interactive real-time experimentation."
@@ -216,7 +216,7 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
             "Implemented procedural leg animation for a multi-legged boss using ground raycasts and step-arc motion.",
             "Contributed fish-schooling AI and beat-linked hunting; repository lead contributor with 417 commits."
         ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/00_NewManzo.html",
-           "Primary C# Programmer · Game Artist / Visual Director · Production Lead  ·  Unity / C#", True),
+           "Primary C# Programmer · Game Artist / Visual Director · Production Lead  ·  Unity / C# / Notion", True),
     ]
     # Keep technical-art evidence first; other resume tracks use separate lists.
     ta_by_title = {item[0]: item for item in ta_selected}
@@ -229,12 +229,12 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
             "Built a custom C++/OpenGL renderer with layer-sorted draw queues and a framebuffer-based post-processing pipeline for bloom, underwater distortion, god rays, ripples, and transitions.",
             "Implemented reusable particle motion types and integrated shader- and renderer-driven visual effects into gameplay scenes.",
             "Profiled severe frame drops, traced the issue to redundant per-frame collision checks, and removed the repeated work to stabilize performance. Largest repository contributor: 366 commits."
-        ], "Graphics / Engine Programmer | C++ / OpenGL / GLSL"),
+        ], "Graphics / Engine Programmer | C++ / OpenGL / GLSL / Notion"),
         ta_project("STREET TYPER", [
             "Owned original 2D art, UI composition, particles, outlines, camera shake, hit VFX, and animated feedback for a shipped bilingual typing-combat game.",
             "Specified, evaluated, debugged, and integrated an AI-assisted reusable UI shader workflow for rounded forms, gradients, drop/inner shadows, blur, presets, and Inspector iteration; gameplay code was teammate-authored.",
             "Published a playable build on <link href='https://handalhandal.itch.io/streettyper'>itch.io</link> and prepared the game for a Steam release."
-        ], "Technical Art / UI / Art | Unity URP / C# / ShaderLab"),
+        ], "Technical Art / UI / Art | Unity URP / C# / ShaderLab / Notion"),
         ta_project("WAVE SIMULATOR", [
             "Built a Unity URP water-surface study with custom HLSL, procedural vertex displacement, and layered noise-driven surface motion.",
             "Implemented reusable wave and halfpipe geometry controls in C#, exposing parameters for interactive real-time experimentation."
@@ -243,12 +243,12 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
             "Implemented procedural leg animation for a multi-legged boss using ground raycasts and step-arc motion.",
             "Built raycasting-based underwater visibility and post-processing for atmospheric rendering.",
             "Contributed fish-schooling AI and beat-linked hunting; built Unity editor tools for scene setup, area editing, and UI style presets. Repository lead contributor with 417 commits."
-        ], "C# Programmer / Technical Art | Unity / C#"),
+        ], "C# Programmer / Technical Art | Unity / C# / Notion"),
         ta_project("TOO HOT!", [
             "Created and integrated the game's 2D shadow treatment, pattern-specific VFX, UI, animation, hit feedback, and visual hierarchy; tuned width and length controls for readable shadows across combat spaces.",
             "Specified GameplayManager and per-stage ScriptableObject data flow, save-range safeguards, chapter selection, and clean-state debug controls; reviewed teammate-authored gameplay implementations.",
             "Balanced direct art/technical-art execution with a 130+ item P0-P3 backlog, two-programmer coordination, code review, merges, and final visual integration."
-        ], "Technical Art / Visual Integration | Unity / ShaderLab / VFX"),
+        ], "Technical Art / Visual Integration | Unity / ShaderLab / VFX / Notion"),
         ta_project("DOUBLE HIT", [
             "Implemented a sprite-file parser loading textures, animation frames, hotspots, and collision shapes from data.",
             "Replaced hardcoded platform placement with a custom level-data parser, allowing layout changes without recompiling C++."
@@ -278,10 +278,10 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
          "https://seohyeon-min.github.io/my_portfolio/portfolio_game/02_EdgeDirve.html")
     ]
     ta_skills = [
-        ("Graphics / Tools", "OpenGL, GLSL, Unity URP, ShaderLab, RenderDoc; UI shaders, framebuffer post-processing, procedural animation, C# editor tools and presets"),
+        ("Graphics / Tools", "OpenGL, GLSL, Unity URP, ShaderLab, Blender, RenderDoc; UI shaders, framebuffer post-processing, procedural animation, C# editor tools and presets"),
         ("Unreal Engine", "Basic VFX asset setup and modification with Cascade and Niagara (EDGE DRIVE)"),
         ("Programming", "C++, C#, C, Python, JavaScript; collision performance debugging (MANZO), data-driven asset loading"),
-        ("Workflow", "Git branching and merge review, GitHub Projects/Issues, Notion, CMake, Visual Studio; technical feedback and visual integration"),
+        ("Workflow", "Git branching and merge review, Perforce, Jira, GitHub Projects/Issues, Notion, CMake, Visual Studio; technical feedback and visual integration"),
     ]
     if build_ta:
         ta_role = "TECHNICAL ARTIST | GRAPHICS PROGRAMMER"
@@ -301,14 +301,14 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
                 "Diagnosed severe boss-fight frame drops to per-frame redundant collision checks and eliminated them, restoring stable performance.",
                 "Eliminated dangling-pointer failures by moving scenario/dialogue ownership into engine-level systems. Largest repository contributor: 366 commits."
             ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/01_Manzo.html",
-               "Graphics / Engine Programmer · Technical Artist · Production Lead  ·  C++ / OpenGL / GLSL"),
+               "Graphics / Engine Programmer · Technical Artist · Production Lead  ·  C++ / OpenGL / GLSL / Notion"),
             ("NEW MANZO", "Aug 2025 – Sep 2026", [
                 "Designed a Template Method-based boss pattern architecture that fixes shared logic across 21 concrete implementations.",
                 "Built a Composite orchestration layer that chains sub-patterns into runtime combos, including combos nested inside combos.",
                 "Decoupled projectile motion and spawn behavior into standalone interfaces independent of any concrete projectile.",
                 "Primary C# contributor with 418 of 585 repository commits."
             ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/00_NewManzo.html",
-               "Primary C# Programmer · Game Artist / Visual Director · Production Lead  ·  Unity / C#"),
+               "Primary C# Programmer · Game Artist / Visual Director · Production Lead  ·  Unity / C# / Notion"),
             ("DOUBLE HIT", "Mar – Jul 2024", [
                 "Implemented a custom sprite-file parser that loads textures, animation frames, hotspots, and collision shapes from data.",
                 "Replaced ~30 hardcoded platform coordinates with a PlatformManager parsing level geometry from a custom .plf format.",
@@ -327,19 +327,19 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
                 "Reviewed and tested teammate-authored gameplay implementations and clean-state debug controls.",
                 "Balanced direct art/technical-art execution with a 130+ item P0-P3 backlog and two-programmer coordination."
             ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/07_TooHot.html",
-               "Technical Art · Creative / Technical Direction · Producer  ·  Unity / ShaderLab"),
+               "Technical Art · Creative / Technical Direction · Producer  ·  Unity / ShaderLab / Notion"),
             ("STREET TYPER", "Aug 2026", [
                 "Specified, evaluated, and integrated a reusable UI shader workflow for rounded forms, gradients, and blur.",
                 "Owned original 2D art, UI composition, particles, and hit VFX; gameplay code was teammate-authored.",
                 "Published a playable build on <link href='https://handalhandal.itch.io/streettyper'>itch.io</link> and prepared the game for a Steam release."
             ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/06_StreetTyper.html",
-               "Art · Technical Art · Producer (Team Project)  ·  Unity URP"),
+               "Art · Technical Art · Producer (Team Project)  ·  Unity URP / Notion"),
         ]
         gameplay_add = []
         gameplay_skills = [
             ("Programming", "C++, C#, C, Python, JavaScript; gameplay/engine architecture, design patterns (Template Method, Composite), collision, debugging, memory/lifetime fixes"),
             ("Systems", "Custom C++ engines (raylib, OpenGL), Unity gameplay systems, boss/pattern frameworks, state and data-driven design, performance debugging"),
-            ("Workflow", "Git branching and merge review, GitHub Projects/Issues, Notion, CMake, Visual Studio, WSL, profiling, technical specification"),
+            ("Workflow", "Git branching and merge review, Perforce, Jira, GitHub Projects/Issues, Notion, Blender, CMake, Visual Studio, WSL, profiling, technical specification"),
         ]
         gameplay_role = "GAMEPLAY ENGINEER"
         gameplay_summary = "Gameplay engineer who builds gameplay and engine-level systems in C++ and Unity — from object/component architectures and boss pattern systems to collision and rendering pipelines — then debugs and optimizes them under real performance constraints."
@@ -455,25 +455,25 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
             "Coordinated gameplay, art, UI, VFX, audio, and presentation through a 130+ item P0-P3 backlog.",
             "Secured an offline booth at a Korean game event for an October 2026 exhibition."
         ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/07_TooHot.html",
-           "Producer · Technical / Creative Direction  ·  Unity / ShaderLab"),
+           "Producer · Technical / Creative Direction  ·  Unity / ShaderLab / Notion"),
         ("NEW MANZO", "Aug 2025 – Sep 2026", [
             "Led long-term scope, milestones, and delivery planning across a multi-semester team project.",
             "Directed cross-discipline communication and ownership while contributing hands-on technical support.",
             "Repository lead contributor with 417 of 585 commits, driving the project to a completed playable build."
         ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/00_NewManzo.html",
-           "Production Lead · Primary C# Programmer · Game Artist / Visual Director  ·  Unity / C#"),
+           "Production Lead · Primary C# Programmer · Game Artist / Visual Director  ·  Unity / C# / Notion"),
         ("MANZO", "Sep 2024 – Dec 2025", [
             "Bridged design, art, and engineering across a multi-semester, largely solo-engineered C++ project.",
             "Directly implemented rhythm, rendering, particles, debugging, and Git integration end-to-end.",
             "Owned final presentation and polish; largest repository contributor with 366 commits."
         ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/01_Manzo.html",
-           "Production Lead · Graphics / Engine Programmer · Technical Artist  ·  C++ / OpenGL / GLSL"),
+           "Production Lead · Graphics / Engine Programmer · Technical Artist  ·  C++ / OpenGL / GLSL / Notion"),
         ("STREET TYPER", "Aug 2026", [
             "Scoped and coordinated a public 10-day team build for a bilingual typing-combat game.",
             "Owned visual direction, UI, VFX, and gameplay readability across the production.",
             "Published the build on <link href='https://handalhandal.itch.io/streettyper'>itch.io</link> and coordinated preparation for a Steam release."
         ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/06_StreetTyper.html",
-           "Producer · Art / Technical Art  ·  Unity URP"),
+           "Producer · Art / Technical Art  ·  Unity URP / Notion"),
         ("JOINT BAND PERFORMANCE", "May 2025", [
             "Co-organized a two-hour live performance featuring six acts from DigiPen, BARD, and an independent band.",
             "Coordinated rehearsals, setlists, equipment load-in, show order, and post-event logistics."
@@ -487,8 +487,8 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
     prod_skills = [
         ("Production", "Scope/milestone planning, P0-P3 prioritization, ownership, risk identification, acceptance criteria, review, testing, integration"),
         ("Operations", "Event production, vendor sourcing and negotiation, sample review, preorder planning, fulfillment, customer communication"),
-        ("Planning Tools", "Notion, GitHub Projects, GitHub Issues, Witchform, Peing; task documentation, status tracking, review and rework loops"),
-        ("Technical", "Unity, C++, C#, OpenGL, GLSL, ShaderLab, Git branching and merge review, CMake; graphics/gameplay debugging"),
+        ("Planning Tools", "Notion, Jira, GitHub Projects, GitHub Issues, Perforce, Witchform, Peing; task documentation, status tracking, review and rework loops"),
+        ("Technical", "Unity, C++, C#, OpenGL, GLSL, ShaderLab, Blender, Git branching and merge review, CMake; graphics/gameplay debugging"),
     ]
     if build_prod:
         build(DOCS/"Resume_Production.pdf", "PRODUCER | PROJECT LEAD", "Producer and project lead who carries games, events, and physical products from planning through delivery. I align multidisciplinary teams and external partners, negotiate resources and constraints, track execution, resolve delivery risks, and build repeatable operations across production, live events, vendors, logistics, and customer communication.", prod_selected, prod_add, prod_skills, TEAL,

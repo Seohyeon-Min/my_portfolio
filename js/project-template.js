@@ -125,7 +125,56 @@
       const heroVideo = heroSection.querySelector('video');
       if (heroVideo) {
         heroVideo.muted = true;
-        heroVideo.play().catch(() => {});
+        // 자동재생이 막히거나 로드에 실패하면 원인이 적힌 재생 버튼을 보여주고, 첫 사용자 입력 때 한 번 더 재시도한다.
+        const removeFallback = () => { const b = heroSection.querySelector('.hero-video-fallback'); if (b) b.remove(); };
+        const playLabel = t('▶ Play video', '▶ 영상 재생');
+        // 실패했을 때 서버가 이 영상 주소에 실제로 뭐라고 답하는지 같이 보여준다 (404인지, 형식 문제인지 구분하기 위함).
+        const describeFailure = () => {
+          const parts = [];
+          if (heroVideo.error) parts.push('media error ' + heroVideo.error.code + (heroVideo.error.message ? ': ' + heroVideo.error.message : ''));
+          return fetch(heroVideo.currentSrc || heroVideo.src, { method: 'HEAD' })
+            .then(r => parts.push(`HTTP ${r.status} ${r.headers.get('content-type') || 'no-type'} ${r.headers.get('content-length') || '?'}B ranges:${r.headers.get('accept-ranges') || 'none'}`))
+            .catch(() => parts.push('HEAD request failed'))
+            .then(() => parts.join(' · '));
+        };
+        const showFallback = (reason, extra) => {
+          if (heroSection.querySelector('.hero-video-fallback')) return;
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'hero-video-fallback';
+          const label = document.createElement('span');
+          label.textContent = `${playLabel} (${reason})`;
+          const detail = document.createElement('small');
+          button.append(label, detail);
+          button.addEventListener('click', () => {
+            heroVideo.muted = true;
+            heroVideo.play().then(removeFallback).catch(err => { label.textContent = `${playLabel} (${(err && err.name) || err})`; });
+          });
+          heroSection.appendChild(button);
+          describeFailure().then(text => { detail.textContent = [text, extra].filter(Boolean).join(' · '); });
+        };
+        // 일부 로컬 서버는 <video>가 보내는 Range 요청을 제대로 처리하지 못해 정상 파일도 "Format error"로 실패한다.
+        // Range 없이 전체를 받아 blob으로 재생하는 우회를 한 번 시도하고, 그래도 실패하면 원인을 적은 버튼을 보여준다.
+        let blobAttempt = null;
+        let usingBlob = false;
+        const playViaBlob = () => blobAttempt || (blobAttempt = fetch(heroVideo.currentSrc || heroVideo.getAttribute('src'))
+          .then(response => { if (!response.ok) throw new Error('GET HTTP ' + response.status); return response.blob(); })
+          .then(blob => { usingBlob = true; heroVideo.src = URL.createObjectURL(blob); heroVideo.muted = true; return heroVideo.play(); }));
+        const handleFailure = reason => {
+          if (usingBlob) { showFallback(reason, 'blob playback failed'); return; }
+          playViaBlob().catch(err => showFallback(reason, 'blob fallback: ' + ((err && err.message) || err)));
+        };
+        const tryPlay = () => heroVideo.play().catch(err => {
+          const name = (err && err.name) || 'blocked';
+          return name === 'NotSupportedError' ? handleFailure(name) : showFallback(name);
+        });
+        tryPlay();
+        heroVideo.addEventListener('canplay', () => { if (heroVideo.paused) tryPlay(); }, { once: true });
+        heroVideo.addEventListener('playing', removeFallback);
+        heroVideo.addEventListener('error', () => handleFailure('media error ' + (heroVideo.error ? heroVideo.error.code : '?')));
+        ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(name => {
+          window.addEventListener(name, () => { if (heroVideo.paused) heroVideo.play().catch(() => {}); }, { once: true, passive: true });
+        });
       }
     } else if (project.heroType === 'image') {
       heroSection.innerHTML = `
@@ -487,6 +536,11 @@
 
     insertAfter.insertAdjacentHTML('afterend', galleryHTML);
 
+    // Nested inside .rounded-section the lightboxes sit in a lower stacking context, so the fixed
+    // navbar, Back button and project prev/next arrows drew on top of the gallery. At the body root
+    // their own z-index applies and the gallery covers the whole page.
+    document.querySelectorAll('.lightbox').forEach(box => document.body.appendChild(box));
+
     document.querySelectorAll('.lightbox').forEach(box => {
       const content = box.querySelector('.lightbox-content');
       const prevLink = box.querySelector('.prev');
@@ -662,10 +716,11 @@
     const remainingSections = project.contributions.sections.slice(1);
 
     // 사용 가능한 카테고리 추출 (첫 번째 섹션 제외)
-    const allCategories = ['Planning', 'Technical', 'Art', 'Audio', 'Project Lead', 'Producing', '프로듀싱', 'Direction · Production', '디렉팅 · 프로덕션'];
+    const allCategories = ['Planning', 'Technical', 'Technical Art', 'Art', 'Audio', 'Project Lead', 'Producing', '프로듀싱', 'Direction · Production', '디렉팅 · 프로덕션'];
     const categoryLabels = {
       'Planning': t('Design', '기획'),
       'Technical': t('Technical', '기술'),
+      'Technical Art': t('Technical Art', '테크니컬 아트'),
       'Art': t('Art', '아트'),
       'Audio': t('Audio', '음악'),
       'Project Lead': t('Production', '프로덕션'),
@@ -1415,7 +1470,27 @@
       setupWaypointLightboxVisibility();
       enableAssetLightbox();        // 아트 탭 등의 에셋 그리드를 클릭하면 크게 보기
       enableCaseCardHeroJump();     // 케이스 카드를 클릭하면 해당 히어로 패널로 스크롤
+      enablePskToc();               // Contents 목록: 지금 보이는 섹션을 강조
+      enableLazyEmbeds();           // 포스터를 누르면 그때 WebGL iframe을 불러옴
+      enableLoopingVideos();        // VFX 캡처: 화면에 보일 때 무한 반복 재생
     }
+  }
+
+  // [data-lazy-embed] 포스터를 누르면 그때 iframe을 만든다. 무거운 WebGL 빌드를 페이지 로드 시점에 받지 않기 위함.
+  let lazyEmbedsBound = false;
+  function enableLazyEmbeds() {
+    if (lazyEmbedsBound) return;
+    lazyEmbedsBound = true;
+    document.addEventListener('click', event => {
+      const host = event.target.closest('[data-lazy-embed]');
+      if (!host || host.querySelector('iframe')) return;
+      const frame = document.createElement('iframe');
+      frame.src = host.dataset.src;
+      frame.title = host.dataset.title || '';
+      frame.allow = 'fullscreen';
+      frame.addEventListener('load', () => { try { frame.focus(); } catch (e) {} });
+      host.replaceChildren(frame);
+    });
   }
 
   // engineering-case-grid의 카드 중, 같은 페이지 어딘가에 히어로 패널로 확장된 버전이 있는 카드를
@@ -1452,6 +1527,87 @@
     heroLightboxEl.classList.remove('open');
     document.body.classList.remove('hero-lightbox-open');
   }
+  // 무음 반복 영상은 화면에 보일 때만 재생한다. 탭이 숨겨져 있다가 열릴 때도 다시 재생되게 하려고
+  // autoplay 속성에만 맡기지 않고 IntersectionObserver로 직접 play/pause 한다.
+  function enableLoopingVideos() {
+    const videos = document.querySelectorAll('.psk-vfx-video video');
+    if (!videos.length) return;
+    const play = video => { const p = video.play(); if (p && p.catch) p.catch(() => {}); };
+    videos.forEach(video => {
+      // innerHTML로 들어온 muted 속성이 muted 프로퍼티에 반영되지 않는 브라우저가 있어 직접 지정한다
+      // (무음이어야만 자동재생이 허용됨).
+      video.muted = true;
+      // 로딩이 늦어 화면에 보인 뒤에야 재생 가능해지는 경우도 잡는다.
+      video.addEventListener('canplay', () => { if (video.dataset.visible !== '0') play(video); });
+      // 스트리밍 로드가 실패하면 파일 전체를 받아 blob으로 한 번 다시 시도한다(서버의 MIME/Range 설정 문제 우회).
+      // 그래도 안 되면 검은 상자만 남지 않게 원인(오류 코드, HTTP 상태, Content-Type)과 새 탭 링크를 보여준다.
+      let retried = false;
+      let diag = '';
+      video.addEventListener('error', async () => {
+        const link = video.parentElement.querySelector('.psk-vfx-fallback');
+        if (!retried) {
+          const src = video.currentSrc || video.src;
+          diag = 'code ' + (video.error ? video.error.code : '?');
+          try {
+            const res = await fetch(src);
+            diag += ' · HTTP ' + res.status + ' · ' + (res.headers.get('content-type') || 'no content-type');
+            if (res.ok) {
+              retried = true;
+              const blob = await res.blob();
+              video.src = URL.createObjectURL(new Blob([blob], { type: 'video/mp4' }));
+              play(video);
+              return;
+            }
+          } catch (e) {
+            diag += ' · fetch failed: ' + e.message;
+          }
+        } else {
+          diag += ' · blob retry failed';
+        }
+        if (link) {
+          link.hidden = false;
+          const note = link.querySelector('.psk-vfx-diag');
+          if (note) note.textContent = diag;
+        }
+      });
+    });
+    if (!('IntersectionObserver' in window)) { videos.forEach(play); return; }
+    const io = new IntersectionObserver(entries => entries.forEach(entry => {
+      entry.target.dataset.visible = entry.isIntersecting ? '1' : '0';
+      if (entry.isIntersecting) play(entry.target); else entry.target.pause();
+    }), { threshold: 0.25 });
+    videos.forEach(video => io.observe(video));
+  }
+
+  // Contents list (Poseidon Skate): highlight the section that is currently in view.
+  function enablePskToc() {
+    document.querySelectorAll('.psk-toc').forEach(nav => {
+      if (nav.dataset.spyBound) return;
+      nav.dataset.spyBound = 'true';
+      const links = Array.from(nav.querySelectorAll('a[data-psk-toc]'));
+      const items = links.map(link => ({ link, target: document.getElementById(link.dataset.pskToc) })).filter(item => item.target);
+      if (!items.length) return;
+      const setActive = link => links.forEach(l => {
+        const on = l === link;
+        l.classList.toggle('is-active', on);
+        if (on) l.setAttribute('aria-current', 'true'); else l.removeAttribute('aria-current');
+      });
+      let queued = false;
+      const update = () => {
+        queued = false;
+        if (!nav.offsetParent) return; // this tab is hidden
+        const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+        const line = window.innerHeight * 0.35;
+        let current = items[0];
+        items.forEach(item => { if (item.target.getBoundingClientRect().top <= line) current = item; });
+        setActive((atBottom ? items[items.length - 1] : current).link);
+      };
+      window.addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
+      links.forEach(link => link.addEventListener('click', () => setActive(link)));
+      update();
+    });
+  }
+
   function enableCaseCardHeroJump() {
     const heroTargets = {
       'Performance': 'boss-performance-debugging',
@@ -1572,7 +1728,7 @@
   }
 
   function enableAssetLightbox() {
-    document.querySelectorAll('.asset-showcase-grid, .asset-portrait-grid, .asset-frame-strips').forEach(grid => {
+    document.querySelectorAll('.asset-showcase-grid, .asset-portrait-grid, .asset-frame-strips, .psk-figs').forEach(grid => {
       if (grid.dataset.lightboxBound) return;
       grid.dataset.lightboxBound = 'true';
       const figures = Array.from(grid.querySelectorAll('figure'));

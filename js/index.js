@@ -18,7 +18,7 @@ const portfolioTracks = {
       ko: '네 개의 프로젝트에서 시각적 의도를 실제로 작동하는 실시간 시스템으로 구현했습니다.'
     },
     proofProjects: [
-      { key: 'wave', title: 'WAVE SIMULATOR', lead: 'TECHNICAL ART / SHADER', meta: 'UNITY URP · HLSL · PROCEDURAL WATER', href: 'portfolio_game/08_WaveSimulator.html', image: 'img/WaveSimulator/img1.png' },
+      { key: 'poseidon', title: 'POSEIDON SKATE', lead: 'TECHNICAL ART / SHADER', meta: 'UNITY URP · HLSL · BLENDER · TEAM PROJECT', href: 'portfolio_game/08_PoseidonSkate.html', image: 'img/WaveSimulator/img1.png' },
       { key: 'manzo', title: 'MANZO · CUSTOM RENDERER', lead: 'GRAPHICS / ENGINE PROGRAMMER', meta: 'OPENGL · PING-PONG FBO · POST-PROCESSING', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' },
       { key: 'toohot', title: 'TOO HOT!', lead: 'PROJECT LEAD', meta: 'UNITY · SHADOW SHADER · REAL-TIME VFX', href: 'portfolio_game/07_TooHot.html', image: 'img/portfolio_thumbnails/TooHot.png' },
       { key: 'street', title: 'STREET TYPER', lead: 'PROJECT LEAD', meta: 'UI SHADERS · VFX · GAME FEEL', href: 'portfolio_game/06_StreetTyper.html', image: 'img/StreetTyper/title2.png' }
@@ -117,7 +117,7 @@ function refreshArchiveLayout(track) {
     return;
   }
   const groups = [
-    ['SHADERS', ['07_TooHot.html', 'WaveSimulator']],
+    ['SHADERS', ['07_TooHot.html', 'PoseidonSkate']],
     ['RENDERING', ['01_Manzo.html']],
     ['VISUALS', ['00_NewManzo.html', '06_StreetTyper.html']],
     ['GAME PROGRAMMING', ['04_BirdStrike.html', '03_DoubleHit.html', '05_ThinkThink.html', '02_EdgeDirve.html']],
@@ -285,7 +285,7 @@ function applyLanguage(language) {
     const activeTrack = new URLSearchParams(window.location.search).get('track') || localStorage.getItem('portfolio-track') || 'graphics';
     if (false && archiveGrid && activeTrack === 'graphics') {
     const groups = [
-      ['SHADERS', ['07_TooHot.html', 'WaveSimulator']],
+      ['SHADERS', ['07_TooHot.html', 'PoseidonSkate']],
       ['RENDERING', ['01_Manzo.html']],
       ['VISUALS', ['00_NewManzo.html', '06_StreetTyper.html']],
       ['GAME PROGRAMMING', ['04_BirdStrike.html', '03_DoubleHit.html', '05_ThinkThink.html', '02_EdgeDirve.html']],
@@ -307,13 +307,15 @@ function applyLanguage(language) {
   const techStrip = document.querySelector('.tech-stack-strip');
   if (techStrip) {
     const skills = [...techStrip.querySelectorAll('.tech-stack-strip__track > span:not(.tech-stack-strip__dup)')];
-    const cards = [...document.querySelectorAll('.link-archive-grid > a, .portfolio__item[href]')];
+    // Descendant (not direct child): refreshArchiveLayout() nests the cards inside .archive-category__grid,
+    // so a `>` selector matches nothing on the graphics/product tracks and the skill keys go dead.
+    const cards = [...document.querySelectorAll('.link-archive-grid a, .portfolio__item[href]')];
     const projectTools = {
       '02_EdgeDirve.html': 'Unreal Engine',
       '00_NewManzo.html': 'C# FMOD HLSL Clip Studio Paint Aseprite GitHub', '01_Manzo.html': 'C++ OpenGL GLSL Custom Engine Clip Studio Paint GitHub',
       '03_DoubleHit.html': 'C++ GLSL OpenGL Spriter Pro Clip Studio Paint GitHub', '04_BirdStrike.html': 'C++ Clip Studio Paint Cakewalk raylib GitHub',
       '05_ThinkThink.html': 'Unity HLSL C# GitHub', '06_StreetTyper.html': 'C# Unity Spriter Pro 2D Rigging Animation HLSL Clip Studio Paint GitHub',
-      '07_TooHot.html': 'C# Unity HLSL GitHub', 'Dangling.html': 'Clip Studio Paint', 'PlushProduction.html': 'Clip Studio Paint Notion',
+      '07_TooHot.html': 'C# Unity HLSL GitHub', '08_PoseidonSkate.html': 'Unity HLSL C# Blender Perforce Jira', 'Dangling.html': 'Clip Studio Paint', 'PlushProduction.html': 'Clip Studio Paint Notion',
       '01_hello.html': 'WebGL JavaScript GLSL GitHub', '02_meshes.html': 'WebGL JavaScript GLSL GitHub', '03_fog.html': 'WebGL JavaScript GLSL GitHub',
       '04_toon.html': 'WebGL JavaScript GLSL GitHub', '05_shadow.html': 'WebGL JavaScript GLSL GitHub', '06_value.html': 'WebGL JavaScript GLSL GitHub',
       '07_gradient.html': 'WebGL JavaScript GLSL GitHub', '08_demo_fun.html': 'WebGL JavaScript GLSL GitHub'
@@ -372,17 +374,31 @@ function applyLanguage(language) {
     back.innerHTML = `<span aria-hidden="true">←</span><span>${currentLanguage === 'ko' ? '뒤로가기' : 'Back'}</span>`;
     back.onclick = () => location.assign(destination);
     document.body.appendChild(back);
-    const allProjects = [
-      ['portfolio_game/06_StreetTyper.html', 'STREET TYPER'],
-      ['portfolio_game/07_TooHot.html', 'TOO HOT!'],
-      ['portfolio_game/01_Manzo.html', 'MANZO'],
-      ['portfolio_game/04_BirdStrike.html', 'BIRD STRIKE'],
-      ['portfolio_game/00_NewManzo.html', 'NEW MANZO'],
-      ['portfolio_game/03_DoubleHit.html', 'DOUBLE HIT'],
-      ['portfolio_game/05_ThinkThink.html', 'THINK THINK'],
-      ['portfolio_game/02_EdgeDirve.html', 'EDGE DRIVE'],
-      ['portfolio_planning/Dangling.html', 'DANGLING*'],
-      ['portfolio_planning/PlushProduction.html', 'PLUSH PRODUCTION'],
+    // Follows the ALL PROJECTS grid order for the active track, so ‹ › walks the projects in the
+    // same order the archive shows them. Keep in sync with refreshArchiveLayout().
+    const projectTitles = {
+      'portfolio_game/06_StreetTyper.html': 'STREET TYPER',
+      'portfolio_game/07_TooHot.html': 'TOO HOT!',
+      'portfolio_game/08_PoseidonSkate.html': 'POSEIDON SKATE',
+      'portfolio_game/01_Manzo.html': 'MANZO',
+      'portfolio_game/04_BirdStrike.html': 'BIRD STRIKE',
+      'portfolio_game/00_NewManzo.html': 'NEW MANZO',
+      'portfolio_game/03_DoubleHit.html': 'DOUBLE HIT',
+      'portfolio_game/05_ThinkThink.html': 'THINK THINK',
+      'portfolio_game/02_EdgeDirve.html': 'EDGE DRIVE',
+      'portfolio_planning/Dangling.html': 'DANGLING*',
+      'portfolio_planning/PlushProduction.html': 'PLUSH PRODUCTION'
+    };
+    const archiveOrder = {
+      graphics: ['07_TooHot', '08_PoseidonSkate', '01_Manzo', '06_StreetTyper', '00_NewManzo', '04_BirdStrike', '03_DoubleHit', '05_ThinkThink', '02_EdgeDirve', 'PlushProduction', 'Dangling'],
+      software: ['06_StreetTyper', '07_TooHot', '08_PoseidonSkate', '01_Manzo', '04_BirdStrike', '00_NewManzo', '03_DoubleHit', '05_ThinkThink', '02_EdgeDirve', 'PlushProduction', 'Dangling'],
+      product: ['PlushProduction', 'Dangling', '06_StreetTyper', '07_TooHot', '01_Manzo', '00_NewManzo', '08_PoseidonSkate', '04_BirdStrike', '03_DoubleHit', '05_ThinkThink', '02_EdgeDirve']
+    };
+    const allProjects = (archiveOrder[track] || archiveOrder.graphics).map(key => {
+      const href = Object.keys(projectTitles).find(path => path.includes(key));
+      return [href, projectTitles[href]];
+    });
+    const graphicsStudies = [
       ['portfolio/01_hello.html', 'HELLO GRAPHICS'],
       ['portfolio/02_meshes.html', 'PROCEDURAL MESHES'],
       ['portfolio/03_fog.html', 'FOG'],
@@ -394,7 +410,9 @@ function applyLanguage(language) {
     ];
     const proofProjects = (portfolioTracks[track] || portfolioTracks.graphics).proofProjects.map(project => [project.href, project.title]);
     const matchesCurrent = project => location.pathname.endsWith('/' + project[0]);
-    const sequence = from === 'proof' && proofProjects.some(matchesCurrent) ? proofProjects : allProjects;
+    const sequence = from === 'proof' && proofProjects.some(matchesCurrent)
+      ? proofProjects
+      : (allProjects.some(matchesCurrent) ? allProjects : graphicsStudies);
     const currentIndex = sequence.findIndex(matchesCurrent);
     if (currentIndex !== -1) {
       [-1, 1].forEach(direction => {
@@ -689,6 +707,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const graphicsOpen = app.querySelector('[data-graphics-open]');
   const graphicsClose = app.querySelector('[data-graphics-close]');
   let activeIndex = 0;
+  let entryHideTimer = 0;
     let locked = false;
     let wheelDelta = 0;
     let wheelReset;
@@ -1043,14 +1062,28 @@ document.addEventListener('DOMContentLoaded', () => {
     activeIndex = nextIndex;
     app.classList.toggle('has-left-entry', activeIndex > 0);
 
+    // The entry scene is display:none while away (has-left-entry / [hidden]), and an
+    // element coming out of display:none has no previous style to transition from,
+    // so it would just snap in. Un-hide it and flush layout first, so it flies in
+    // from its .is-past state like every other scene.
+    if (activeIndex === 0 && !immediate && scenes[0]) {
+      scenes[0].hidden = false;
+      void scenes[0].offsetWidth;
+    }
+
     scenes.forEach((scene, sceneIndex) => {
       const shouldHideEntry = sceneIndex === 0 && activeIndex > 0;
       // The entry title scene has its own scale/blur/fade transition (.is-past) that
       // is meant to play as it leaves — setting `hidden` (display:none) in the same
       // tick as the class change would skip that transition entirely. Let it finish
       // (matches the 950ms transform transition on .link-scene) before hiding for real.
+      if (sceneIndex === 0) window.clearTimeout(entryHideTimer);
       if (shouldHideEntry && !immediate && scene.hidden !== shouldHideEntry) {
-        window.setTimeout(() => { scene.hidden = true; }, reduceMotion.matches ? 0 : 950);
+        // Re-check activeIndex: if the user scrolled back before this fires, the
+        // entry scene is active again and must not be hidden.
+        entryHideTimer = window.setTimeout(() => {
+          if (activeIndex > 0) scene.hidden = true;
+        }, reduceMotion.matches ? 0 : 950);
       } else {
         scene.hidden = shouldHideEntry;
       }

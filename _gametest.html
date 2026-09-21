@@ -1,0 +1,15 @@
+<!doctype html><title>init</title><iframe id="f" style="width:1200px;height:900px" src=""></iframe>
+<script>
+const f=document.getElementById('f'); f.src=new URLSearchParams(location.search).get('page'); let clicked=false;
+setInterval(()=>{try{
+  const d=f.contentDocument; let st='page-loading';
+  if(d){
+    const btn=d.querySelector('#psk-game .psk-demo-play');
+    if(btn&&!clicked){btn.click();clicked=true;}
+    const inner=d.querySelector('#psk-game iframe');
+    st=inner?'clicked, iframe present':(btn?'poster visible (not clicked)':'no game block');
+    if(inner&&inner.contentDocument){const id=inner.contentDocument;const bar=id.querySelector('#unity-loading-bar'),warn=id.querySelector('#unity-warning'),cv=id.querySelector('#unity-canvas'),prog=id.querySelector('#unity-progress-bar-full');
+      st='game: bar='+(bar?bar.style.display:'?')+' progress='+(prog?prog.style.width:'?')+' canvas='+(cv?cv.clientWidth+'x'+cv.clientHeight:'?')+' warn="'+(warn?warn.textContent.trim().slice(0,90):'')+'"';}
+  }
+  document.title=st;}catch(e){document.title='ERR '+e}},1000);
+</script>

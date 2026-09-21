@@ -1196,6 +1196,77 @@ const projectsData = {
     }
   },
 
+  "08_PoseidonSkate": {
+    type: "game",
+    title: "POSEIDON SKATE",
+    subtitle: "A rideable procedural ocean, shaders, and effects built in a three-week team production",
+    pageTitle: "Poseidon Skate — Min Seohyeon Portfolio",
+    heroType: "video",
+    heroMedia: "../img/PoseidonSkate/PlayVid.mp4?v=20260921",
+    heroPoster: "../img/WaveSimulator/img1.png",
+    overview: "Poseidon Skate is a three-week Unity URP team project by PassionDiff, played on a rideable ocean wave. I built the ocean, wave, and tornado shaders, the effects and camera work behind the combat feel, and a low-poly Poseidon modeled and rigged in Blender, while managing the schedule and priorities in Jira.",
+    features: [
+      "Ocean, wave, and tornado shaders written in HLSL and structured to be reused",
+      "A rideable wave built as generated mesh geometry with a collider, separate from the GPU water shader",
+      "VFX, camera effects, and action presentation tuned for combat feel",
+      "A low-poly Poseidon character modeled and rigged in Blender",
+      "Schedule and priorities managed in Jira, with source control through Perforce"
+    ],
+    experience: {
+      role: "Technical Art · Shader Development · Production",
+      period: "September 2026 · 3-week team project",
+      description: "Technical artist on PassionDiff's three-week Unity URP team project. I wrote the ocean, wave, and tornado shaders and structured them to be reusable, built the VFX and camera effects behind the combat feel, and modeled and rigged the low-poly Poseidon in Blender. I also managed the schedule and priorities in Jira and assigned tasks by teammates' strengths. Because the team finished core gameplay first, there was time left for art and polish."
+    },
+    tools: "Unity URP · HLSL · C# · Blender · Perforce · Jira",
+    trailers: [],
+    videos: [],
+    contributions: {
+      sections: [
+        {
+          title: "Schedule, Priorities & Pipeline",
+          category: "Producing",
+          htmlContent: `<section><h2>Keeping a Three-Week Team on Track</h2><p class="case-study-lede">I used Jira to organize the schedule and priorities so everyone knew what to work on next, and assigned tasks according to each teammate's strengths and interests.</p><div class="direction-case-grid"><article><span class="case-label">Scheduling</span><h3>Jira for priorities</h3><p>Organized the three-week schedule and priorities in Jira so every teammate could see what to work on next.</p></article><article><span class="case-label">Team Fit</span><h3>Tasks matched to strengths</h3><p>Assigned work by each teammate's strengths and interests. For example, audio went to a teammate with a strong interest in music and games.</p></article><article><span class="case-label">Pipeline</span><h3>Learning Perforce</h3><p>I had mostly used GitHub before, so I adapted to a Perforce workflow. Teammates flagged checkout issues early, which made problems quick to identify and resolve.</p></article><article><span class="case-label">Prioritization</span><h3>Core gameplay first</h3><p>The team finished core gameplay first and spent the remaining time on art and polish. That order is what left room for the shaders and effects.</p></article></div><p class="case-study-note"><strong>What I took from it:</strong> knowing what to prioritize is one of the most important skills in a short project.</p></section>`
+        }
+      ]
+    },
+    source: {
+      text: "Review the Wave Simulator source on GitHub.",
+      url: "https://github.com/Seohyeon-Min/WaveSimulator",
+      label: "GitHub"
+    },
+    localized: {
+      ko: {
+        subtitle: "3주 팀 제작에서 만든 탈 수 있는 절차적 바다와 셰이더, 이펙트",
+        overview: "Poseidon Skate는 PassionDiff 팀이 3주 동안 만든 Unity URP 프로젝트로, 탈 수 있는 바다 위 파도가 무대입니다. 오션·웨이브·토네이도 셰이더와 전투 손맛을 만드는 이펙트·카메라 연출, Blender로 모델링·리깅한 로우폴리 포세이돈을 제작했고, Jira로 일정과 우선순위를 관리했습니다.",
+        features: [
+          "재사용할 수 있게 구조화한 HLSL 오션·웨이브·토네이도 셰이더",
+          "GPU 물 셰이더와 분리해 메시 지오메트리와 콜라이더로 생성한 탈 수 있는 파도",
+          "전투 손맛을 위해 다듬은 VFX와 카메라 효과, 액션 연출",
+          "Blender로 모델링·리깅한 로우폴리 포세이돈 캐릭터",
+          "Jira로 일정과 우선순위를 관리하고 Perforce로 소스를 관리"
+        ],
+        experience: {
+          role: "테크니컬 아트 · 셰이더 개발 · 프로덕션",
+          period: "2026년 9월 · 3주 팀 프로젝트",
+          description: "PassionDiff의 3주짜리 Unity URP 팀 프로젝트에서 테크니컬 아티스트를 맡았습니다. 오션·웨이브·토네이도 셰이더를 작성해 재사용 가능하게 구조화하고, 전투 손맛을 만드는 VFX와 카메라 효과를 제작했으며, 로우폴리 포세이돈을 Blender로 모델링·리깅했습니다. 또한 Jira로 일정과 우선순위를 관리하고 팀원의 강점에 맞춰 작업을 배정했습니다. 팀이 핵심 게임플레이를 먼저 완성한 덕분에 남은 시간을 아트와 폴리싱에 쓸 수 있었습니다."
+        },
+        contributions: {
+          sections: [
+            {
+              title: "일정, 우선순위, 파이프라인",
+              category: "Producing",
+              htmlContent: `<section><h2>3주 팀의 일정을 이끌기</h2><p class="case-study-lede">Jira로 일정과 우선순위를 정리해 모두가 다음에 할 일을 알 수 있게 했고, 팀원 각자의 강점과 관심사에 맞춰 작업을 배정했습니다.</p><div class="direction-case-grid"><article><span class="case-label">일정 관리</span><h3>Jira로 우선순위 정리</h3><p>3주 일정과 우선순위를 Jira에 정리해 모든 팀원이 다음에 할 일을 볼 수 있게 했습니다.</p></article><article><span class="case-label">팀 적합도</span><h3>강점에 맞춘 작업 배정</h3><p>팀원의 강점과 관심사에 맞춰 작업을 배정했습니다. 예를 들어 음악과 게임에 관심이 큰 팀원에게 오디오 작업을 맡겼습니다.</p></article><article><span class="case-label">파이프라인</span><h3>Perforce 적응</h3><p>주로 GitHub를 써 왔기 때문에 Perforce 워크플로에 적응해야 했습니다. 팀원들이 체크아웃 문제를 빠르게 알려준 덕분에 원인을 쉽게 찾고 해결할 수 있었습니다.</p></article><article><span class="case-label">우선순위</span><h3>핵심 게임플레이 먼저</h3><p>팀은 핵심 게임플레이를 먼저 완성하고 남은 시간을 아트와 폴리싱에 썼습니다. 이 순서 덕분에 셰이더와 이펙트에 쓸 시간이 남았습니다.</p></article></div><p class="case-study-note"><strong>배운 점:</strong> 짧은 프로젝트에서는 무엇을 우선할지 아는 것이 가장 중요한 역량 중 하나입니다.</p></section>`
+            }
+          ]
+        },
+        source: {
+          text: "웨이브 시뮬레이터의 소스 코드는 GitHub에서 볼 수 있습니다.",
+          url: "https://github.com/Seohyeon-Min/WaveSimulator",
+          label: "GitHub"
+        }
+      }
+    }
+  },
   "07_TooHot": {
     type: "game",
     pinned: true,
@@ -1965,3 +2036,310 @@ applyEnglishProjectOverride("02_meshes", {
   ],
   reflection: "This project clarified how topology, winding order, index buffers, and reusable generation functions shape data flow through the rendering pipeline."
 });
+
+// Poseidon Skate: each content block is written once per language, then assembled into tabs by portfolio track.
+(function() {
+  const entry = projectsData["08_PoseidonSkate"];
+  if (!entry) return;
+
+  const validTracks = ['graphics', 'software', 'product'];
+  const queryTrack = new URLSearchParams(window.location.search).get('track');
+  const savedTrack = typeof localStorage !== 'undefined' ? localStorage.getItem('portfolio-track') : null;
+  const track = validTracks.includes(queryTrack) ? queryTrack : (validTracks.includes(savedTrack) ? savedTrack : 'graphics');
+
+  const copy = {
+    en: {
+      jump: { gameplay: "Gameplay", shaders: "Shaders", blender: "Blender modeling", staging: "Staging" },
+      toc: { eyebrow: "On this page", title: "Contents", sub: "Jump to a section", hint: "Click to jump to a section" },
+      glance: {
+        graphics: {
+          role: "Technical artist on a three-week team game: ocean, wave, and tornado shaders, a low-poly Poseidon modeled and rigged in Blender, and the VFX and camera work behind the combat feel.",
+          chips: ["HLSL", "Unity URP", "Blender", "C#", "VFX"],
+          result: "A playable game with a rideable procedural ocean, a rigged character, and effects tuned for combat feel, made without a dedicated artist."
+        },
+        software: {
+          role: "Shader and wave-geometry programming on a three-week team game: HLSL ocean, wave, and tornado shaders, plus a rideable wave built in C# as mesh geometry with a collider.",
+          chips: ["HLSL", "C#", "Unity URP", "Perforce", "Jira"],
+          result: "Visuals (GPU shader) and physics (collider mesh) are built separately so each can be tuned in real time."
+        },
+        product: {
+          role: "Kept a three-week team on schedule: Jira for schedule and priorities, tasks assigned by teammates' strengths, and a Perforce workflow the team adapted to.",
+          chips: ["Jira", "Perforce", "Prioritization", "Team coordination"],
+          result: "The team finished core gameplay first and used the remaining time for art and polish."
+        }
+      },
+      shaders: {
+        title: "Ocean, wave &amp; tornado shaders",
+        lead: "Three HLSL shaders structured so the same building blocks can be reused across effects. The ocean is fully procedural.",
+        takeaways: [
+          ["Flow noise", "instead of time-axis noise, so the motion reads as flow."],
+          ["Domain warping", "to break up regular moiré patterns."],
+          ["Height-field normals", "from finite differences, so lighting follows the surface."]
+        ],
+        deepLabel: "Deep dive", deepTitle: "Shader notes: what I learned",
+        artistLabel: "Artist controls", artistTitle: "Ocean &amp; wave shader Inspector fields",
+        artistIntro: "In the standalone study, the ocean shader exposes 39 Inspector fields and the wave shader 53, so the water can be restyled without opening any HLSL.",
+        artistHead: ["Group", "Fields", "What an artist changes"],
+        artistRows: [
+          ["Shape &amp; motion", "Noise Scale, Flow Direction, Flow Speed, Morph Speed, Amplitude, Pull Strength", "How big the waves are, which way they travel, how fast the surface flows and morphs, how tall it rises, and how sharp the ridges get."],
+          ["Warp", "Warp Scale, Warp Strength", "How much the pattern bends to hide repetition, from large lazy curves to tight, busy ones."],
+          ["Caustic lines", "Color, Scale, Speed, Distortion 1 &amp; 2, Line Width, Intensity, Corner Width, Wall Brightness (the wave shader adds Flow Stretch and Fade Range)", "The size, thickness, wobble, and brightness of the light net, and how strongly the joints stand out."],
+          ["Water color", "Color, Scatter Color / Power / Intensity", "The base water tint and how dark it looks when viewed from straight above."],
+          ["Whitecaps", "Color, Grazing Power, Distance, Intensity, Threshold, Edge Softness", "How much white shows toward the horizon, and whether its edge is a hard toon cut or a soft blend."],
+          ["Wave crest &amp; rim (wave shader)", "Rise T, Top Color / Sharpness, UV Edge Fade, Edge Color / T / Width / Grazing / Intensity, Edge Blue, Highlight Boost / Power", "How far the wave has risen, the white crest the player rides, the rim highlight along the edge, and how cleanly the tapered ends fade out."],
+          ["Wake (trail)", "Distort Strength, Push Strength, Line Color / Threshold / Width / Noise Scale / Noise Strength / Intensity", "How the water bends and rises behind the player, and how the foam line looks."]
+        ],
+        cards: [
+          ["Motion", "Flow noise over time-axis noise", "Instead of sampling time as a third noise axis, I rotate each 2D grid gradient continuously. This keeps the surface spatially coherent while making the motion feel like flow rather than a pattern being replaced."],
+          ["Aliasing", "Domain warping for aliasing", "When the noise frequency became finer than the mesh, regular moiré patterns appeared. I warped the sampling domain with a lower-frequency noise layer to break that alignment without introducing discontinuities."],
+          ["Lighting", "Normals from the height field", "I compared neighboring heights with finite differences and built the surface normal from the resulting gradient. This made lighting follow the procedural surface instead of relying on a faceted screen-space approximation."],
+          ["Surface", "Layered surface response", "Voronoi caustics, edge highlights, scatter, whitecaps, and trail interaction are driven by exposed parameters and shared flow timing. The result is a material that can be tuned in-engine instead of a fixed animation."],
+          ["Approach", "Why I dropped sine waves", "Stacking sine and Gerstner waves always ended in a visible repeating grid. I diagnosed that as a limit of the approach rather than a tuning problem, and moved the whole surface to a noise-based system (Perlin noise with FBM)."],
+          ["Silhouette", "Ridges pulled from the slope", "Where the slope is steep, vertices are pulled sideways along the finite-difference gradient, so peaks read as sharp ridges and cliffs instead of round hills. The threshold is a plain linear saturate on purpose: smoothstep eases in, and I wanted the surface to kink abruptly."],
+          ["Depth", "Transparency without transparency", "Alpha stays at 1. Instead I stack opaque colors with lerp (deep water, a lighter surface tint, then the caustic lines) and add a Fresnel term. This avoids sorting problems and keeps the skybox and distant objects from showing through the ocean."],
+          ["Pattern", "A caustic network from Voronoi", "Each pixel finds its nearest cell seeds. The gap between the first and second distance draws the cell borders; the gap between the second and third marks the nodes where three cells meet, so lines stay dim and glow at the joints. Two rounds of domain warping make them wobble, and the pattern uses world XZ and the terrain's own flow time so it moves with the surface."],
+          ["Camera", "Scatter and whitecaps from the view angle", "Looking straight down blends toward a dark underwater color, while grazing, distant angles blend toward white. A threshold with a tiny edge softness turns the whitecaps into a hard, toon-style cutoff."]
+        ]
+      },
+      game: {
+        title: "Play Poseidon Skate",
+        lead: "WASD to move, arrow keys for QTE.",
+        hint: "Large download (about 85 MB), so it loads only when you press play.",
+        play: "▶ Play the game", fullscreen: "Open fullscreen ↗",
+        alt: "Poseidon Skate gameplay", embedTitle: "Poseidon Skate playable web build"
+      },
+      blender: {
+        title: "Low-poly Poseidon, modeled and rigged in Blender",
+        figs: [
+          ["blender-base-mesh.png", "Low-poly Poseidon base mesh in T-pose in Blender", "Low-poly base mesh (T-pose)"],
+          ["blender-armature-wireframe.png", "Armature bones over the Poseidon wireframe mesh in Blender", "Armature over the wireframe"],
+          ["blender-posed-rig.png", "Posed Poseidon rig with materials applied in Blender", "Posed rig with materials"]
+        ],
+        lead: "Modeled in a low-poly style, rigged with a 25-bone skeleton, and exported to Unity as FBX with a Generic rig.",
+        deepLabel: "Deep dive", deepTitle: "Export and materials",
+        body: "The head, hair, sunglasses, lenses, gun, and trident each use their own material, so every part can be adjusted independently in Unity. The screenshots above show the process: the T-pose base mesh, the armature over the wireframe, and a posed rig with materials applied."
+      },
+      vfx: {
+        title: "VFX",
+        lead: "I built the game's visual effects. The capture below loops the effects in action.",
+        alt: "Looping capture of the Poseidon Skate visual effects",
+        fallback: "The video couldn't load here. Open it in a new tab ↗",
+        ringTitle: "The splash ring shader",
+        ringLead: "The landing splash is one shader (SplashRing) drawn on a small piece of custom geometry.",
+        ringPoints: [
+          ["Geometry", "It isn't a flat quad. It's an open cylinder, like an upright paper roll with no lids, built in C# with 32 segments: narrow at the bottom, flaring out at the top. The shader draws the splash silhouette on its wall."],
+          ["Animation", "One value, Expand T, runs from 0 to 1 (about 0.6 seconds) through a MaterialPropertyBlock, so the petals grow and then shrink away. The object then destroys itself, so gameplay only has to instantiate the prefab on landing."],
+          ["Variation", "Every bump gets its own random grow speed, shrink speed, and height scale, and the bump spacing and height drift around the ring, so the splash never blooms in lockstep like a perfect sine wave."],
+          ["Look", "A toon edge with a softness slider, white tips, a warped Voronoi facet pattern inside, and random holes cut into it."]
+        ],
+        artistLabel: "Artist controls", artistTitle: "Ring shader Inspector fields",
+        artistHead: ["Group", "Fields", "What an artist changes"],
+        artistRows: [
+          ["Silhouette", "Base Height, Period, Amplitude, Phase, Period / Amplitude Variance (Frequency, Strength)", "Where the splash edge sits, how many bumps wrap around the ring, how tall they are, and how uneven they get."],
+          ["Per-bump timing", "Min / Max Grow Speed, Min / Max Shrink Speed, Min / Max Height Scale", "How differently each petal grows and shrinks, so the splash blooms unevenly."],
+          ["Look", "Color, Edge Softness, Tip Color, Tip Width", "The water color, a hard toon edge or a soft one, and how much of each tip turns white."],
+          ["Water facets", "Voronoi Scale, Warp Frequency / Strength, Line Color / Width / Intensity", "The cracked-glass line pattern inside the splash."],
+          ["Holes &amp; motion", "Hole Scale / Radius / Chance, Pattern Scroll Speed, Expand T", "How many gaps are cut into the splash, how fast the pattern scrolls, and the 0-to-1 timing that code drives."]
+        ]
+      },
+      staging: {
+        title: "Camera effects &amp; combat feel",
+        lead: "I built the camera effects and tuned the final combat feel and action presentation.",
+        body: "The goal was for the game's actions to read clearly and feel impactful."
+      },
+      note: {
+        label: "Authorship note:",
+        all: "The ocean, wave, and tornado shaders, the rideable wave geometry, the Poseidon model and rig, and the effects and camera work described here are my direct contributions to this three-week team project.",
+        tech: "The ocean, wave, and tornado shaders, the effects, and the rideable wave geometry described here are my direct contributions to this three-week team project.",
+        art: "The Poseidon model and rig and the camera work described here are my direct contributions to this three-week team project."
+      },
+      h2: { ta: "Technical Art", tech: "Shaders &amp; Wave Geometry", art: "Character, Effects &amp; Combat Feel" }
+    },
+    ko: {
+      jump: { gameplay: "게임플레이", shaders: "셰이더", blender: "Blender 모델링", staging: "연출" },
+      toc: { eyebrow: "이 페이지", title: "콘텐츠", sub: "섹션으로 바로 이동", hint: "클릭하면 해당 섹션으로 이동해요" },
+      glance: {
+        graphics: {
+          role: "3주 팀 게임의 테크니컬 아티스트로서 오션·웨이브·토네이도 셰이더, Blender로 모델링·리깅한 로우폴리 포세이돈, 전투 손맛을 만드는 VFX와 카메라 연출을 맡았습니다.",
+          chips: ["HLSL", "Unity URP", "Blender", "C#", "VFX"],
+          result: "탈 수 있는 절차적 바다와 리깅된 캐릭터, 전투 손맛에 맞춘 이펙트를 갖춘 플레이 가능한 게임입니다. 전담 아티스트 없이 만들었습니다."
+        },
+        software: {
+          role: "3주 팀 게임에서 셰이더와 웨이브 지오메트리 프로그래밍을 맡았습니다. HLSL 오션·웨이브·토네이도 셰이더와, C#에서 메시 지오메트리와 콜라이더로 생성한 탈 수 있는 파도입니다.",
+          chips: ["HLSL", "C#", "Unity URP", "Perforce", "Jira"],
+          result: "비주얼(GPU 셰이더)과 물리(콜라이더 메시)를 분리해 각각 실시간으로 조절할 수 있게 했습니다."
+        },
+        product: {
+          role: "3주짜리 팀 프로젝트의 일정을 이끌었습니다. Jira로 일정과 우선순위를 관리하고, 팀원의 강점에 맞춰 작업을 배정했으며, 팀이 함께 Perforce 워크플로에 적응하며 진행했습니다.",
+          chips: ["Jira", "Perforce", "우선순위 관리", "팀 조율"],
+          result: "팀은 핵심 게임플레이를 먼저 완성하고 남은 시간을 아트와 폴리싱에 썼습니다."
+        }
+      },
+      shaders: {
+        title: "오션·웨이브·토네이도 셰이더",
+        lead: "같은 구성 요소를 여러 이펙트에서 재사용할 수 있도록 구조화한 세 개의 HLSL 셰이더입니다. 오션은 완전한 절차적 표현입니다.",
+        takeaways: [
+          ["Flow Noise", "시간축 노이즈 대신 사용해 움직임이 흐름처럼 읽히게 했습니다."],
+          ["도메인 워핑", "으로 규칙적인 무아레 무늬를 흐트러뜨렸습니다."],
+          ["높이장 법선", "을 유한차분으로 계산해 조명이 표면을 따르게 했습니다."]
+        ],
+        deepLabel: "딥다이브", deepTitle: "셰이더 노트: 배운 점",
+        artistLabel: "아트 조절 항목", artistTitle: "오션·웨이브 셰이더 인스펙터 필드",
+        artistIntro: "독립 연구 프로젝트 기준으로 오션 셰이더는 인스펙터 필드 39개, 웨이브 셰이더는 53개를 노출해서, HLSL을 열지 않고도 물의 스타일을 바꿀 수 있습니다.",
+        artistHead: ["그룹", "필드", "아티스트가 바꾸는 것"],
+        artistRows: [
+          ["형태와 움직임", "Noise Scale, Flow Direction, Flow Speed, Morph Speed, Amplitude, Pull Strength", "파도의 크기, 흘러가는 방향, 표면이 흐르고 변형되는 속도, 솟는 높이, 능선이 얼마나 날카로운지."],
+          ["워핑", "Warp Scale, Warp Strength", "반복을 숨기려고 패턴을 얼마나 휘게 할지. 크고 느긋한 굽이부터 잘고 복잡한 굽이까지."],
+          ["커스틱 선", "Color, Scale, Speed, Distortion 1 &amp; 2, Line Width, Intensity, Corner Width, Wall Brightness (웨이브 셰이더에는 Flow Stretch, Fade Range 추가)", "빛 그물망의 크기, 선 두께, 일렁임, 밝기, 그리고 마디가 얼마나 도드라지는지."],
+          ["물 색", "Color, Scatter Color / Power / Intensity", "기본 물색, 그리고 정면에서 내려다볼 때 얼마나 어둡게 보일지."],
+          ["흰 물결", "Color, Grazing Power, Distance, Intensity, Threshold, Edge Softness", "수평선 쪽에 흰색이 얼마나 나올지, 경계가 툰처럼 딱 끊길지 부드럽게 섞일지."],
+          ["파도 꼭대기·테두리 (웨이브 셰이더)", "Rise T, Top Color / Sharpness, UV Edge Fade, Edge Color / T / Width / Grazing / Intensity, Edge Blue, Highlight Boost / Power", "파도가 얼마나 솟았는지, 플레이어가 타는 흰 꼭대기, 가장자리 림 하이라이트, 좁아지는 양 끝이 얼마나 깔끔하게 사라질지."],
+          ["항적 (트레일)", "Distort Strength, Push Strength, Line Color / Threshold / Width / Noise Scale / Noise Strength / Intensity", "플레이어 뒤에서 물이 휘고 솟는 정도, 그리고 거품 선의 모양."]
+        ],
+        cards: [
+          ["움직임", "시간축 노이즈에서 Flow Noise로", "시간을 노이즈의 세 번째 축으로 사용하는 대신, 2D 격자점의 그래디언트 방향을 연속적으로 회전시켰습니다. 표면의 공간적 연속성을 유지하면서 패턴이 교체되는 느낌보다 자연스럽게 흐르는 움직임을 만들고자 했습니다."],
+          ["에일리어싱", "도메인 워핑으로 규칙적인 무늬 완화", "노이즈 패턴이 메시의 정점 간격보다 촘촘해지자 규칙적인 무아레 줄무늬가 나타났습니다. 낮은 주파수의 노이즈로 샘플링 좌표를 뒤틀어 격자의 규칙적인 정렬을 흐트러뜨렸습니다. 이 접근은 시각적 반복을 완화하기 위한 것이며, 메시 해상도에 따른 샘플링 한계 자체를 없애는 것은 아닙니다."],
+          ["라이팅", "높이장의 경사로 법선 계산", "주변 지점의 높이 차이를 유한차분으로 비교하고, 얻어진 경사로 표면 법선을 구성했습니다. 화면 공간 미분에서 삼각형 단위로 각져 보이던 표현을 개선하고, 절차적으로 변하는 수면에 맞춰 조명이 반응하도록 했습니다."],
+          ["표면", "조절 가능한 표면 표현 레이어", "Voronoi 기반의 코스틱 무늬, 모서리 강조, 산란을 흉내 낸 색상, 흰 물결과 이동 흔적을 여러 레이어로 구성했습니다. 노출한 파라미터와 공유하는 흐름 시간을 통해 엔진 안에서 움직임과 표면의 인상을 조절할 수 있도록 했습니다."],
+          ["접근", "사인파를 버린 이유", "사인파와 Gerstner 파도를 겹칠수록 눈에 띄는 반복 격자 무늬가 계속 남았습니다. 이건 값을 튜닝해서 풀 문제가 아니라 방식 자체의 한계라고 진단하고, 표면 전체를 노이즈 기반(Perlin 노이즈 + FBM) 시스템으로 갈아탔습니다."],
+          ["실루엣", "경사로 능선 당기기", "경사가 가파른 곳에서는 유한차분으로 구한 기울기 방향으로 정점을 옆으로 당겨, 봉우리가 둥근 언덕이 아니라 날카로운 능선과 절벽처럼 읽히게 했습니다. 문턱에는 일부러 선형 saturate만 썼습니다. smoothstep은 서서히 시작하는 곡선이라, 표면이 뚝 꺾이는 느낌을 원했던 의도와 맞지 않았습니다."],
+          ["깊이", "투명도 없이 투명해 보이기", "알파는 항상 1로 두고, 불투명한 색을 lerp로 여러 겹(깊은 물색, 밝은 표면색, 커스틱 선) 쌓은 뒤 Fresnel을 더했습니다. 정렬 문제를 피하고, 스카이박스나 먼 오브젝트가 바다에 비쳐 보이는 현상도 막았습니다."],
+          ["무늬", "Voronoi로 만든 커스틱 그물망", "각 픽셀에서 가장 가까운 씨앗 점들을 찾고, 1등과 2등의 거리 차로 셀 경계선을, 2등과 3등의 거리 차로 세 셀이 만나는 마디를 뽑았습니다. 그래서 선은 흐리게, 마디는 진하게 보입니다. 도메인 워핑을 두 번 걸어 선이 구불거리게 했고, 월드 XZ 좌표와 지형과 같은 흐름 시간을 써서 표면과 함께 움직이게 했습니다."],
+          ["카메라", "시선 각도로 만드는 산란과 흰 물결", "정면으로 내려다볼수록 어두운 물속 색으로, 비스듬하고 먼 곳일수록 흰색으로 섞입니다. 문턱값과 아주 작은 경계 부드러움을 써서 흰 물결을 툰처럼 딱 끊기게 만들었습니다."]
+        ]
+      },
+      game: {
+        title: "Poseidon Skate 플레이",
+        lead: "WASD로 이동, 방향키로 QTE.",
+        hint: "용량이 커서(약 85MB) 재생 버튼을 눌렀을 때만 불러옵니다.",
+        play: "▶ 게임 플레이", fullscreen: "전체 화면으로 열기 ↗",
+        alt: "Poseidon Skate 플레이 화면", embedTitle: "Poseidon Skate 웹 빌드"
+      },
+      blender: {
+        title: "Blender로 모델링·리깅한 로우폴리 포세이돈",
+        figs: [
+          ["blender-base-mesh.png", "Blender에서 T-포즈로 본 로우폴리 포세이돈 기본 메시", "로우폴리 기본 메시 (T-포즈)"],
+          ["blender-armature-wireframe.png", "Blender에서 와이어프레임 메시 위에 표시한 포세이돈 아마추어", "와이어프레임 위의 아마추어"],
+          ["blender-posed-rig.png", "Blender에서 머티리얼을 적용해 포즈를 잡은 포세이돈 리그", "머티리얼을 적용한 포즈 리그"]
+        ],
+        lead: "로우폴리 스타일로 모델링하고 25개 본의 스켈레톤으로 리깅한 뒤, FBX로 내보내 Unity에서 Generic 리그로 사용했습니다.",
+        deepLabel: "딥다이브", deepTitle: "내보내기와 머티리얼",
+        body: "머리, 머리카락, 선글라스, 렌즈, 총, 삼지창이 각각 별도의 머티리얼을 사용해 Unity에서 부위별로 독립적으로 조절할 수 있습니다. 위 스크린샷은 작업 과정으로, T-포즈 기본 메시와 와이어프레임 위의 아마추어, 머티리얼을 적용한 포즈 리그를 보여줍니다."
+      },
+      vfx: {
+        title: "VFX",
+        lead: "게임의 시각 효과를 제작했습니다. 아래 영상은 이펙트가 실제로 움직이는 모습을 반복 재생합니다.",
+        alt: "Poseidon Skate 시각 효과 반복 재생 영상",
+        fallback: "영상을 불러오지 못했어요. 새 탭에서 열기 ↗",
+        ringTitle: "스플래시 링 셰이더",
+        ringLead: "착지 스플래시는 SplashRing 셰이더 하나를, 직접 만든 작은 지오메트리 위에 그려서 만들었습니다.",
+        ringPoints: [
+          ["지오메트리", "평평한 쿼드가 아닙니다. 위아래 뚜껑이 없는 열린 원통, 즉 종이를 말아 세운 휴지심 같은 모양을 C#에서 32각형으로 만들었고, 아래는 좁고 위로 갈수록 벌어집니다. 셰이더는 이 벽면에 스플래시 실루엣을 그립니다."],
+          ["애니메이션", "Expand T라는 값 하나가 MaterialPropertyBlock을 통해 0에서 1로(약 0.6초) 움직이면서 꽃잎이 자랐다가 줄어듭니다. 끝나면 오브젝트가 스스로 파괴되므로, 게임플레이는 착지 순간에 프리팹을 생성하기만 하면 됩니다."],
+          ["변주", "돌기마다 성장 속도, 수축 속도, 높이 배율이 랜덤이고, 돌기 간격과 높이도 둘레를 따라 조금씩 달라져서 완벽한 사인파처럼 일제히 피어나지 않습니다."],
+          ["룩", "부드러움을 조절할 수 있는 툰 경계, 흰 끝부분, 안쪽의 휘어진 Voronoi 조각 무늬, 그리고 랜덤하게 뚫린 구멍."]
+        ],
+        artistLabel: "아트 조절 항목", artistTitle: "링 셰이더 인스펙터 필드",
+        artistHead: ["그룹", "필드", "아티스트가 바꾸는 것"],
+        artistRows: [
+          ["실루엣", "Base Height, Period, Amplitude, Phase, Period / Amplitude Variance (Frequency, Strength)", "스플래시 가장자리의 기준 높이, 둘레에 돌기가 몇 개 도는지, 돌기 높이, 그리고 얼마나 불규칙하게 만들지."],
+          ["돌기별 타이밍", "Min / Max Grow Speed, Min / Max Shrink Speed, Min / Max Height Scale", "꽃잎마다 자라고 줄어드는 속도가 얼마나 다른지. 스플래시가 얼마나 불균일하게 피어나는지."],
+          ["룩", "Color, Edge Softness, Tip Color, Tip Width", "물 색, 툰처럼 딱 끊길지 부드러울지, 끝부분이 얼마나 하얗게 될지."],
+          ["물 조각 무늬", "Voronoi Scale, Warp Frequency / Strength, Line Color / Width / Intensity", "스플래시 안쪽의 유리 금 같은 선 무늬."],
+          ["구멍과 움직임", "Hole Scale / Radius / Chance, Pattern Scroll Speed, Expand T", "구멍이 얼마나 뚫릴지, 무늬가 얼마나 빨리 흐를지, 그리고 코드가 움직이는 0~1 타이밍."]
+        ]
+      },
+      staging: {
+        title: "카메라 효과, 전투 손맛",
+        lead: "카메라 효과를 제작하고 최종 전투 손맛과 액션 연출을 다듬었습니다.",
+        body: "게임의 액션이 또렷하게 읽히고 임팩트 있게 느껴지는 것이 목표였습니다."
+      },
+      note: {
+        label: "참여 범위:",
+        all: "여기서 설명한 오션·웨이브·토네이도 셰이더, 탈 수 있는 파도 지오메트리, 포세이돈 모델과 리그, 이펙트와 카메라 작업은 이 3주 팀 프로젝트에서 제가 직접 맡은 결과물입니다.",
+        tech: "여기서 설명한 오션·웨이브·토네이도 셰이더, 이펙트, 탈 수 있는 파도 지오메트리는 이 3주 팀 프로젝트에서 제가 직접 맡은 결과물입니다.",
+        art: "여기서 설명한 포세이돈 모델과 리그, 카메라 작업은 이 3주 팀 프로젝트에서 제가 직접 맡은 결과물입니다."
+      },
+      h2: { ta: "테크니컬 아트", tech: "셰이더와 웨이브 지오메트리", art: "캐릭터, 이펙트, 전투 손맛" }
+    }
+  };
+
+  function build(lang, producing) {
+    const c = copy[lang];
+    const glance = key => {
+      const g = c.glance[key];
+      return `<div class="psk-glance"><p class="psk-glance-role">${g.role}</p><ul class="psk-chips">${g.chips.map(chip => `<li>${chip}</li>`).join("")}</ul><p class="psk-glance-result">${g.result}</p></div>`;
+    };
+    // "Contents" navigator: one vertical timeline list for every viewport (active item follows scroll, see enablePskToc).
+    const svg = (d, w = 20, h = 20, vb = "0 0 24 24") => `<svg viewBox="${vb}" width="${w}" height="${h}" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+    const tocIcons = {
+      gameplay: svg('<path d="M7 7h10a4 4 0 0 1 3.9 4.8l-.8 4a2.4 2.4 0 0 1-4.2 1L14.5 15h-5l-1.4 1.8a2.4 2.4 0 0 1-4.2-1l-.8-4A4 4 0 0 1 7 7z"/><path d="M8 9.5v3M6.5 11h3"/><circle cx="15.5" cy="10" r=".6"/><circle cx="17.5" cy="12" r=".6"/>'),
+      shaders: svg('<path d="M2.5 12h4l2.5-7 4 14 3-9 1.5 2h4"/>'),
+      blender: svg('<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/>'),
+      staging: svg('<path d="M3.5 8.5h3l1.6-2.5h7.8l1.6 2.5h3v10.5h-17z"/><circle cx="12" cy="13.5" r="3.4"/>')
+    };
+    const pad2 = n => String(n).padStart(2, "0");
+    const jump = keys => {
+      const t = c.toc;
+      const items = keys.map((k, i) => `<li><a href="#psk-g-${k}" data-psk-toc="psk-g-${k}"${i === 0 ? ' class="is-active" aria-current="true"' : ""}><span class="psk-toc-num">${pad2(i + 1)}</span><span class="psk-toc-icon">${tocIcons[k] || ""}</span><span class="psk-toc-label">${c.jump[k]}</span><span class="psk-toc-chev">${svg('<path d="M9 6l6 6-6 6"/>', 18, 18)}</span></a></li>`).join("");
+      return `<nav class="psk-toc" aria-label="${t.title}">`
+        + `<header class="psk-toc-head"><span class="psk-toc-eyebrow">${t.eyebrow}</span><p class="psk-toc-title" role="heading" aria-level="2">${t.title}</p><p class="psk-toc-sub">${t.sub}</p></header>`
+        + `<ol class="psk-toc-list">${items}</ol>`
+        + `<p class="psk-toc-hint"><span class="psk-toc-mouse">${svg('<rect x="3" y="2" width="18" height="30" rx="9"/><path d="M12 8v6"/>', 16, 22, "0 0 24 34")}</span>${t.hint}</p>`
+        + `</nav>`;
+    };
+    const deep = (label, title, body) => `<details class="technical-deep-dive"><summary><span>${label}</span><strong>${title}</strong></summary><div class="technical-deep-dive-body">${body}</div></details>`;
+    // Collapsible "what can an artist change" table: one row per Inspector field group.
+    const fieldTable = (s, intro) => deep(s.artistLabel, s.artistTitle, `${intro ? `<p>${intro}</p>` : ""}<div class="decision-table-wrap"><table class="decision-table"><thead><tr>${s.artistHead.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${s.artistRows.map(([g, f, w]) => `<tr><th scope="row">${g}</th><td>${f}</td><td>${w}</td></tr>`).join("")}</tbody></table></div>`);
+    const blocks = {
+      shaders: `<div class="psk-block" id="psk-shaders"><h3>${c.shaders.title}</h3><p class="psk-lead">${c.shaders.lead}</p><ul class="psk-takeaways">${c.shaders.takeaways.map(([b, rest]) => `<li><strong>${b}</strong> ${rest}</li>`).join("")}</ul>${deep(c.shaders.deepLabel, c.shaders.deepTitle, `<div class="direction-case-grid">${c.shaders.cards.map(([label, title, body]) => `<article><span class="case-label">${label}</span><h3>${title}</h3><p>${body}</p></article>`).join("")}</div>`)}${fieldTable(c.shaders, c.shaders.artistIntro)}</div>`,
+      game: `<div class="psk-block" id="psk-game"><h3>${c.game.title}</h3><p class="psk-lead">${c.game.lead}</p><div class="psk-demo" data-lazy-embed data-src="../webgl/PoseidonSkate/index.html" data-title="${c.game.embedTitle}"><img src="../img/PoseidonSkate/game-poster.jpg" alt="${c.game.alt}" loading="lazy"><button type="button" class="psk-demo-play">${c.game.play}</button></div><p class="psk-links"><a href="../webgl/PoseidonSkate/index.html" target="_blank" rel="noopener">${c.game.fullscreen}</a> · <span class="psk-hint">${c.game.hint}</span></p></div>`,
+      blender: `<div class="psk-block" id="psk-blender"><h3>${c.blender.title}</h3><div class="psk-figs">${c.blender.figs.map(([file, alt, cap]) => `<figure><img src="../img/PoseidonSkate/${file}" alt="${alt}" loading="lazy"><figcaption>${cap}</figcaption></figure>`).join("")}</div><p class="psk-lead">${c.blender.lead}</p>${deep(c.blender.deepLabel, c.blender.deepTitle, `<p>${c.blender.body}</p>`)}</div>`,
+      vfx: `<div class="psk-block" id="psk-vfx"><h3>${c.vfx.title}</h3><p class="psk-lead">${c.vfx.lead}</p><div class="psk-vfx-video"><video src="../img/PoseidonSkate/VfxVid.mp4?v=20260921b" width="732" height="470" aria-label="${c.vfx.alt}" autoplay loop muted playsinline preload="auto"></video><a class="psk-vfx-fallback" href="../img/PoseidonSkate/VfxVid.mp4?v=20260921b" target="_blank" rel="noopener" hidden>${c.vfx.fallback}<small class="psk-vfx-diag"></small></a></div><h4>${c.vfx.ringTitle}</h4><p class="psk-lead">${c.vfx.ringLead}</p><ul class="psk-takeaways">${c.vfx.ringPoints.map(([b, rest]) => `<li><strong>${b}:</strong> ${rest}</li>`).join("")}</ul>${fieldTable(c.vfx)}</div>`,
+      staging: `<div class="psk-block" id="psk-staging"><h3>${c.staging.title}</h3><p class="psk-lead">${c.staging.lead}</p><p>${c.staging.body}</p></div>`
+    };
+    const note = key => `<p class="case-study-note"><strong>${c.note.label}</strong> ${c.note[key]}</p>`;
+    // Tab titles already name each section, so the tab content starts straight at the Contents navigator
+    // (no repeated <h2> and no summary block above it). glance() is still used by the production tab.
+    const wrap = inner => `<section class="psk-tab">${inner}</section>`;
+
+    // One Technical Art view split into four Contents groups: Gameplay / Shaders (VFX lives here too) /
+    // Blender modeling / Staging. The product track keeps the playable build in its Producing tab, so its
+    // Gameplay group skips the embed (no duplicate #psk-game). The software track keeps its two tabs.
+    const group = (k, inner) => `<div class="psk-group" id="psk-g-${k}"><p class="psk-group-title">${c.jump[k]}</p>${inner}</div>`;
+    const groups = {
+      gameplay: () => group("gameplay", blocks.game),
+      shaders: () => group("shaders", blocks.shaders + blocks.vfx),
+      blender: () => group("blender", blocks.blender),
+      staging: () => group("staging", blocks.staging)
+    };
+    // Gameplay now holds only the playable build, so the product track (playable build lives in Producing)
+    // drops the whole group and its Contents entry instead of showing an empty one.
+    const technicalArtAll = (withGame = true) => jump(withGame ? ["gameplay", "shaders", "blender", "staging"] : ["shaders", "blender", "staging"]) + (withGame ? groups.gameplay() : "") + groups.shaders() + groups.blender() + groups.staging() + note("all");
+
+    if (track === "software") {
+      return [
+        { title: c.h2.tech, category: "Technical", htmlContent: wrap(jump(["gameplay", "shaders"]) + groups.gameplay() + groups.shaders() + note("tech")) },
+        { title: c.h2.art, category: "Art", htmlContent: wrap(jump(["blender", "staging"]) + groups.blender() + groups.staging() + note("art")) },
+        producing
+      ];
+    }
+    if (track === "product") {
+      return [
+        { title: producing.title, category: "Producing", htmlContent: producing.htmlContent.replace("</h2>", "</h2>" + glance("product") + blocks.game) },
+        { title: c.h2.ta, category: "Technical Art", htmlContent: wrap(technicalArtAll(false)) }
+      ];
+    }
+    return [
+      { title: c.h2.ta, category: "Technical Art", htmlContent: wrap(technicalArtAll(true)) },
+      producing
+    ];
+  }
+
+  const findProducing = sections => sections.find(section => section.category === "Producing");
+  entry.contributions.sections = build("en", findProducing(entry.contributions.sections));
+  const ko = entry.localized && entry.localized.ko;
+  if (ko && ko.contributions) {
+    ko.contributions.sections = build("ko", findProducing(ko.contributions.sections));
+  }
+})();
