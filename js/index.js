@@ -8,14 +8,14 @@ const portfolioTracks = {
     role: 'TECHNICAL ARTIST · GRAPHICS',
     title: 'Min Seohyeon — Graphics Portfolio',
     statement: {
-      en: 'I build real-time visuals, shaders, and performance-aware tools for playable experiences.',
-      ko: '실시간 비주얼과 셰이더, 성능을 고려한 제작 도구로 플레이 경험을 만듭니다.'
+      en: 'I make visuals through code.',
+      ko: '코드로 비주얼을 만듭니다.'
     },
-    evidence: ['SHADERS · VFX', 'C++ · OPENGL', 'REAL-TIME SYSTEMS'],
-    proofTitle: 'VISUALS THAT\nSHIP IN ENGINE.',
+    evidence: ['SHADERS · VFX', 'C++ · OPENGL', 'ART DIRECTION'],
+    proofTitle: 'VISUALS, CODE, ENGINE.',
     proofSummary: {
-      en: 'Four projects. One through-line: visual intent translated into responsive, engine-ready systems.',
-      ko: '네 개의 프로젝트에서 시각적 의도를 실제로 작동하는 실시간 시스템으로 구현했습니다.'
+      en: 'Four representative projects across shaders, rendering, VFX, and technical art.',
+      ko: '셰이더, 렌더링, VFX, 테크니컬 아트에 걸친 네 개의 대표 프로젝트입니다.'
     },
     proofProjects: [
       { key: 'poseidon', title: 'POSEIDON SKATE', lead: 'TECHNICAL ART / SHADER', meta: 'UNITY URP · HLSL · BLENDER · TEAM PROJECT', href: 'portfolio_game/08_PoseidonSkate.html', image: 'img/WaveSimulator/img1.png' },
@@ -123,12 +123,14 @@ function refreshArchiveLayout(track) {
   // The graphics / technical-art track gets its own overview: category cards
   // mirror the portfolio's disciplines while the other tracks retain their
   // existing, project-first archive layout above.
+  // Icon slot holds the category's own first letter (styled large in CSS) instead of a glyph —
+  // one less thing to design/localize, and it still reads as a distinct per-category mark.
   const groups = [
-    ['SHADERS', '△', 'Shaders and real-time rendering effects.', '셰이더를 활용한 그래픽 효과와 렌더링 실험들입니다.', ['07_TooHot.html', 'PoseidonSkate']],
-    ['RENDERING', '⬡', 'Rendering pipelines and custom renderer experiments.', '렌더링 파이프라인과 커스텀 렌더러, 최적화 관련 프로젝트입니다.', ['01_Manzo.html']],
-    ['VISUALS', '▣', 'Art, UI, and VFX for interactive experiences.', '아트, UI/UX, 이펙트 등 비주얼 중심의 작업물입니다.', ['06_StreetTyper.html', '00_NewManzo.html']],
-    ['GAME PROGRAMMING', '♧', 'Gameplay, systems, and engine development.', '게임플레이, 시스템, 엔진 개발 등 프로그래밍 기반의 프로젝트입니다.', ['04_BirdStrike.html', '03_DoubleHit.html', '05_ThinkThink.html', '02_EdgeDirve.html']],
-    ['PRODUCTION', '▱', 'Planning, collaboration, and creative delivery.', '기획, 협업 등 제작 과정 전반의 프로젝트입니다.', ['PlushProduction.html', 'Dangling.html']]
+    ['SHADERS', 'S', 'Shaders and real-time rendering effects.', '셰이더를 활용한 그래픽 효과와 렌더링 실험들입니다.', ['07_TooHot.html', 'PoseidonSkate']],
+    ['RENDERING', 'R', 'Rendering pipelines and custom renderer experiments.', '렌더링 파이프라인과 커스텀 렌더러, 최적화 관련 프로젝트입니다.', ['01_Manzo.html']],
+    ['VISUALS', 'V', 'Art, UI, and VFX for interactive experiences.', '아트, UI/UX, 이펙트 등 비주얼 중심의 작업물입니다.', ['06_StreetTyper.html', '00_NewManzo.html', 'ArtGallery.html']],
+    ['GAME PROGRAMMING', 'G', 'Gameplay, systems, and engine development.', '게임플레이, 시스템, 엔진 개발 등 프로그래밍 기반의 프로젝트입니다.', ['04_BirdStrike.html', '03_DoubleHit.html', '05_ThinkThink.html', '02_EdgeDirve.html']],
+    ['PRODUCTION', 'P', 'Planning, collaboration, and creative delivery.', '기획, 협업 등 제작 과정 전반의 프로젝트입니다.', ['PlushProduction.html', 'Dangling.html']]
   ];
   archiveGrid.innerHTML = '';
   groups.forEach(([label, icon, descriptionEn, descriptionKo, keys]) => {
@@ -137,49 +139,22 @@ function refreshArchiveLayout(track) {
     const section = document.createElement('section');
     section.className = `archive-category archive-category--overview${label === 'PRODUCTION' ? ' archive-category--production' : ''}`;
     const projectWord = cards.length === 1 ? 'PROJECT' : 'PROJECTS';
-    // SHADERS only has 2 game projects, so "view all" has nothing extra to reveal. The 8 GLSL/rendering
-    // studies (the graphics-only collection) are the deeper shader content, so this card opens that
-    // instead of an empty expand.
+    // SHADERS' fundamentals button is separate navigation (the 8 GLSL/rendering studies), not part of
+    // the count-based card layout below, so it always renders regardless of card count.
     const isShaders = label === 'SHADERS';
-    // Only 2 slots show without expanding, so a 1-2 project category already shows everything —
-    // "VIEW ALL" would have nothing left to reveal and shouldn't render at all.
-    const hasHidden = !isShaders && cards.length > 2;
     const footer = isShaders
       ? `<button type="button" class="archive-category__all archive-category__all--fundamentals" data-graphics-open><span data-en="GRAPHICS FUNDAMENTALS" data-ko="그래픽스 펀더맨탈">${currentLanguage === 'ko' ? '그래픽스 펀더맨탈' : 'GRAPHICS FUNDAMENTALS'}</span><b>↗</b></button>`
-      : hasHidden
-      ? `<a class="archive-category__all" href="#" aria-label="View all ${label} projects">VIEW ALL ${cards.length} ${projectWord} <b>→</b></a>`
       : '';
     section.innerHTML = `<header class="archive-category__header"><span class="archive-category__icon" aria-hidden="true">${icon}</span><span><h3>${label}</h3><small>${cards.length} ${projectWord}</small></span></header><p data-en="${descriptionEn}" data-ko="${descriptionKo}">${currentLanguage === 'ko' ? descriptionKo : descriptionEn}</p><div class="archive-category__grid"></div>${footer}`;
     const target = section.querySelector('.archive-category__grid');
     target.tabIndex = 0;
     target.setAttribute('aria-label', `${label} projects`);
-    cards.forEach((card, index) => {
-      card.classList.toggle('is-archive-extra', hasHidden && index > 1);
-      target.appendChild(card);
-    });
-    if (hasHidden) {
-      const allLink = section.querySelector('.archive-category__all');
-      allLink.setAttribute('aria-expanded', 'false');
-      allLink.addEventListener('click', event => {
-        event.preventDefault();
-        if (cards.length === 1) {
-          cards[0].click();
-          return;
-        }
-        archiveGrid.querySelectorAll('.archive-category--overview.is-expanded').forEach(other => {
-          if (other !== section) {
-            other.classList.remove('is-expanded');
-            const otherLink = other.querySelector('.archive-category__all');
-            otherLink?.setAttribute('aria-expanded', 'false');
-            if (otherLink) otherLink.innerHTML = `VIEW ALL ${other.querySelectorAll('.archive-category__grid > a').length} PROJECTS <b>→</b>`;
-          }
-        });
-        section.classList.toggle('is-expanded');
-        section.closest('.archive-panel')?.classList.toggle('has-expanded-category', Boolean(archiveGrid.querySelector('.is-expanded')));
-        allLink.setAttribute('aria-expanded', String(section.classList.contains('is-expanded')));
-        allLink.innerHTML = section.classList.contains('is-expanded') ? 'SHOW LESS <b>↑</b>' : `VIEW ALL ${cards.length} ${projectWord} <b>→</b>`;
-      });
-    }
+    // No more "show 3, hide the rest behind VIEW ALL" — every card in a category is always on screen.
+    // Instead the grid's own arrangement adapts to how many cards there are (see the [data-count] rules
+    // in style.css): 1 big card, 2 stacked, 3 = big top + 2 below, 2x2 for 4, big top + 2x2 for 5, and a
+    // generic "big top + wrapping grid" fallback for anything larger.
+    target.dataset.count = cards.length <= 5 ? String(cards.length) : 'many';
+    cards.forEach(card => target.appendChild(card));
     archiveGrid.appendChild(section);
   });
 }
@@ -336,7 +311,7 @@ function applyLanguage(language) {
     const groups = [
       ['SHADERS', ['07_TooHot.html', 'PoseidonSkate']],
       ['RENDERING', ['01_Manzo.html']],
-      ['VISUALS', ['00_NewManzo.html', '06_StreetTyper.html']],
+      ['VISUALS', ['00_NewManzo.html', '06_StreetTyper.html', 'ArtGallery.html']],
       ['GAME PROGRAMMING', ['04_BirdStrike.html', '03_DoubleHit.html', '05_ThinkThink.html', '02_EdgeDirve.html']],
       ['PRODUCTION', ['Dangling.html', 'PlushProduction.html']]
     ];
@@ -370,30 +345,17 @@ function applyLanguage(language) {
       '07_gradient.html': 'WebGL JavaScript GLSL GitHub', '08_demo_fun.html': 'WebGL JavaScript GLSL GitHub'
     };
     const cardTools = card => projectTools[card.getAttribute('href').split('/').pop().split('?')[0]] || card.textContent;
-    // Categories collapse to their first 2 cards behind a "VIEW ALL" link (desktop only — see
-    // .archive-category--overview .archive-category__grid > a.is-archive-extra in style.css). If a match is
-    // hiding in there, highlight that link instead of leaving the match invisible with no clue where it went.
-    // Queried fresh each time (not cached): switching tracks rebuilds these section/link elements from scratch.
-    const updateViewAllHighlight = () => {
-      document.querySelectorAll('.archive-category--overview').forEach(section => {
-        const allLink = section.querySelector('.archive-category__all');
-        if (!allLink) return;
-        const hiddenMatch = !section.classList.contains('is-expanded')
-          && [...section.querySelectorAll('.archive-category__grid > a.is-archive-extra')].some(card => card.classList.contains('skill-match'));
-        allLink.classList.toggle('has-hidden-match', hiddenMatch);
-      });
-    };
+    // Every card in a category is always visible now (no more "VIEW ALL" hiding extras), so a skill
+    // match/dim pass is all that's needed — nothing extra to flag as hidden.
     const applySkillFilter = value => {
       cards.forEach(card => {
         const matches = cardTools(card).toLowerCase().includes(value);
         card.classList.toggle('skill-match', matches);
         card.classList.toggle('skill-dim', !matches);
       });
-      updateViewAllHighlight();
     };
     const clearSkillFilter = () => {
       cards.forEach(card => card.classList.remove('skill-match', 'skill-dim'));
-      document.querySelectorAll('.archive-category__all').forEach(link => link.classList.remove('has-hidden-match'));
     };
     // Hovering (or focusing) a chip previews its matches; clicking pins them. Leaving a hovered chip falls
     // back to the pinned chip if there is one, so a preview never wipes out a deliberate selection.
