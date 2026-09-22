@@ -338,7 +338,7 @@ function applyLanguage(language) {
       '00_NewManzo.html': 'C# FMOD HLSL Clip Studio Paint Aseprite GitHub', '01_Manzo.html': 'C++ OpenGL GLSL Custom Engine Clip Studio Paint GitHub',
       '03_DoubleHit.html': 'C++ GLSL OpenGL Spriter Pro Clip Studio Paint GitHub', '04_BirdStrike.html': 'C++ Clip Studio Paint Cakewalk raylib GitHub',
       '05_ThinkThink.html': 'Unity HLSL C# GitHub', '06_StreetTyper.html': 'C# Unity Spriter Pro 2D Rigging Animation HLSL Clip Studio Paint GitHub',
-      '07_TooHot.html': 'C# Unity HLSL GitHub', '08_PoseidonSkate.html': 'Unity HLSL C# Blender Perforce Jira', 'Dangling.html': 'Clip Studio Paint', 'PlushProduction.html': 'Clip Studio Paint Notion',
+      '07_TooHot.html': 'C# Unity HLSL Clip Studio Paint GitHub', '08_PoseidonSkate.html': 'Unity HLSL C# Blender Clip Studio Paint Perforce Jira', 'Dangling.html': 'Clip Studio Paint', 'PlushProduction.html': 'Clip Studio Paint Notion',
       '01_hello.html': 'WebGL JavaScript GLSL GitHub', '02_meshes.html': 'WebGL JavaScript GLSL GitHub', '03_fog.html': 'WebGL JavaScript GLSL GitHub',
       '04_toon.html': 'WebGL JavaScript GLSL GitHub', '05_shadow.html': 'WebGL JavaScript GLSL GitHub', '06_value.html': 'WebGL JavaScript GLSL GitHub',
       '07_gradient.html': 'WebGL JavaScript GLSL GitHub', '08_demo_fun.html': 'WebGL JavaScript GLSL GitHub'

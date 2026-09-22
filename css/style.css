@@ -4687,11 +4687,10 @@ body.hero-lightbox-open { overflow:hidden; }
 .project-detail-page .evidence-link { display:inline-flex; margin:.5rem 0 1.75rem; padding:.65rem .95rem; border-radius:999px; background:var(--case-blue); color:#fff; font-size:.66rem; font-weight:850; text-decoration:none; }
 .project-detail-page .engineering-note { margin:1rem 0 0; padding:.8rem 1rem; border-left:3px solid var(--case-blue); border-radius:.2rem .7rem .7rem .2rem; background:rgba(73,111,232,.07); font-size:.7rem; line-height:1.55; }
 .project-detail-page .newmanzo-art-case { overflow:hidden; }
-.project-detail-page .art-case-intro { display:grid; grid-template-columns:1fr minmax(8rem,15rem); gap:clamp(1rem,4vw,3rem); align-items:center; margin-bottom:1.4rem; }
+.project-detail-page .art-case-intro { display:grid; grid-template-columns:1fr; gap:clamp(1rem,4vw,3rem); align-items:center; margin-bottom:1.4rem; }
 .project-detail-page .art-case-intro .case-label { color:var(--case-blue); font-size:.64rem; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
 .project-detail-page .art-case-intro h2 { max-width:46rem; margin:.45rem 0 .8rem; word-break:keep-all; }
 .project-detail-page .art-case-intro p { margin:0; }
-.project-detail-page .art-case-intro > img { width:100%; max-height:11rem; object-fit:contain; filter:drop-shadow(0 1rem 1.5rem rgba(19,28,62,.18)); }
 .project-detail-page .art-coverage { display:grid; grid-template-columns:repeat(6,1fr); gap:.5rem; margin:1.2rem 0 .55rem; }
 .project-detail-page .art-coverage article { display:grid; min-height:6.5rem; padding:.8rem; align-content:center; border-radius:.9rem; background:var(--case-ink); }
 .project-detail-page .art-coverage article:nth-child(2n) { background:var(--case-blue); }
@@ -4978,8 +4977,6 @@ body.asset-lightbox-open { overflow:hidden; }
   .project-detail-page .contribution-tab { flex: 0 0 auto; padding: .45rem .7rem; font-size: .74rem; white-space: nowrap; word-break: keep-all; }
   .project-detail-page .contribution-tab-main { flex: 0 0 auto; padding: .5rem .85rem; font-size: .8rem; }
   .project-detail-page .contributions-tabs { flex-wrap: nowrap; overflow: auto; gap: .3rem; padding: .3rem .35rem .5rem; margin: 0 -0.35rem 1rem; }
-  .project-detail-page .art-case-intro { grid-template-columns:1fr; }
-  .project-detail-page .art-case-intro > img { width:8rem; justify-self:start; }
   .project-detail-page .art-coverage { grid-template-columns:repeat(3,1fr); }
   .project-detail-page .asset-showcase-grid { grid-template-columns:1fr 1fr; grid-auto-rows:10rem; }
   .project-detail-page .asset-feature { grid-column:span 2; }
@@ -5184,7 +5181,8 @@ body.asset-lightbox-open { overflow:hidden; }
 .simple-gallery__source b { color:var(--case-blue); }
 .simple-gallery__source small { color:var(--case-muted); font-weight:600; }
 .simple-gallery__group { margin:2.2rem 0 0; }
-.simple-gallery__group h2 { margin:0 0 1rem; color:var(--case-ink); font-size:1.05rem; letter-spacing:-.02em; }
+.simple-gallery__group h2 { margin:0 0 .5rem; color:var(--case-ink); font-size:1.05rem; letter-spacing:-.02em; }
+.simple-gallery__group > p { max-width:42rem; margin:0 0 1rem; color:var(--case-muted); font-size:.82rem; line-height:1.5; }
 .simple-gallery__grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(13rem,1fr)); gap:1rem; }
 .simple-gallery__grid button { position:relative; display:block; width:100%; padding:0; overflow:hidden; border:1px solid var(--case-line); border-radius:1rem; background:#fff; cursor:zoom-in; text-align:left; transition:transform 180ms ease,box-shadow 180ms ease; }
 .simple-gallery__grid button:hover,
@@ -5448,6 +5446,14 @@ body.simple-lightbox-open { overflow:hidden; }
      Kept small (was min(64vw,14rem)) so the row's height doesn't dominate the screen. */
   .link-start-app[data-track="graphics"] .archive-category--overview .archive-category__grid,
   .link-start-app[data-track="graphics"] .archive-category--overview.is-expanded .archive-category__grid { display:grid; grid-auto-flow:column; grid-template-columns:none; grid-auto-columns:min(40vw,8.5rem); gap:.45rem; overflow-x:auto; overflow-y:visible; padding:0 0 .3rem; scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch; }
+  /* The [data-count="N"] rules above (desktop-only block) set explicit multi-row/column tracks so a
+     narrow-but-still-mouse-driven window (hover:hover — a resized desktop window, not a real phone)
+     matches BOTH media blocks at once, and being more specific ([data-count="2"] beats the plain
+     selector above), those explicit rows/columns won and forced this row to wrap into a vertical
+     stack instead of scrolling sideways. Reset with matching specificity so this block always wins
+     here, regardless of which count-specific desktop rule also happens to apply. */
+  .link-start-app[data-track="graphics"] .archive-category--overview .archive-category__grid[data-count] { grid-template-columns:none; grid-template-rows:none; grid-auto-rows:auto; }
+  .link-start-app[data-track="graphics"] .archive-category--overview .archive-category__grid[data-count] > a:nth-child(1) { grid-column:auto; }
   .link-start-app[data-track="graphics"] .archive-category--overview .archive-category__grid > a,
   .link-start-app[data-track="graphics"] .archive-category--overview.is-expanded .archive-category__grid > a { width:100%; height:auto; aspect-ratio:3/4; scroll-snap-align:start; }
   .link-start-app[data-track="graphics"] .archive-category--overview .archive-category__grid > a.is-archive-extra { display:block; }

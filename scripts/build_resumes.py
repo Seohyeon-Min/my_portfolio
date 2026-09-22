@@ -194,11 +194,13 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
             "Published a playable build on <link href='https://handalhandal.itch.io/streettyper'>itch.io</link> and prepared the game for a Steam release."
         ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/06_StreetTyper.html",
            "Art · Technical Art · Producer (Team Project)  ·  Unity URP / UI Technical Art / Notion", True),
-        ("WAVE SIMULATOR", "Sep 2026", [
-            "Built a Unity URP water-surface study with custom HLSL, procedural vertex displacement, and layered noise-driven surface motion.",
-            "Implemented reusable wave and halfpipe geometry controls in C#, exposing parameters for interactive real-time experimentation."
-        ], "https://github.com/Seohyeon-Min/WaveSimulator",
-           "Technical Art / Shader Development  ·  Unity URP / HLSL / C#", True),
+        ("POSEIDON SKATE", "Sep 2026", [
+            "Built ocean, wave, and tornado HLSL shaders (flow noise, domain warping, Voronoi caustics) as a rideable procedural water surface.",
+            "Modeled and rigged a low-poly Poseidon character in Blender (25-bone skeleton) and integrated it into Unity via FBX.",
+            "Authored a VFX splash-ring shader with randomized per-bump timing and Voronoi facet detailing for landing impacts.",
+            "Coordinated a three-week team production using Jira for scheduling/priorities and Perforce for source control."
+        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/08_PoseidonSkate.html",
+           "Technical Art / Shader Development · Character Modeling &amp; Rigging  ·  Unity URP / HLSL / C# / Blender / Jira / Perforce", True),
         ("DOUBLE HIT", "Mar – Jul 2024", [
             "Implemented a custom sprite-file parser loading textures, animation frames, hotspots, and collision shapes from data.",
             "Built the texture manager with filename-based caching, dedup, and an offscreen render-texture mode.",
@@ -224,61 +226,53 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
         item = ta_by_title[title]
         return (item[0], item[1], bullets, item[3], role, True)
 
+    # Technical Art / Graphics resume: projects are ordered newest-first as requested.
+    # Poseidon Skate replaces the former Wave Simulator entry and expands the evidence
+    # with Blender modeling/rigging, wave/ocean shaders, and a VFX shader.
     ta_selected = [
-        ta_project("MANZO", [
-            "Built a custom C++/OpenGL renderer with layer-sorted draw queues and a framebuffer-based post-processing pipeline for bloom, underwater distortion, god rays, ripples, and transitions.",
-            "Implemented reusable particle motion types and integrated shader- and renderer-driven visual effects into gameplay scenes.",
-            "Profiled severe frame drops, traced the issue to redundant per-frame collision checks, and removed the repeated work to stabilize performance. Largest repository contributor: 366 commits."
-        ], "Graphics / Engine Programmer | C++ / OpenGL / GLSL / Notion"),
+        ta_project("POSEIDON SKATE", [
+            "Built ocean, wave, and tornado HLSL shaders (flow noise, domain warping, Voronoi caustics) as a rideable procedural water surface.",
+            "Modeled and rigged a low-poly Poseidon character in Blender (25-bone skeleton) and integrated it into Unity via FBX.",
+            "Authored a VFX splash-ring shader with randomized per-bump timing and Voronoi facet detailing for landing impacts.",
+            "Coordinated a three-week team production using Jira for scheduling/priorities and Perforce for source control."
+        ], "Technical Art / Shader Development · Character Modeling &amp; Rigging | Unity URP / HLSL / C# / Blender / Jira / Perforce"),
         ta_project("STREET TYPER", [
             "Owned original 2D art, UI composition, particles, outlines, camera shake, hit VFX, and animated feedback for a shipped bilingual typing-combat game.",
             "Specified, evaluated, debugged, and integrated an AI-assisted reusable UI shader workflow for rounded forms, gradients, drop/inner shadows, blur, presets, and Inspector iteration; gameplay code was teammate-authored.",
             "Published a playable build on <link href='https://handalhandal.itch.io/streettyper'>itch.io</link> and prepared the game for a Steam release."
         ], "Technical Art / UI / Art | Unity URP / C# / ShaderLab / Notion"),
-        ta_project("WAVE SIMULATOR", [
-            "Built a Unity URP water-surface study with custom HLSL, procedural vertex displacement, and layered noise-driven surface motion.",
-            "Implemented reusable wave and halfpipe geometry controls in C#, exposing parameters for interactive real-time experimentation."
-        ], "Technical Art / Shader Development | Unity URP / HLSL / C#"),
-        ta_project("NEW MANZO", [
-            "Implemented procedural leg animation for a multi-legged boss using ground raycasts and step-arc motion.",
-            "Built raycasting-based underwater visibility and post-processing for atmospheric rendering.",
-            "Contributed fish-schooling AI and beat-linked hunting; built Unity editor tools for scene setup, area editing, and UI style presets. Repository lead contributor with 417 commits."
-        ], "C# Programmer / Technical Art | Unity / C# / Notion"),
         ta_project("TOO HOT!", [
             "Created and integrated the game's 2D shadow treatment, pattern-specific VFX, UI, animation, hit feedback, and visual hierarchy; tuned width and length controls for readable shadows across combat spaces.",
             "Specified GameplayManager and per-stage ScriptableObject data flow, save-range safeguards, chapter selection, and clean-state debug controls; reviewed teammate-authored gameplay implementations.",
             "Balanced direct art/technical-art execution with a 130+ item P0-P3 backlog, two-programmer coordination, code review, merges, and final visual integration."
         ], "Technical Art / Visual Integration | Unity / ShaderLab / VFX / Notion"),
-        ta_project("DOUBLE HIT", [
-            "Implemented a sprite-file parser loading textures, animation frames, hotspots, and collision shapes from data.",
-            "Replaced hardcoded platform placement with a custom level-data parser, allowing layout changes without recompiling C++."
-        ], "Systems Programmer | C++ / raylib"),
-        ("EDGE DRIVE", "Jan-Feb 2025", [
-            "Placed and adjusted existing VFX assets in Unreal Engine, making basic modifications in Cascade and Niagara."
-        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/02_EdgeDirve.html",
-           "VFX Contributor | Unreal Engine"),
+        ta_project("NEW MANZO", [
+            "Implemented procedural leg animation for a multi-legged boss using ground raycasts and step-arc motion.",
+            "Built raycasting-based underwater visibility and post-processing for atmospheric rendering.",
+            "Contributed fish-schooling AI and beat-linked hunting; built Unity editor tools for scene setup, area editing, and UI style presets. Repository lead contributor with 417 commits."
+        ], "C# Programmer / Technical Art | Unity / C# / Notion"),
+        ta_project("MANZO", [
+            "Built a custom C++/OpenGL renderer with layer-sorted draw queues and a framebuffer-based post-processing pipeline for bloom, underwater distortion, god rays, ripples, and transitions.",
+            "Implemented reusable particle motion types and integrated shader- and renderer-driven visual effects into gameplay scenes.",
+            "Profiled severe frame drops, traced the issue to redundant per-frame collision checks, and removed the repeated work to stabilize performance. Largest repository contributor: 366 commits."
+        ], "Graphics / Engine Programmer | C++ / OpenGL / GLSL / Notion"),
         ("TEACHING ASSISTANT - GAME DEVELOPMENT PROJECT I", "Spring 2025", [
             "Supported ~30 DigiPen Korea students with C++ implementation and debugging, providing actionable technical feedback on team projects."
         ], None, None),
     ]
-    # Keep the one-page resume focused: detailed case studies first, broader evidence below.
-    ta_selected = [item for item in ta_selected if item[0] in {
-        "TEACHING ASSISTANT - GAME DEVELOPMENT PROJECT I", "WAVE SIMULATOR", "MANZO", "TOO HOT!", "STREET TYPER"
-    }]
-    ta_order = {"MANZO": 0, "STREET TYPER": 1, "TOO HOT!": 2, "WAVE SIMULATOR": 3, "TEACHING ASSISTANT - GAME DEVELOPMENT PROJECT I": 4}
-    ta_selected.sort(key=lambda item: ta_order.get(item[0], 99))
+
     ta_add = [
+        ("DRAGON HEAD (ART STUDY)", "Sculpted, shaded, and rendered a stylized dragon head from base mesh through final render, demonstrating traditional 3D art fundamentals.",
+         "https://seohyeon-min.github.io/my_portfolio/portfolio_planning/ArtGallery.html"),
+        ("EDGE DRIVE", "Placed and adjusted existing VFX assets in Unreal Engine with basic Cascade and Niagara modifications.",
+         "https://seohyeon-min.github.io/my_portfolio/portfolio_game/02_EdgeDirve.html"),
         ("DOUBLE HIT", "Implemented C++ texture/sprite management, collision, GameObject/GameComponent architecture, and shared engine services.",
          "https://seohyeon-min.github.io/my_portfolio/portfolio_game/03_DoubleHit.html"),
         ("BIRD STRIKE", "Implemented audio-timeline beat detection, rhythm-synchronized spawning, dynamic attack subdivision, movement, and original art/audio in a custom engine.",
          "https://seohyeon-min.github.io/my_portfolio/portfolio_game/04_BirdStrike.html"),
-        ("NEW MANZO", "Contributed Unity gameplay and technical systems for fish schooling, obstacle avoidance, beat-linked hunting, raycasting, and post-processing; repository lead contributor with 417 commits.",
-         "https://seohyeon-min.github.io/my_portfolio/portfolio_game/00_NewManzo.html"),
-        ("EDGE DRIVE", "Placed and adjusted existing VFX assets in Unreal Engine with basic Cascade and Niagara modifications.",
-         "https://seohyeon-min.github.io/my_portfolio/portfolio_game/02_EdgeDirve.html")
     ]
     ta_skills = [
-        ("Graphics / Tools", "OpenGL, GLSL, Unity URP, ShaderLab, Blender, RenderDoc; UI shaders, framebuffer post-processing, procedural animation, C# editor tools and presets"),
+        ("Graphics / Tools", "OpenGL, GLSL, Unity URP, ShaderLab, Blender (modeling, rigging), RenderDoc; UI shaders, framebuffer post-processing, procedural animation, C# editor tools and presets"),
         ("Unreal Engine", "Basic VFX asset setup and modification with Cascade and Niagara (EDGE DRIVE)"),
         ("Programming", "C++, C#, C, Python, JavaScript; collision performance debugging (MANZO), data-driven asset loading"),
         ("Workflow", "Git branching and merge review, Perforce, Jira, GitHub Projects/Issues, Notion, CMake, Visual Studio; technical feedback and visual integration"),
@@ -286,8 +280,11 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
     if build_ta:
         ta_role = "TECHNICAL ARTIST | GRAPHICS PROGRAMMER"
         ta_summary = "Technical artist and graphics programmer building real-time visual systems, reusable UI shader workflows, and content tools in Unity and C++/OpenGL. Combines hands-on art integration with rendering implementation, procedural animation, and performance debugging."
-        build(DOCS/"Resume_TA_Graphics.pdf", ta_role, ta_summary, ta_selected, ta_add, ta_skills, BLUE)
-        build(DOCS/"Resume.pdf", ta_role, ta_summary, ta_selected, ta_add, ta_skills, BLUE)
+        build(DOCS/"Resume_TA_Graphics.pdf", ta_role, ta_summary, ta_selected, ta_add, ta_skills, BLUE,
+              additional_title="Additional Projects", bullet_size=7.05, project_gap=2.0, skill_pad=2.5)
+        build(DOCS/"Resume.pdf", ta_role, ta_summary, ta_selected, ta_add, ta_skills, BLUE,
+              additional_title="Additional Projects",
+              bullet_size=7.05, project_gap=2.0, skill_pad=2.5)
 
     if build_gameplay:
         gameplay_selected = [

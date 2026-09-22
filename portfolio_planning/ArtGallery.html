@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/style.css?v=20260922m">
+  <link rel="stylesheet" href="../css/style.css?v=20260922p">
 </head>
 <body class="project-detail-page" data-project="ArtGallery">
   <header class="navbar">
@@ -24,10 +24,33 @@
     <section class="simple-gallery__intro">
       <span class="simple-gallery__eyebrow" data-en="PERSONAL WORK" data-ko="개인 작업">PERSONAL WORK</span>
       <h1 data-en="Art & Illustration" data-ko="그림 · 일러스트">Art & Illustration</h1>
-      <p data-en="Character illustration and fanart I draw simply because I enjoy it, alongside two study pieces from my ART1200 class: an office chair drawn from a few angles, and a set of two-value light-and-shadow compositions." data-ko="그냥 좋아서 그리는 캐릭터 일러스트와 팬아트, 그리고 ART1200 수업에서 그린 습작 두 가지 — 여러 각도에서 그린 의자와 명암 두 단계로 표현한 2-value 컴포지션입니다.">Character illustration and fanart I draw simply because I enjoy it, alongside two study pieces from my ART1200 class: an office chair drawn from a few angles, and a set of two-value light-and-shadow compositions.</p>
+      <p data-en="Personal work — modeling, illustration, and more." data-ko="모델링과 일러스트 등 개인 작업물입니다.">Personal work — modeling, illustration, and more.</p>
       <a class="simple-gallery__source" href="https://x.com/handal39" target="_blank" rel="noopener">
         <span data-en="More on X" data-ko="X에서 더 보기">More on X</span><b>@handal39</b><small data-en="~4,600 followers" data-ko="팔로워 약 4,600명">~4,600 followers</small>
       </a>
+    </section>
+
+    <section class="simple-gallery__group">
+      <h2 data-en="3D Modeling" data-ko="3D 모델링">3D Modeling</h2>
+      <p data-en="A dragon head study, from base mesh through sculpting, shading setup, and final render." data-ko="드래곤 헤드 스터디입니다. 베이스 메시부터 스컬핑, 셰이딩 설정, 최종 렌더까지의 과정입니다.">A dragon head study, from base mesh through sculpting, shading setup, and final render.</p>
+      <div class="simple-gallery__grid" aria-label="3D modeling gallery">
+        <button type="button" data-gallery-item>
+          <img src="../img/Art/DragonHead-01-basemesh.png" alt="Dragon head 3D model, base mesh stage" loading="lazy">
+          <span data-en="Dragon head — base mesh" data-ko="드래곤 헤드 · 베이스 메시">Dragon head — base mesh</span>
+        </button>
+        <button type="button" data-gallery-item>
+          <img src="../img/Art/DragonHead-02-sculpt.png" alt="Dragon head 3D model, sculpted detail pass" loading="lazy">
+          <span data-en="Dragon head — sculpt" data-ko="드래곤 헤드 · 스컬핑">Dragon head — sculpt</span>
+        </button>
+        <button type="button" data-gallery-item>
+          <img src="../img/Art/DragonHead-03-shading-graph.png" alt="Shading and compositing node graph used for the dragon head render" loading="lazy">
+          <span data-en="Dragon head — shading graph" data-ko="드래곤 헤드 · 셰이딩 그래프">Dragon head — shading graph</span>
+        </button>
+        <button type="button" data-gallery-item>
+          <img src="../img/Art/DragonHead-04-final.png" alt="Stylized dragon head, final 3D render by Min Seohyeon" loading="lazy">
+          <span data-en="Dragon head — final render" data-ko="드래곤 헤드 · 최종 렌더">Dragon head — final render</span>
+        </button>
+      </div>
     </section>
 
     <section class="simple-gallery__group">
@@ -70,6 +93,24 @@
       </div>
     </section>
 
+    <section class="simple-gallery__group">
+      <h2 data-en="Poster Design" data-ko="포스터 디자인">Poster Design</h2>
+      <div class="simple-gallery__grid" aria-label="Poster design gallery">
+        <button type="button" data-gallery-item>
+          <img src="../img/Art/PosterDesign.png" alt="Dangling game jam poster designed by Min Seohyeon" loading="lazy">
+          <span data-en="Dangling — Game Jam Poster" data-ko="댕글링 · 게임잼 포스터">Dangling — Game Jam Poster</span>
+        </button>
+        <button type="button" data-gallery-item>
+          <img src="../img/Art/PosterDesign (1).png" alt="Joint band performance poster, version 1, designed by Min Seohyeon" loading="lazy">
+          <span data-en="Joint Band Show Poster — Ver. 1" data-ko="연합 밴드 공연 포스터 · 버전 1">Joint Band Show Poster — Ver. 1</span>
+        </button>
+        <button type="button" data-gallery-item>
+          <img src="../img/Art/PosterDesign (2).png" alt="Joint band performance poster, version 2, designed by Min Seohyeon" loading="lazy">
+          <span data-en="Joint Band Show Poster — Ver. 2" data-ko="연합 밴드 공연 포스터 · 버전 2">Joint Band Show Poster — Ver. 2</span>
+        </button>
+      </div>
+    </section>
+
     <button class="return-button" onclick="window.history.back()">
       <span class="arrow-icon">&larr;</span>
       <span class="button-text">Return</span>
@@ -89,7 +130,7 @@
 
   <footer class="footer"><a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a></footer>
 
-  <script src="../js/index.js?v=20260922m"></script>
+  <script src="../js/index.js?v=20260922p"></script>
   <script>
     (function () {
       var items = [].slice.call(document.querySelectorAll('[data-gallery-item]'));
