@@ -3641,10 +3641,11 @@ body .return-button.project-back-button:hover {
 .portfolio__item[href] { transition:filter 220ms ease, opacity 220ms ease, transform 220ms ease; }
 .link-archive-grid:has(.skill-dim) a.skill-dim,
 .portfolio__item.skill-dim { filter:brightness(.38) saturate(.45); opacity:.58; }
-/* Matched card: a solid track-colored ring (white gap keeps it readable on both the white panel and any thumbnail).
-   No brightness boost — it washed light thumbnails out to white. */
+/* Matched card: lifted and boosted in saturation, no ring outline (kept it to the dim/undim
+   contrast with the rest of the grid instead — a border read as too heavy). No brightness boost
+   on the filter — that washed light thumbnails out to white. */
 .link-archive-grid a.skill-match,
-.portfolio__item.skill-match { filter:saturate(1.15); transform:translateY(-4px); box-shadow:0 0 0 3px #fff, 0 0 0 6px var(--ls-blue), 0 1.2rem 2.6rem color-mix(in srgb,var(--ls-blue) 38%,transparent); }
+.portfolio__item.skill-match { filter:saturate(1.15); transform:translateY(-4px); box-shadow:0 1.2rem 2.6rem color-mix(in srgb,var(--ls-blue) 38%,transparent); }
 .link-archive-grid a {
   position: relative;
   display: block;
