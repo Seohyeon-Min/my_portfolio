@@ -139,6 +139,8 @@ function refreshArchiveLayout(track) {
     const projectWord = cards.length === 1 ? 'PROJECT' : 'PROJECTS';
     section.innerHTML = `<header class="archive-category__header"><span class="archive-category__icon" aria-hidden="true">${icon}</span><span><h3>${label}</h3><small>${cards.length} ${projectWord}</small></span></header><p data-en="${descriptionEn}" data-ko="${descriptionKo}">${currentLanguage === 'ko' ? descriptionKo : descriptionEn}</p><div class="archive-category__grid"></div><a class="archive-category__all" href="#" aria-label="View all ${label} projects">VIEW ALL ${cards.length} ${projectWord} <b>→</b></a>`;
     const target = section.querySelector('.archive-category__grid');
+    target.tabIndex = 0;
+    target.setAttribute('aria-label', `${label} projects`);
     cards.forEach((card, index) => {
       card.classList.toggle('is-archive-extra', index > 1);
       target.appendChild(card);
@@ -1156,6 +1158,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const isScrollablePanel = panel => panel && ['auto', 'scroll'].includes(getComputedStyle(panel).overflowY) && panel.scrollHeight > panel.clientHeight;
 
   app.addEventListener('wheel', event => {
+    const projectRail = event.target.closest('.archive-category__grid');
+    if (projectRail && projectRail.scrollWidth > projectRail.clientWidth && (Math.abs(event.deltaX) > Math.abs(event.deltaY) || event.shiftKey)) {
+      event.preventDefault();
+      projectRail.scrollLeft += event.deltaX || event.deltaY;
+      return;
+    }
     const galleryScroller = event.target.closest('.hobby-gallery__track');
     if (galleryScroller) {
       event.preventDefault();
@@ -1244,6 +1252,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('keydown', event => {
     if (!document.body.classList.contains('link-start-home')) return;
+    const focusedProjectRail = event.target.closest?.('.archive-category__grid');
+    if (focusedProjectRail && ['ArrowLeft', 'ArrowRight'].includes(event.key) && focusedProjectRail.scrollWidth > focusedProjectRail.clientWidth) {
+      event.preventDefault();
+      focusedProjectRail.scrollBy({ left:(event.key === 'ArrowRight' ? 1 : -1) * focusedProjectRail.clientWidth * .75, behavior:'smooth' });
+      return;
+    }
     if (event.key === 'Escape' && hobbyMap?.classList.contains('is-open')) {
       event.preventDefault();
       if (hobbyGallery?.classList.contains('is-open')) {
