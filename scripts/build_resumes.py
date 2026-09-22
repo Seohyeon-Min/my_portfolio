@@ -238,7 +238,7 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
         ], "Technical Art / Shader Development · Character Modeling &amp; Rigging | Unity URP / HLSL / C# / Blender / Jira / Perforce"),
         ta_project("STREET TYPER", [
             "Owned original 2D art, UI composition, particles, outlines, camera shake, hit VFX, and animated feedback for a shipped bilingual typing-combat game.",
-            "Specified, evaluated, debugged, and integrated an AI-assisted reusable UI shader workflow for rounded forms, gradients, drop/inner shadows, blur, presets, and Inspector iteration; gameplay code was teammate-authored.",
+            "Specified, evaluated, debugged, and integrated an AI-assisted reusable UI shader workflow for rounded forms, gradients, drop/inner shadows, blur, presets, and Inspector iteration.",
             "Published a playable build on <link href='https://handalhandal.itch.io/streettyper'>itch.io</link> and prepared the game for a Steam release."
         ], "Technical Art / UI / Art | Unity URP / C# / ShaderLab / Notion"),
         ta_project("TOO HOT!", [
@@ -274,12 +274,12 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
     ta_skills = [
         ("Graphics / Tools", "OpenGL, GLSL, Unity URP, ShaderLab, Blender (modeling, rigging), RenderDoc; UI shaders, framebuffer post-processing, procedural animation, C# editor tools and presets"),
         ("Unreal Engine", "Basic VFX asset setup and modification with Cascade and Niagara (EDGE DRIVE)"),
-        ("Programming", "C++, C#, C, Python, JavaScript; collision performance debugging (MANZO), data-driven asset loading"),
+        ("Programming", "C++, C#, C, Python, JavaScript; object-oriented programming, gameplay/engine architecture, debugging, performance profiling"),
         ("Workflow", "Git branching and merge review, Perforce, Jira, GitHub Projects/Issues, Notion, CMake, Visual Studio; technical feedback and visual integration"),
     ]
     if build_ta:
         ta_role = "TECHNICAL ARTIST | GRAPHICS PROGRAMMER"
-        ta_summary = "Technical artist and graphics programmer building real-time visual systems, reusable UI shader workflows, and content tools in Unity and C++/OpenGL. Combines hands-on art integration with rendering implementation, procedural animation, and performance debugging."
+        ta_summary = "Technical artist and graphics programmer building real-time visual systems, content creation tools, and reusable shader workflows in Unity and C++/OpenGL. Combines hands-on art integration with rendering implementation, procedural animation, and performance debugging."
         build(DOCS/"Resume_TA_Graphics.pdf", ta_role, ta_summary, ta_selected, ta_add, ta_skills, BLUE,
               additional_title="Additional Projects", bullet_size=7.05, project_gap=2.0, skill_pad=2.5)
         build(DOCS/"Resume.pdf", ta_role, ta_summary, ta_selected, ta_add, ta_skills, BLUE,
