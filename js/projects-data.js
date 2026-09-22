@@ -1067,6 +1067,7 @@ const projectsData = {
     heroType: "image",
     heroMedia: "../img/StreetTyper/title2.png",
     heroLink: "https://handalhandal.itch.io/streettyper",
+    steamLink: "https://store.steampowered.com/app/5129590/StreetTyper/",
     heroImageContainsTitle: true,
     overviewImage: "../img/StreetTyper/concept.png",
     overview: "Type and fight! A deck-building typing-action roguelite about a girl fighting to earn her dragon mother's approval.",

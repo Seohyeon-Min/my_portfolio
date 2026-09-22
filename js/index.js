@@ -123,29 +123,28 @@ function refreshArchiveLayout(track) {
   // The graphics / technical-art track gets its own overview: category cards
   // mirror the portfolio's disciplines while the other tracks retain their
   // existing, project-first archive layout above.
-  // Icon slot holds the category's own first letter (styled large in CSS) instead of a glyph —
-  // one less thing to design/localize, and it still reads as a distinct per-category mark.
+  // No separate icon box — the category's own first letter is set oversized inline at the start of
+  // its own title (see .archive-category__cap), so the "icon" is just typography, not a second mark.
   const groups = [
-    ['SHADERS', 'S', 'Shaders and real-time rendering effects.', '셰이더를 활용한 그래픽 효과와 렌더링 실험들입니다.', ['07_TooHot.html', 'PoseidonSkate']],
-    ['RENDERING', 'R', 'Rendering pipelines and custom renderer experiments.', '렌더링 파이프라인과 커스텀 렌더러, 최적화 관련 프로젝트입니다.', ['01_Manzo.html']],
-    ['VISUALS', 'V', 'Art, UI, and VFX for interactive experiences.', '아트, UI/UX, 이펙트 등 비주얼 중심의 작업물입니다.', ['06_StreetTyper.html', '00_NewManzo.html', 'ArtGallery.html']],
-    ['GAME PROGRAMMING', 'G', 'Gameplay, systems, and engine development.', '게임플레이, 시스템, 엔진 개발 등 프로그래밍 기반의 프로젝트입니다.', ['04_BirdStrike.html', '03_DoubleHit.html', '05_ThinkThink.html', '02_EdgeDirve.html']],
-    ['PRODUCTION', 'P', 'Planning, collaboration, and creative delivery.', '기획, 협업 등 제작 과정 전반의 프로젝트입니다.', ['PlushProduction.html', 'Dangling.html']]
+    ['SHADERS', 'Shaders and real-time rendering effects.', '셰이더를 활용한 그래픽 효과와 렌더링 실험들입니다.', ['07_TooHot.html', 'PoseidonSkate']],
+    ['RENDERING', 'Rendering pipelines and custom renderer experiments.', '렌더링 파이프라인과 커스텀 렌더러, 최적화 관련 프로젝트입니다.', ['01_Manzo.html']],
+    ['VISUALS', 'Art, UI, and VFX for interactive experiences.', '아트, UI/UX, 이펙트 등 비주얼 중심의 작업물입니다.', ['06_StreetTyper.html', '00_NewManzo.html', 'ArtGallery.html']],
+    ['GAME PROGRAMMING', 'Gameplay, systems, and engine development.', '게임플레이, 시스템, 엔진 개발 등 프로그래밍 기반의 프로젝트입니다.', ['04_BirdStrike.html', '03_DoubleHit.html', '05_ThinkThink.html', '02_EdgeDirve.html']],
+    ['PRODUCTION', 'Planning, collaboration, and creative delivery.', '기획, 협업 등 제작 과정 전반의 프로젝트입니다.', ['PlushProduction.html', 'Dangling.html']]
   ];
   archiveGrid.innerHTML = '';
-  groups.forEach(([label, icon, descriptionEn, descriptionKo, keys]) => {
+  groups.forEach(([label, descriptionEn, descriptionKo, keys]) => {
     const cards = existingCards.filter(card => keys.some(key => card.getAttribute('href')?.includes(key)));
     if (!cards.length) return;
     const section = document.createElement('section');
     section.className = `archive-category archive-category--overview${label === 'PRODUCTION' ? ' archive-category--production' : ''}`;
-    const projectWord = cards.length === 1 ? 'PROJECT' : 'PROJECTS';
     // SHADERS' fundamentals button is separate navigation (the 8 GLSL/rendering studies), not part of
     // the count-based card layout below, so it always renders regardless of card count.
     const isShaders = label === 'SHADERS';
     const footer = isShaders
       ? `<button type="button" class="archive-category__all archive-category__all--fundamentals" data-graphics-open><span data-en="GRAPHICS FUNDAMENTALS" data-ko="그래픽스 펀더맨탈">${currentLanguage === 'ko' ? '그래픽스 펀더맨탈' : 'GRAPHICS FUNDAMENTALS'}</span><b>↗</b></button>`
       : '';
-    section.innerHTML = `<header class="archive-category__header"><span class="archive-category__icon" aria-hidden="true">${icon}</span><span><h3>${label}</h3><small>${cards.length} ${projectWord}</small></span></header><p data-en="${descriptionEn}" data-ko="${descriptionKo}">${currentLanguage === 'ko' ? descriptionKo : descriptionEn}</p><div class="archive-category__grid"></div>${footer}`;
+    section.innerHTML = `<header class="archive-category__header"><h3><span class="archive-category__cap" aria-hidden="true">${label.charAt(0)}</span>${label.slice(1)}</h3></header><p data-en="${descriptionEn}" data-ko="${descriptionKo}">${currentLanguage === 'ko' ? descriptionKo : descriptionEn}</p><div class="archive-category__grid"></div>${footer}`;
     const target = section.querySelector('.archive-category__grid');
     target.tabIndex = 0;
     target.setAttribute('aria-label', `${label} projects`);

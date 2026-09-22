@@ -104,6 +104,15 @@
     // 타이틀 섹션 ID 추가
     heroSection.id = 'title';
 
+    // itch.io 링크 옆에 스팀 페이지 버튼도 나란히 두기 위한 헬퍼. heroLink(itch.io)와
+    // steamLink 둘 다 있으면 두 버튼을 한 줄에, 하나만 있으면 그 하나만 렌더링한다.
+    const heroActionsHTML = (project.heroLink || project.steamLink) ? `
+      <div class="hero-title-actions">
+        ${project.heroLink ? `<a class="hero-title-link hero-title-link--image" href="${project.heroLink}" target="_blank" rel="noopener" aria-label="${t('Play ' + project.title + ' on itch.io', 'itch.io에서 ' + project.title + ' 플레이')}"><span>${t('PLAY ON ITCH.IO ↗', 'ITCH.IO에서 플레이 ↗')}</span></a>` : ''}
+        ${project.steamLink ? `<a class="hero-title-link hero-title-link--image hero-title-link--steam" href="${project.steamLink}" target="_blank" rel="noopener" aria-label="${t('View ' + project.title + ' on Steam', 'Steam에서 ' + project.title + ' 보기')}"><span>${t('STEAM PAGE ↗', '스팀 페이지 ↗')}</span></a>` : ''}
+      </div>
+    ` : '';
+
     // Hero 미디어 설정 - 기존 내용을 완전히 교체
     if (project.heroType === 'youtube') {
       const youtubeId = project.youtubeId || project.heroMedia;
@@ -180,7 +189,7 @@
       heroSection.innerHTML = `
         ${project.heroLink && project.heroImageContainsTitle ? `<a class="hero-media-link" href="${project.heroLink}" target="_blank" rel="noopener" aria-label="${t('Play ' + project.title + ' on itch.io', 'itch.io에서 ' + project.title + ' 플레이')}"><img src="${project.heroMedia}" alt="${project.title} title art" class="bird-image"></a>` : `<img src="${project.heroMedia}" alt="${project.title} Poster" class="bird-image">`}
         <div class="video-overlay">
-          ${project.heroImageContainsTitle ? `<h1 class="visually-hidden">${project.title}</h1>${project.heroLink ? `<a class="hero-title-link hero-title-link--image" href="${project.heroLink}" target="_blank" rel="noopener"><span>${t('PLAY ON ITCH.IO ↗', 'ITCH.IO에서 플레이 ↗')}</span></a>` : ''}` : (project.heroLink ? `<a class="hero-title-link" href="${project.heroLink}" target="_blank" rel="noopener" aria-label="${t('Play ' + project.title + ' on itch.io', 'itch.io에서 ' + project.title + ' 플레이')}"><h1 class="${project.heroTitleClass || 'game-title'}">${project.title}</h1><span>${t('PLAY ON ITCH.IO ↗', 'ITCH.IO에서 플레이 ↗')}</span></a>` : `<h1 class="${project.heroTitleClass || 'game-title'}">${project.title}</h1>`)}
+          ${project.heroImageContainsTitle ? `<h1 class="visually-hidden">${project.title}</h1>${heroActionsHTML}` : (project.heroLink ? `<a class="hero-title-link" href="${project.heroLink}" target="_blank" rel="noopener" aria-label="${t('Play ' + project.title + ' on itch.io', 'itch.io에서 ' + project.title + ' 플레이')}"><h1 class="${project.heroTitleClass || 'game-title'}">${project.title}</h1><span>${t('PLAY ON ITCH.IO ↗', 'ITCH.IO에서 플레이 ↗')}</span></a>` : `<h1 class="${project.heroTitleClass || 'game-title'}">${project.title}</h1>`)}
           <p class="${project.heroSubtitleClass || 'game-subtitle'}">${project.subtitle}</p>
         </div>
       `;
