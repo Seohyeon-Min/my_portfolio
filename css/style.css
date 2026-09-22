@@ -3601,8 +3601,6 @@ body .return-button.project-back-button:hover {
 .link-start-app[data-track="graphics"] .archive-panel { max-height:none; overflow:hidden; }
 .link-archive-grid > .archive-category { flex: 0 0 auto; width: 100%; }
 .link-start-app[data-track="graphics"] .archive-category--overview { display:flex; flex-direction:column; min-width:0; height:clamp(22rem,52vh,25.5rem); min-height:0; padding:.85rem; border:1px solid color-mix(in srgb,var(--ls-blue) 17%,transparent); border-radius:1rem; background:linear-gradient(120deg,color-mix(in srgb,var(--ls-blue) 5%,white),rgba(255,255,255,.72)); box-shadow:0 .7rem 2.4rem rgba(43,54,102,.055); }
-.link-start-app[data-track="graphics"] .archive-category--overview:nth-child(3n+2) { --ls-blue:#7370ea; }
-.link-start-app[data-track="graphics"] .archive-category--overview:nth-child(3n) { --ls-blue:#d26d49; }
 .link-start-app[data-track="graphics"] .archive-category--overview.archive-category--production { margin-top:0; padding:1rem; border-color:color-mix(in srgb,#55a7c5 24%,transparent); background:linear-gradient(120deg,rgba(236,250,255,.76),rgba(255,255,255,.74)); }
 .archive-category__header { display:flex; align-items:center; gap:.7rem; }
 .archive-category__icon { display:grid; place-items:center; width:2.5rem; height:2.5rem; border-radius:.75rem; background:color-mix(in srgb,var(--ls-blue) 12%,white); box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ls-blue) 18%,transparent); color:var(--ls-blue); font-size:1.35rem; font-weight:700; }
@@ -3613,6 +3611,13 @@ body .return-button.project-back-button:hover {
 .link-start-app[data-track="graphics"] .archive-category--overview .archive-category__grid a { height:clamp(5.7rem,13.2vh,7rem); min-height:0; border-radius:.72rem; }
 .archive-category__all { align-self:center; margin-top:auto; padding-top:.55rem; width:max-content; color:var(--ls-blue); font-size:.55rem; font-weight:800; letter-spacing:.05em; text-decoration:none; }
 .archive-category__all b { margin-left:.35rem; font-size:.9rem; }
+/* A hovered/selected skill matches a card sitting behind this "VIEW ALL" — surface it, since the match
+   itself is invisible until the category is expanded. Matches the specificity of the
+   @media(hover:hover) `.archive-category__all:not(.archive-category__all--fundamentals)` override further
+   down (same [data-track="graphics"] prefix + a :not() to equal its 4 selectors) plus one more for
+   .has-hidden-match, so this wins regardless of source order. */
+.link-start-app[data-track="graphics"] .archive-category__all.has-hidden-match:not(.archive-category__all--fundamentals) { padding:.3rem .6rem; border-radius:999px; background:var(--ls-blue); color:#fff; box-shadow:0 .3rem 1rem color-mix(in srgb,var(--ls-blue) 40%,transparent); animation:archive-view-all-pulse 1.1s ease-in-out infinite; }
+@keyframes archive-view-all-pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.05); } }
 .archive-grid-divider { grid-column: 1 / -1; height: 1px; margin: 0.35rem 0; background: var(--ls-line); }
 .tech-stack-strip {
   display: flex;
@@ -3633,15 +3638,19 @@ body .return-button.project-back-button:hover {
   letter-spacing: 0.02em;
 }
 .tech-stack-strip span[role="button"] { cursor:pointer; transition:transform 160ms ease, background 160ms ease, color 160ms ease; }
-.tech-stack-strip span[role="button"]:hover,
-.tech-stack-strip span[role="button"].is-selected,
-.tech-stack-strip span[role="button"].is-hover-match { background:var(--ls-blue); color:#fff; transform:translateY(-2px); box-shadow:0 .3rem 1rem rgba(73,111,232,.35); }
+/* Prefixed with .link-start-app so it outranks the per-track chip rule below (background:#f8f9ff) —
+   otherwise a selected/matched chip kept its pale background and only the text turned white. */
+.link-start-app .tech-stack-strip span[role="button"]:hover,
+.link-start-app .tech-stack-strip span[role="button"].is-selected,
+.link-start-app .tech-stack-strip span[role="button"].is-hover-match { background:var(--ls-blue); color:#fff; transform:translateY(-2px); box-shadow:0 .3rem 1rem color-mix(in srgb,var(--ls-blue) 40%,transparent); }
 .link-archive-grid > a,
 .portfolio__item[href] { transition:filter 220ms ease, opacity 220ms ease, transform 220ms ease; }
 .link-archive-grid:has(.skill-dim) a.skill-dim,
 .portfolio__item.skill-dim { filter:brightness(.38) saturate(.45); opacity:.58; }
+/* Matched card: a solid track-colored ring (white gap keeps it readable on both the white panel and any thumbnail).
+   No brightness boost — it washed light thumbnails out to white. */
 .link-archive-grid a.skill-match,
-.portfolio__item.skill-match { filter:brightness(1.18) saturate(1.18); transform:translateY(-4px); box-shadow:0 0 0 2px color-mix(in srgb,var(--ls-blue) 55%,transparent), 0 1.2rem 3rem rgba(73,111,232,.3); }
+.portfolio__item.skill-match { filter:saturate(1.15); transform:translateY(-4px); box-shadow:0 0 0 3px #fff, 0 0 0 6px var(--ls-blue), 0 1.2rem 2.6rem color-mix(in srgb,var(--ls-blue) 38%,transparent); }
 .link-archive-grid a {
   position: relative;
   display: block;
@@ -3672,14 +3681,11 @@ body .return-button.project-back-button:hover {
 .link-archive-grid i span { min-width:0; color:rgba(255,255,255,.82); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .link-archive-grid a:hover i,
 .link-archive-grid a:focus-visible i { max-height: 1.2rem; opacity: 1; transform: translateY(0); }
-.graphics-collection-open { display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:1.2rem; width:100%; margin-top:.7rem; padding:.75rem 1rem; border:1px solid color-mix(in srgb,var(--ls-blue) 28%,transparent); border-radius:1rem; background:color-mix(in srgb,var(--ls-blue) 6%,white); color:var(--ls-ink); text-align:left; transition:background 180ms ease,transform 180ms ease,box-shadow 180ms ease; }
-.graphics-collection-open span { display:grid; gap:.08rem; }
-.graphics-collection-open small { color:var(--ls-blue); font-size:.45rem; font-weight:800; letter-spacing:.11em; }
-.graphics-collection-open b { font-size:.72rem; }
-.graphics-collection-open em { color:var(--ls-muted); font-size:.58rem; font-style:normal; font-weight:600; }
-.graphics-collection-open > strong { color:var(--ls-blue); font-size:.55rem; letter-spacing:.08em; }
-.graphics-collection-open:hover { background:color-mix(in srgb,var(--ls-blue) 13%,white); transform:translateY(-2px); box-shadow:0 .8rem 2rem color-mix(in srgb,var(--ls-blue) 15%,transparent); }
-.link-start-app:not([data-track="graphics"]) .graphics-collection-open,
+/* Fundamentals trigger now lives inside the SHADERS overview card's footer (replacing its "view all"
+   link) instead of as a full-width bar under the whole grid. */
+.archive-category__all--fundamentals { display:inline-flex; align-items:center; justify-content:center; gap:.4rem; align-self:center; margin-top:auto; padding:.55rem .95rem; border:1px solid color-mix(in srgb,var(--ls-blue) 30%,transparent); border-radius:999px; background:color-mix(in srgb,var(--ls-blue) 8%,white); color:var(--ls-blue); font-size:.58rem; font-weight:800; letter-spacing:.03em; cursor:pointer; transition:background 160ms ease,transform 160ms ease,box-shadow 160ms ease; }
+.archive-category__all--fundamentals b { font-size:.85rem; }
+.archive-category__all--fundamentals:hover { background:var(--ls-blue); color:#fff; transform:translateY(-2px); box-shadow:0 .6rem 1.6rem color-mix(in srgb,var(--ls-blue) 30%,transparent); }
 .link-start-app:not([data-track="graphics"]) .graphics-collection { display:none !important; }
 .graphics-collection { position:absolute; inset:4.5rem 5vw 3.5rem; z-index:35; display:grid; grid-template-columns:minmax(15rem,.62fr) minmax(0,1.38fr); align-items:center; gap:clamp(1rem,3vw,3rem); padding:clamp(1.4rem,3vw,3rem); border:1px solid rgba(255,255,255,.92); border-radius:2rem; background:rgba(248,247,243,.96); box-shadow:0 3rem 9rem rgba(43,54,102,.25); backdrop-filter:blur(28px); opacity:0; visibility:hidden; transform:scale(.82) translateZ(-160px); pointer-events:none; transition:opacity 200ms ease,transform 560ms cubic-bezier(.12,.86,.18,1),visibility 0s linear 560ms; }
 .graphics-collection.is-open { opacity:1; visibility:visible; transform:scale(1) translateZ(0); pointer-events:auto; transition-delay:0s; }
@@ -3919,8 +3925,6 @@ a[data-resume-alternate].is-hidden { display:none !important; }
   .archive-category__all { margin-top:.15rem; }
   .archive-card__copy { inset: 42% 0 0; padding: 0.52rem; }
   .link-archive-grid i { display: none; }
-  .graphics-collection-open { grid-template-columns:1fr auto; }
-  .graphics-collection-open em { display:none; }
   .graphics-collection { inset:3.5rem .5rem 3.8rem; display:block; overflow:auto; padding:1.2rem; border-radius:1.3rem; }
   .graphics-collection header { padding-right:2.5rem; }
   .graphics-collection header h2 { font-size:clamp(1.9rem, 9.5vw, 2.5rem); overflow-wrap: break-word; }
@@ -5321,7 +5325,9 @@ body.asset-lightbox-open { overflow:hidden; }
 @media (hover:hover) and (pointer:fine) {
   .link-start-app[data-track="graphics"] .archive-panel {
     top:5dvh;
-    width:96vw;
+    /* Was 96vw (nearly edge-to-edge on wide screens); cap it like .proof-reel so the ALL PROJECTS
+       panel doesn't sprawl wider than the Proof Reel panel above it. */
+    width:min(96vw,84rem);
     height:86dvh;
     max-height:none;
     padding:0;
@@ -5346,8 +5352,6 @@ body.asset-lightbox-open { overflow:hidden; }
   .link-start-app[data-track="graphics"] .tech-stack-strip__track { display:contents; animation:none; }
   .link-start-app[data-track="graphics"] .tech-stack-strip__dup { display:none; }
   .link-start-app[data-track="graphics"] .tech-stack-strip span { padding:.36rem .65rem; background:#f8f9ff; font-size:clamp(.4rem,.64vw,.65rem); }
-  .link-start-app[data-track="graphics"] .tech-stack-strip__track > span:nth-child(14),
-  .link-start-app[data-track="graphics"] .tech-stack-strip__track > span:nth-child(15) { display:none; }
   .link-start-app[data-track="graphics"] .link-archive-grid { position:relative; flex:1 1 auto; width:calc(100% + 1.3rem); min-height:0; margin:clamp(.85rem,2.2vh,1.5rem) -.65rem -.65rem; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:clamp(.3rem,.5vw,.55rem); padding:.65rem; border:1px solid rgba(97,125,216,.2); border-radius:1.5rem; background:rgba(255,255,255,.66); box-shadow:0 1rem 3rem rgba(43,54,102,.08); }
   .link-start-app[data-track="graphics"] .link-archive-grid > .archive-category--overview { grid-column:auto; width:auto; min-width:0; height:100%; min-height:0; display:flex; flex-direction:column; padding:clamp(.5rem,1vw,1.15rem); border-radius:1rem; overflow:visible; }
   .link-start-app[data-track="graphics"] .archive-category--overview.archive-category--production { padding:clamp(.5rem,1vw,1.15rem); }
@@ -5355,7 +5359,7 @@ body.asset-lightbox-open { overflow:hidden; }
   .link-start-app[data-track="graphics"] .archive-category__icon { flex:0 0 auto; width:clamp(1.8rem,3.4vw,3.8rem); height:clamp(1.8rem,3.4vw,3.8rem); font-size:clamp(.9rem,1.8vw,1.8rem); }
   .link-start-app[data-track="graphics"] .archive-category--overview h3 { margin:0; font-size:clamp(.58rem,1.05vw,1.08rem); line-height:1.15; letter-spacing:-.04em; }
   .link-start-app[data-track="graphics"] .archive-category__header small { margin-top:.25rem; color:var(--ls-blue); font-size:clamp(.4rem,.62vw,.64rem); }
-  .link-start-app[data-track="graphics"] .archive-category--overview > p { flex:0 0 auto; min-height:3.3em; margin:clamp(.3rem,.7vh,.6rem) 0; font-size:clamp(.52rem,.9vw,.92rem); line-height:1.45; }
+  .link-start-app[data-track="graphics"] .archive-category--overview > p { flex:0 0 auto; min-height:0; margin:clamp(.3rem,.7vh,.6rem) 0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-size:clamp(.46rem,.68vw,.66rem); line-height:1.45; }
   .link-start-app[data-track="graphics"] .archive-category--overview .archive-category__grid { display:grid; grid-template-columns:1fr; align-content:start; gap:clamp(.3rem,.6vh,.55rem); }
   .link-start-app[data-track="graphics"] .archive-category--overview .archive-category__grid > a { height:clamp(3.1rem,16.6vh,11rem); min-height:0; border-radius:.8rem; }
   .link-start-app[data-track="graphics"] .archive-category--overview .archive-category__grid > a.is-archive-extra { display:none; }
@@ -5364,18 +5368,14 @@ body.asset-lightbox-open { overflow:hidden; }
   .link-start-app[data-track="graphics"] .archive-category--overview .archive-card__copy b { font-size:clamp(.55rem,.75vw,.78rem); }
   .link-start-app[data-track="graphics"] .archive-category--overview .archive-card__copy small { font-size:clamp(.42rem,.62vw,.62rem); }
   .link-start-app[data-track="graphics"] .archive-category--overview .archive-category__grid > a::after { content:"↗"; top:auto; right:.45rem; bottom:.45rem; display:grid; place-items:center; width:1.35rem; height:1.35rem; padding:0; border:1px solid rgba(255,255,255,.55); border-radius:50%; background:rgba(39,49,72,.55); color:#fff; font-size:.78rem; opacity:1; transform:none; }
-  .link-start-app[data-track="graphics"] .archive-category__all { display:block; align-self:center; width:auto; height:auto; min-height:0; margin-top:auto; padding:.65rem 0 0; overflow:visible; border:0; border-radius:0; background:transparent; box-shadow:none; color:var(--ls-blue); font-size:clamp(.48rem,.7vw,.7rem); text-align:center; }
+  .link-start-app[data-track="graphics"] .archive-category__all:not(.archive-category__all--fundamentals) { display:block; align-self:center; width:auto; height:auto; min-height:0; margin-top:auto; padding:.65rem 0 0; overflow:visible; border:0; border-radius:0; background:transparent; box-shadow:none; color:var(--ls-blue); font-size:clamp(.48rem,.7vw,.7rem); text-align:center; }
   .link-start-app[data-track="graphics"] .archive-category__all::after { display:none; }
+  .link-start-app[data-track="graphics"] .archive-category__all--fundamentals { font-size:clamp(.5rem,.72vw,.68rem); }
   .link-start-app[data-track="graphics"] .archive-panel.has-expanded-category { overflow:hidden; }
   .link-start-app[data-track="graphics"] .archive-panel.has-expanded-category .link-archive-grid::before { content:""; position:absolute; z-index:11; inset:-20dvh -2vw -9dvh; background:rgba(22,33,67,.28); backdrop-filter:blur(7px); }
   .link-start-app[data-track="graphics"] .link-archive-grid > .archive-category--overview.is-expanded { position:absolute; z-index:12; inset:4% 3%; width:auto; height:92%; padding:clamp(1rem,2vw,2rem); overflow:auto; background:#f8faff; box-shadow:0 1.5rem 5rem rgba(43,54,102,.28); }
   .link-start-app[data-track="graphics"] .archive-category--overview.is-expanded .archive-category__grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .link-start-app[data-track="graphics"] .archive-category--overview.is-expanded .archive-category__grid > a { height:clamp(6rem,25vh,15rem); }
-  .link-start-app[data-track="graphics"] .graphics-collection-open { position:absolute; top:auto; right:40%; bottom:-2.1rem; width:auto; margin:0; padding:.2rem .45rem; border-radius:.55rem; opacity:.72; }
-  .link-start-app[data-track="graphics"] .graphics-collection-open span small,
-  .link-start-app[data-track="graphics"] .graphics-collection-open em { display:none; }
-  .link-start-app[data-track="graphics"] .graphics-collection-open span b { font-size:.48rem; }
-  .link-start-app[data-track="graphics"] .graphics-collection-open > strong { font-size:.45rem; }
 }
 
 @media (min-width:900px) and (hover:hover) and (pointer:fine) {
@@ -5405,18 +5405,19 @@ body.asset-lightbox-open { overflow:hidden; }
   .link-start-app[data-track="graphics"] .archive-category--overview h3 { font-size:.88rem; }
   .link-start-app[data-track="graphics"] .archive-category__header small { font-size:.5rem; }
   .link-start-app[data-track="graphics"] .archive-category--overview > p { min-height:0; margin:.5rem 0 .65rem; font-size:.7rem; }
+  /* Horizontal row of portrait cards — the card itself stays tall (3:4) so a landscape thumbnail never
+     has to squeeze into a wide/short frame; multiple cards scroll side to side instead of stacking. */
   .link-start-app[data-track="graphics"] .archive-category--overview .archive-category__grid,
-  .link-start-app[data-track="graphics"] .archive-category--overview.is-expanded .archive-category__grid { display:flex; flex-wrap:nowrap; gap:.5rem; overflow-x:auto; overflow-y:hidden; padding:.1rem .1rem .55rem; scroll-snap-type:x mandatory; scrollbar-width:thin; }
+  .link-start-app[data-track="graphics"] .archive-category--overview.is-expanded .archive-category__grid { display:grid; grid-auto-flow:column; grid-template-columns:none; grid-auto-columns:min(64vw,14rem); gap:.6rem; overflow-x:auto; overflow-y:visible; padding:0 0 .3rem; scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch; }
   .link-start-app[data-track="graphics"] .archive-category--overview .archive-category__grid > a,
-  .link-start-app[data-track="graphics"] .archive-category--overview.is-expanded .archive-category__grid > a { flex:0 0 clamp(11rem,62vw,17rem); width:auto; height:clamp(7rem,32vw,10rem); scroll-snap-align:start; }
+  .link-start-app[data-track="graphics"] .archive-category--overview.is-expanded .archive-category__grid > a { width:100%; height:auto; aspect-ratio:3/4; scroll-snap-align:start; }
   .link-start-app[data-track="graphics"] .archive-category--overview .archive-category__grid > a.is-archive-extra { display:block; }
-  .link-start-app[data-track="graphics"] .archive-category--overview .archive-card__copy b { font-size:.68rem; }
-  .link-start-app[data-track="graphics"] .archive-category--overview .archive-card__copy small { font-size:.5rem; }
-  .link-start-app[data-track="graphics"] .archive-category__all { display:none; }
+  .link-start-app[data-track="graphics"] .archive-category--overview .archive-card__copy b { font-size:.78rem; }
+  .link-start-app[data-track="graphics"] .archive-category--overview .archive-card__copy small { font-size:.56rem; }
+  /* The plain "view all" link is a toggle for content this stacked layout already shows in full,
+     so it's redundant here — but the SHADERS card's fundamentals button is real navigation and stays. */
+  .link-start-app[data-track="graphics"] .archive-category__all:not(.archive-category__all--fundamentals) { display:none; }
+  .link-start-app[data-track="graphics"] .archive-category__all--fundamentals { width:100%; margin-top:.8rem; padding:.7rem .9rem; }
   .link-start-app[data-track="graphics"] .archive-panel.has-expanded-category { overflow-y:auto; }
   .link-start-app[data-track="graphics"] .archive-panel.has-expanded-category .link-archive-grid::before { display:none; }
-  .link-start-app[data-track="graphics"] .graphics-collection-open { position:static; width:100%; margin:.8rem 0 0; padding:.65rem .8rem; opacity:1; }
-  .link-start-app[data-track="graphics"] .graphics-collection-open span small,
-  .link-start-app[data-track="graphics"] .graphics-collection-open em { display:block; }
-  .link-start-app[data-track="graphics"] .graphics-collection-open span b { font-size:.7rem; }
 }

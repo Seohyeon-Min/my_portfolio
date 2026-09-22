@@ -137,35 +137,49 @@ function refreshArchiveLayout(track) {
     const section = document.createElement('section');
     section.className = `archive-category archive-category--overview${label === 'PRODUCTION' ? ' archive-category--production' : ''}`;
     const projectWord = cards.length === 1 ? 'PROJECT' : 'PROJECTS';
-    section.innerHTML = `<header class="archive-category__header"><span class="archive-category__icon" aria-hidden="true">${icon}</span><span><h3>${label}</h3><small>${cards.length} ${projectWord}</small></span></header><p data-en="${descriptionEn}" data-ko="${descriptionKo}">${currentLanguage === 'ko' ? descriptionKo : descriptionEn}</p><div class="archive-category__grid"></div><a class="archive-category__all" href="#" aria-label="View all ${label} projects">VIEW ALL ${cards.length} ${projectWord} <b>→</b></a>`;
+    // SHADERS only has 2 game projects, so "view all" has nothing extra to reveal. The 8 GLSL/rendering
+    // studies (the graphics-only collection) are the deeper shader content, so this card opens that
+    // instead of an empty expand.
+    const isShaders = label === 'SHADERS';
+    // Only 2 slots show without expanding, so a 1-2 project category already shows everything —
+    // "VIEW ALL" would have nothing left to reveal and shouldn't render at all.
+    const hasHidden = !isShaders && cards.length > 2;
+    const footer = isShaders
+      ? `<button type="button" class="archive-category__all archive-category__all--fundamentals" data-graphics-open><span data-en="GRAPHICS FUNDAMENTALS" data-ko="그래픽스 펀더맨탈">${currentLanguage === 'ko' ? '그래픽스 펀더맨탈' : 'GRAPHICS FUNDAMENTALS'}</span><b>↗</b></button>`
+      : hasHidden
+      ? `<a class="archive-category__all" href="#" aria-label="View all ${label} projects">VIEW ALL ${cards.length} ${projectWord} <b>→</b></a>`
+      : '';
+    section.innerHTML = `<header class="archive-category__header"><span class="archive-category__icon" aria-hidden="true">${icon}</span><span><h3>${label}</h3><small>${cards.length} ${projectWord}</small></span></header><p data-en="${descriptionEn}" data-ko="${descriptionKo}">${currentLanguage === 'ko' ? descriptionKo : descriptionEn}</p><div class="archive-category__grid"></div>${footer}`;
     const target = section.querySelector('.archive-category__grid');
     target.tabIndex = 0;
     target.setAttribute('aria-label', `${label} projects`);
     cards.forEach((card, index) => {
-      card.classList.toggle('is-archive-extra', index > 1);
+      card.classList.toggle('is-archive-extra', hasHidden && index > 1);
       target.appendChild(card);
     });
-    const allLink = section.querySelector('.archive-category__all');
-    allLink.setAttribute('aria-expanded', 'false');
-    allLink.addEventListener('click', event => {
-      event.preventDefault();
-      if (cards.length === 1) {
-        cards[0].click();
-        return;
-      }
-      archiveGrid.querySelectorAll('.archive-category--overview.is-expanded').forEach(other => {
-        if (other !== section) {
-          other.classList.remove('is-expanded');
-          const otherLink = other.querySelector('.archive-category__all');
-          otherLink?.setAttribute('aria-expanded', 'false');
-          if (otherLink) otherLink.innerHTML = `VIEW ALL ${other.querySelectorAll('.archive-category__grid > a').length} PROJECTS <b>→</b>`;
+    if (hasHidden) {
+      const allLink = section.querySelector('.archive-category__all');
+      allLink.setAttribute('aria-expanded', 'false');
+      allLink.addEventListener('click', event => {
+        event.preventDefault();
+        if (cards.length === 1) {
+          cards[0].click();
+          return;
         }
+        archiveGrid.querySelectorAll('.archive-category--overview.is-expanded').forEach(other => {
+          if (other !== section) {
+            other.classList.remove('is-expanded');
+            const otherLink = other.querySelector('.archive-category__all');
+            otherLink?.setAttribute('aria-expanded', 'false');
+            if (otherLink) otherLink.innerHTML = `VIEW ALL ${other.querySelectorAll('.archive-category__grid > a').length} PROJECTS <b>→</b>`;
+          }
+        });
+        section.classList.toggle('is-expanded');
+        section.closest('.archive-panel')?.classList.toggle('has-expanded-category', Boolean(archiveGrid.querySelector('.is-expanded')));
+        allLink.setAttribute('aria-expanded', String(section.classList.contains('is-expanded')));
+        allLink.innerHTML = section.classList.contains('is-expanded') ? 'SHOW LESS <b>↑</b>' : `VIEW ALL ${cards.length} ${projectWord} <b>→</b>`;
       });
-      section.classList.toggle('is-expanded');
-      section.closest('.archive-panel')?.classList.toggle('has-expanded-category', Boolean(archiveGrid.querySelector('.is-expanded')));
-      allLink.setAttribute('aria-expanded', String(section.classList.contains('is-expanded')));
-      allLink.innerHTML = section.classList.contains('is-expanded') ? 'SHOW LESS <b>↑</b>' : `VIEW ALL ${cards.length} ${projectWord} <b>→</b>`;
-    });
+    }
     archiveGrid.appendChild(section);
   });
 }
@@ -356,25 +370,63 @@ function applyLanguage(language) {
       '07_gradient.html': 'WebGL JavaScript GLSL GitHub', '08_demo_fun.html': 'WebGL JavaScript GLSL GitHub'
     };
     const cardTools = card => projectTools[card.getAttribute('href').split('/').pop().split('?')[0]] || card.textContent;
+    // Categories collapse to their first 2 cards behind a "VIEW ALL" link (desktop only — see
+    // .archive-category--overview .archive-category__grid > a.is-archive-extra in style.css). If a match is
+    // hiding in there, highlight that link instead of leaving the match invisible with no clue where it went.
+    // Queried fresh each time (not cached): switching tracks rebuilds these section/link elements from scratch.
+    const updateViewAllHighlight = () => {
+      document.querySelectorAll('.archive-category--overview').forEach(section => {
+        const allLink = section.querySelector('.archive-category__all');
+        if (!allLink) return;
+        const hiddenMatch = !section.classList.contains('is-expanded')
+          && [...section.querySelectorAll('.archive-category__grid > a.is-archive-extra')].some(card => card.classList.contains('skill-match'));
+        allLink.classList.toggle('has-hidden-match', hiddenMatch);
+      });
+    };
+    const applySkillFilter = value => {
+      cards.forEach(card => {
+        const matches = cardTools(card).toLowerCase().includes(value);
+        card.classList.toggle('skill-match', matches);
+        card.classList.toggle('skill-dim', !matches);
+      });
+      updateViewAllHighlight();
+    };
+    const clearSkillFilter = () => {
+      cards.forEach(card => card.classList.remove('skill-match', 'skill-dim'));
+      document.querySelectorAll('.archive-category__all').forEach(link => link.classList.remove('has-hidden-match'));
+    };
+    // Hovering (or focusing) a chip previews its matches; clicking pins them. Leaving a hovered chip falls
+    // back to the pinned chip if there is one, so a preview never wipes out a deliberate selection.
+    const restoreSkillFilter = () => {
+      const pinned = skills.find(item => item.classList.contains('is-selected'));
+      if (pinned) applySkillFilter(pinned.textContent.trim().toLowerCase());
+      else clearSkillFilter();
+    };
     skills.forEach(skill => {
       skill.setAttribute('role', 'button');
       skill.tabIndex = 0;
+      const value = () => skill.textContent.trim().toLowerCase();
       const activate = () => {
-      const value = skill.textContent.trim().toLowerCase();
         if (skill.classList.contains('is-selected')) {
           skills.forEach(item => item.classList.remove('is-selected'));
-          cards.forEach(card => { card.classList.remove('skill-match', 'skill-dim'); });
+          clearSkillFilter();
           return;
         }
         skills.forEach(item => item.classList.toggle('is-selected', item === skill));
-        cards.forEach(card => {
-          const matches = cardTools(card).toLowerCase().includes(value);
-          card.classList.toggle('skill-match', matches);
-          card.classList.toggle('skill-dim', !matches);
-        });
+        applySkillFilter(value());
       };
       skill.addEventListener('click', activate);
       skill.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activate(); } });
+      skill.addEventListener('mouseenter', () => applySkillFilter(value()));
+      skill.addEventListener('mouseleave', restoreSkillFilter);
+      skill.addEventListener('focus', () => applySkillFilter(value()));
+      skill.addEventListener('blur', restoreSkillFilter);
+    });
+    // The aria-hidden marquee duplicates are on screen in the narrow software/product layout, so they get the
+    // same hover preview (they stay non-clickable, as before).
+    techStrip.querySelectorAll('.tech-stack-strip__dup').forEach(dup => {
+      dup.addEventListener('mouseenter', () => applySkillFilter(dup.textContent.trim().toLowerCase()));
+      dup.addEventListener('mouseleave', restoreSkillFilter);
     });
     cards.forEach(card => {
       card.addEventListener('mouseenter', () => {
@@ -739,7 +791,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const hobbyGalleryTitle = app.querySelector('[data-hobby-gallery-title]');
   const hobbyGalleryClose = app.querySelector('[data-hobby-gallery-close]');
   const graphicsCollection = app.querySelector('.graphics-collection');
-  const graphicsOpen = app.querySelector('[data-graphics-open]');
   const graphicsClose = app.querySelector('[data-graphics-close]');
   let activeIndex = 0;
   let entryHideTimer = 0;
@@ -808,7 +859,14 @@ document.addEventListener('DOMContentLoaded', () => {
     graphicsCollection.setAttribute('aria-hidden', String(!open));
     app.classList.toggle('is-graphics-collection-open', open);
   };
-  graphicsOpen?.addEventListener('click', event => { event.stopPropagation(); setGraphicsCollection(true); });
+  // Delegated (not a one-time querySelector): the SHADERS overview card rebuilds its own
+  // [data-graphics-open] trigger every time refreshArchiveLayout() runs (track switch, language
+  // toggle), so a direct binding here would go stale after the first rebuild.
+  app.addEventListener('click', event => {
+    if (!event.target.closest('[data-graphics-open]')) return;
+    event.stopPropagation();
+    setGraphicsCollection(true);
+  });
   graphicsClose?.addEventListener('click', event => { event.stopPropagation(); setGraphicsCollection(false); });
 
   if (lightCursor && cursorCore && window.matchMedia('(pointer: fine)').matches && !reduceMotion.matches) {
