@@ -79,7 +79,11 @@ function syncProjectTrackLinks(root, track) {
 function refreshArchiveLayout(track) {
   const archiveGrid = document.querySelector('.link-archive-grid');
   if (!archiveGrid) return;
-  const existingCards = [...archiveGrid.querySelectorAll(':scope > a, :scope .archive-category__grid > a')];
+  // Keep the original project nodes: filtering a category must never discard
+  // its third and fourth projects on the next track or language refresh.
+  const existingCards = archiveGrid._projectCards || [...archiveGrid.querySelectorAll(':scope > a')];
+  archiveGrid._projectCards = existingCards;
+  archiveGrid.closest('.archive-panel')?.classList.remove('has-expanded-category');
   if (track !== 'graphics') {
     archiveGrid.querySelectorAll('.archive-category').forEach(section => section.remove());
     archiveGrid.innerHTML = '';
@@ -116,21 +120,51 @@ function refreshArchiveLayout(track) {
     }
     return;
   }
+  // The graphics / technical-art track gets its own overview: category cards
+  // mirror the portfolio's disciplines while the other tracks retain their
+  // existing, project-first archive layout above.
   const groups = [
-    ['SHADERS', ['07_TooHot.html', 'PoseidonSkate']],
-    ['RENDERING', ['01_Manzo.html']],
-    ['VISUALS', ['00_NewManzo.html', '06_StreetTyper.html']],
-    ['GAME PROGRAMMING', ['04_BirdStrike.html', '03_DoubleHit.html', '05_ThinkThink.html', '02_EdgeDirve.html']],
-    ['PRODUCTION', ['Dangling.html', 'PlushProduction.html']]
+    ['SHADERS', '△', 'Shaders and real-time rendering effects.', '셰이더를 활용한 그래픽 효과와 렌더링 실험들입니다.', ['07_TooHot.html', 'PoseidonSkate']],
+    ['RENDERING', '⬡', 'Rendering pipelines and custom renderer experiments.', '렌더링 파이프라인과 커스텀 렌더러, 최적화 관련 프로젝트입니다.', ['01_Manzo.html']],
+    ['VISUALS', '▣', 'Art, UI, and VFX for interactive experiences.', '아트, UI/UX, 이펙트 등 비주얼 중심의 작업물입니다.', ['06_StreetTyper.html', '00_NewManzo.html']],
+    ['GAME PROGRAMMING', '♧', 'Gameplay, systems, and engine development.', '게임플레이, 시스템, 엔진 개발 등 프로그래밍 기반의 프로젝트입니다.', ['04_BirdStrike.html', '03_DoubleHit.html', '05_ThinkThink.html', '02_EdgeDirve.html']],
+    ['PRODUCTION', '▱', 'Planning, collaboration, and creative delivery.', '기획, 협업 등 제작 과정 전반의 프로젝트입니다.', ['PlushProduction.html', 'Dangling.html']]
   ];
   archiveGrid.innerHTML = '';
-  groups.forEach(([label, keys]) => {
+  groups.forEach(([label, icon, descriptionEn, descriptionKo, keys]) => {
+    const cards = existingCards.filter(card => keys.some(key => card.getAttribute('href')?.includes(key)));
+    if (!cards.length) return;
     const section = document.createElement('section');
-    section.className = `archive-category${label === 'PRODUCTION' ? ' archive-category--production' : ''}`;
-    section.innerHTML = `<h3>${label}</h3><div class="archive-category__grid"></div>`;
+    section.className = `archive-category archive-category--overview${label === 'PRODUCTION' ? ' archive-category--production' : ''}`;
+    const projectWord = cards.length === 1 ? 'PROJECT' : 'PROJECTS';
+    section.innerHTML = `<header class="archive-category__header"><span class="archive-category__icon" aria-hidden="true">${icon}</span><span><h3>${label}</h3><small>${cards.length} ${projectWord}</small></span></header><p data-en="${descriptionEn}" data-ko="${descriptionKo}">${currentLanguage === 'ko' ? descriptionKo : descriptionEn}</p><div class="archive-category__grid"></div><a class="archive-category__all" href="#" aria-label="View all ${label} projects">VIEW ALL ${cards.length} ${projectWord} <b>→</b></a>`;
     const target = section.querySelector('.archive-category__grid');
-    existingCards.filter(card => keys.some(key => card.getAttribute('href')?.includes(key))).forEach(card => target.appendChild(card));
-    if (target.children.length) archiveGrid.appendChild(section);
+    cards.forEach((card, index) => {
+      card.classList.toggle('is-archive-extra', index > 1);
+      target.appendChild(card);
+    });
+    const allLink = section.querySelector('.archive-category__all');
+    allLink.setAttribute('aria-expanded', 'false');
+    allLink.addEventListener('click', event => {
+      event.preventDefault();
+      if (cards.length === 1) {
+        cards[0].click();
+        return;
+      }
+      archiveGrid.querySelectorAll('.archive-category--overview.is-expanded').forEach(other => {
+        if (other !== section) {
+          other.classList.remove('is-expanded');
+          const otherLink = other.querySelector('.archive-category__all');
+          otherLink?.setAttribute('aria-expanded', 'false');
+          if (otherLink) otherLink.innerHTML = `VIEW ALL ${other.querySelectorAll('.archive-category__grid > a').length} PROJECTS <b>→</b>`;
+        }
+      });
+      section.classList.toggle('is-expanded');
+      section.closest('.archive-panel')?.classList.toggle('has-expanded-category', Boolean(archiveGrid.querySelector('.is-expanded')));
+      allLink.setAttribute('aria-expanded', String(section.classList.contains('is-expanded')));
+      allLink.innerHTML = section.classList.contains('is-expanded') ? 'SHOW LESS <b>↑</b>' : `VIEW ALL ${cards.length} ${projectWord} <b>→</b>`;
+    });
+    archiveGrid.appendChild(section);
   });
 }
 
@@ -141,7 +175,6 @@ function applyPortfolioTrack(requestedTrack, updateUrl = true) {
     if (!app) return;
   app.dataset.track = track;
   refreshArchiveLayout(track);
-  window.setTimeout(() => refreshArchiveLayout(track), 0);
   localStorage.setItem('portfolio-track', track);
   document.title = profile.title;
   document.querySelectorAll('[data-track-role]').forEach(element => { element.textContent = profile.role; });
@@ -1120,6 +1153,8 @@ document.addEventListener('DOMContentLoaded', () => {
     activateScene(activeIndex + direction);
   }
 
+  const isScrollablePanel = panel => panel && ['auto', 'scroll'].includes(getComputedStyle(panel).overflowY) && panel.scrollHeight > panel.clientHeight;
+
   app.addEventListener('wheel', event => {
     const galleryScroller = event.target.closest('.hobby-gallery__track');
     if (galleryScroller) {
@@ -1129,7 +1164,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
       const sceneScroller = event.target.closest('.archive-panel, .experience-board');
-      if (sceneScroller && sceneScroller.scrollHeight > sceneScroller.clientHeight) {
+      if (isScrollablePanel(sceneScroller)) {
         const atTop = sceneScroller.scrollTop <= 1;
         const atBottom = sceneScroller.scrollTop + sceneScroller.clientHeight >= sceneScroller.scrollHeight - 1;
         const canScroll = (event.deltaY < 0 && !atTop) || (event.deltaY > 0 && !atBottom);
@@ -1157,7 +1192,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
     event.preventDefault();
-    if (hobbyMap?.classList.contains('is-open') || graphicsCollection?.classList.contains('is-open')) return;
+    if (hobbyMap?.classList.contains('is-open') || graphicsCollection?.classList.contains('is-open') || app.querySelector('.archive-category--overview.is-expanded')) return;
     if (locked) return;
     wheelDelta += event.deltaY;
     window.clearTimeout(wheelReset);
@@ -1188,7 +1223,7 @@ document.addEventListener('DOMContentLoaded', () => {
     touchStartY = null;
 
     if (event.target.closest('.hobby-gallery__track')) return;
-    if (hobbyMap?.classList.contains('is-open') || graphicsCollection?.classList.contains('is-open')) return;
+    if (hobbyMap?.classList.contains('is-open') || graphicsCollection?.classList.contains('is-open') || app.querySelector('.archive-category--overview.is-expanded')) return;
     if (locked) return;
 
     const touch = event.changedTouches[0];
@@ -1198,7 +1233,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const wantsNext = dy > 0;
     const sceneScroller = event.target.closest('.archive-panel, .experience-board');
-    if (sceneScroller && sceneScroller.scrollHeight > sceneScroller.clientHeight) {
+    if (isScrollablePanel(sceneScroller)) {
       const atTop = sceneScroller.scrollTop <= 1;
       const atBottom = sceneScroller.scrollTop + sceneScroller.clientHeight >= sceneScroller.scrollHeight - 1;
       const canScrollInner = (wantsNext && !atBottom) || (!wantsNext && !atTop);
@@ -1223,12 +1258,19 @@ document.addEventListener('DOMContentLoaded', () => {
       setGraphicsCollection(false);
       return;
     }
+    const expandedCategory = app.querySelector('.archive-category--overview.is-expanded');
+    if (expandedCategory && event.key === 'Escape') {
+      event.preventDefault();
+      expandedCategory.querySelector('.archive-category__all')?.click();
+      return;
+    }
+    if (expandedCategory) return;
     if (hobbyMap?.classList.contains('is-open') || graphicsCollection?.classList.contains('is-open')) return;
 
     const activeScroller = scenes[activeIndex]?.querySelector('.archive-panel, .experience-board');
     const scrollDownKey = ['ArrowDown', 'PageDown', ' '].includes(event.key);
     const scrollUpKey = ['ArrowUp', 'PageUp'].includes(event.key);
-    if (activeScroller && (scrollDownKey || scrollUpKey)) {
+    if (isScrollablePanel(activeScroller) && (scrollDownKey || scrollUpKey)) {
       const atTop = activeScroller.scrollTop <= 1;
       const atBottom = activeScroller.scrollTop + activeScroller.clientHeight >= activeScroller.scrollHeight - 1;
       const canScroll = (scrollDownKey && !atBottom) || (scrollUpKey && !atTop);
@@ -1262,7 +1304,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     const sceneScroller = event.target.closest('.archive-panel, .experience-board');
-    if (sceneScroller && sceneScroller.scrollHeight > sceneScroller.clientHeight) {
+    if (isScrollablePanel(sceneScroller)) {
       dragStartY = event.pointerType !== 'mouse' ? event.clientY : null;
       dragScroller = event.pointerType !== 'mouse' ? sceneScroller : null;
       return;
