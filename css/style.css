@@ -3212,6 +3212,13 @@ body .return-button.project-back-button:hover {
 }
 .link-start-home > .language-toggle button { color: inherit; font-family: inherit; font-weight: 800; }
 .link-start-home > .language-toggle button.active { color: var(--ls-blue); }
+/* Shown plainly for the first ~1.8s (ensureLanguageToggle() in index.js adds/removes these
+   classes once, on load only — scene navigation never touches them again), then fades to
+   fully hidden and only reappears on hover/focus. Still hoverable while invisible: opacity
+   doesn't drop pointer-events like visibility would. */
+.link-start-home > .language-toggle.language-toggle--resting { opacity: 0; }
+.link-start-home > .language-toggle.language-toggle--resting:hover,
+.link-start-home > .language-toggle.language-toggle--resting:focus-within { opacity: 1; }
 
 .link-stage {
   position: absolute;
@@ -3243,6 +3250,11 @@ body .return-button.project-back-button:hover {
     visibility 0s linear 950ms;
 }
 .link-scene[hidden] { display: none !important; }
+/* Decorative background ribbon per home scene (built + grown in once by
+   initSceneVines() in index.js) — sits behind the scene's real content,
+   never intercepts clicks, and stays out of the grid's own centered layout
+   since it's absolutely positioned across the whole scene box. */
+.scene-vine { position:absolute; inset:0; z-index:0; width:100%; height:100%; pointer-events:none; opacity:.5; }
 .link-scene.is-active {
   --scene-z: 0px;
   --scene-scale: 1;
@@ -3724,7 +3736,11 @@ a[data-resume-alternate].is-hidden { display:none !important; }
 
 .profile-orbit {
   position: absolute;
-  right: 12vw;
+  /* Past a certain viewport width, 12vw alone pushes this further from the panel than the
+     panel/photo pair (fixed rem widths) can fill, leaving a growing dead gap between them on wide
+     screens. Past that width, hold both edges to a fixed distance from center instead so the pair
+     stays a tight, centered composition no matter how wide the browser gets. */
+  right: max(12vw, calc(50% - 36.5rem));
   width: min(31vw, 27rem);
   aspect-ratio: 1;
   padding: 1rem;
@@ -3735,7 +3751,7 @@ a[data-resume-alternate].is-hidden { display:none !important; }
 }
 .profile-orbit::before { content: ""; position: absolute; inset: -1.6rem; border: 1px dashed rgba(141,124,244,0.36); border-radius: 50%; animation: link-rotate 30s linear infinite; }
 .profile-orbit img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; filter: saturate(0.85) contrast(1.03); }
-.profile-panel { left: 11vw; width: min(43rem, 46vw); padding: clamp(1.6rem, 3vw, 3rem); border-radius: 1.6rem; }
+.profile-panel { left: max(11vw, calc(50% - 36.5rem)); width: min(43rem, 46vw); padding: clamp(1.6rem, 3vw, 3rem); border-radius: 1.6rem; }
 .profile-panel h2 { font-size: clamp(2.6rem, 5vw, 5rem); }
 .profile-contact-grid { display:flex; flex-wrap:wrap; gap:.6rem; }
 .profile-contact-grid a { padding:.7rem .9rem; border:1px solid var(--ls-line); border-radius:999px; background:transparent; color:var(--ls-blue); font:800 .65rem/1 "Manrope",sans-serif; text-decoration:none; transition:background 180ms ease,color 180ms ease,transform 180ms ease,box-shadow 180ms ease; }

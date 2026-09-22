@@ -76,6 +76,200 @@ function syncProjectTrackLinks(root, track) {
   });
 }
 
+// Decorative background "vine" ribbons, one per home scene — same construction as the
+// prototypes/vine-effect.html prototype (a smoothly-tapered filled ribbon revealed via a
+// dash-animated mask, not a flat stroke), grown in once when the page loads and then left
+// settled as a static background accent behind that scene's real content.
+function initSceneVines() {
+  const svgs = document.querySelectorAll('[data-vine-variant]');
+  if (!svgs.length) return;
+  const svgNS = 'http://www.w3.org/2000/svg';
+
+  const VINE_PATHS = {
+    1: ['M 780,-60 C 940,30 1000,170 900,300 C 800,430 960,450 880,570 C 790,700 580,660 440,610 C 300,560 330,450 190,470 C 40,490 20,630 -80,560 C -170,500 -100,370 30,330 C 160,290 110,160 40,80 C -20,10 -100,-30 -190,-100'],
+    // Entry scene only, portrait viewBox (see applyResponsiveVineVariant below): variant "1"
+    // is drawn for a 1000x700 landscape frame, so on a phone-width viewport `slice` zooms so far
+    // into it that only a near-straight sliver of the curve was ever visible. Two short strands —
+    // one hugging the top, one hugging the bottom of a 500x900 frame — read better on a tall,
+    // narrow screen than one curve stretched down the whole thing, and leave the middle (where the
+    // hero text sits) clear.
+    '1m': [
+      'M 480,-60 C 560,40 420,120 300,160 C 160,200 220,270 100,250 C 20,235 -30,150 -90,190',
+      'M -90,720 C -10,680 30,770 150,750 C 290,725 250,650 390,675 C 480,690 520,770 590,810'
+    ],
+    2: ['M -150,-100 C 40,-30 -20,150 160,180 C 340,210 280,30 450,0 C 580,-22 560,110 690,90 C 780,76 760,-40 620,-90'],
+    3: ['M 1150,-100 C 960,-10 1040,180 860,190 C 700,198 760,40 590,60 C 460,76 500,190 360,150 C 260,120 300,10 200,-60 C 140,-100 70,-90 -40,-120'],
+    4: ['M -100,530 C 60,470 10,620 150,600 C 280,580 260,500 380,490 C 460,483 430,560 500,640'],
+    5: [
+      'M -100,110 C 40,80 30,160 170,140 C 320,118 300,-60 460,-90 C 620,-115 700,20 780,10 C 860,0 900,-40 1000,-60',
+      'M 0,700 C 120,680 140,560 280,540 C 400,525 460,660 550,690 C 650,715 720,560 850,520 C 950,500 1050,460 1150,430'
+    ]
+  };
+
+  const WIDTH_PROFILE = [3, 22, 6, 26, 4, 20, 3, 16];
+  const STRANDS = [
+    { dx: 0, dy: 0, opacity: 1, color: '#7c5cff', scale: 1 },
+    { dx: 9, dy: 7, opacity: 0.6, color: '#8a6ef0', scale: 0.45 },
+    { dx: -7, dy: -9, opacity: 0.4, color: '#a394f5', scale: 0.25 }
+  ];
+  const SAMPLE_COUNT = 90;
+  const MASK_STROKE_WIDTH = 70;
+
+  const smoothstep = t => t * t * (3 - 2 * t);
+  const widthAt = t => {
+    const kf = WIDTH_PROFILE;
+    const kt = t * (kf.length - 1);
+    const k0 = Math.floor(kt);
+    const k1 = Math.min(kf.length - 1, k0 + 1);
+    const w = kf[k0] + (kf[k1] - kf[k0]) * smoothstep(kt - k0);
+    const edgeTaper = Math.min(1, t / 0.035, (1 - t) / 0.035);
+    return Math.max(0, w) * Math.max(0, edgeTaper);
+  };
+  const buildRibbonPath = (centerPts, dx, dy, widthScale) => {
+    const left = [];
+    const right = [];
+    centerPts.forEach(p => {
+      const half = (p.w * widthScale) / 2;
+      left.push((p.x + dx + p.nx * half).toFixed(2) + ',' + (p.y + dy + p.ny * half).toFixed(2));
+      right.push((p.x + dx - p.nx * half).toFixed(2) + ',' + (p.y + dy - p.ny * half).toFixed(2));
+    });
+    right.reverse();
+    const path = document.createElementNS(svgNS, 'path');
+    path.setAttribute('d', 'M ' + left.join(' L ') + ' L ' + right.join(' L ') + ' Z');
+    return path;
+  };
+
+  // Entry scene ("first page") only: below the desktop breakpoint it uses the portrait "1m"
+  // variant/viewBox instead of "1". dataset.vineBaseVariant keeps the original number around so
+  // this can be recomputed on every resize (a phone rotated, or a desktop window dragged narrow)
+  // instead of only ever being decided once at page load.
+  svgs.forEach(svg => {
+    if (!svg.dataset.vineBaseVariant) svg.dataset.vineBaseVariant = svg.dataset.vineVariant;
+  });
+  const effectiveVariant = svg => {
+    const base = svg.dataset.vineBaseVariant;
+    const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
+    return (isMobileViewport && base === '1') ? '1m' : base;
+  };
+
+  const buildVine = (svg, variant) => {
+    const paths = VINE_PATHS[variant];
+    if (!paths) return;
+    svg.setAttribute('viewBox', variant === '1m' ? '0 0 500 900' : '0 0 1000 700');
+    svg.innerHTML = '';
+    svg.dataset.vineVariant = variant;
+    svg.dataset.vineBuiltFor = variant;
+    const defs = document.createElementNS(svgNS, 'defs');
+    svg.appendChild(defs);
+    const maskPaths = [];
+
+    paths.forEach((d, groupIndex) => {
+      const measure = document.createElementNS(svgNS, 'path');
+      measure.setAttribute('d', d);
+      measure.style.visibility = 'hidden';
+      svg.appendChild(measure);
+      const totalLength = measure.getTotalLength();
+      const centerPts = [];
+      for (let i = 0; i <= SAMPLE_COUNT; i++) {
+        const t = i / SAMPLE_COUNT;
+        const pt = measure.getPointAtLength(t * totalLength);
+        centerPts.push({ x: pt.x, y: pt.y, t });
+      }
+      for (let i = 0; i <= SAMPLE_COUNT; i++) {
+        const prev = centerPts[Math.max(0, i - 1)];
+        const next = centerPts[Math.min(SAMPLE_COUNT, i + 1)];
+        const tx = next.x - prev.x;
+        const ty = next.y - prev.y;
+        const tl = Math.hypot(tx, ty) || 1;
+        centerPts[i].nx = -ty / tl;
+        centerPts[i].ny = tx / tl;
+        centerPts[i].w = widthAt(centerPts[i].t);
+      }
+      svg.removeChild(measure);
+
+      const maskId = `scene-vine-mask-${svg.dataset.vineVariant}-${groupIndex}-${Math.random().toString(36).slice(2, 8)}`;
+      const mask = document.createElementNS(svgNS, 'mask');
+      mask.setAttribute('id', maskId);
+      mask.setAttribute('maskUnits', 'userSpaceOnUse');
+      const maskPath = document.createElementNS(svgNS, 'path');
+      maskPath.setAttribute('d', d);
+      maskPath.setAttribute('fill', 'none');
+      maskPath.setAttribute('stroke', '#fff');
+      maskPath.setAttribute('stroke-width', String(MASK_STROKE_WIDTH));
+      maskPath.setAttribute('stroke-linecap', 'round');
+      maskPath.setAttribute('stroke-linejoin', 'round');
+      mask.appendChild(maskPath);
+      defs.appendChild(mask);
+
+      const g = document.createElementNS(svgNS, 'g');
+      g.setAttribute('mask', `url(#${maskId})`);
+      svg.appendChild(g);
+
+      STRANDS.forEach(strand => {
+        const ribbon = buildRibbonPath(centerPts, strand.dx, strand.dy, strand.scale);
+        ribbon.setAttribute('fill', strand.color);
+        ribbon.setAttribute('stroke', 'none');
+        ribbon.setAttribute('opacity', String(strand.opacity));
+        g.appendChild(ribbon);
+      });
+
+      maskPath.style.strokeDasharray = String(totalLength);
+      maskPath.style.transition = 'none';
+      maskPath.style.strokeDashoffset = String(totalLength);
+      maskPaths.push({ el: maskPath, delay: groupIndex * 500, length: totalLength });
+    });
+
+    // Built hidden (full dashoffset) and left that way — playSceneVine() is what
+    // actually grows it in, called from activateScene() the moment this scene
+    // becomes active, not here. That's what makes the reveal start exactly when
+    // the page is switched to, instead of everything growing in at page load
+    // while only the entry scene is visible.
+    svg._playVine = () => {
+      maskPaths.forEach(({ el, delay, length }) => {
+        // Snap back to fully hidden first (no transition) so revisiting this
+        // scene always redraws the vine from scratch, even mid-animation.
+        window.clearTimeout(el._vineTimer);
+        el.style.transition = 'none';
+        el.style.strokeDashoffset = String(length);
+        el.getBoundingClientRect();
+        el._vineTimer = window.setTimeout(() => {
+          requestAnimationFrame(() => {
+            el.style.transition = 'stroke-dashoffset 2.4s cubic-bezier(0.65, 0, 0.35, 1)';
+            el.style.strokeDashoffset = '0';
+          });
+        }, delay);
+      });
+    };
+  };
+
+  svgs.forEach(svg => buildVine(svg, effectiveVariant(svg)));
+
+  // Re-check on resize (window dragged narrower/wider, phone rotated) instead of only ever
+  // deciding once at page load — a scene left mid-viewport-change would otherwise keep whichever
+  // variant happened to be active when the page first opened.
+  let resizeVineTimer;
+  window.addEventListener('resize', () => {
+    window.clearTimeout(resizeVineTimer);
+    resizeVineTimer = window.setTimeout(() => {
+      svgs.forEach(svg => {
+        const next = effectiveVariant(svg);
+        if (svg.dataset.vineBuiltFor === next) return;
+        buildVine(svg, next);
+        // Rebuilding replaces the SVG's content, so a scene that's on screen right now needs its
+        // vine grown back in immediately rather than sitting empty until its next activation.
+        const scene = svg.closest('.link-scene');
+        if (scene && scene.classList.contains('is-active')) svg._playVine();
+      });
+    }, 150);
+  }, { passive: true });
+}
+
+// Called from activateScene() whenever a scene becomes the active one — grows that
+// scene's vine in from scratch every time, including revisits, not just the first time.
+function playSceneVine(scene) {
+  scene?.querySelector('[data-vine-variant]')?._playVine?.();
+}
+
 function refreshArchiveLayout(track) {
   const archiveGrid = document.querySelector('.link-archive-grid');
   if (!archiveGrid) return;
@@ -233,21 +427,32 @@ function applyPortfolioTrack(requestedTrack, updateUrl = true) {
 }
 
 function ensureLanguageToggle() {
-  if (document.querySelector('.language-toggle')) return;
-
-  document.body.insertAdjacentHTML('afterbegin', `
-    <div class="language-toggle" role="group" aria-label="Language">
-      <button type="button" data-lang="en">EN</button>
-      <span aria-hidden="true">/</span>
-      <button type="button" data-lang="ko">KR</button>
-    </div>
-  `);
-  if (document.body.classList.contains('project-detail-page') || /\/(portfolio_game|portfolio_planning|portfolio)\//.test(location.pathname)) {
-    const toggle = document.querySelector('.language-toggle');
-    toggle?.classList.add('language-toggle--intro');
+  // index.html already has a static .language-toggle in its markup (unlike the project-detail
+  // pages, which get theirs inserted here) — grab that existing one instead of bailing out, or
+  // the intro/resting timing below would never run on the homepage at all.
+  let toggle = document.querySelector('.language-toggle');
+  if (!toggle) {
+    document.body.insertAdjacentHTML('afterbegin', `
+      <div class="language-toggle" role="group" aria-label="Language">
+        <button type="button" data-lang="en">EN</button>
+        <span aria-hidden="true">/</span>
+        <button type="button" data-lang="ko">KR</button>
+      </div>
+    `);
+    toggle = document.querySelector('.language-toggle');
+  }
+  // Only ever start this timer once per page load, no matter how many times this function
+  // gets called (e.g. on every track switch) — a second timer would restart the fade-out.
+  if (toggle.dataset.introTimed) return;
+  toggle.dataset.introTimed = 'true';
+  if (document.body.classList.contains('project-detail-page') || document.body.classList.contains('link-start-home') || /\/(portfolio_game|portfolio_planning|portfolio)\//.test(location.pathname)) {
+    toggle.classList.add('language-toggle--intro');
     window.setTimeout(() => {
-      toggle?.classList.remove('language-toggle--intro');
-      toggle?.classList.add('language-toggle--resting');
+      toggle.classList.remove('language-toggle--intro');
+      toggle.classList.add('language-toggle--resting');
+      // Home only: once it's settled into "resting" (hidden until hovered), it stays that
+      // way for the rest of the visit — scene navigation (entry → proof reel, etc.) never
+      // rebuilds this toggle or re-runs this timer, so switching scenes can't bring it back.
     }, 1800);
   }
 }
@@ -327,6 +532,7 @@ function applyLanguage(language) {
   }
   refreshArchiveLayout(activeTrack);
   ensureLanguageToggle();
+  initSceneVines();
   const techStrip = document.querySelector('.tech-stack-strip');
   if (techStrip) {
     const skills = [...techStrip.querySelectorAll('.tech-stack-strip__track > span:not(.tech-stack-strip__dup)')];
@@ -1145,6 +1351,10 @@ document.addEventListener('DOMContentLoaded', () => {
       scene.classList.toggle('is-past', sceneIndex < activeIndex);
       scene.classList.toggle('is-near-next', sceneIndex === activeIndex + 1);
       scene.setAttribute('aria-hidden', String(sceneIndex !== activeIndex));
+      // Grow this scene's background vine in from scratch right as it becomes active —
+      // not before (so it doesn't finish growing off-screen while another scene is up),
+      // and every time (so revisiting an earlier scene replays it too).
+      if (sceneIndex === activeIndex) playSceneVine(scene);
     });
 
     navButtons.forEach(button => {
