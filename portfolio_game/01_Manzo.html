@@ -42,6 +42,25 @@
 
 <body>
 <!-- CRAWLER NOTE: every element below (hero title/media, overview, bullets, contributions) is an empty/placeholder shell that js/project-template.js fills in at runtime from js/projects-data.js["01_Manzo"] -- read that object for the real, current content, pinned/type flags, and any (IN PRODUCTION / UNFINISHED) or (THIS IS DE-EMPHASIZED / COLLAPSED BY DEFAULT!) notes on it. -->
+<section class="crawler-fallback visually-hidden" aria-hidden="false">
+  <h1>MANZO</h1>
+  
+  <h2>Role</h2>
+  <p>Graphics/Engine Programmer &middot; Technical Artist &middot; Production Lead</p>
+  <h2>Tools</h2>
+  <p>C++, OpenGL, GLSL, Custom Engine</p>
+  <h2>Problem</h2>
+  <p>Building a rhythm Metroidvania psychological-horror game needed a custom C++/OpenGL renderer, collision that would not tunnel through geometry on fast beat-driven dashes, stable narrative state across scene transitions, and a severe boss-encounter slowdown fixed.</p>
+  <h2>What I Built</h2>
+  <ul>
+    <li>Custom multi-pass OpenGL renderer with layer-sorted draw queues and a framebuffer post-processing chain (bloom, distortion, god rays, ripples)</li>
+    <li>Continuous (swept/time-of-impact) collision via binary search to prevent dash tunneling</li>
+    <li>Promoted dialogue/scenario ownership to engine-level services so state survives scene transitions</li>
+    <li>Traced and removed redundant per-frame collision checks causing a severe boss-fight slowdown</li>
+  </ul>
+  <h2>Result</h2>
+  <p>Stabilized boss-fight performance, reliable narrative events across state changes, and a reusable custom engine foundation later built on in Double Hit.</p>
+</section>
     <header class="navbar">
         <div class="navbar-logo">LOGO</div>
         <nav class="navbar-menu">

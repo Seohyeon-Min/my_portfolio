@@ -42,6 +42,25 @@
 
 <body>
 <!-- CRAWLER NOTE: every element below (hero title/media, overview, bullets, contributions) is an empty/placeholder shell that js/project-template.js fills in at runtime from js/projects-data.js["03_DoubleHit"] -- read that object for the real, current content, pinned/type flags, and any (IN PRODUCTION / UNFINISHED) or (THIS IS DE-EMPHASIZED / COLLAPSED BY DEFAULT!) notes on it. -->
+<section class="crawler-fallback visually-hidden" aria-hidden="false">
+  <h1>Double Hit</h1>
+  
+  <h2>Role</h2>
+  <p>Systems Programmer &middot; Art/Audio &middot; Production Lead</p>
+  <h2>Tools</h2>
+  <p>C++, GLSL, OpenGL, Spriter Pro, Clip Studio Paint, GitHub</p>
+  <h2>Problem</h2>
+  <p>DigiPen CS230's course engine needed a real sprite/texture/collision pipeline built on top of its GameObject/Component skeleton, plus a hardcoded ~30-platform level layout that required recompiling C++ for any change.</p>
+  <h2>What I Built</h2>
+  <ul>
+    <li>Wrote the sprite-file parser (textures, animation frames, hotspots, collision shapes)</li>
+    <li>Built a filename-keyed texture cache with dedup</li>
+    <li>Implemented the GameObjectManager's per-frame update/draw/collision-dispatch loop</li>
+    <li>Built a PlatformManager parsing a custom .plf level-data format to replace hardcoded platform coordinates</li>
+  </ul>
+  <h2>Result</h2>
+  <p>Systems supported a shipped two-player co-op game and became the direct foundation later expanded into MANZO's renderer, collision, and engine systems.</p>
+</section>
     <header class="navbar">
         <div class="navbar-logo">LOGO</div>
         <nav class="navbar-menu">
