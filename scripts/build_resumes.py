@@ -230,6 +230,10 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
     # Poseidon Skate replaces the former Wave Simulator entry and expands the evidence
     # with Blender modeling/rigging, wave/ocean shaders, and a VFX shader.
     ta_selected = [
+        ("CARBOOM", "2026 – In Production", [
+            "Building an artist-facing Unreal Engine editor tool (Python) that places space-background planets by apparent size/clustering via an artist-editable DataAsset — no code required."
+        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/09_Carboom.html",
+           "Gameplay Programmer / Technical Art — Tools | Unreal Engine / Python / C++ / Perforce / Jira", True),
         ta_project("POSEIDON SKATE", [
             "Built ocean, wave, and tornado HLSL shaders (flow noise, domain warping, Voronoi caustics) as a rideable procedural water surface.",
             "Modeled and rigged a low-poly Poseidon character in Blender (25-bone skeleton) and integrated it into Unity via FBX.",
@@ -272,8 +276,7 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
          "https://seohyeon-min.github.io/my_portfolio/portfolio_game/04_BirdStrike.html"),
     ]
     ta_skills = [
-        ("Graphics / Tools", "OpenGL, GLSL, Unity URP, ShaderLab, Blender (modeling, rigging), RenderDoc; UI shaders, framebuffer post-processing, procedural animation, C# editor tools and presets"),
-        ("Unreal Engine", "Basic VFX asset setup and modification with Cascade and Niagara (EDGE DRIVE)"),
+        ("Graphics / Tools", "OpenGL, GLSL, Unity URP, ShaderLab, Unreal Engine (Python editor tooling, DataAsset-driven placement systems, Cascade/Niagara VFX), Blender (modeling, rigging), RenderDoc; UI shaders, framebuffer post-processing, procedural animation, C# editor tools and presets"),
         ("Programming", "C++, C#, C, Python, JavaScript; object-oriented programming, gameplay/engine architecture, debugging, performance profiling"),
         ("Workflow", "Git branching and merge review, Perforce, Jira, GitHub Projects/Issues, Notion, CMake, Visual Studio; technical feedback and visual integration"),
     ]
@@ -281,10 +284,10 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
         ta_role = "TECHNICAL ARTIST | GRAPHICS PROGRAMMER"
         ta_summary = "Technical artist and graphics programmer building real-time visual systems, content creation tools, and reusable shader workflows in Unity and C++/OpenGL. Combines hands-on art integration with rendering implementation, procedural animation, and performance debugging."
         build(DOCS/"Resume_TA_Graphics.pdf", ta_role, ta_summary, ta_selected, ta_add, ta_skills, BLUE,
-              additional_title="Additional Projects", bullet_size=7.05, project_gap=2.0, skill_pad=2.5)
+              additional_title="Additional Projects", bullet_size=7.05, project_gap=1.6, skill_pad=2.2)
         build(DOCS/"Resume.pdf", ta_role, ta_summary, ta_selected, ta_add, ta_skills, BLUE,
               additional_title="Additional Projects",
-              bullet_size=7.05, project_gap=2.0, skill_pad=2.5)
+              bullet_size=7.05, project_gap=1.6, skill_pad=2.2)
 
     if build_gameplay:
         gameplay_selected = [
