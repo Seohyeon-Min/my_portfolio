@@ -124,10 +124,15 @@
         </div>
       `;
     } else if (project.heroType === 'video') {
+      // Reuses heroActionsHTML (itch.io + Steam side by side) instead of the old single
+      // itch-only link wrapping the title — that older version had no Steam button at all,
+      // so a project with both links (Street Typer) silently lost the Steam button the moment
+      // its hero switched from an image to a video.
       heroSection.innerHTML = `
         <video src="${project.heroMedia}" autoplay muted loop playsinline preload="auto" ${project.heroPoster ? `poster="${project.heroPoster}"` : ''}></video>
         <div class="video-overlay">
-          ${project.heroLink ? `<a class="hero-title-link" href="${project.heroLink}" target="_blank" rel="noopener" aria-label="${t('Play ' + project.title + ' on itch.io', 'itch.io에서 ' + project.title + ' 플레이')}"><h1 class="${project.heroTitleClass || 'game-title'}">${project.title}</h1><span>${t('PLAY ON ITCH.IO ↗', 'ITCH.IO에서 플레이 ↗')}</span></a>` : `<h1 class="${project.heroTitleClass || 'game-title'}">${project.title}</h1>`}
+          <h1 class="${project.heroTitleClass || 'game-title'}">${project.title}</h1>
+          ${heroActionsHTML}
           <p class="${project.heroSubtitleClass || 'game-subtitle'}">${project.subtitle}</p>
         </div>
       `;

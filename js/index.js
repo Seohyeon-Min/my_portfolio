@@ -37,11 +37,14 @@ const portfolioTracks = {
     },
     // PROOF REEL (graphics track) — array order IS the emphasis order: card 0 renders biggest/
     // first in .proof-reel__projects, so it's the single most-emphasized project on the whole
-    // homepage for this track. All four are equally "finished/shipped" here (no WIP tag needed).
+    // homepage for this track. Carboom (card 2) is (IN PRODUCTION / UNFINISHED — LOWER
+    // CONFIDENCE); the other three are finished/shipped.
     proofProjects: [
       { key: 'poseidon', title: 'POSEIDON SKATE', lead: 'TECHNICAL ART / SHADER', meta: 'UNITY URP · HLSL · BLENDER · TEAM PROJECT', href: 'portfolio_game/08_PoseidonSkate.html', image: 'img/WaveSimulator/img1.png' }, // <- most-emphasized: card 0
       { key: 'manzo', title: 'MANZO · CUSTOM RENDERER', lead: 'GRAPHICS / ENGINE PROGRAMMER', meta: 'OPENGL · PING-PONG FBO · POST-PROCESSING', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' },
-      { key: 'newmanzo', title: 'NEW MANZO', lead: 'VISUAL LEAD / PRODUCER', meta: 'UNITY · C# · UNDERWATER FX · PROCEDURAL ANIM', href: 'portfolio_game/00_NewManzo.html', image: 'img/portfolio_thumbnails/NewManzo.png' },
+      // (IN PRODUCTION / UNFINISHED — LOWER CONFIDENCE): swapped in for New Manzo. No finished
+      // screenshot yet, so this uses the same placeholder thumbnail as its ALL PROJECTS card.
+      { key: 'carboom', title: 'CARBOOM', lead: 'GAMEPLAY / TECH ART — TOOLS', meta: 'UNREAL ENGINE · PYTHON · PLANET AUTO-PLACEMENT', href: 'portfolio_game/09_Carboom.html', image: 'img/portfolio_thumbnails/Carboom_placeholder.svg' },
       { key: 'street', title: 'STREET TYPER', lead: 'VISUAL LEAD', meta: 'UI SHADERS · VFX · GAME FEEL', href: 'portfolio_game/06_StreetTyper.html', image: 'img/StreetTyper/title2.png' } // <- least-emphasized of these four: card 3, last
     ]
   },
@@ -602,7 +605,7 @@ function applyLanguage(language) {
     const cards = [...document.querySelectorAll('.link-archive-grid a, .portfolio__item[href]')];
     const projectTools = {
       '02_EdgeDirve.html': 'Unreal Engine',
-      '09_Carboom.html': 'Unreal Engine C++ Python',
+      '09_Carboom.html': 'Unreal Engine C++ Python Perforce Jira',
       '00_NewManzo.html': 'C# FMOD HLSL Clip Studio Paint Aseprite GitHub', '01_Manzo.html': 'C++ OpenGL GLSL Custom Engine Clip Studio Paint GitHub',
       '03_DoubleHit.html': 'C++ GLSL OpenGL Spriter Pro Clip Studio Paint GitHub', '04_BirdStrike.html': 'C++ Clip Studio Paint Cakewalk raylib GitHub',
       '05_ThinkThink.html': 'Unity HLSL C# GitHub', '06_StreetTyper.html': 'C# Unity Spriter Pro 2D Rigging Animation HLSL Clip Studio Paint GitHub',

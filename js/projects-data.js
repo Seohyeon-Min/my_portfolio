@@ -1068,11 +1068,11 @@ const projectsData = {
     title: "STREET TYPER",
     subtitle: "Type a combo. Finish with an action. Hit back.",
     pageTitle: "Street Typer — Min Seohyeon Portfolio",
-    heroType: "image",
-    heroMedia: "../img/StreetTyper/title2.png",
+    heroType: "video",
+    heroMedia: "../img/StreetTyper/STTrailer_ko1.mp4",
+    heroPoster: "../img/StreetTyper/hero.png",
     heroLink: "https://handalhandal.itch.io/streettyper",
     steamLink: "https://store.steampowered.com/app/5129590/StreetTyper/",
-    heroImageContainsTitle: true,
     overviewImage: "../img/StreetTyper/concept.png",
     overview: "Type and fight! A deck-building typing-action roguelite about a girl fighting to earn her dragon mother's approval.",
     features: [
@@ -1293,9 +1293,943 @@ const projectsData = {
       period: "2026 · Team project (in production)",
       description: "Own gameplay core and technical art on a team Unreal Engine project, building editor tooling — procedural space-background placement and a demolition system — while collaborating with two artists on the game's look."
     },
-    tools: "Unreal Engine · Python (Unreal Editor scripting) · C++",
+    tools: "Unreal Engine · Python (Unreal Editor scripting) · C++ · Perforce · Jira",
     trailers: [],
     videos: [],
+    contributions: {
+      sections: [
+        {
+          title: "Procedural Space Background Tool",
+          category: "Technical",
+          htmlContent: `<section><h2>An Editor Tool That Places Planets by How They Look, Not Just Where They Are</h2><p class="case-study-lede">The space background is only ever seen from one fixed point (the arena), so I built the placement tool around apparent size and on-screen spacing instead of raw 3D coordinates &mdash; then iterated the composition and clustering rules after visually reviewing early passes in-editor.</p>${renderEngineeringCaseStudy({metrics:[{icon:"◉",value:"View-space",label:"composition, not 3D distance"},{icon:"⌘",value:"DataAsset",label:"artist-tunable zones"},{icon:"◈",value:"Leader/follower",label:"cluster size hierarchy"},{icon:"↻",value:"Idempotent",label:"generate/clear, re-runnable"}],architecture:[{title:"Settings DataAsset",detail:"Artist-tunable zones, cluster, and accessory parameters"},{title:"Zone + cluster planning",detail:"Decide counts/sizes, pre-build clusters as one “disc” each"},{title:"View-space composition",detail:"Place largest-apparent-size first, spacing/density checked as angles from the arena"},{title:"Accessory pass",detail:"Ring-constrained moons attached to qualifying parents"},{title:"Spawn / clear",detail:"Idempotent actor spawn, label-prefixed for one-click cleanup"}],cases:[{label:"Composition",title:"Placing by apparent size instead of real distance",problem:"The background is only ever seen from one fixed arena viewpoint, so real 3D distance doesn't match what actually reads on screen — a far big planet and a near small one can look the same size, and naive random placement produced uneven, unbalanced skies.",decision:"Compute everything — apparent size, spacing, and local density — as angles and solid angle from the arena, not 3D position.",implementation:"to_view() converts a planet's location/radius into an apparent angular radius; fits_composition() enforces a geometric-mean spacing rule (big+big far apart, small+small can sit close) and a probabilistic density budget so already-crowded areas rarely accept more, without a hard cutoff that would leave visible gaps.",verification:"Iterated visually with the tool's own generate/clear cycle in-editor until the sky read as evenly weighted instead of clumping on one side."},{label:"Iteration",title:"A curve couldn't express what the composition needed",problem:"The first version sampled size from a ScaleDistribution curve, but curves can't express “this many planets of this size around this distance,” and splitting total distance into ratios (like gradient stops) doesn't work in a Blueprint DataAsset — editing one entry doesn't renormalize the others back to summing to 1.",decision:"Replace the curve with an explicit ScaleZones array: each zone gets its own count, scale range, and distance range, and zones are allowed to overlap instead of being forced to partition the whole range.",implementation:"Also hit Blueprint struct members getting mangled internal names (e.g. “Count_2_ABCD…”); get_struct_value() falls back to parsing export_text() when get_editor_property() fails on the mangled name.",verification:"Zone ranges and counts are logged to the Output Log on every run so an artist tuning the DataAsset can confirm what actually got read."},{label:"Clustering",title:"Fixing “rich-get-richer” clumping and same-size clusters",problem:"The first clustering approach dropped small planets near whichever small planet was already placed, which snowballed into one dense clump versus scattered big planets instead of an even mix — and even after that was fixed, same-sized members scattered evenly inside a disc looked uniform and unnatural, like a pile of eggs.",decision:"Pre-build clusters sized with 1/n weighting (many small clusters, occasional big ones) and place each cluster as its own disc under the same spacing/density rules as a single big planet; then force a leader-plus-followers size hierarchy inside each cluster instead of same-sized members.",implementation:"build_clusters() picks a leader (largest) and smallest member and enforces a minimum leader/smallest scale ratio; cluster_offset() scatters members with a Gaussian (dense center, sparse edge) instead of a uniform disc fill, plus a slight elliptical stretch per cluster so shapes don't all read as perfect circles.",verification:"Max cluster size was tuned down from 12 to 7 members after an in-editor visual pass looked too densely packed."}],decisions:[{system:"Background placement",choice:"View-space composition (angle/solid-angle math)",reason:"Matches what's actually seen from the one fixed camera point.",tradeoff:"More math than naive 3D scatter; O(n²) composition checks per placement."},{system:"Size/count control",choice:"ScaleZones DataAsset array",reason:"Artist-tunable per zone without touching Python.",tradeoff:"Zones can overlap instead of neatly partitioning distance."},{system:"Small planets",choice:"Pre-built leader/follower clusters",reason:"Reads as a natural, uneven grouping instead of a uniform scatter.",tradeoff:"Extra clustering pass before the main placement loop."},{system:"Accessory moons",choice:"Ring-constrained direction (not a full cone)",reason:"Keeps them visibly offset from the parent instead of hiding or overlapping it.",tradeoff:"Narrower valid placement area, more re-rolls when space is tight."}],note:"no source link is included here — the case study above is described directly from the implementation and its in-code design notes."})}<details class="technical-deep-dive full-source"><summary><span>Code</span><strong>Show full source — space_background.py</strong></summary><div class="technical-deep-dive-body"><p>Pasted in full from the private Perforce depot (no public repo to link to) — the exact, current version of the script discussed above.</p><pre><code>import unreal
+import random
+import math
+
+SETTINGS_PATH = "/Game/Editor/DA_SpaceBackgroundSettings"
+
+# /Engine/BasicShapes/Sphere 의 반지름 (스케일 1 기준)
+# Radius of /Engine/BasicShapes/Sphere at scale 1.
+SPHERE_RADIUS = 50.0
+
+# 정수리(바로 위)에서 이 각도 안쪽은 비워둠.
+# 아레나에서 시선이 주로 수평~비스듬히 가니까 머리 위에 있는 행성은 거의 안 보임.
+# 0이면 반구 전체, 30이면 머리 위 30도 원은 비움
+# Leave this angle around the zenith (straight up) empty.
+# From the arena the view is mostly horizontal to diagonal, so planets overhead are rarely seen.
+# 0 = whole hemisphere, 30 = keep a 30-degree circle overhead empty.
+ZENITH_EXCLUDE_ANGLE = 30.0
+
+# 스폰 가능한 방향의 z 최대값 (ZENITH_EXCLUDE_ANGLE에서 계산)
+# Max z of a spawn direction (derived from ZENITH_EXCLUDE_ANGLE).
+MAX_Z_DIR = math.cos(math.radians(ZENITH_EXCLUDE_ANGLE))
+
+# 최소거리/컴포지션 못 맞출 때 위치 다시 뽑는 횟수
+# How many times to re-roll a position when spacing/composition checks fail.
+MAX_PLACE_ATTEMPTS = 50
+
+# 밀도 계산할 때 "주변"으로 보는 범위 (아레나에서 본 각도)
+# Neighborhood size for the density check (angle as seen from the arena).
+NEIGHBOR_ANGLE = 20.0
+
+# 평균 밀도의 몇 배까지 여유를 줄지. 낮추면 더 균등, 높이면 더 뭉침 허용
+# How far above average density a spot may go. Lower = more even, higher = allows more clumping.
+DENSITY_TOLERANCE = 1.5
+
+# 무리 하나에 들어가는 작은 행성 수 범위 (작은 무리가 더 자주 나옴)
+# 12까지 뒀더니 알 무더기처럼 빽빽해서 징그러움 -&gt; 7로 줄임
+# Range of small planets per cluster (small clusters appear more often).
+# Up to 12 looked packed and creepy, like a pile of eggs -&gt; reduced to 7.
+CLUSTER_SIZE_MIN = 2
+CLUSTER_SIZE_MAX = 7
+
+# 무리가 퍼지는 범위 = 이 값 × √멤버수 (아레나에서 본 각도)
+# 2개면 약 3.5도, 7개면 약 6.6도
+# Cluster spread = this value x sqrt(member count) (angle as seen from the arena).
+# About 3.5 degrees for 2 members, about 6.6 degrees for 7.
+CLUSTER_SPREAD_PER_MEMBER = 2.5
+
+# 무리 안에서 대장(가장 큰 것) / 가장 작은 것 스케일 비율 최소값
+# 크기가 다 비슷하면 징그러워서 크기 계층을 강제함
+# Minimum scale ratio between the leader (largest) and the smallest member of a cluster.
+# Same-sized members look creepy, so a size hierarchy is enforced.
+CLUSTER_MIN_SIZE_RATIO = 3.0
+
+# 무리 멤버 거리를 대장 거리의 ±몇 %로 맞출지.
+# 거리가 제각각이면 멀어서 작아 보이는 게 섞여서 크기 계층이 화면에서 흐려짐
+# Keep cluster members within +/- this fraction of the leader's distance.
+# With random distances, far members look smaller and the size hierarchy gets blurred on screen.
+CLUSTER_DEPTH_JITTER = 0.1
+
+# 무리 모양을 최대 몇 배까지 길쭉하게 늘릴지 (1 = 원형)
+# 원형이면 격자처럼 고르게 보여서 살짝 타원으로 찌그러뜨림
+# Max stretch of a cluster's shape (1 = circle).
+# A perfect circle looks grid-like and even, so clusters are squashed into slight ellipses.
+CLUSTER_MAX_STRETCH = 1.8
+
+# 악세사리 행성이 붙는 링의 각도 범위 (기준 행성 -&gt; 아레나 방향 기준)
+# 기존엔 원뿔(0~30도)이었는데 아레나-악세-기준 행성이 일자로 서서 못생겨서
+# 가운데를 뺀 링으로 바꿈
+# MIN을 키우면 옆으로 더 벌어지고, MAX가 90에 가까우면 기준 행성 옆면까지 감
+# Angle range of the ring where accessory planets attach (around the parent -&gt; arena direction).
+# It used to be a cone (0-30 degrees), but arena, accessory and parent lined up and looked ugly,
+# so the center was cut out, making it a ring.
+# Raising MIN pushes accessories further to the side; MAX near 90 reaches the parent's side.
+ACCESSORY_RING_MIN_ANGLE = 45.0
+ACCESSORY_RING_MAX_ANGLE = 75.0
+
+
+def get_settings():
+    settings = unreal.load_asset(SETTINGS_PATH)
+
+    if not settings:
+        raise RuntimeError(
+            f"Could not load settings asset: {SETTINGS_PATH}"
+        )
+
+    return settings
+
+
+def get_struct_value(struct, name):
+    # BP 스트럭쳐는 내부 이름이 "Count_2_ABCD..." 식으로 붙어서
+    # get_editor_property가 실패하면 export_text에서 직접 찾음
+    # Blueprint struct members get internal names like "Count_2_ABCD...",
+    # so if get_editor_property fails, look the value up in export_text.
+    try:
+        return struct.get_editor_property(name)
+    except Exception:
+        pass
+
+    text = struct.export_text().strip("()")
+
+    for pair in text.split(","):
+        key, _, value = pair.partition("=")
+
+        if key == name or key.startswith(name + "_"):
+            return float(value)
+
+    raise RuntimeError(f"Could not find '{name}' in {text}")
+
+
+# 처음엔 MinDistance~MaxDistance 전체에 랜덤 배치하고,
+# 크기는 ScaleDistribution 커브를 가중치로 샘플링해서 비율을 정했음.
+# 근데 커브로는 "이 크기대는 몇 개, 어느 거리쯤" 같은 커스텀이 너무 어려워서
+# ScaleZones 배열로 구간을 나누는 방식으로 바꿈.
+# 각 구간마다 개수(Count), 스케일 범위(MinScale~MaxScale),
+# 거리 범위(MinDistance~MaxDistance)를 직접 지정.
+# (중간에 전체 거리를 그래디언트 스톱처럼 비율(0~1)로 나누려고 했는데,
+#  블루프린트 DataAsset에선 한 칸 바꿀 때 나머지가 자동으로 조정돼서
+#  총합이 1로 맞춰지게 할 수가 없었음.
+#  그래서 그냥 구간마다 최소~최대 거리를 직접 두는 걸로 바꿈. 구간끼리 겹쳐도 됨.)
+# Originally planets were placed randomly across MinDistance-MaxDistance,
+# and sizes were sampled using the ScaleDistribution curve as weights.
+# But a curve made it too hard to control things like "this many of this size, at about this distance",
+# so it was replaced with a ScaleZones array.
+# Each zone sets its own count (Count), scale range (MinScale-MaxScale)
+# and distance range (MinDistance-MaxDistance).
+# (In between, we tried splitting the total distance by ratios (0-1) like gradient stops,
+#  but a Blueprint DataAsset can't auto-adjust the other entries when one changes,
+#  so the ratios couldn't be kept summing to 1.
+#  So each zone just gets its own min-max distance instead. Zones may overlap.)
+def read_zones(settings):
+    zones = []
+
+    for zone in settings.get_editor_property("ScaleZones"):
+        zones.append({
+            "count": int(get_struct_value(zone, "Count")),
+            "min_scale": get_struct_value(zone, "MinScale"),
+            "max_scale": get_struct_value(zone, "MaxScale"),
+            "min_distance": get_struct_value(zone, "MinDistance"),
+            "max_distance": get_struct_value(zone, "MaxDistance"),
+        })
+
+    if not zones:
+        raise RuntimeError("ScaleZones is empty")
+
+    return zones
+
+
+def read_accessory_settings(settings):
+    return {
+        "parent_min_scale": settings.get_editor_property("AccessoryParentMinScale"),
+        "min_scale": settings.get_editor_property("AccessoryMinScale"),
+        "max_scale": settings.get_editor_property("AccessoryMaxScale"),
+        "gap": settings.get_editor_property("AccessoryGap"),
+        "chance": settings.get_editor_property("AccessoryChance"),
+    }
+
+
+def vec_length(v):
+    return math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2])
+
+
+def vec_distance(a, b):
+    return vec_length((a[0] - b[0], a[1] - b[1], a[2] - b[2]))
+
+
+def planet_radius(scale):
+    return SPHERE_RADIUS * scale
+
+
+def has_space(location, radius, placed, min_gap, ignore=None):
+    # 모든 행성과 표면끼리 min_gap 이상 떨어져 있는지
+    # 주의! 배치할 때마다 이미 놓인 행성 전부와 비교해서 전체 O(n²).
+    # 지금 개수에선 문제없지만, 개수가 확 늘어나면 그리드/공간분할로 바꿔야 함.
+    # Checks that the surface is at least min_gap away from every planet.
+    # Careful! Each placement compares against every placed planet, so O(n^2) overall.
+    # Fine at the current count, but switch to a grid/spatial partition if the count grows a lot.
+    for other in placed:
+        if other is ignore:
+            continue
+
+        needed = radius + other["radius"] + min_gap
+
+        if vec_distance(location, other["location"]) &lt; needed:
+            return False
+
+    return True
+
+
+def random_direction_in_ring(axis, min_angle_deg, max_angle_deg):
+    # axis 기준 min~max 각도 사이 링 안에서 균등하게 방향 하나 뽑기
+    # (기존엔 0~max 원뿔이었는데 가운데로 뽑히면 일자로 겹쳐 보여서 min을 추가함)
+    # (구면 띠에서 cos을 균등하게 뽑으면 면적 기준 균등)
+    # Pick a uniformly distributed direction inside the ring between min and max angles from axis.
+    # (It used to be a 0-max cone, but picks near the center lined up and overlapped, so min was added.)
+    # (Sampling cos uniformly on a spherical band gives an area-uniform distribution.)
+    cos_min = math.cos(math.radians(max_angle_deg))
+    cos_max = math.cos(math.radians(min_angle_deg))
+    cos_t = random.uniform(cos_min, cos_max)
+    phi = random.uniform(0.0, 2.0 * math.pi)
+
+    return direction_from_axis(axis, math.acos(cos_t), phi)
+
+
+def direction_from_axis(axis, angle, phi):
+    # axis에서 angle(라디안)만큼 기울이고, axis 둘레로 phi만큼 돌린 방향
+    # Direction tilted \`angle\` (radians) away from axis, then rotated \`phi\` around axis.
+    cos_t = math.cos(angle)
+    sin_t = math.sin(angle)
+
+    # axis에 수직인 두 축 만들기
+    # Build two axes perpendicular to axis.
+    helper = (0.0, 0.0, 1.0) if abs(axis[2]) &lt; 0.9 else (1.0, 0.0, 0.0)
+
+    u = (
+        axis[1] * helper[2] - axis[2] * helper[1],
+        axis[2] * helper[0] - axis[0] * helper[2],
+        axis[0] * helper[1] - axis[1] * helper[0],
+    )
+    u_len = vec_length(u)
+    u = (u[0] / u_len, u[1] / u_len, u[2] / u_len)
+
+    w = (
+        axis[1] * u[2] - axis[2] * u[1],
+        axis[2] * u[0] - axis[0] * u[2],
+        axis[0] * u[1] - axis[1] * u[0],
+    )
+
+    return tuple(
+        axis[i] * cos_t
+        + (u[i] * math.cos(phi) + w[i] * math.sin(phi)) * sin_t
+        for i in range(3)
+    )
+
+
+def random_location(min_distance, max_distance):
+    # 구면좌표계로 균등하게. hash처럼..sin(phi)를 변수로 씀. 균등하다!
+    # Uniform on the sphere using spherical coordinates. Like a hash, sin(phi) is the random variable. Uniform!
+    theta = random.uniform(
+        0.0,
+        2.0 * math.pi
+    )
+
+    # 아래는 안 내려다보니까 위쪽 반구만 (z &gt;= 0)
+    # 정수리 쪽도 안 보이니까 MAX_Z_DIR 위로는 안 감
+    # Nobody looks down, so only the upper hemisphere (z &gt;= 0).
+    # The zenith isn't seen either, so never go above MAX_Z_DIR.
+    z_dir = random.uniform(
+        0.0,
+        MAX_Z_DIR
+    )
+
+    #요게 sin(phi)
+    # This is sin(phi).
+    xy_radius = math.sqrt(
+        1.0 - z_dir * z_dir
+    )
+
+    x_dir = xy_radius * math.cos(theta)
+    y_dir = xy_radius * math.sin(theta)
+
+    # 중심으로부터 거리
+    # Distance from the center.
+    distance = random.uniform(
+        min_distance,
+        max_distance
+    )
+
+    return (
+        x_dir * distance,
+        y_dir * distance,
+        z_dir * distance
+    )
+
+
+# ---------------------------------------------------------------------------
+# 컴포지션 (아레나에서 본 각도 기준)
+#
+# 배경은 아레나(원점)에서만 보니까, 실제 3D 거리보다 "화면에서 어떻게 보이냐"가 중요함.
+# 멀리 있는 큰 행성이랑 가까운 작은 행성은 화면에선 크기가 비슷하게 보이니까
+# 크기/간격/밀도를 전부 아레나 기준 각도로 계산함.
+#   - 겉보기 크기(alpha) = 아레나에서 본 행성의 각반지름
+#   - 각거리(theta)      = 아레나에서 본 두 행성 방향 사이 각도
+#   - 시각적 질량(mass)  = 화면에서 차지하는 면적 (입체각 ≈ π·alpha²)
+#
+# 규칙 3개:
+#   1. 크기별 간격: 겉보기에 큰 행성끼리는 멀리, 작은 행성끼리는 촘촘하게
+#   2. 밀도 예산: 주변이 이미 무거우면(큰 행성 근처) 잘 못 들어옴 -&gt; 전체 무게감이 균등
+#   3. 군집: 작은 행성 일부를 무리로 묶고, 무리 하나를 "중간 크기 행성 하나"처럼 배치
+#
+# 군집 변경 이력:
+#   - 처음 로직: 작은 행성을 놓을 때 확률적으로 "이미 놓인 작은 행성 근처"에 떨굼
+#   - 문제: 먼저 생긴 무리에 계속 붙어서(부익부) 한쪽은 큰 무리 덩어리, 한쪽은 큰 행성
+#           이렇게 화면이 2분할만 됨. 원하는 건 무리/큰 거/중간 거가 골고루 섞인 것.
+#   - 그래서: 무리를 미리 크기별(1/n 가중치 -&gt; 작은 무리 많고 큰 무리 가끔)로 나눠 만들고,
+#             무리 하나를 원판으로 보고 큰 행성들과 같은 간격/밀도 규칙으로 같이 배치함.
+#             멤버는 그 원판 안에 흩뿌림.
+#   - 문제 2: 무리 안이 알 무더기처럼 징그러움.
+#             (멤버 크기가 다 비슷 + 원판에 균등하게 뿌려서 간격이 고름 + 멤버가 너무 많음)
+#   - 그래서: 대장 1개 + 졸개 구조로 크기 계층을 강제 (대장/최소 ≥ CLUSTER_MIN_SIZE_RATIO),
+#             멤버 거리를 대장 근처로 맞춰서 계층이 화면에서도 보이게,
+#             가우시안으로 중심은 촘촘/가장자리는 듬성 + 살짝 타원형,
+#             최대 멤버 수 12 -&gt; 7.
+#
+# Composition (based on angles as seen from the arena)
+#
+# The background is only ever seen from the arena (origin), so how it looks on screen
+# matters more than real 3D distance. A far big planet and a near small one can look
+# the same size, so size, spacing and density are all computed as angles from the arena.
+#   - Apparent size (alpha) = angular radius of a planet seen from the arena
+#   - Angular distance (theta) = angle between two planet directions seen from the arena
+#   - Visual mass (mass) = screen area taken up (solid angle ~ pi * alpha^2)
+#
+# Three rules:
+#   1. Size-based spacing: apparently big planets stay far apart, small ones can sit close
+#   2. Density budget: already-heavy areas (near big planets) rarely accept more -&gt; even visual weight
+#   3. Clusters: group some small planets and place each group like one medium planet
+#
+# Cluster history:
+#   - First logic: when placing a small planet, randomly drop it near an already placed small planet
+#   - Problem: planets kept joining the earliest cluster (rich get richer), so the screen split in two:
+#              one side a big clump of clusters, the other big planets. The goal is an even mix.
+#   - So: build clusters up front with sizes weighted 1/n (many small clusters, a few big ones),
+#         treat each cluster as a disc and place it with the same spacing/density rules as big planets.
+#         Members are scattered inside that disc.
+#   - Problem 2: clusters looked creepy, like a pile of eggs
+#                (similar member sizes + uniform scatter giving even gaps + too many members).
+#   - So: enforce a leader + followers size hierarchy (leader/smallest &gt;= CLUSTER_MIN_SIZE_RATIO),
+#         keep member distances near the leader so the hierarchy shows on screen,
+#         Gaussian scatter (dense center, sparse edge) + slight ellipse,
+#         max members 12 -&gt; 7.
+# ---------------------------------------------------------------------------
+
+
+def to_view(location, radius):
+    # 아레나에서 본 방향(단위벡터)과 겉보기 각반지름
+    # Direction (unit vector) and apparent angular radius as seen from the arena.
+    distance = vec_length(location)
+    direction = tuple(value / distance for value in location)
+    alpha = math.asin(min(1.0, radius / distance))
+
+    return direction, alpha
+
+
+def view_mass(alpha):
+    return math.pi * alpha * alpha
+
+
+def angle_between(dir_a, dir_b):
+    dot = dir_a[0] * dir_b[0] + dir_a[1] * dir_b[1] + dir_a[2] * dir_b[2]
+    return math.acos(max(-1.0, min(1.0, dot)))
+
+
+def in_spawn_area(direction):
+    # 반구 위쪽이면서 정수리는 아닌 띠 안에 있는지
+    # Whether the direction is in the band: upper hemisphere but not the zenith.
+    return 0.0 &lt;= direction[2] &lt;= MAX_Z_DIR
+
+
+def estimate_view_density(layout_items):
+    # 전체 배치 단위(행성 + 무리)의 시각적 질량 합 / 스폰 영역 입체각 = 평균 밀도
+    # 스폰 영역(z 0 ~ MAX_Z_DIR 띠)의 입체각 = 2π·MAX_Z_DIR
+    # 배치 전이라 거리는 구간 중간값으로 추정.
+    # 이걸 기준으로 삼으니 Count나 스케일을 바꿔도 자동으로 "전체 1"에 맞춰짐.
+    # Average density = total visual mass of all layout items (planets + clusters) / spawn area solid angle.
+    # Solid angle of the spawn band (z from 0 to MAX_Z_DIR) = 2 * pi * MAX_Z_DIR.
+    # Placement hasn't happened yet, so distance is estimated as the zone's midpoint.
+    # Using this as the baseline keeps the whole thing normalized even when Count or scales change.
+    total_mass = sum(view_mass(item["alpha_est"]) for item in layout_items)
+
+    return total_mass / (2.0 * math.pi * MAX_Z_DIR)
+
+
+def fits_composition(direction, alpha, layout, size_spacing, density_budget):
+    # layout = 이미 놓인 배치 단위 (행성 + 무리 원판)
+    # 주의! has_space처럼 이미 놓인 것 전부와 비교해서 전체 O(n²).
+    # layout = layout items already placed (planets + cluster discs).
+    # Careful! Like has_space, this compares against everything placed, so O(n^2) overall.
+    neighbor_angle = math.radians(NEIGHBOR_ANGLE)
+    local_mass = 0.0
+
+    for other in layout:
+        theta = angle_between(direction, other["direction"])
+
+        # 1. 크기별 간격: 화면에서 겹치지 않게 + 둘 다 클수록 더 벌림
+        # 기하평균이라 큰+큰은 넓게, 큰+작은은 중간, 작은+작은은 거의 붙어도 됨
+        # 1. Size-based spacing: no overlap on screen + more space the bigger both are.
+        # Geometric mean: big+big far apart, big+small medium, small+small can almost touch.
+        needed = (
+            alpha + other["alpha"]
+            + size_spacing * math.sqrt(alpha * other["alpha"])
+        )
+
+        if theta &lt; needed:
+            return False
+
+        # 2. 밀도 예산용: 가까울수록 무게를 많이 쳐줌 (선형 감쇠)
+        # 2. For the density budget: closer neighbors weigh more (linear falloff).
+        if theta &lt; neighbor_angle:
+            local_mass += other["mass"] * (1.0 - theta / neighbor_angle)
+
+    if local_mass &lt;= 0.0:
+        return True
+
+    # 선형 감쇠 커널의 면적 = π·R²/3
+    # Area of the linear falloff kernel = pi * R^2 / 3.
+    kernel_area = math.pi * neighbor_angle * neighbor_angle / 3.0
+    local_density = local_mass / kernel_area
+
+    # 주변이 평균보다 무거울수록 들어올 확률이 낮아짐.
+    # 딱 잘라 막으면 큰 행성 근처가 텅 비니까 확률로 "조금만" 들어오게 함.
+    # The heavier the neighborhood compared to average, the lower the chance to accept.
+    # A hard cutoff would leave big planets' surroundings empty, so a chance lets "a few" in.
+    accept_chance = density_budget / local_density
+
+    return random.random() &lt; accept_chance
+
+
+def view_clear(direction, alpha, placed):
+    # 실제 행성끼리 화면에서 겹치지 않는지만 확인 (무리 멤버용)
+    # Only checks that real planets don't overlap on screen (used for cluster members).
+    for other in placed:
+        theta = angle_between(direction, other["direction"])
+
+        if theta &lt; alpha + other["alpha"]:
+            return False
+
+    return True
+
+
+def random_cluster_size():
+    # 무리 크기를 1/n 가중치로 뽑음 -&gt; 작은 무리는 많고 큰 무리는 가끔.
+    # 그래야 "약간 / 엄청 / 엄청 약간" 무리가 섞여서 나옴
+    # Cluster size is picked with 1/n weights -&gt; many small clusters, occasional big ones.
+    # That gives a mix of slight, heavy and very slight clusters.
+    sizes = list(range(CLUSTER_SIZE_MIN, CLUSTER_SIZE_MAX + 1))
+    weights = [1.0 / size for size in sizes]
+
+    return random.choices(sizes, weights=weights, k=1)[0]
+
+
+def build_clusters(small_items, cluster_chance):
+    # 3. 군집
+    # 처음엔 "이미 놓인 작은 행성 근처에 떨구기"였는데, 먼저 생긴 무리 쪽으로
+    # 계속 몰려서(부익부) 큰 무리 하나 + 큰 행성 쪽으로 2분할만 됐음.
+    # 그래서 무리를 미리 크기별로 나눠 만들고, 무리 하나를 원판(중간 크기 행성 하나)처럼
+    # 큰 행성들과 같은 규칙으로 배치함 -&gt; 무리/큰 거/중간 거가 골고루 섞임.
+    #
+    # 그 다음엔 멤버를 랜덤으로 묶었더니 크기가 다 비슷해서 알 무더기처럼 징그러웠음.
+    # 그래서 무리마다 대장(남은 것 중 제일 큰 것) 1개 + 제일 작은 것 1개 + 나머지 랜덤으로
+    # 묶어서 크기 계층을 만들고, 대장/최소 비율이 CLUSTER_MIN_SIZE_RATIO 이상이 되게 강제함.
+    #
+    # 3. Clusters
+    # At first small planets were dropped near already placed small planets, but they kept
+    # piling onto the earliest cluster (rich get richer), splitting the screen into one big clump + big planets.
+    # So clusters are built up front by size, and each cluster is placed like a disc (one medium planet)
+    # with the same rules as big planets -&gt; clusters, big and medium planets mix evenly.
+    #
+    # Next, grouping members at random gave similar sizes and looked creepy, like a pile of eggs.
+    # So each cluster takes a leader (largest remaining) + the smallest remaining + random others,
+    # building a size hierarchy, and leader/smallest is forced to be at least CLUSTER_MIN_SIZE_RATIO.
+    clustered = []
+    scattered = []
+
+    for item in small_items:
+        if random.random() &lt; cluster_chance:
+            clustered.append(item)
+        else:
+            scattered.append(item)
+
+    # 큰 것부터 정렬해두고 앞에서 대장, 뒤에서 제일 작은 것을 뽑음
+    # Sort largest first: take the leader from the front and the smallest from the back.
+    clustered.sort(key=lambda item: item["scale"], reverse=True)
+
+    clusters = []
+
+    while clustered:
+        size = random_cluster_size()
+
+        leader = clustered.pop(0)
+
+        # 1개짜리는 무리가 아니니까 그냥 흩어진 행성으로
+        # A single planet isn't a cluster, so it becomes a scattered planet.
+        if not clustered:
+            scattered.append(leader)
+            break
+
+        smallest = clustered.pop()
+
+        others = random.sample(
+            clustered,
+            min(size - 2, len(clustered))
+        )
+        for item in others:
+            clustered.remove(item)
+
+        # 대장/최소 비율이 부족하면 제일 작은 것을 더 줄임.
+        # 이 경우 구간의 MinScale보다 작아질 수 있음 (무리 안 계층이 우선)
+        # If leader/smallest ratio is too low, shrink the smallest further.
+        # It may end up below the zone's MinScale (the in-cluster hierarchy wins).
+        if leader["scale"] / smallest["scale"] &lt; CLUSTER_MIN_SIZE_RATIO:
+            smallest["scale"] = leader["scale"] / CLUSTER_MIN_SIZE_RATIO
+            smallest["radius"] = planet_radius(smallest["scale"])
+
+        members = [leader] + others + [smallest]
+
+        # 멤버 수가 많을수록 넓게 퍼짐 (면적이 멤버 수에 비례하도록 sqrt)
+        # More members spread wider (sqrt so the area scales with member count).
+        spread = math.radians(
+            CLUSTER_SPREAD_PER_MEMBER * math.sqrt(len(members))
+        )
+
+        # 살짝 타원형으로. 방향도 무리마다 랜덤
+        # Slightly elliptical, with a random orientation per cluster.
+        stretch = random.uniform(1.0, CLUSTER_MAX_STRETCH)
+
+        clusters.append({
+            "kind": "cluster",
+            "members": members,
+            "spread": spread,
+            "stretch": stretch,
+            "orient": random.uniform(0.0, math.pi),
+            # 배치할 땐 긴 쪽 기준 원판으로 봄
+            # For layout, treat it as a disc sized by the long axis.
+            "alpha_est": spread * stretch,
+        })
+
+    return clusters, scattered
+
+
+def cluster_offset(cluster, center, sigma):
+    # 무리 중심에서 가우시안으로 떨어진 방향 하나.
+    # 원판에 균등하게 뿌리면 간격이 고르게 꽉 차서 격자처럼 보임 -&gt;
+    # 가우시안이면 중심은 촘촘하고 가장자리는 듬성해서 자연스러움
+    # One direction offset from the cluster center with a Gaussian.
+    # Uniform scatter in a disc fills it with even gaps and looks grid-like -&gt;
+    # a Gaussian is dense in the center and sparse at the edge, which looks natural.
+    stretch = cluster["stretch"]
+    limit = cluster["alpha_est"]
+
+    x = random.gauss(0.0, sigma) * stretch
+    y = random.gauss(0.0, sigma)
+    angle = math.hypot(x, y)
+
+    # 너무 멀리 튄 건 버림 (원판 밖으로 나가면 다른 행성이랑 부딪힘)
+    # Discard samples that land too far (outside the disc they'd hit other planets).
+    if angle &gt; limit:
+        return None
+
+    phi = math.atan2(y, x) + cluster["orient"]
+
+    return direction_from_axis(center, angle, phi)
+
+
+def place_planet(item, placed, layout, min_gap, size_spacing, density_budget):
+    zone = item["zone"]
+    radius = item["radius"]
+
+    for _ in range(MAX_PLACE_ATTEMPTS):
+        location = random_location(
+            zone["min_distance"],
+            zone["max_distance"]
+        )
+
+        # 실제 3D로 겹치지 않는지 (물리적 최소거리)
+        # No overlap in real 3D (physical minimum distance).
+        if not has_space(location, radius, placed, min_gap):
+            continue
+
+        direction, alpha = to_view(location, radius)
+
+        # 아레나에서 봤을 때 컴포지션이 괜찮은지 + 무리 멤버랑 안 겹치는지
+        # Composition looks right from the arena + no overlap with cluster members.
+        if not fits_composition(
+            direction, alpha, layout, size_spacing, density_budget
+        ):
+            continue
+
+        if not view_clear(direction, alpha, placed):
+            continue
+
+        planet = {
+            "location": location,
+            "scale": item["scale"],
+            "radius": radius,
+            "zone": item["zone_index"],
+            "direction": direction,
+            "alpha": alpha,
+            "mass": view_mass(alpha),
+        }
+        placed.append(planet)
+        layout.append(planet)
+
+        return True
+
+    unreal.log_warning(
+        f"Zone {item['zone_index']}: no space for planet "
+        f"(scale {item['scale']:.2f}), skipped"
+    )
+
+    return False
+
+
+def place_cluster(cluster, placed, layout, min_gap, size_spacing, density_budget):
+    disc = cluster["alpha_est"]
+    spread = cluster["spread"]
+
+    # 무리 중심을 먼저 잡음. 무리 전체를 원판 하나로 보고 배치
+    # Pick the cluster center first, treating the whole cluster as one disc.
+    for _ in range(MAX_PLACE_ATTEMPTS):
+        center = random_location(1.0, 1.0)
+
+        if fits_composition(
+            center, disc, layout, size_spacing, density_budget
+        ):
+            break
+    else:
+        unreal.log_warning(
+            f"No space for cluster ({len(cluster['members'])} planets), skipped"
+        )
+        return 0
+
+    layout.append({
+        "direction": center,
+        "alpha": disc,
+        "mass": view_mass(disc),
+    })
+
+    # 대장이 기준 거리. 대장 구간 중간값으로 시작해서 대장이 놓이면 그 거리로 바뀜
+    # The leader sets the reference distance. Starts at the leader zone's midpoint,
+    # then switches to the leader's actual distance once it's placed.
+    leader_zone = cluster["members"][0]["zone"]
+    cluster_distance = (
+        leader_zone["min_distance"] + leader_zone["max_distance"]
+    ) * 0.5
+
+    placed_count = 0
+
+    for member_index, item in enumerate(cluster["members"]):
+        zone = item["zone"]
+        radius = item["radius"]
+        is_leader = member_index == 0
+
+        # 대장은 중심 근처에, 나머지는 가우시안으로 퍼뜨림
+        # Leader near the center, the rest spread out with a Gaussian.
+        sigma = spread * (0.25 if is_leader else 0.5)
+
+        for _ in range(MAX_PLACE_ATTEMPTS):
+            direction = cluster_offset(cluster, center, sigma)
+
+            if direction is None or not in_spawn_area(direction):
+                continue
+
+            # 대장은 자기 구간 거리, 나머지는 대장 거리 근처.
+            # 거리가 제각각이면 멀어서 작아 보이는 게 섞여서 크기 계층이 흐려짐
+            # Leader uses its own zone distance, the rest stay near the leader's distance.
+            # With random distances, far members look smaller and blur the size hierarchy.
+            if is_leader:
+                distance = random.uniform(
+                    zone["min_distance"],
+                    zone["max_distance"]
+                )
+            else:
+                distance = cluster_distance * random.uniform(
+                    1.0 - CLUSTER_DEPTH_JITTER,
+                    1.0 + CLUSTER_DEPTH_JITTER
+                )
+
+            location = tuple(value * distance for value in direction)
+
+            if not has_space(location, radius, placed, min_gap):
+                continue
+
+            _, alpha = to_view(location, radius)
+
+            if not view_clear(direction, alpha, placed):
+                continue
+
+            placed.append({
+                "location": location,
+                "scale": item["scale"],
+                "radius": radius,
+                "zone": item["zone_index"],
+                "direction": direction,
+                "alpha": alpha,
+                "mass": view_mass(alpha),
+            })
+            placed_count += 1
+
+            if is_leader:
+                cluster_distance = distance
+
+            break
+
+    return placed_count
+
+
+def place_main_planets(zones, min_gap, size_spacing, cluster_chance):
+    pending = []
+
+    for zone_index, zone in enumerate(zones, start=1):
+        unreal.log(
+            f"Zone {zone_index}: distance "
+            f"{zone['min_distance']:.0f} ~ {zone['max_distance']:.0f}, "
+            f"scale {zone['min_scale']} ~ {zone['max_scale']}"
+        )
+
+        mid_distance = (zone["min_distance"] + zone["max_distance"]) * 0.5
+
+        for _ in range(zone["count"]):
+            scale = random.uniform(
+                zone["min_scale"],
+                zone["max_scale"]
+            )
+            radius = planet_radius(scale)
+
+            pending.append({
+                "kind": "planet",
+                "scale": scale,
+                "radius": radius,
+                "alpha_est": math.asin(min(1.0, radius / mid_distance)),
+                "zone_index": zone_index,
+                "zone": zone,
+            })
+
+    if not pending:
+        return []
+
+    pending.sort(key=lambda item: item["alpha_est"], reverse=True)
+
+    # 겉보기 크기가 하위 절반이면 "작은 행성" (군집 대상)
+    # The bottom half by apparent size counts as "small planets" (cluster candidates).
+    half = len(pending) // 2
+    big_items = pending[:half]
+    small_items = pending[half:]
+
+    clusters, scattered = build_clusters(small_items, cluster_chance)
+
+    unreal.log(
+        f"Clusters: {len(clusters)} "
+        f"(sizes {[len(c['members']) for c in clusters]})"
+    )
+
+    # 행성이랑 무리를 한 줄로 세워서 겉보기로 큰 것부터 배치.
+    # 큰 게 먼저 자리를 넓게 잡아야 자리 못 찾는 경우가 줄어듦
+    # Line up planets and clusters together and place them from apparently largest down.
+    # Letting big items claim space first means fewer items fail to find a spot.
+    layout_items = big_items + scattered + clusters
+    layout_items.sort(key=lambda item: item["alpha_est"], reverse=True)
+
+    density_budget = estimate_view_density(layout_items) * DENSITY_TOLERANCE
+
+    placed = []   # 실제 행성 (3D 간격, 화면 겹침 검사용) / Real planets (3D spacing, on-screen overlap checks)
+    layout = []   # 배치 단위 = 행성 + 무리 원판 (컴포지션 검사용) / Layout items = planets + cluster discs (composition checks)
+
+    for item in layout_items:
+        if item["kind"] == "cluster":
+            place_cluster(
+                item, placed, layout, min_gap, size_spacing, density_budget
+            )
+        else:
+            place_planet(
+                item, placed, layout, min_gap, size_spacing, density_budget
+            )
+
+    unreal.log(f"Main planets: {len(placed)} / {len(pending)} placed")
+
+    return placed
+
+
+def place_accessory_planets(placed, accessory, min_gap):
+    # 아레나(원점)에서 봤을 때 악세사리 행성이 보여야 하니까
+    # 기준 행성 -&gt; 아레나 방향을 축으로 한 범위 안에만 붙임.
+    # 아무 방향에나 붙이면 기준 행성 뒤쪽에 숨어서 아레나에선 안 보일 수 있음.
+    # 처음엔 원뿔(0~30도)이었는데, 가운데 쪽에 붙으면 아레나-악세-기준 행성이
+    # 일직선이 돼서 악세가 기준 행성 정면에 겹쳐 보여서 못생김.
+    # 그래서 가운데를 뺀 링(45~75도)으로 바꿈 -&gt; 앞쪽이라 보이면서 옆으로 비껴 보임.
+    # Accessory planets must be visible from the arena (origin),
+    # so they only attach within a range around the parent -&gt; arena direction.
+    # Attached in any direction, they could hide behind the parent and never be seen from the arena.
+    # At first this was a cone (0-30 degrees), but near the center arena, accessory and parent
+    # lined up, so the accessory overlapped the parent's front and looked ugly.
+    # So it became a ring with the center cut out (45-75 degrees) -&gt; still in front, but offset to the side.
+    parents = [
+        planet for planet in placed
+        if planet["scale"] &gt;= accessory["parent_min_scale"]
+    ]
+
+    accessories = []
+
+    for parent in parents:
+        if random.random() &gt;= accessory["chance"]:
+            continue
+
+        scale = random.uniform(
+            accessory["min_scale"],
+            accessory["max_scale"]
+        )
+        radius = planet_radius(scale)
+
+        # 기준 행성 표면에서 gap만큼 띄워서 붙임
+        # Attach \`gap\` away from the parent's surface.
+        offset = parent["radius"] + accessory["gap"] + radius
+
+        parent_distance = vec_length(parent["location"])
+        to_arena = tuple(
+            -value / parent_distance for value in parent["location"]
+        )
+
+        for _ in range(MAX_PLACE_ATTEMPTS):
+            direction = random_direction_in_ring(
+                to_arena,
+                ACCESSORY_RING_MIN_ANGLE,
+                ACCESSORY_RING_MAX_ANGLE
+            )
+
+            location = tuple(
+                parent["location"][i] + direction[i] * offset
+                for i in range(3)
+            )
+
+            # 반구 아래나 정수리로 가면 안 보이니까 다시 뽑기
+            # Below the hemisphere or at the zenith it won't be seen, so re-roll.
+            location_length = vec_length(location)
+
+            if not in_spawn_area(
+                tuple(value / location_length for value in location)
+            ):
+                continue
+
+            # 기준 행성은 gap으로 이미 띄웠으니 검사에서 제외
+            # The parent is already spaced by \`gap\`, so skip it in the check.
+            if has_space(
+                location, radius, placed + accessories, min_gap,
+                ignore=parent
+            ):
+                accessories.append({
+                    "location": location,
+                    "scale": scale,
+                    "radius": radius,
+                })
+                break
+        else:
+            unreal.log_warning(
+                f"No space for accessory next to planet "
+                f"(scale {parent['scale']:.2f}), skipped"
+            )
+
+    unreal.log(
+        f"Accessory: {len(accessories)} spawned "
+        f"({len(parents)} parent candidates)"
+    )
+
+    return accessories
+
+
+def spawn_planet(actor_subsystem, mesh, location, scale, label):
+    planet = actor_subsystem.spawn_actor_from_class(
+        unreal.StaticMeshActor,
+        unreal.Vector(*location),
+        unreal.Rotator()
+    )
+
+    planet.static_mesh_component.set_static_mesh(mesh)
+
+    planet.set_actor_scale3d(
+        unreal.Vector(
+            scale,
+            scale,
+            scale
+        )
+    )
+
+    planet.set_actor_label(label)
+
+
+def generate_planets():
+    settings = get_settings()
+
+    zones = read_zones(settings)
+    accessory = read_accessory_settings(settings)
+    min_gap = settings.get_editor_property("MinGap")
+    size_spacing = settings.get_editor_property("SizeSpacing")
+    cluster_chance = settings.get_editor_property("ClusterChance")
+
+    placed = place_main_planets(
+        zones, min_gap, size_spacing, cluster_chance
+    )
+    accessories = place_accessory_planets(placed, accessory, min_gap)
+
+    actor_subsystem = unreal.get_editor_subsystem(
+        unreal.EditorActorSubsystem
+    )
+
+    mesh = unreal.load_asset("/Engine/BasicShapes/Sphere")
+
+    for index, planet in enumerate(placed):
+        spawn_planet(
+            actor_subsystem, mesh,
+            planet["location"], planet["scale"],
+            f"BG_Planet_{index}"
+        )
+
+        unreal.log(
+            f"Planet {index} (zone {planet['zone']}): "
+            f"scale = {planet['scale']}"
+        )
+
+    # 라벨이 BG_Planet_로 시작해야 clear_planets에서 같이 지워짐
+    # Labels must start with BG_Planet_ so clear_planets removes them too.
+    for index, planet in enumerate(accessories):
+        spawn_planet(
+            actor_subsystem, mesh,
+            planet["location"], planet["scale"],
+            f"BG_Planet_Acc_{index}"
+        )
+
+
+def clear_planets():
+    actor_subsystem = unreal.get_editor_subsystem(
+        unreal.EditorActorSubsystem
+    )
+
+    for actor in actor_subsystem.get_all_level_actors():
+        if actor.get_actor_label().startswith("BG_Planet_"):
+            actor_subsystem.destroy_actor(actor)
+</code></pre></div></details></section>`
+        }
+      ]
+    },
     source: null,
     localized: {
       ko: {
@@ -1310,7 +2244,941 @@ const projectsData = {
         experience: {
           role: "게임플레이 프로그래머 / 테크니컬 아트 — 툴",
           period: "2026년 · 팀 프로젝트 (제작 중)",
-          description: "Unreal Engine 팀 프로젝트에서 게임플레이 코어와 테크니컬 아트를 담당하며, 우주 배경 자동 배치·데몰리션 시스템 등 에디터 툴을 제작하고 있습니다. 비주얼은 아티스트 2명과 협업합니다."
+          description: "Unreal Engine 팀 프로젝트에서 게임플레이 코어와 테크니컬 아트를 담당하며, 아레나 시점의 화면 구도를 고려한 우주 배경 자동 배치 시스템과 데몰리션 시스템 등 에디터 툴을 제작하고 있습니다. 비주얼은 아티스트 2명과 협업합니다."
+        },
+        contributions: {
+          sections: [
+            {
+              title: "우주 배경 자동 배치 툴",
+              category: "Technical",
+              htmlContent: `<section><h2>위치가 아니라 "어떻게 보이는가"를 기준으로 행성을 배치하는 에디터 툴</h2><p class="case-study-lede">우주 배경은 항상 아레나라는 고정된 한 지점에서만 보이기 때문에, 실제 3D 좌표 대신 겉보기 크기와 화면상 간격을 기준으로 배치 로직을 설계했습니다. 에디터에서 직접 재생성해보며 구도와 군집 규칙을 반복적으로 다듬었습니다.</p>${renderEngineeringCaseStudy({labels:{systemMap:"시스템 구조",problem:"문제",decision:"결정",implementation:"구현",verification:"검증",keyDecisions:"핵심 결정",decisionLog:"결정 로그",decisionTitle:"왜 이렇게 구조화했는가",system:"시스템",choice:"선택",why:"이유",tradeoff:"트레이드오프",codeEvidence:"코드 근거",viewSource:"소스 보기 ↗"},metrics:[{icon:"◉",value:"뷰 공간",label:"구도 계산 (3D 거리 아님)"},{icon:"⌘",value:"DataAsset",label:"아티스트가 직접 튜닝"},{icon:"◈",value:"대장/졸개",label:"군집 크기 계층"},{icon:"↻",value:"멱등성",label:"재생성/정리, 반복 실행 가능"}],architecture:[{title:"설정 DataAsset",detail:"아티스트가 조절 가능한 구간·군집·악세서리 파라미터"},{title:"구간·군집 계획",detail:"개수/크기를 먼저 정하고 군집을 하나의 '원판'으로 미리 구성"},{title:"뷰 공간 구도 배치",detail:"겉보기 크기가 큰 것부터, 간격/밀도는 아레나 기준 각도로 검사"},{title:"악세서리 배치",detail:"조건을 만족하는 기준 행성에 링 제한을 걸어 위성 부착"},{title:"스폰 / 정리",detail:"라벨 프리픽스 기반으로 멱등적으로 스폰·정리"}],cases:[{label:"구도",title:"실제 거리 대신 겉보기 크기로 배치하기",problem:"배경은 항상 고정된 아레나 시점에서만 보이기 때문에 실제 3D 거리는 화면에 실제로 보이는 것과 일치하지 않습니다 — 멀리 있는 큰 행성과 가까운 작은 행성이 화면에선 같은 크기로 보일 수 있고, 단순 랜덤 배치는 균형이 안 맞는 하늘을 만들었습니다.",decision:"겉보기 크기, 간격, 주변 밀도를 전부 3D 위치가 아니라 아레나 기준 각도·입체각으로 계산합니다.",implementation:"to_view()가 행성의 위치·반지름을 겉보기 각반지름으로 변환하고, fits_composition()이 기하평균 기반 간격 규칙(큰 것끼리는 멀리, 작은 것끼리는 가까이 가능)과 확률적 밀도 예산(이미 붐비는 영역은 잘 안 들어오되, 딱 막지는 않아 빈 공간이 생기지 않게)을 적용합니다.",verification:"툴 자체의 재생성/정리 기능으로 에디터에서 직접 반복 확인하며, 하늘이 한쪽으로 쏠리지 않고 고르게 느껴질 때까지 다듬었습니다."},{label:"반복 개선",title:"커브로는 표현할 수 없었던 구도 요구사항",problem:"처음엔 ScaleDistribution 커브로 크기를 샘플링했는데, 커브로는 '이 크기대는 몇 개, 이 거리쯤'을 표현하기 어려웠고, 전체 거리를 그래디언트 스톱처럼 비율로 나누는 것도 블루프린트 DataAsset에서는 한 칸을 바꿀 때 나머지가 자동으로 재정규화되지 않아 합이 1로 안 맞았습니다.",decision:"커브 대신 명시적인 ScaleZones 배열로 바꿨습니다 — 각 구간마다 개수·스케일 범위·거리 범위를 직접 지정하고, 전체 범위를 나누는 대신 구간끼리 겹치는 것도 허용했습니다.",implementation:"블루프린트 스트럭트 멤버 이름이 'Count_2_ABCD...'처럼 맹글링되는 문제도 만나서, get_struct_value()가 get_editor_property() 실패 시 export_text()를 직접 파싱하는 폴백을 추가했습니다.",verification:"매 실행마다 구간별 범위와 개수를 Output Log에 남겨서, DataAsset을 튜닝하는 아티스트가 실제로 뭐가 읽혔는지 바로 확인할 수 있게 했습니다."},{label:"군집화",title:"'부익부' 뭉침과 균일한 군집 문제 해결",problem:"처음 군집 로직은 작은 행성을 이미 놓인 작은 행성 근처에 확률적으로 떨어뜨렸는데, 이게 한쪽으로 계속 몰려서(부익부) 큰 덩어리 하나와 흩어진 큰 행성들로만 나뉘었습니다. 이걸 고친 뒤에도, 크기가 비슷한 멤버들을 원판 안에 고르게 뿌리니 알 무더기처럼 부자연스러워 보였습니다.",decision:"군집을 1/n 가중치로 미리 크기별로 만들어(작은 군집은 많고 큰 군집은 가끔) 각 군집을 큰 행성 하나와 같은 간격/밀도 규칙을 적용받는 원판으로 배치합니다. 그리고 군집 안에서는 멤버 크기를 똑같이 두지 않고 대장+졸개 크기 계층을 강제합니다.",implementation:"build_clusters()가 대장(가장 큰 것)과 가장 작은 멤버를 뽑아 최소 크기 비율을 강제하고, cluster_offset()이 원판에 균등하게 뿌리는 대신 가우시안(중심은 촘촘, 가장자리는 듬성)으로 멤버를 흩뿌리며 군집마다 살짝 타원형으로 늘립니다.",verification:"에디터에서 시각적으로 확인한 뒤 군집 최대 인원을 12명에서 7명으로 줄였습니다(너무 빽빽해 보여서)."}],decisions:[{system:"배경 배치",choice:"뷰 공간 구도(각도/입체각) 계산",reason:"고정된 카메라 한 지점에서 실제로 보이는 것과 일치시키기 위해.",tradeoff:"단순 3D 스캐터보다 계산이 복잡함 — 배치마다 O(n²) 구도 검사."},{system:"크기/개수 제어",choice:"ScaleZones DataAsset 배열",reason:"Python 코드를 건드리지 않고 구간별로 아티스트가 직접 튜닝 가능.",tradeoff:"구간끼리 거리를 깔끔하게 나누지 않고 겹칠 수 있음."},{system:"작은 행성",choice:"미리 구성한 대장/졸개 군집",reason:"균일한 산포 대신 자연스럽고 불균일한 그룹으로 보임.",tradeoff:"메인 배치 루프 전에 별도 군집화 단계가 추가됨."},{system:"악세서리 위성",choice:"전체 원뿔이 아닌 링 제한 방향",reason:"기준 행성에 숨거나 겹치지 않고 항상 옆으로 보이게 하기 위해.",tradeoff:"배치 가능 영역이 좁아져 자리 재시도가 늘어남."}],note:"위 케이스 스터디는 실제 구현과 코드 내 설계 노트를 바탕으로 직접 설명한 것입니다."})}<details class="technical-deep-dive full-source"><summary><span>코드</span><strong>전체 소스 보기 — space_background.py</strong></summary><div class="technical-deep-dive-body"><p>비공개 Perforce 저장소에서 그대로 붙여넣은 코드입니다 (링크할 수 있는 공개 저장소가 없음) — 위에서 설명한 스크립트의 현재 버전 그대로입니다.</p><pre><code>import unreal
+import random
+import math
+
+SETTINGS_PATH = "/Game/Editor/DA_SpaceBackgroundSettings"
+
+# /Engine/BasicShapes/Sphere 의 반지름 (스케일 1 기준)
+# Radius of /Engine/BasicShapes/Sphere at scale 1.
+SPHERE_RADIUS = 50.0
+
+# 정수리(바로 위)에서 이 각도 안쪽은 비워둠.
+# 아레나에서 시선이 주로 수평~비스듬히 가니까 머리 위에 있는 행성은 거의 안 보임.
+# 0이면 반구 전체, 30이면 머리 위 30도 원은 비움
+# Leave this angle around the zenith (straight up) empty.
+# From the arena the view is mostly horizontal to diagonal, so planets overhead are rarely seen.
+# 0 = whole hemisphere, 30 = keep a 30-degree circle overhead empty.
+ZENITH_EXCLUDE_ANGLE = 30.0
+
+# 스폰 가능한 방향의 z 최대값 (ZENITH_EXCLUDE_ANGLE에서 계산)
+# Max z of a spawn direction (derived from ZENITH_EXCLUDE_ANGLE).
+MAX_Z_DIR = math.cos(math.radians(ZENITH_EXCLUDE_ANGLE))
+
+# 최소거리/컴포지션 못 맞출 때 위치 다시 뽑는 횟수
+# How many times to re-roll a position when spacing/composition checks fail.
+MAX_PLACE_ATTEMPTS = 50
+
+# 밀도 계산할 때 "주변"으로 보는 범위 (아레나에서 본 각도)
+# Neighborhood size for the density check (angle as seen from the arena).
+NEIGHBOR_ANGLE = 20.0
+
+# 평균 밀도의 몇 배까지 여유를 줄지. 낮추면 더 균등, 높이면 더 뭉침 허용
+# How far above average density a spot may go. Lower = more even, higher = allows more clumping.
+DENSITY_TOLERANCE = 1.5
+
+# 무리 하나에 들어가는 작은 행성 수 범위 (작은 무리가 더 자주 나옴)
+# 12까지 뒀더니 알 무더기처럼 빽빽해서 징그러움 -&gt; 7로 줄임
+# Range of small planets per cluster (small clusters appear more often).
+# Up to 12 looked packed and creepy, like a pile of eggs -&gt; reduced to 7.
+CLUSTER_SIZE_MIN = 2
+CLUSTER_SIZE_MAX = 7
+
+# 무리가 퍼지는 범위 = 이 값 × √멤버수 (아레나에서 본 각도)
+# 2개면 약 3.5도, 7개면 약 6.6도
+# Cluster spread = this value x sqrt(member count) (angle as seen from the arena).
+# About 3.5 degrees for 2 members, about 6.6 degrees for 7.
+CLUSTER_SPREAD_PER_MEMBER = 2.5
+
+# 무리 안에서 대장(가장 큰 것) / 가장 작은 것 스케일 비율 최소값
+# 크기가 다 비슷하면 징그러워서 크기 계층을 강제함
+# Minimum scale ratio between the leader (largest) and the smallest member of a cluster.
+# Same-sized members look creepy, so a size hierarchy is enforced.
+CLUSTER_MIN_SIZE_RATIO = 3.0
+
+# 무리 멤버 거리를 대장 거리의 ±몇 %로 맞출지.
+# 거리가 제각각이면 멀어서 작아 보이는 게 섞여서 크기 계층이 화면에서 흐려짐
+# Keep cluster members within +/- this fraction of the leader's distance.
+# With random distances, far members look smaller and the size hierarchy gets blurred on screen.
+CLUSTER_DEPTH_JITTER = 0.1
+
+# 무리 모양을 최대 몇 배까지 길쭉하게 늘릴지 (1 = 원형)
+# 원형이면 격자처럼 고르게 보여서 살짝 타원으로 찌그러뜨림
+# Max stretch of a cluster's shape (1 = circle).
+# A perfect circle looks grid-like and even, so clusters are squashed into slight ellipses.
+CLUSTER_MAX_STRETCH = 1.8
+
+# 악세사리 행성이 붙는 링의 각도 범위 (기준 행성 -&gt; 아레나 방향 기준)
+# 기존엔 원뿔(0~30도)이었는데 아레나-악세-기준 행성이 일자로 서서 못생겨서
+# 가운데를 뺀 링으로 바꿈
+# MIN을 키우면 옆으로 더 벌어지고, MAX가 90에 가까우면 기준 행성 옆면까지 감
+# Angle range of the ring where accessory planets attach (around the parent -&gt; arena direction).
+# It used to be a cone (0-30 degrees), but arena, accessory and parent lined up and looked ugly,
+# so the center was cut out, making it a ring.
+# Raising MIN pushes accessories further to the side; MAX near 90 reaches the parent's side.
+ACCESSORY_RING_MIN_ANGLE = 45.0
+ACCESSORY_RING_MAX_ANGLE = 75.0
+
+
+def get_settings():
+    settings = unreal.load_asset(SETTINGS_PATH)
+
+    if not settings:
+        raise RuntimeError(
+            f"Could not load settings asset: {SETTINGS_PATH}"
+        )
+
+    return settings
+
+
+def get_struct_value(struct, name):
+    # BP 스트럭쳐는 내부 이름이 "Count_2_ABCD..." 식으로 붙어서
+    # get_editor_property가 실패하면 export_text에서 직접 찾음
+    # Blueprint struct members get internal names like "Count_2_ABCD...",
+    # so if get_editor_property fails, look the value up in export_text.
+    try:
+        return struct.get_editor_property(name)
+    except Exception:
+        pass
+
+    text = struct.export_text().strip("()")
+
+    for pair in text.split(","):
+        key, _, value = pair.partition("=")
+
+        if key == name or key.startswith(name + "_"):
+            return float(value)
+
+    raise RuntimeError(f"Could not find '{name}' in {text}")
+
+
+# 처음엔 MinDistance~MaxDistance 전체에 랜덤 배치하고,
+# 크기는 ScaleDistribution 커브를 가중치로 샘플링해서 비율을 정했음.
+# 근데 커브로는 "이 크기대는 몇 개, 어느 거리쯤" 같은 커스텀이 너무 어려워서
+# ScaleZones 배열로 구간을 나누는 방식으로 바꿈.
+# 각 구간마다 개수(Count), 스케일 범위(MinScale~MaxScale),
+# 거리 범위(MinDistance~MaxDistance)를 직접 지정.
+# (중간에 전체 거리를 그래디언트 스톱처럼 비율(0~1)로 나누려고 했는데,
+#  블루프린트 DataAsset에선 한 칸 바꿀 때 나머지가 자동으로 조정돼서
+#  총합이 1로 맞춰지게 할 수가 없었음.
+#  그래서 그냥 구간마다 최소~최대 거리를 직접 두는 걸로 바꿈. 구간끼리 겹쳐도 됨.)
+# Originally planets were placed randomly across MinDistance-MaxDistance,
+# and sizes were sampled using the ScaleDistribution curve as weights.
+# But a curve made it too hard to control things like "this many of this size, at about this distance",
+# so it was replaced with a ScaleZones array.
+# Each zone sets its own count (Count), scale range (MinScale-MaxScale)
+# and distance range (MinDistance-MaxDistance).
+# (In between, we tried splitting the total distance by ratios (0-1) like gradient stops,
+#  but a Blueprint DataAsset can't auto-adjust the other entries when one changes,
+#  so the ratios couldn't be kept summing to 1.
+#  So each zone just gets its own min-max distance instead. Zones may overlap.)
+def read_zones(settings):
+    zones = []
+
+    for zone in settings.get_editor_property("ScaleZones"):
+        zones.append({
+            "count": int(get_struct_value(zone, "Count")),
+            "min_scale": get_struct_value(zone, "MinScale"),
+            "max_scale": get_struct_value(zone, "MaxScale"),
+            "min_distance": get_struct_value(zone, "MinDistance"),
+            "max_distance": get_struct_value(zone, "MaxDistance"),
+        })
+
+    if not zones:
+        raise RuntimeError("ScaleZones is empty")
+
+    return zones
+
+
+def read_accessory_settings(settings):
+    return {
+        "parent_min_scale": settings.get_editor_property("AccessoryParentMinScale"),
+        "min_scale": settings.get_editor_property("AccessoryMinScale"),
+        "max_scale": settings.get_editor_property("AccessoryMaxScale"),
+        "gap": settings.get_editor_property("AccessoryGap"),
+        "chance": settings.get_editor_property("AccessoryChance"),
+    }
+
+
+def vec_length(v):
+    return math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2])
+
+
+def vec_distance(a, b):
+    return vec_length((a[0] - b[0], a[1] - b[1], a[2] - b[2]))
+
+
+def planet_radius(scale):
+    return SPHERE_RADIUS * scale
+
+
+def has_space(location, radius, placed, min_gap, ignore=None):
+    # 모든 행성과 표면끼리 min_gap 이상 떨어져 있는지
+    # 주의! 배치할 때마다 이미 놓인 행성 전부와 비교해서 전체 O(n²).
+    # 지금 개수에선 문제없지만, 개수가 확 늘어나면 그리드/공간분할로 바꿔야 함.
+    # Checks that the surface is at least min_gap away from every planet.
+    # Careful! Each placement compares against every placed planet, so O(n^2) overall.
+    # Fine at the current count, but switch to a grid/spatial partition if the count grows a lot.
+    for other in placed:
+        if other is ignore:
+            continue
+
+        needed = radius + other["radius"] + min_gap
+
+        if vec_distance(location, other["location"]) &lt; needed:
+            return False
+
+    return True
+
+
+def random_direction_in_ring(axis, min_angle_deg, max_angle_deg):
+    # axis 기준 min~max 각도 사이 링 안에서 균등하게 방향 하나 뽑기
+    # (기존엔 0~max 원뿔이었는데 가운데로 뽑히면 일자로 겹쳐 보여서 min을 추가함)
+    # (구면 띠에서 cos을 균등하게 뽑으면 면적 기준 균등)
+    # Pick a uniformly distributed direction inside the ring between min and max angles from axis.
+    # (It used to be a 0-max cone, but picks near the center lined up and overlapped, so min was added.)
+    # (Sampling cos uniformly on a spherical band gives an area-uniform distribution.)
+    cos_min = math.cos(math.radians(max_angle_deg))
+    cos_max = math.cos(math.radians(min_angle_deg))
+    cos_t = random.uniform(cos_min, cos_max)
+    phi = random.uniform(0.0, 2.0 * math.pi)
+
+    return direction_from_axis(axis, math.acos(cos_t), phi)
+
+
+def direction_from_axis(axis, angle, phi):
+    # axis에서 angle(라디안)만큼 기울이고, axis 둘레로 phi만큼 돌린 방향
+    # Direction tilted \`angle\` (radians) away from axis, then rotated \`phi\` around axis.
+    cos_t = math.cos(angle)
+    sin_t = math.sin(angle)
+
+    # axis에 수직인 두 축 만들기
+    # Build two axes perpendicular to axis.
+    helper = (0.0, 0.0, 1.0) if abs(axis[2]) &lt; 0.9 else (1.0, 0.0, 0.0)
+
+    u = (
+        axis[1] * helper[2] - axis[2] * helper[1],
+        axis[2] * helper[0] - axis[0] * helper[2],
+        axis[0] * helper[1] - axis[1] * helper[0],
+    )
+    u_len = vec_length(u)
+    u = (u[0] / u_len, u[1] / u_len, u[2] / u_len)
+
+    w = (
+        axis[1] * u[2] - axis[2] * u[1],
+        axis[2] * u[0] - axis[0] * u[2],
+        axis[0] * u[1] - axis[1] * u[0],
+    )
+
+    return tuple(
+        axis[i] * cos_t
+        + (u[i] * math.cos(phi) + w[i] * math.sin(phi)) * sin_t
+        for i in range(3)
+    )
+
+
+def random_location(min_distance, max_distance):
+    # 구면좌표계로 균등하게. hash처럼..sin(phi)를 변수로 씀. 균등하다!
+    # Uniform on the sphere using spherical coordinates. Like a hash, sin(phi) is the random variable. Uniform!
+    theta = random.uniform(
+        0.0,
+        2.0 * math.pi
+    )
+
+    # 아래는 안 내려다보니까 위쪽 반구만 (z &gt;= 0)
+    # 정수리 쪽도 안 보이니까 MAX_Z_DIR 위로는 안 감
+    # Nobody looks down, so only the upper hemisphere (z &gt;= 0).
+    # The zenith isn't seen either, so never go above MAX_Z_DIR.
+    z_dir = random.uniform(
+        0.0,
+        MAX_Z_DIR
+    )
+
+    #요게 sin(phi)
+    # This is sin(phi).
+    xy_radius = math.sqrt(
+        1.0 - z_dir * z_dir
+    )
+
+    x_dir = xy_radius * math.cos(theta)
+    y_dir = xy_radius * math.sin(theta)
+
+    # 중심으로부터 거리
+    # Distance from the center.
+    distance = random.uniform(
+        min_distance,
+        max_distance
+    )
+
+    return (
+        x_dir * distance,
+        y_dir * distance,
+        z_dir * distance
+    )
+
+
+# ---------------------------------------------------------------------------
+# 컴포지션 (아레나에서 본 각도 기준)
+#
+# 배경은 아레나(원점)에서만 보니까, 실제 3D 거리보다 "화면에서 어떻게 보이냐"가 중요함.
+# 멀리 있는 큰 행성이랑 가까운 작은 행성은 화면에선 크기가 비슷하게 보이니까
+# 크기/간격/밀도를 전부 아레나 기준 각도로 계산함.
+#   - 겉보기 크기(alpha) = 아레나에서 본 행성의 각반지름
+#   - 각거리(theta)      = 아레나에서 본 두 행성 방향 사이 각도
+#   - 시각적 질량(mass)  = 화면에서 차지하는 면적 (입체각 ≈ π·alpha²)
+#
+# 규칙 3개:
+#   1. 크기별 간격: 겉보기에 큰 행성끼리는 멀리, 작은 행성끼리는 촘촘하게
+#   2. 밀도 예산: 주변이 이미 무거우면(큰 행성 근처) 잘 못 들어옴 -&gt; 전체 무게감이 균등
+#   3. 군집: 작은 행성 일부를 무리로 묶고, 무리 하나를 "중간 크기 행성 하나"처럼 배치
+#
+# 군집 변경 이력:
+#   - 처음 로직: 작은 행성을 놓을 때 확률적으로 "이미 놓인 작은 행성 근처"에 떨굼
+#   - 문제: 먼저 생긴 무리에 계속 붙어서(부익부) 한쪽은 큰 무리 덩어리, 한쪽은 큰 행성
+#           이렇게 화면이 2분할만 됨. 원하는 건 무리/큰 거/중간 거가 골고루 섞인 것.
+#   - 그래서: 무리를 미리 크기별(1/n 가중치 -&gt; 작은 무리 많고 큰 무리 가끔)로 나눠 만들고,
+#             무리 하나를 원판으로 보고 큰 행성들과 같은 간격/밀도 규칙으로 같이 배치함.
+#             멤버는 그 원판 안에 흩뿌림.
+#   - 문제 2: 무리 안이 알 무더기처럼 징그러움.
+#             (멤버 크기가 다 비슷 + 원판에 균등하게 뿌려서 간격이 고름 + 멤버가 너무 많음)
+#   - 그래서: 대장 1개 + 졸개 구조로 크기 계층을 강제 (대장/최소 ≥ CLUSTER_MIN_SIZE_RATIO),
+#             멤버 거리를 대장 근처로 맞춰서 계층이 화면에서도 보이게,
+#             가우시안으로 중심은 촘촘/가장자리는 듬성 + 살짝 타원형,
+#             최대 멤버 수 12 -&gt; 7.
+#
+# Composition (based on angles as seen from the arena)
+#
+# The background is only ever seen from the arena (origin), so how it looks on screen
+# matters more than real 3D distance. A far big planet and a near small one can look
+# the same size, so size, spacing and density are all computed as angles from the arena.
+#   - Apparent size (alpha) = angular radius of a planet seen from the arena
+#   - Angular distance (theta) = angle between two planet directions seen from the arena
+#   - Visual mass (mass) = screen area taken up (solid angle ~ pi * alpha^2)
+#
+# Three rules:
+#   1. Size-based spacing: apparently big planets stay far apart, small ones can sit close
+#   2. Density budget: already-heavy areas (near big planets) rarely accept more -&gt; even visual weight
+#   3. Clusters: group some small planets and place each group like one medium planet
+#
+# Cluster history:
+#   - First logic: when placing a small planet, randomly drop it near an already placed small planet
+#   - Problem: planets kept joining the earliest cluster (rich get richer), so the screen split in two:
+#              one side a big clump of clusters, the other big planets. The goal is an even mix.
+#   - So: build clusters up front with sizes weighted 1/n (many small clusters, a few big ones),
+#         treat each cluster as a disc and place it with the same spacing/density rules as big planets.
+#         Members are scattered inside that disc.
+#   - Problem 2: clusters looked creepy, like a pile of eggs
+#                (similar member sizes + uniform scatter giving even gaps + too many members).
+#   - So: enforce a leader + followers size hierarchy (leader/smallest &gt;= CLUSTER_MIN_SIZE_RATIO),
+#         keep member distances near the leader so the hierarchy shows on screen,
+#         Gaussian scatter (dense center, sparse edge) + slight ellipse,
+#         max members 12 -&gt; 7.
+# ---------------------------------------------------------------------------
+
+
+def to_view(location, radius):
+    # 아레나에서 본 방향(단위벡터)과 겉보기 각반지름
+    # Direction (unit vector) and apparent angular radius as seen from the arena.
+    distance = vec_length(location)
+    direction = tuple(value / distance for value in location)
+    alpha = math.asin(min(1.0, radius / distance))
+
+    return direction, alpha
+
+
+def view_mass(alpha):
+    return math.pi * alpha * alpha
+
+
+def angle_between(dir_a, dir_b):
+    dot = dir_a[0] * dir_b[0] + dir_a[1] * dir_b[1] + dir_a[2] * dir_b[2]
+    return math.acos(max(-1.0, min(1.0, dot)))
+
+
+def in_spawn_area(direction):
+    # 반구 위쪽이면서 정수리는 아닌 띠 안에 있는지
+    # Whether the direction is in the band: upper hemisphere but not the zenith.
+    return 0.0 &lt;= direction[2] &lt;= MAX_Z_DIR
+
+
+def estimate_view_density(layout_items):
+    # 전체 배치 단위(행성 + 무리)의 시각적 질량 합 / 스폰 영역 입체각 = 평균 밀도
+    # 스폰 영역(z 0 ~ MAX_Z_DIR 띠)의 입체각 = 2π·MAX_Z_DIR
+    # 배치 전이라 거리는 구간 중간값으로 추정.
+    # 이걸 기준으로 삼으니 Count나 스케일을 바꿔도 자동으로 "전체 1"에 맞춰짐.
+    # Average density = total visual mass of all layout items (planets + clusters) / spawn area solid angle.
+    # Solid angle of the spawn band (z from 0 to MAX_Z_DIR) = 2 * pi * MAX_Z_DIR.
+    # Placement hasn't happened yet, so distance is estimated as the zone's midpoint.
+    # Using this as the baseline keeps the whole thing normalized even when Count or scales change.
+    total_mass = sum(view_mass(item["alpha_est"]) for item in layout_items)
+
+    return total_mass / (2.0 * math.pi * MAX_Z_DIR)
+
+
+def fits_composition(direction, alpha, layout, size_spacing, density_budget):
+    # layout = 이미 놓인 배치 단위 (행성 + 무리 원판)
+    # 주의! has_space처럼 이미 놓인 것 전부와 비교해서 전체 O(n²).
+    # layout = layout items already placed (planets + cluster discs).
+    # Careful! Like has_space, this compares against everything placed, so O(n^2) overall.
+    neighbor_angle = math.radians(NEIGHBOR_ANGLE)
+    local_mass = 0.0
+
+    for other in layout:
+        theta = angle_between(direction, other["direction"])
+
+        # 1. 크기별 간격: 화면에서 겹치지 않게 + 둘 다 클수록 더 벌림
+        # 기하평균이라 큰+큰은 넓게, 큰+작은은 중간, 작은+작은은 거의 붙어도 됨
+        # 1. Size-based spacing: no overlap on screen + more space the bigger both are.
+        # Geometric mean: big+big far apart, big+small medium, small+small can almost touch.
+        needed = (
+            alpha + other["alpha"]
+            + size_spacing * math.sqrt(alpha * other["alpha"])
+        )
+
+        if theta &lt; needed:
+            return False
+
+        # 2. 밀도 예산용: 가까울수록 무게를 많이 쳐줌 (선형 감쇠)
+        # 2. For the density budget: closer neighbors weigh more (linear falloff).
+        if theta &lt; neighbor_angle:
+            local_mass += other["mass"] * (1.0 - theta / neighbor_angle)
+
+    if local_mass &lt;= 0.0:
+        return True
+
+    # 선형 감쇠 커널의 면적 = π·R²/3
+    # Area of the linear falloff kernel = pi * R^2 / 3.
+    kernel_area = math.pi * neighbor_angle * neighbor_angle / 3.0
+    local_density = local_mass / kernel_area
+
+    # 주변이 평균보다 무거울수록 들어올 확률이 낮아짐.
+    # 딱 잘라 막으면 큰 행성 근처가 텅 비니까 확률로 "조금만" 들어오게 함.
+    # The heavier the neighborhood compared to average, the lower the chance to accept.
+    # A hard cutoff would leave big planets' surroundings empty, so a chance lets "a few" in.
+    accept_chance = density_budget / local_density
+
+    return random.random() &lt; accept_chance
+
+
+def view_clear(direction, alpha, placed):
+    # 실제 행성끼리 화면에서 겹치지 않는지만 확인 (무리 멤버용)
+    # Only checks that real planets don't overlap on screen (used for cluster members).
+    for other in placed:
+        theta = angle_between(direction, other["direction"])
+
+        if theta &lt; alpha + other["alpha"]:
+            return False
+
+    return True
+
+
+def random_cluster_size():
+    # 무리 크기를 1/n 가중치로 뽑음 -&gt; 작은 무리는 많고 큰 무리는 가끔.
+    # 그래야 "약간 / 엄청 / 엄청 약간" 무리가 섞여서 나옴
+    # Cluster size is picked with 1/n weights -&gt; many small clusters, occasional big ones.
+    # That gives a mix of slight, heavy and very slight clusters.
+    sizes = list(range(CLUSTER_SIZE_MIN, CLUSTER_SIZE_MAX + 1))
+    weights = [1.0 / size for size in sizes]
+
+    return random.choices(sizes, weights=weights, k=1)[0]
+
+
+def build_clusters(small_items, cluster_chance):
+    # 3. 군집
+    # 처음엔 "이미 놓인 작은 행성 근처에 떨구기"였는데, 먼저 생긴 무리 쪽으로
+    # 계속 몰려서(부익부) 큰 무리 하나 + 큰 행성 쪽으로 2분할만 됐음.
+    # 그래서 무리를 미리 크기별로 나눠 만들고, 무리 하나를 원판(중간 크기 행성 하나)처럼
+    # 큰 행성들과 같은 규칙으로 배치함 -&gt; 무리/큰 거/중간 거가 골고루 섞임.
+    #
+    # 그 다음엔 멤버를 랜덤으로 묶었더니 크기가 다 비슷해서 알 무더기처럼 징그러웠음.
+    # 그래서 무리마다 대장(남은 것 중 제일 큰 것) 1개 + 제일 작은 것 1개 + 나머지 랜덤으로
+    # 묶어서 크기 계층을 만들고, 대장/최소 비율이 CLUSTER_MIN_SIZE_RATIO 이상이 되게 강제함.
+    #
+    # 3. Clusters
+    # At first small planets were dropped near already placed small planets, but they kept
+    # piling onto the earliest cluster (rich get richer), splitting the screen into one big clump + big planets.
+    # So clusters are built up front by size, and each cluster is placed like a disc (one medium planet)
+    # with the same rules as big planets -&gt; clusters, big and medium planets mix evenly.
+    #
+    # Next, grouping members at random gave similar sizes and looked creepy, like a pile of eggs.
+    # So each cluster takes a leader (largest remaining) + the smallest remaining + random others,
+    # building a size hierarchy, and leader/smallest is forced to be at least CLUSTER_MIN_SIZE_RATIO.
+    clustered = []
+    scattered = []
+
+    for item in small_items:
+        if random.random() &lt; cluster_chance:
+            clustered.append(item)
+        else:
+            scattered.append(item)
+
+    # 큰 것부터 정렬해두고 앞에서 대장, 뒤에서 제일 작은 것을 뽑음
+    # Sort largest first: take the leader from the front and the smallest from the back.
+    clustered.sort(key=lambda item: item["scale"], reverse=True)
+
+    clusters = []
+
+    while clustered:
+        size = random_cluster_size()
+
+        leader = clustered.pop(0)
+
+        # 1개짜리는 무리가 아니니까 그냥 흩어진 행성으로
+        # A single planet isn't a cluster, so it becomes a scattered planet.
+        if not clustered:
+            scattered.append(leader)
+            break
+
+        smallest = clustered.pop()
+
+        others = random.sample(
+            clustered,
+            min(size - 2, len(clustered))
+        )
+        for item in others:
+            clustered.remove(item)
+
+        # 대장/최소 비율이 부족하면 제일 작은 것을 더 줄임.
+        # 이 경우 구간의 MinScale보다 작아질 수 있음 (무리 안 계층이 우선)
+        # If leader/smallest ratio is too low, shrink the smallest further.
+        # It may end up below the zone's MinScale (the in-cluster hierarchy wins).
+        if leader["scale"] / smallest["scale"] &lt; CLUSTER_MIN_SIZE_RATIO:
+            smallest["scale"] = leader["scale"] / CLUSTER_MIN_SIZE_RATIO
+            smallest["radius"] = planet_radius(smallest["scale"])
+
+        members = [leader] + others + [smallest]
+
+        # 멤버 수가 많을수록 넓게 퍼짐 (면적이 멤버 수에 비례하도록 sqrt)
+        # More members spread wider (sqrt so the area scales with member count).
+        spread = math.radians(
+            CLUSTER_SPREAD_PER_MEMBER * math.sqrt(len(members))
+        )
+
+        # 살짝 타원형으로. 방향도 무리마다 랜덤
+        # Slightly elliptical, with a random orientation per cluster.
+        stretch = random.uniform(1.0, CLUSTER_MAX_STRETCH)
+
+        clusters.append({
+            "kind": "cluster",
+            "members": members,
+            "spread": spread,
+            "stretch": stretch,
+            "orient": random.uniform(0.0, math.pi),
+            # 배치할 땐 긴 쪽 기준 원판으로 봄
+            # For layout, treat it as a disc sized by the long axis.
+            "alpha_est": spread * stretch,
+        })
+
+    return clusters, scattered
+
+
+def cluster_offset(cluster, center, sigma):
+    # 무리 중심에서 가우시안으로 떨어진 방향 하나.
+    # 원판에 균등하게 뿌리면 간격이 고르게 꽉 차서 격자처럼 보임 -&gt;
+    # 가우시안이면 중심은 촘촘하고 가장자리는 듬성해서 자연스러움
+    # One direction offset from the cluster center with a Gaussian.
+    # Uniform scatter in a disc fills it with even gaps and looks grid-like -&gt;
+    # a Gaussian is dense in the center and sparse at the edge, which looks natural.
+    stretch = cluster["stretch"]
+    limit = cluster["alpha_est"]
+
+    x = random.gauss(0.0, sigma) * stretch
+    y = random.gauss(0.0, sigma)
+    angle = math.hypot(x, y)
+
+    # 너무 멀리 튄 건 버림 (원판 밖으로 나가면 다른 행성이랑 부딪힘)
+    # Discard samples that land too far (outside the disc they'd hit other planets).
+    if angle &gt; limit:
+        return None
+
+    phi = math.atan2(y, x) + cluster["orient"]
+
+    return direction_from_axis(center, angle, phi)
+
+
+def place_planet(item, placed, layout, min_gap, size_spacing, density_budget):
+    zone = item["zone"]
+    radius = item["radius"]
+
+    for _ in range(MAX_PLACE_ATTEMPTS):
+        location = random_location(
+            zone["min_distance"],
+            zone["max_distance"]
+        )
+
+        # 실제 3D로 겹치지 않는지 (물리적 최소거리)
+        # No overlap in real 3D (physical minimum distance).
+        if not has_space(location, radius, placed, min_gap):
+            continue
+
+        direction, alpha = to_view(location, radius)
+
+        # 아레나에서 봤을 때 컴포지션이 괜찮은지 + 무리 멤버랑 안 겹치는지
+        # Composition looks right from the arena + no overlap with cluster members.
+        if not fits_composition(
+            direction, alpha, layout, size_spacing, density_budget
+        ):
+            continue
+
+        if not view_clear(direction, alpha, placed):
+            continue
+
+        planet = {
+            "location": location,
+            "scale": item["scale"],
+            "radius": radius,
+            "zone": item["zone_index"],
+            "direction": direction,
+            "alpha": alpha,
+            "mass": view_mass(alpha),
+        }
+        placed.append(planet)
+        layout.append(planet)
+
+        return True
+
+    unreal.log_warning(
+        f"Zone {item['zone_index']}: no space for planet "
+        f"(scale {item['scale']:.2f}), skipped"
+    )
+
+    return False
+
+
+def place_cluster(cluster, placed, layout, min_gap, size_spacing, density_budget):
+    disc = cluster["alpha_est"]
+    spread = cluster["spread"]
+
+    # 무리 중심을 먼저 잡음. 무리 전체를 원판 하나로 보고 배치
+    # Pick the cluster center first, treating the whole cluster as one disc.
+    for _ in range(MAX_PLACE_ATTEMPTS):
+        center = random_location(1.0, 1.0)
+
+        if fits_composition(
+            center, disc, layout, size_spacing, density_budget
+        ):
+            break
+    else:
+        unreal.log_warning(
+            f"No space for cluster ({len(cluster['members'])} planets), skipped"
+        )
+        return 0
+
+    layout.append({
+        "direction": center,
+        "alpha": disc,
+        "mass": view_mass(disc),
+    })
+
+    # 대장이 기준 거리. 대장 구간 중간값으로 시작해서 대장이 놓이면 그 거리로 바뀜
+    # The leader sets the reference distance. Starts at the leader zone's midpoint,
+    # then switches to the leader's actual distance once it's placed.
+    leader_zone = cluster["members"][0]["zone"]
+    cluster_distance = (
+        leader_zone["min_distance"] + leader_zone["max_distance"]
+    ) * 0.5
+
+    placed_count = 0
+
+    for member_index, item in enumerate(cluster["members"]):
+        zone = item["zone"]
+        radius = item["radius"]
+        is_leader = member_index == 0
+
+        # 대장은 중심 근처에, 나머지는 가우시안으로 퍼뜨림
+        # Leader near the center, the rest spread out with a Gaussian.
+        sigma = spread * (0.25 if is_leader else 0.5)
+
+        for _ in range(MAX_PLACE_ATTEMPTS):
+            direction = cluster_offset(cluster, center, sigma)
+
+            if direction is None or not in_spawn_area(direction):
+                continue
+
+            # 대장은 자기 구간 거리, 나머지는 대장 거리 근처.
+            # 거리가 제각각이면 멀어서 작아 보이는 게 섞여서 크기 계층이 흐려짐
+            # Leader uses its own zone distance, the rest stay near the leader's distance.
+            # With random distances, far members look smaller and blur the size hierarchy.
+            if is_leader:
+                distance = random.uniform(
+                    zone["min_distance"],
+                    zone["max_distance"]
+                )
+            else:
+                distance = cluster_distance * random.uniform(
+                    1.0 - CLUSTER_DEPTH_JITTER,
+                    1.0 + CLUSTER_DEPTH_JITTER
+                )
+
+            location = tuple(value * distance for value in direction)
+
+            if not has_space(location, radius, placed, min_gap):
+                continue
+
+            _, alpha = to_view(location, radius)
+
+            if not view_clear(direction, alpha, placed):
+                continue
+
+            placed.append({
+                "location": location,
+                "scale": item["scale"],
+                "radius": radius,
+                "zone": item["zone_index"],
+                "direction": direction,
+                "alpha": alpha,
+                "mass": view_mass(alpha),
+            })
+            placed_count += 1
+
+            if is_leader:
+                cluster_distance = distance
+
+            break
+
+    return placed_count
+
+
+def place_main_planets(zones, min_gap, size_spacing, cluster_chance):
+    pending = []
+
+    for zone_index, zone in enumerate(zones, start=1):
+        unreal.log(
+            f"Zone {zone_index}: distance "
+            f"{zone['min_distance']:.0f} ~ {zone['max_distance']:.0f}, "
+            f"scale {zone['min_scale']} ~ {zone['max_scale']}"
+        )
+
+        mid_distance = (zone["min_distance"] + zone["max_distance"]) * 0.5
+
+        for _ in range(zone["count"]):
+            scale = random.uniform(
+                zone["min_scale"],
+                zone["max_scale"]
+            )
+            radius = planet_radius(scale)
+
+            pending.append({
+                "kind": "planet",
+                "scale": scale,
+                "radius": radius,
+                "alpha_est": math.asin(min(1.0, radius / mid_distance)),
+                "zone_index": zone_index,
+                "zone": zone,
+            })
+
+    if not pending:
+        return []
+
+    pending.sort(key=lambda item: item["alpha_est"], reverse=True)
+
+    # 겉보기 크기가 하위 절반이면 "작은 행성" (군집 대상)
+    # The bottom half by apparent size counts as "small planets" (cluster candidates).
+    half = len(pending) // 2
+    big_items = pending[:half]
+    small_items = pending[half:]
+
+    clusters, scattered = build_clusters(small_items, cluster_chance)
+
+    unreal.log(
+        f"Clusters: {len(clusters)} "
+        f"(sizes {[len(c['members']) for c in clusters]})"
+    )
+
+    # 행성이랑 무리를 한 줄로 세워서 겉보기로 큰 것부터 배치.
+    # 큰 게 먼저 자리를 넓게 잡아야 자리 못 찾는 경우가 줄어듦
+    # Line up planets and clusters together and place them from apparently largest down.
+    # Letting big items claim space first means fewer items fail to find a spot.
+    layout_items = big_items + scattered + clusters
+    layout_items.sort(key=lambda item: item["alpha_est"], reverse=True)
+
+    density_budget = estimate_view_density(layout_items) * DENSITY_TOLERANCE
+
+    placed = []   # 실제 행성 (3D 간격, 화면 겹침 검사용) / Real planets (3D spacing, on-screen overlap checks)
+    layout = []   # 배치 단위 = 행성 + 무리 원판 (컴포지션 검사용) / Layout items = planets + cluster discs (composition checks)
+
+    for item in layout_items:
+        if item["kind"] == "cluster":
+            place_cluster(
+                item, placed, layout, min_gap, size_spacing, density_budget
+            )
+        else:
+            place_planet(
+                item, placed, layout, min_gap, size_spacing, density_budget
+            )
+
+    unreal.log(f"Main planets: {len(placed)} / {len(pending)} placed")
+
+    return placed
+
+
+def place_accessory_planets(placed, accessory, min_gap):
+    # 아레나(원점)에서 봤을 때 악세사리 행성이 보여야 하니까
+    # 기준 행성 -&gt; 아레나 방향을 축으로 한 범위 안에만 붙임.
+    # 아무 방향에나 붙이면 기준 행성 뒤쪽에 숨어서 아레나에선 안 보일 수 있음.
+    # 처음엔 원뿔(0~30도)이었는데, 가운데 쪽에 붙으면 아레나-악세-기준 행성이
+    # 일직선이 돼서 악세가 기준 행성 정면에 겹쳐 보여서 못생김.
+    # 그래서 가운데를 뺀 링(45~75도)으로 바꿈 -&gt; 앞쪽이라 보이면서 옆으로 비껴 보임.
+    # Accessory planets must be visible from the arena (origin),
+    # so they only attach within a range around the parent -&gt; arena direction.
+    # Attached in any direction, they could hide behind the parent and never be seen from the arena.
+    # At first this was a cone (0-30 degrees), but near the center arena, accessory and parent
+    # lined up, so the accessory overlapped the parent's front and looked ugly.
+    # So it became a ring with the center cut out (45-75 degrees) -&gt; still in front, but offset to the side.
+    parents = [
+        planet for planet in placed
+        if planet["scale"] &gt;= accessory["parent_min_scale"]
+    ]
+
+    accessories = []
+
+    for parent in parents:
+        if random.random() &gt;= accessory["chance"]:
+            continue
+
+        scale = random.uniform(
+            accessory["min_scale"],
+            accessory["max_scale"]
+        )
+        radius = planet_radius(scale)
+
+        # 기준 행성 표면에서 gap만큼 띄워서 붙임
+        # Attach \`gap\` away from the parent's surface.
+        offset = parent["radius"] + accessory["gap"] + radius
+
+        parent_distance = vec_length(parent["location"])
+        to_arena = tuple(
+            -value / parent_distance for value in parent["location"]
+        )
+
+        for _ in range(MAX_PLACE_ATTEMPTS):
+            direction = random_direction_in_ring(
+                to_arena,
+                ACCESSORY_RING_MIN_ANGLE,
+                ACCESSORY_RING_MAX_ANGLE
+            )
+
+            location = tuple(
+                parent["location"][i] + direction[i] * offset
+                for i in range(3)
+            )
+
+            # 반구 아래나 정수리로 가면 안 보이니까 다시 뽑기
+            # Below the hemisphere or at the zenith it won't be seen, so re-roll.
+            location_length = vec_length(location)
+
+            if not in_spawn_area(
+                tuple(value / location_length for value in location)
+            ):
+                continue
+
+            # 기준 행성은 gap으로 이미 띄웠으니 검사에서 제외
+            # The parent is already spaced by \`gap\`, so skip it in the check.
+            if has_space(
+                location, radius, placed + accessories, min_gap,
+                ignore=parent
+            ):
+                accessories.append({
+                    "location": location,
+                    "scale": scale,
+                    "radius": radius,
+                })
+                break
+        else:
+            unreal.log_warning(
+                f"No space for accessory next to planet "
+                f"(scale {parent['scale']:.2f}), skipped"
+            )
+
+    unreal.log(
+        f"Accessory: {len(accessories)} spawned "
+        f"({len(parents)} parent candidates)"
+    )
+
+    return accessories
+
+
+def spawn_planet(actor_subsystem, mesh, location, scale, label):
+    planet = actor_subsystem.spawn_actor_from_class(
+        unreal.StaticMeshActor,
+        unreal.Vector(*location),
+        unreal.Rotator()
+    )
+
+    planet.static_mesh_component.set_static_mesh(mesh)
+
+    planet.set_actor_scale3d(
+        unreal.Vector(
+            scale,
+            scale,
+            scale
+        )
+    )
+
+    planet.set_actor_label(label)
+
+
+def generate_planets():
+    settings = get_settings()
+
+    zones = read_zones(settings)
+    accessory = read_accessory_settings(settings)
+    min_gap = settings.get_editor_property("MinGap")
+    size_spacing = settings.get_editor_property("SizeSpacing")
+    cluster_chance = settings.get_editor_property("ClusterChance")
+
+    placed = place_main_planets(
+        zones, min_gap, size_spacing, cluster_chance
+    )
+    accessories = place_accessory_planets(placed, accessory, min_gap)
+
+    actor_subsystem = unreal.get_editor_subsystem(
+        unreal.EditorActorSubsystem
+    )
+
+    mesh = unreal.load_asset("/Engine/BasicShapes/Sphere")
+
+    for index, planet in enumerate(placed):
+        spawn_planet(
+            actor_subsystem, mesh,
+            planet["location"], planet["scale"],
+            f"BG_Planet_{index}"
+        )
+
+        unreal.log(
+            f"Planet {index} (zone {planet['zone']}): "
+            f"scale = {planet['scale']}"
+        )
+
+    # 라벨이 BG_Planet_로 시작해야 clear_planets에서 같이 지워짐
+    # Labels must start with BG_Planet_ so clear_planets removes them too.
+    for index, planet in enumerate(accessories):
+        spawn_planet(
+            actor_subsystem, mesh,
+            planet["location"], planet["scale"],
+            f"BG_Planet_Acc_{index}"
+        )
+
+
+def clear_planets():
+    actor_subsystem = unreal.get_editor_subsystem(
+        unreal.EditorActorSubsystem
+    )
+
+    for actor in actor_subsystem.get_all_level_actors():
+        if actor.get_actor_label().startswith("BG_Planet_"):
+            actor_subsystem.destroy_actor(actor)
+</code></pre></div></details></section>`
+            }
+          ]
         }
       }
     }

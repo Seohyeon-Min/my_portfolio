@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@200..900&family=Source+Sans+3:wght@200..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/style.css?v=20260923j">
+  <link rel="stylesheet" href="../css/style.css?v=20260923k">
 </head>
 <body>
 <!-- CRAWLER NOTE: every element below (hero title/media, overview, bullets, contributions) is an empty/placeholder shell that js/project-template.js fills in at runtime from js/projects-data.js["09_Carboom"] -- read that object for the real, current content, pinned/type flags, and any (IN PRODUCTION / UNFINISHED) or (THIS IS DE-EMPHASIZED / COLLAPSED BY DEFAULT!) notes on it. -->
@@ -18,23 +18,25 @@
   <h2>Role</h2>
   <p>Gameplay Programmer / Technical Art &mdash; Tools</p>
   <h2>Tools</h2>
-  <p>Unreal Engine, Python (Unreal Editor scripting), C++</p>
+  <p>Unreal Engine, Python (Unreal Editor scripting), C++, Perforce, Jira</p>
   <h2>Problem</h2>
-  <p>A team Unreal Engine project needs gameplay core systems and technical-art tooling &mdash; specifically an editor tool to procedurally place background planets, and a demolition/destruction system for level objects &mdash; while collaborating with two artists on the game's look.</p>
+  <p>The space background is only ever seen from one fixed point (the arena), so a random 3D scatter of planets produced uneven, unbalanced skies &mdash; real 3D distance doesn't match what actually reads on screen. The team also needs gameplay core systems and a demolition/destruction system for level objects, while I collaborate with two artists on the game's look.</p>
   <h2>What I Built</h2>
   <ul>
-    <li>Building an editor tool that procedurally places background planets, with count, distance, scale, and spread all exposed as parameters</li>
-    <li>Building a demolition/destruction system for destructible level objects</li>
-    <li>Owning gameplay core systems</li>
+    <li>A DataAsset-driven editor tool that places background planets by apparent size, on-screen spacing, and local density &mdash; computed as angles/solid angle from the arena, not raw 3D position</li>
+    <li>Automatic small-planet clustering with a leader/follower size hierarchy, replacing an earlier version that clumped unevenly or looked uniform</li>
+    <li>A ring-constrained placement rule so accessory "moon" planets stay visible from the arena instead of hiding behind their parent</li>
+    <li>A demolition/destruction system for destructible level objects</li>
+    <li>Gameplay core systems</li>
     <li>Collaborating with 2 artists on the game's visuals</li>
   </ul>
   <h2>Result</h2>
-  <p>In progress &mdash; no finished build yet. Check back for updates as the project moves out of production.</p>
+  <p>In progress &mdash; no finished build yet. The placement tool itself is functional and iterated in-editor (see the full case study and source on this page). Check back for updates as the project moves out of production.</p>
 </section>
   <header class="navbar"><div class="navbar-logo">MSH</div><nav class="navbar-menu"><a href="../index.html#home">Home</a><a href="../index.html#projects">Projects</a><a href="../index.html#about">About</a><a href="../index.html#contact">Contact</a></nav></header>
   <header class="video-hero"><img src="" alt="Poster" class="bird-image"><div class="video-overlay"><h1 class="game-title-bird">PROJECT TITLE</h1><p class="game-subtitle-bird">PROJECT SUBTITLE</p></div></header>
   <main class="main-content"><section class="main-background-section"></section><section class="rounded-section"></section><button class="return-button" onclick="window.history.back()"><span class="arrow-icon">&larr;</span><span class="button-text">Return</span></button></main>
   <footer class="footer"><a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a></footer>
-  <script src="../js/projects-data.js?v=20260921u"></script><script src="../js/project-template.js?v=20260921u"></script><script src="../js/index.js?v=20260923j"></script>
+  <script src="../js/projects-data.js?v=20260921v"></script><script src="../js/project-template.js?v=20260921v"></script><script src="../js/index.js?v=20260923k"></script>
 </body>
 </html>
