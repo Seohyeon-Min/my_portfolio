@@ -3234,11 +3234,6 @@ body .return-button.project-back-button:hover {
   --scene-z: -1800px;
   --scene-scale: 0.32;
   --scene-opacity: 0;
-  /* Blur radii were 14/12/7px — animating filter:blur() on a full-viewport layer is one of
-     the most expensive things to animate (full repaint of the whole subtree per frame, no
-     compositor shortcut like transform/opacity get), and with 2-3 scenes transitioning at
-     once that was the main source of jank when scrolling between scenes. Smaller radii cost
-     less to rasterize per frame while keeping the same depth-blur look. */
   --scene-blur: 8px;
   position: absolute;
   inset: 0;
@@ -3251,11 +3246,16 @@ body .return-button.project-back-button:hover {
   transform-style: preserve-3d;
   visibility: hidden;
   pointer-events: none;
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity;
+  /* filter is deliberately NOT in this transition list. Measured with a Chrome trace: animating
+     filter:blur() on a full-viewport layer forces a full raster of that layer's tiles on every
+     frame (549 RasterTask events during one scene switch, over half the total trace time) —
+     transform/opacity are compositor-only and don't. Leaving filter out of the transition makes
+     it snap to its target value instantly (a single one-time repaint) instead of animating, which
+     is what was actually causing the jank when scrolling between scenes. */
   transition:
     transform 950ms cubic-bezier(.16,.77,.18,1),
     opacity 500ms ease,
-    filter 750ms ease,
     visibility 0s linear 950ms;
 }
 .link-scene[hidden] { display: none !important; }

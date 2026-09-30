@@ -176,6 +176,7 @@ function maybeShineNewBadge(scene) {
 // has none) fades in behind everything. Delegated on the scene itself rather than bound per
 // card, so it keeps working after applyPortfolioTrack relabels the same 3-4 card elements for a
 // different track — nothing here needs rebinding when the track changes.
+let proofReelHoverClear = null;
 function initProofReelHover() {
   const scene = document.querySelector('.link-scene--proof');
   const backdrop = document.querySelector('.proof-backdrop');
@@ -193,8 +194,15 @@ function initProofReelHover() {
     if (skillsBox) skillsBox.classList.remove('is-visible');
     if (summaryBox) summaryBox.classList.remove('is-visible');
     current = null;
-    video.pause();
+    // Pause after the backdrop's own opacity transition (see .proof-backdrop in style.css) finishes,
+    // not immediately — pausing right away freeze-frames the video mid-fade instead of letting it
+    // fade out while still playing.
+    window.setTimeout(() => video.pause(), 420);
   };
+  // Exposed so activateScene() can force this shut (video included) the instant the user scrolls
+  // away from the Proof Reel scene — a hover that's still "on" when the scene changes would
+  // otherwise keep its video playing silently behind whatever scene comes next.
+  proofReelHoverClear = clear;
   const activate = card => {
     const key = card.dataset.projectKey;
     if (!key || key === current) return;
@@ -1571,6 +1579,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     activeIndex = nextIndex;
     app.classList.toggle('has-left-entry', activeIndex > 0);
+
+    // Scrolling away from Proof Reel while a card is still hovered would otherwise leave its
+    // backdrop video quietly playing behind whichever scene comes next — force the hover state
+    // shut (with its normal fade, not a hard cut) the moment the scene actually changes.
+    if (previousIndex !== activeIndex && scenes[previousIndex]?.classList.contains('link-scene--proof')) {
+      proofReelHoverClear?.();
+    }
 
     // The entry scene is display:none while away (has-left-entry / [hidden]), and an
     // element coming out of display:none has no previous style to transition from,
