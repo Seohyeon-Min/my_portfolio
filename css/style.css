@@ -5343,11 +5343,18 @@ body.asset-lightbox-open { overflow:hidden; }
 .simple-gallery__group h2 { margin:0 0 .5rem; color:var(--case-ink); font-size:1.05rem; letter-spacing:-.02em; }
 .simple-gallery__group > p { max-width:42rem; margin:0 0 1rem; color:var(--case-muted); font-size:.82rem; line-height:1.5; }
 .simple-gallery__grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(13rem,1fr)); gap:1rem; }
-.simple-gallery__grid button { position:relative; display:block; width:100%; padding:0; overflow:hidden; border:1px solid var(--case-line); border-radius:1rem; background:#fff; cursor:zoom-in; text-align:left; transition:transform 180ms ease,box-shadow 180ms ease; }
+.simple-gallery__grid button,
+.simple-gallery__grid a { position:relative; display:block; width:100%; padding:0; overflow:hidden; border:1px solid var(--case-line); border-radius:1rem; background:#fff; cursor:zoom-in; text-align:left; text-decoration:none; transition:transform 180ms ease,box-shadow 180ms ease; }
 .simple-gallery__grid button:hover,
-.simple-gallery__grid button:focus-visible { transform:translateY(-.3rem); box-shadow:0 1.2rem 2.6rem rgba(43,54,102,.15); }
+.simple-gallery__grid button:focus-visible,
+.simple-gallery__grid a:hover,
+.simple-gallery__grid a:focus-visible { transform:translateY(-.3rem); box-shadow:0 1.2rem 2.6rem rgba(43,54,102,.15); }
+/* Gallery items that link out to the project they came from (not a lightbox zoom) use a
+   normal pointer cursor and an arrow-styled caption instead of the zoom-in cursor. */
+.simple-gallery__grid a { cursor:pointer; }
 .simple-gallery__grid img { display:block; width:100%; height:15rem; object-fit:contain; background:#f3f1ea; }
 .simple-gallery__grid span { display:block; padding:.55rem .75rem; border-top:1px solid var(--case-line); color:var(--case-muted); font-size:.68rem; font-weight:700; letter-spacing:.02em; }
+.simple-gallery__grid a span { color:var(--ls-blue); }
 .simple-gallery .return-button { display:inline-flex; position:static; align-items:center; gap:.4rem; margin:2.6rem 0 0; padding:.65rem .9rem; border:1px solid var(--case-line); border-radius:999px; background:#fff; color:var(--case-blue); font-size:.65rem; font-weight:800; cursor:pointer; }
 .simple-gallery .return-button:hover { background:var(--case-blue); color:#fff; }
 

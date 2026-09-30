@@ -762,9 +762,9 @@ function applyLanguage(language) {
     // so a `>` selector matches nothing on the graphics/product tracks and the skill keys go dead.
     const cards = [...document.querySelectorAll('.link-archive-grid a, .portfolio__item[href]')];
     const projectTools = {
-      '02_EdgeDirve.html': 'Unreal Engine',
+      '02_EdgeDirve.html': 'Unreal Engine GitHub',
       '09_Carboom.html': 'Unreal Engine C++ Python Perforce Jira',
-      '00_NewManzo.html': 'C# FMOD HLSL Clip Studio Paint Aseprite GitHub', '01_Manzo.html': 'C++ OpenGL GLSL Custom Engine Clip Studio Paint GitHub',
+      '00_NewManzo.html': 'C# FMOD HLSL Clip Studio Paint Aseprite Spriter Pro GitHub', '01_Manzo.html': 'C++ OpenGL GLSL Custom Engine Clip Studio Paint GitHub RenderDoc',
       '03_DoubleHit.html': 'C++ GLSL OpenGL Spriter Pro Clip Studio Paint GitHub', '04_BirdStrike.html': 'C++ Clip Studio Paint Cakewalk raylib GitHub',
       '05_ThinkThink.html': 'Unity HLSL C# GitHub', '06_StreetTyper.html': 'C# Unity Spriter Pro 2D Rigging Animation HLSL Clip Studio Paint GitHub',
       '07_TooHot.html': 'C# Unity HLSL Clip Studio Paint GitHub', '08_PoseidonSkate.html': 'Unity HLSL C# Blender Clip Studio Paint Perforce Jira', 'Dangling.html': 'Clip Studio Paint', 'PlushProduction.html': 'Clip Studio Paint Notion',
