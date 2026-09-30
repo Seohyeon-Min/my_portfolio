@@ -1212,10 +1212,12 @@ h3 {
   z-index: 1;
 }
 
-.portfolio__item:hover .portfolio__img {
+.portfolio__item:hover .portfolio__img,
+.portfolio__item:focus-visible .portfolio__img {
   transform: scale(1.1);
   filter: blur(2px) brightness(0.6);
 }
+.portfolio__item:focus-visible { outline: none; }
 
 .portfolio__overlay {
   position: absolute;
@@ -1236,7 +1238,8 @@ h3 {
   box-sizing: border-box;
 }
 
-.portfolio__item:hover .portfolio__overlay {
+.portfolio__item:hover .portfolio__overlay,
+.portfolio__item:focus-visible .portfolio__overlay {
   opacity: 1;
 }
 
@@ -3231,7 +3234,12 @@ body .return-button.project-back-button:hover {
   --scene-z: -1800px;
   --scene-scale: 0.32;
   --scene-opacity: 0;
-  --scene-blur: 14px;
+  /* Blur radii were 14/12/7px — animating filter:blur() on a full-viewport layer is one of
+     the most expensive things to animate (full repaint of the whole subtree per frame, no
+     compositor shortcut like transform/opacity get), and with 2-3 scenes transitioning at
+     once that was the main source of jank when scrolling between scenes. Smaller radii cost
+     less to rasterize per frame while keeping the same depth-blur look. */
+  --scene-blur: 8px;
   position: absolute;
   inset: 0;
   display: grid;
@@ -3243,6 +3251,7 @@ body .return-button.project-back-button:hover {
   transform-style: preserve-3d;
   visibility: hidden;
   pointer-events: none;
+  will-change: transform, opacity, filter;
   transition:
     transform 950ms cubic-bezier(.16,.77,.18,1),
     opacity 500ms ease,
@@ -3269,14 +3278,14 @@ body .return-button.project-back-button:hover {
   --scene-z: 850px;
   --scene-scale: 1.65;
   --scene-opacity: 0;
-  --scene-blur: 12px;
+  --scene-blur: 7px;
   visibility: hidden;
 }
 .link-scene.is-near-next {
   --scene-z: -720px;
   --scene-scale: 0.58;
   --scene-opacity: 0.18;
-  --scene-blur: 7px;
+  --scene-blur: 4px;
   visibility: visible;
 }
 
@@ -3470,6 +3479,19 @@ body .return-button.project-back-button:hover {
   white-space: nowrap;
 }
 .proof-skills.is-visible .proof-skills__chip { opacity: 1; transform: translateY(0); }
+/* 'Shipped' (Street Typer only — see PROOF_SKILLS in index.js) gets a standing glow instead of the
+   plain pill, since it's the one proof-reel project that's actually out on itch.io/Steam rather
+   than just a jam/class build. Loops continuously while hovered, unlike the one-time NEW-badge
+   shine (new-badge-shine), which is a different effect for a different purpose. */
+.proof-skills__chip--glow {
+  border-color: rgba(255,255,255,0.85);
+  background: linear-gradient(120deg, color-mix(in srgb, var(--ls-blue) 55%, transparent), color-mix(in srgb, var(--ls-violet) 55%, transparent));
+  animation: proof-skill-glow 1.6s ease-in-out infinite;
+}
+@keyframes proof-skill-glow {
+  0%, 100% { box-shadow: 0 0 0.3rem color-mix(in srgb, var(--ls-blue) 55%, transparent); }
+  50% { box-shadow: 0 0 0.85rem 0.12rem color-mix(in srgb, var(--ls-violet) 70%, transparent); }
+}
 .proof-summary {
   position: absolute;
   top: clamp(4.4rem, 11vh, 6.4rem);
@@ -3607,6 +3629,7 @@ body .return-button.project-back-button:hover {
   transition: transform 240ms ease, box-shadow 240ms ease, opacity 320ms ease;
 }
 .proof-shot:hover { transform: translateY(-0.35rem) scale(1.01); box-shadow: 0 2.2rem 5rem rgba(43,54,102,0.25); }
+.proof-shot:focus-visible { outline: none; transform: translateY(-0.35rem) scale(1.01); box-shadow: 0 2.2rem 5rem rgba(43,54,102,0.25); }
 .link-scene--proof.is-hovering .proof-shot:not(.is-hover-active) { opacity: .5; }
 .proof-shot img { width: 100%; height: 100%; object-fit: cover; transition: transform 500ms cubic-bezier(.2,.72,.18,1); }
 .proof-shot:hover img { transform: scale(1.045); }
@@ -3735,7 +3758,10 @@ body .return-button.project-back-button:hover {
 .archive-panel::-webkit-scrollbar { width:.48rem; }
 .archive-panel::-webkit-scrollbar-track { background:transparent; }
 .archive-panel::-webkit-scrollbar-thumb { border-radius:999px; background:color-mix(in srgb,var(--ls-blue) 62%,transparent); }
-.archive-panel:focus-visible { outline:2px solid var(--ls-blue); outline-offset:3px; }
+/* tabindex="0" on this panel exists only so keyboard users can scroll it with arrow keys —
+   it isn't a real control, so a click focusing it (and showing this outline, in whatever
+   the active track's accent color happens to be) reads as an unintended selection box. */
+.archive-panel:focus-visible { outline:none; }
 .archive-panel h2 { margin-bottom: 0.75rem; font-size: clamp(2.6rem, 4.8vw, 4.8rem); }
 .archive-panel__intro { max-width:44rem; margin:-.1rem 0 1.05rem; color:var(--ls-muted); font-size:clamp(.72rem,1vw,.92rem); line-height:1.55; }
 .link-archive-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.7rem; }
@@ -3804,6 +3830,10 @@ body .return-button.project-back-button:hover {
   transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
 }
 .link-archive-grid a:hover { z-index: 2; transform: translateY(-0.3rem); border-color: var(--ls-blue); background: white; }
+/* These cards had no custom focus style, so clicking one showed the browser's native focus
+   ring (color follows the OS/browser accent setting — can render green, not just blue) on
+   top of everything else. Replace it with the same border-color cue used on hover. */
+.link-archive-grid a:focus-visible { outline: none; z-index: 2; border-color: var(--ls-blue); }
 .link-archive-grid img { width: 100%; height: 100%; object-fit: cover; transition: transform 300ms ease; }
 .link-archive-grid a:hover img { transform: scale(1.04); }
 .archive-card__copy { position: absolute; inset: 42% 0 0; display: grid; align-content: end; gap: 0.1rem; padding: 0.48rem; background: linear-gradient(transparent, rgba(10,14,28,0.9)); color: #fff; }
@@ -3907,7 +3937,10 @@ a[data-resume-alternate].is-hidden { display:none !important; }
 .hobby-node--band { --node-start-x:250px; --node-start-y:-150px; --node-rotate:2deg; left:8%; bottom:5%; transition-delay:310ms; }
 .hobby-photo { overflow:hidden; width:100%; aspect-ratio:4/3; border:5px solid #fff; border-radius:1rem; background:#ddd; box-shadow:0 1.4rem 3rem rgba(43,54,102,.18); }
 .hobby-photo img { width:100%; height:100%; object-fit:cover; }
-.hobby-photo--stack { position:relative; overflow:visible; border:0; background:transparent; box-shadow:none; }
+/* overflow:visible lets the rotated/offset photos spill past the aspect-ratio box (by design,
+   for the loose polaroid-stack look) — margin-bottom reserves room for that spill so the title
+   below doesn't get covered by the bottom-most tilted photo. */
+.hobby-photo--stack { position:relative; overflow:visible; border:0; background:transparent; box-shadow:none; margin-bottom:.9rem; }
 .hobby-photo--stack[role="button"] { cursor:pointer; }
 .hobby-photo--stack[role="button"]:focus-visible { outline:2px solid var(--ls-blue); outline-offset:.65rem; }
 .hobby-photo--stack img { position:absolute; inset:0; border:4px solid #fff; border-radius:.85rem; background:#fff; box-shadow:0 1rem 2.4rem rgba(43,54,102,.2); transition:transform 320ms cubic-bezier(.2,.8,.2,1),z-index 0s; }
@@ -5530,6 +5563,42 @@ body.simple-lightbox-open { overflow:hidden; }
 .link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active) .link-scene-nav,
 .link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active) .link-progress,
 .link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active) .link-arrow { opacity:0; pointer-events:none; }
+/* Slide the milestone list off past the left edge and the progress bar/arrows down past the
+   bottom edge as they fade, instead of just fading in place — and slide back in on the way back.
+   .link-scene-nav's own transform already carries translateY(-50%) for vertical centering, so the
+   slide has to compose with that rather than replace it. */
+.link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active) .link-scene-nav { transform: translateY(-50%) translateX(-1.6rem); }
+.link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active) .link-progress { transform: translateX(-50%) translateY(1.4rem); }
+.link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active) .link-arrow { transform: translateY(1.4rem); }
+.link-scene-nav,
+.link-progress,
+.link-arrow { transition: opacity 240ms ease, visibility 0s linear 250ms, transform 320ms cubic-bezier(.2,.72,.18,1); }
+/* Thin always-present edge strips (see index.html) that let a mouse near the left or bottom
+   edge bring the hidden milestone list / progress bar / arrows back, without making the
+   invisible nav itself clickable over the archive grid underneath (it stays pointer-events:none
+   at opacity 0 — only these dedicated strips, which sit in the narrow margin outside the archive
+   panel's own width, ever capture the hover). */
+.link-edge-hover { position: absolute; z-index: 55; pointer-events: none; }
+.link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active) .link-edge-hover { pointer-events: auto; }
+.link-edge-hover--nav { top: 0; left: 0; bottom: 0; width: clamp(1.4rem, 4vw, 4.5rem); }
+.link-edge-hover--bottom { left: 0; right: 0; bottom: 0; height: 4.5rem; }
+/* Both the edge strip AND the revealed nav itself can keep it open — without the second
+   condition, moving the mouse from the strip onto the nav's own (wider) text would leave the
+   strip's hover and instantly hide the thing the user just moved onto. */
+.link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active):has(.link-edge-hover--nav:hover) .link-scene-nav,
+.link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active):has(.link-scene-nav:hover) .link-scene-nav {
+  opacity: 1; pointer-events: auto; transform: translateY(-50%) translateX(0);
+}
+.link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active):has(.link-edge-hover--bottom:hover) .link-progress,
+.link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active):has(.link-progress:hover) .link-progress,
+.link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active):has(.link-arrow:hover) .link-progress {
+  opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0);
+}
+.link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active):has(.link-edge-hover--bottom:hover) .link-arrow,
+.link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active):has(.link-progress:hover) .link-arrow,
+.link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active):has(.link-arrow:hover) .link-arrow {
+  opacity: 1; pointer-events: auto; transform: translateY(0);
+}
 
 /* min-width:901px added on top of hover:hover/pointer:fine: without it, a real desktop browser
    window just resized narrow (mouse, not touch) matched BOTH this block and the max-width:900px

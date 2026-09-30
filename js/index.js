@@ -113,7 +113,9 @@ const PROOF_SKILLS = {
   poseidon: ['Modeling', 'Rigging', 'Game Integration', 'Ocean Shader', 'VFX'],
   manzo: ['Custom Engine', 'OpenGL Renderer', 'GLSL Shaders'],
   carboom: ['Editor Tooling', 'Procedural Placement', 'DataAsset Workflow'],
-  street: ['UI Shaders', 'VFX', 'Game Feel'],
+  // 'Shipped' is the only chip that glows (see the '--glow' class below) — Street Typer is the one
+  // proof-reel project actually released on itch.io/Steam, not just built for a jam/class.
+  street: ['UI Shaders', 'VFX', 'Game Feel', 'Shipped'],
   newmanzo: ['Gameplay Systems', 'Audio (FMOD)', 'Shaders'],
   doublehit: ['Rendering', 'Shaders', 'Sprite Rigging'],
   dangling: ['Illustration'],
@@ -214,7 +216,7 @@ function initProofReelHover() {
     if (skillsBox) {
       const skills = PROOF_SKILLS[key] || [];
       skillsBox.innerHTML = skills
-        .map((skill, i) => `<span class="proof-skills__chip" style="transition-delay:${i * 70}ms">${skill}</span>`)
+        .map((skill, i) => `<span class="proof-skills__chip${skill === 'Shipped' ? ' proof-skills__chip--glow' : ''}" style="transition-delay:${i * 70}ms">${skill}</span>`)
         .join('');
       // Force a reflow so the freshly-set (delay-less) initial state is committed before adding
       // is-visible — otherwise the browser can coalesce both class changes into one frame and the
