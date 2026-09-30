@@ -135,6 +135,40 @@ const PROOF_SUMMARY = {
   toohot: { en: 'Shaders and gameplay.', ko: '셰이더와 게임플레이.' }
 };
 
+// Whichever project was added to the site most recently gets a "NEW" badge — update BOTH of these
+// when adding a new project: the proof-reel key (matches a proofProjects `key` above) and the href
+// fragment (matches the actual page filename) for the ALL PROJECTS / archive grid cards. Currently
+// Carboom (09_Carboom.html), added while it's still (IN PRODUCTION / UNFINISHED — LOWER CONFIDENCE).
+const NEWEST_PROJECT_KEY = 'carboom';
+const NEWEST_PROJECT_HREF_FRAGMENT = '09_Carboom.html';
+function applyNewestProjectBadge() {
+  document.querySelectorAll('.link-archive-grid a, .portfolio__item[href]').forEach(card => {
+    card.classList.toggle('is-new-project', Boolean(card.getAttribute('href')?.includes(NEWEST_PROJECT_HREF_FRAGMENT)));
+  });
+  document.querySelectorAll('.proof-shot').forEach(card => {
+    card.classList.toggle('is-new-project', card.dataset.projectKey === NEWEST_PROJECT_KEY);
+  });
+}
+// The shine sweep on the NEW ribbon should only ever play once per visit, and only once the
+// scene actually holding it (Proof Reel or ALL PROJECTS) has scrolled into view and settled —
+// not the moment the page loads, while that scene may still be off-screen behind Entry. Called
+// from activateScene()'s per-scene loop (see its playSceneVine(scene) call) every time a scene
+// becomes active; the 1s delay covers .link-scene's own 950ms transform transition so the badge
+// doesn't flash mid-scroll.
+let hasPlayedNewBadgeShine = false;
+function maybeShineNewBadge(scene) {
+  if (hasPlayedNewBadgeShine) return;
+  const targets = [...scene.querySelectorAll('.is-new-project')];
+  if (!targets.length) return;
+  hasPlayedNewBadgeShine = true;
+  window.setTimeout(() => {
+    targets.forEach(card => {
+      card.classList.add('is-new-shine');
+      card.addEventListener('animationend', () => card.classList.remove('is-new-shine'), { once: true });
+    });
+  }, 1000);
+}
+
 // Hovering a Proof Reel card: the vine graphic and the section's own title/summary fade out,
 // the other cards dim to ~50% opacity, and the hovered project's hero video (or poster, if it
 // has none) fades in behind everything. Delegated on the scene itself rather than bound per
@@ -595,6 +629,7 @@ function applyPortfolioTrack(requestedTrack, updateUrl = true) {
   });
   const proofProjectsGrid = document.querySelector('.proof-reel__projects');
   proofProjectsGrid?.classList.toggle('is-four', profile.proofProjects.length === 4);
+  applyNewestProjectBadge();
   syncProjectTrackLinks(document, track);
   document.querySelectorAll('[data-track-select]').forEach(button => {
     const selected = button.dataset.trackSelect === track;
@@ -1543,7 +1578,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Grow this scene's background vine in from scratch right as it becomes active —
       // not before (so it doesn't finish growing off-screen while another scene is up),
       // and every time (so revisiting an earlier scene replays it too).
-      if (sceneIndex === activeIndex) playSceneVine(scene);
+      if (sceneIndex === activeIndex) { playSceneVine(scene); maybeShineNewBadge(scene); }
     });
 
     navButtons.forEach(button => {

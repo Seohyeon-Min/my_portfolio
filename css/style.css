@@ -3488,7 +3488,56 @@ body .return-button.project-back-button:hover {
   pointer-events: none;
 }
 .proof-summary.is-visible { opacity: 1; transform: translate(-50%, 0); }
-.link-scene--proof .scene-vine,
+/* "NEW" badge on whichever project was most recently added (see NEWEST_PROJECT_KEY /
+   NEWEST_PROJECT_HREF_FRAGMENT in index.js) — a diagonal corner ribbon sitting inside the card's
+   top-left, on Proof Reel, ALL PROJECTS, and any .portfolio__item grid alike. Relies on the card
+   already being position:relative + overflow:hidden (true for all three) to clip the ribbon's
+   overhang into a clean corner instead of overriding overflow like an on-top badge would need to. */
+.is-new-project::before {
+  content: 'NEW';
+  position: absolute;
+  z-index: 3;
+  background: var(--ls-blue);
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-align: center;
+  transform: rotate(-45deg);
+  transform-origin: center;
+  box-shadow: 0 0.2rem 0.6rem rgba(0,0,0,0.25);
+}
+/* Proof Reel cards are tall (~30rem+), so the ribbon can afford to be this big without eating
+   the whole rounded corner. */
+.proof-shot.is-new-project::before {
+  top: 0.65rem;
+  left: -2.1rem;
+  width: 7rem;
+  padding: 0.22rem 0;
+  font-size: 0.56rem;
+}
+/* ALL PROJECTS / portfolio-item cards are much shorter (~6-7rem) — the same-size ribbon would
+   swallow the entire rounded corner and read as a sharp, un-rounded edge, so this gets a
+   proportionally smaller ribbon instead of reusing the Proof Reel one. */
+.link-archive-grid a.is-new-project::before,
+.portfolio__item.is-new-project::before {
+  top: 0.3rem;
+  left: -1.25rem;
+  width: 4.4rem;
+  padding: 0.12rem 0;
+  font-size: 0.42rem;
+}
+/* One-time shine on page load (see hasPlayedNewBadgeShine in index.js) — never replays on hover
+   or on later track switches, just the ribbon's first appearance. */
+@keyframes new-badge-shine {
+  0%, 100% { filter: brightness(1) saturate(1); }
+  45% { filter: brightness(1.9) saturate(1.4); }
+}
+.is-new-shine::before { animation: new-badge-shine 1.1s ease-out; }
+/* scene-vine must stay position:absolute (its base rule) to fill the whole scene as a
+   full-bleed background — position:relative here (accidentally shared with .proof-reel below)
+   collapsed it to an in-flow grid item with near-zero height, which is why it stopped
+   rendering after the hover-video backdrop was added and needed a z-index bump. */
+.link-scene--proof .scene-vine { z-index: 1; }
 .link-scene--proof .proof-reel { position: relative; z-index: 1; }
 .link-scene--proof.is-hovering .scene-vine,
 .link-scene--proof.is-hovering .proof-reel__header { opacity: 0; transition: opacity 320ms ease; }
@@ -3512,7 +3561,10 @@ body .return-button.project-back-button:hover {
 .proof-reel__header h2 {
   margin: 0.4rem 0 0;
   color: var(--ls-ink);
-  font-size: clamp(2.4rem, 5.2vw, 5.8rem);
+  /* Capped by vh too, not just vw — on a wide-but-short window (small height, e.g. an
+     un-maximized browser), a vw-only size kept growing the title while the card row
+     (a fixed-height grid track) had no room left, squashing proof-shot cards toward square. */
+  font-size: clamp(2.4rem, min(5.2vw, 7vh), 5.8rem);
   line-height: 0.84;
   letter-spacing: -0.065em;
 }
