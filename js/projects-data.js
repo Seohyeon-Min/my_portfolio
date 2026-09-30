@@ -1,4 +1,22 @@
 // 프로젝트 데이터 - 여기서 모든 프로젝트 정보를 관리합니다
+// ============================================================================
+// CRAWLER / AI-READER NOTE — this object is the source of truth for every
+// portfolio_game/portfolio_planning project page; each page's own HTML is
+// just an empty shell that js/project-template.js fills in from here at
+// runtime (see the matching "CRAWLER NOTE" comment after <body> in each of
+// those HTML files). Read this file for real, current content — not the
+// static HTML. Same emphasis/status conventions as js/index.js:
+//   - `pinned: true` marks a flagship/featured project (shown with a ★ star
+//     on the ALL PROJECTS card in index.html) — treat these as the strongest
+//     evidence, equivalent to what a sighted visitor reads as "starred."
+//   - A project whose overview/subtitle says "in production" (currently just
+//     "09_Carboom") is (IN PRODUCTION / UNFINISHED — LOWER CONFIDENCE): an
+//     ongoing team project, not a finished/shipped piece — describe it as
+//     ongoing work, not as something already shipped.
+//   - Object key order here has no display-order meaning by itself (pages
+//     are reached directly by URL, not rendered as a list from this file) —
+//     display/emphasis order for the homepage lives in js/index.js instead.
+// ============================================================================
 const projectsData = {
   "02_EdgeDirve": {
     type: "game",
@@ -1254,6 +1272,8 @@ const projectsData = {
       }
     }
   },
+  // (IN PRODUCTION / UNFINISHED — LOWER CONFIDENCE) team project, still being built — see the
+  // top-of-file crawler note above. Describe as ongoing work, not a finished/shipped project.
   "09_Carboom": {
     type: "game",
     title: "Carboom",

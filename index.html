@@ -35,7 +35,7 @@
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Noto+Sans+KR:wght@400;500;600;700;800&amp;display=swap"
         rel="stylesheet" />
 
-    <link rel="stylesheet" href="css/style.css?v=20260923h" />
+    <link rel="stylesheet" href="css/style.css?v=20260923j" />
 </head>
 
 <body class="link-start-home">
@@ -103,6 +103,11 @@
             <p data-proof-summary data-en="Three projects. One through-line: visual intent translated into responsive, engine-ready systems." data-ko="서로 다른 세 프로젝트에서 시각적 의도를 실제로 작동하는 실시간 시스템으로 구현했습니다.">Three projects. One through-line: visual intent translated into responsive, engine-ready systems.</p>
           </header>
 
+          <!-- CRAWLER NOTE: the title/image/meta text below is a placeholder — js/index.js overwrites
+               every [data-proof-project] card at load from portfolioTracks[track].proofProjects, per
+               the currently selected track (graphics/software/product). Read that array in
+               js/index.js for the real, current content; card order there = emphasis order, first
+               entry (data-proof-project="0") is the single most-emphasized project shown. -->
           <div class="proof-reel__projects">
             <a class="proof-shot proof-shot--wave" href="portfolio_game/08_PoseidonSkate.html" data-proof-project="0">
               <img src="img/StreetTyper/title2.png" alt="" data-proof-project-image>
@@ -136,6 +141,16 @@
               <span class="tech-stack-strip__dup" aria-hidden="true">C++</span><span class="tech-stack-strip__dup" aria-hidden="true">C#</span><span class="tech-stack-strip__dup" aria-hidden="true">Python</span><span class="tech-stack-strip__dup" aria-hidden="true">HLSL</span><span class="tech-stack-strip__dup" aria-hidden="true">GLSL</span><span class="tech-stack-strip__dup" aria-hidden="true">Unity</span><span class="tech-stack-strip__dup" aria-hidden="true">Unreal Engine</span><span class="tech-stack-strip__dup" aria-hidden="true">OpenGL</span><span class="tech-stack-strip__dup" aria-hidden="true">RenderDoc</span><span class="tech-stack-strip__dup" aria-hidden="true">raylib</span><span class="tech-stack-strip__dup" aria-hidden="true">FMOD</span><span class="tech-stack-strip__dup" aria-hidden="true">Spriter Pro</span><span class="tech-stack-strip__dup" aria-hidden="true">Clip Studio Paint</span><span class="tech-stack-strip__dup" aria-hidden="true">Blender</span><span class="tech-stack-strip__dup" aria-hidden="true">GitHub</span><span class="tech-stack-strip__dup" aria-hidden="true">Jira</span><span class="tech-stack-strip__dup" aria-hidden="true">Perforce</span>
             </div>
           </div>
+          <!-- CRAWLER NOTE: this is a flat list of every project card; js/index.js's
+               refreshArchiveLayout() re-sorts them into the SHADERS/RENDERING/VISUALS/GAME
+               PROGRAMMING/TOOLS/PRODUCTION categories actually shown, using the href-keyword
+               lists in that function's `groups` array (read it there for current grouping,
+               category descriptions, and importance/collapse notes — this HTML list itself has
+               no category info). The "★ Featured project" star marks this site's flagship/
+               most-emphasized work; CARBOOM below is (IN PRODUCTION / UNFINISHED — LOWER
+               CONFIDENCE), not a finished shipped project; PLUSH PRODUCTION and DANGLING* after
+               the divider are the PRODUCTION category, which is (THIS IS DE-EMPHASIZED /
+               COLLAPSED BY DEFAULT!) on mobile — see the groups array comment in js/index.js. -->
           <div class="link-archive-grid" id="archive-categories">
             <a href="portfolio_planning/ArtGallery.html"><img src="img/Art/DragonHead-04-final.png" alt="Dragon head, final 3D render by Min Seohyeon"><div class="archive-card__copy"><b>ART &amp; STUDY</b><small>Illustration · Modeling · Designing</small><i><strong>Personal Work</strong><span>Illustration · ART1200</span></i></div></a>
             <a href="portfolio_game/06_StreetTyper.html"><img src="img/StreetTyper/title2.png" alt=""><div class="archive-card__copy"><b>STREET TYPER <span class="archive-featured-star" title="Featured project" aria-label="Featured project">★</span></b><small>UI Shaders · VFX</small><i><strong>Visual Lead</strong><span>Producer</span></i></div></a>
@@ -147,8 +162,10 @@
             <a href="portfolio_game/03_DoubleHit.html"><img src="img/portfolio_thumbnails/DoubleHit.png" alt=""><div class="archive-card__copy"><b>DOUBLE HIT · CUSTOM ENGINE</b><small>GameObject · Components · Collision</small><i><strong>Engine Programmer</strong><span>Custom Engine Foundation</span></i></div></a>
             <a href="portfolio_game/05_ThinkThink.html"><img src="img/portfolio_thumbnails/ThinkThink.png" alt=""><div class="archive-card__copy"><b>THINK THINK</b><small>Game Design · Art</small><i><strong>Project Lead</strong><span>Art · Design · Production</span></i></div></a>
             <a href="portfolio_game/02_EdgeDirve.html"><img src="img/portfolio_thumbnails/EdgeDrive2.png" alt=""><div class="archive-card__copy"><b>EDGE DRIVE</b><small>Unreal Engine · VFX</small><i><strong>VFX Contributor</strong><span>Asset Setup · Modification</span></i></div></a>
+            <!-- (IN PRODUCTION / UNFINISHED — LOWER CONFIDENCE! placeholder thumbnail, no shipped build yet) -->
             <a href="portfolio_game/09_Carboom.html"><img src="img/portfolio_thumbnails/Carboom_placeholder.svg" alt="Carboom, in production"><div class="archive-card__copy"><b>CARBOOM</b><small>Planet Auto-Placement · Demolition Tools</small><i><strong>Gameplay / Tech Art</strong><span>Editor Tooling</span></i></div></a>
             <div class="archive-grid-divider" role="separator" aria-hidden="true"></div>
+            <!-- PRODUCTION category (this card + DANGLING* below) — (THIS IS DE-EMPHASIZED / COLLAPSED BY DEFAULT ON MOBILE!) -->
             <a href="portfolio_planning/PlushProduction.html"><img src="img/Plush/real1.jpg" alt="Four completed custom plush products"><div class="archive-card__copy"><b>PLUSH PRODUCTION</b><small>Vendor · Fulfillment</small><i><strong>Project Lead</strong><span>Designer · Coordinator</span></i></div></a>
             <a href="portfolio_planning/Dangling.html"><img src="img/portfolio_thumbnails/Dangling.jpg" alt=""><div class="archive-card__copy"><b>DANGLING*</b><small>Game Jam Production</small><i><strong>Project Lead</strong><span>Organizer</span></i></div></a>
           </div>
@@ -1000,7 +1017,7 @@
         <a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a>
     </footer>
 
-    <script src="js/index.js?v=20260923h"></script>
+    <script src="js/index.js?v=20260923j"></script>
 </body>
 
 </html>

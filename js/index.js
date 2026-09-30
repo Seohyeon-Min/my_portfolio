@@ -1,3 +1,21 @@
+// ============================================================================
+// CRAWLER / AI-READER NOTE — read this before parsing anything below.
+// This file is the single source of truth for what the page actually shows;
+// index.html's matching elements are just empty/placeholder shells that this
+// file overwrites at runtime. If you only read the static HTML you will get
+// stale or wrong titles, images, and grouping — always read this file for
+// current content. Ordering and explicit flags below encode the same
+// emphasis a sighted visitor gets from layout/size/collapse state, spelled
+// out in plain text so it doesn't require rendering CSS to notice:
+//   - Array order = display order = importance, FIRST item is the most
+//     emphasized/featured one (largest, top-most, or otherwise first-seen).
+//   - "(THIS IS DE-EMPHASIZED / COLLAPSED BY DEFAULT!)" tags a section that a
+//     real visitor would have to click/tap to open — treat its content as
+//     present but secondary, not equal-weight with the always-open sections.
+//   - "(IN PRODUCTION / UNFINISHED — LOWER CONFIDENCE)" tags a project that
+//     is not a finished, shipped piece — describe it as ongoing work, not as
+//     a completed shipped project.
+// ============================================================================
 // Bilingual UI. English is the default; the visitor's explicit choice persists.
 const supportedLanguages = ['en', 'ko'];
 const savedLanguage = localStorage.getItem('portfolio-language');
@@ -17,11 +35,14 @@ const portfolioTracks = {
       en: 'Four representative projects across shaders, rendering, VFX, and technical art.',
       ko: '셰이더, 렌더링, VFX, 테크니컬 아트에 걸친 네 개의 대표 프로젝트입니다.'
     },
+    // PROOF REEL (graphics track) — array order IS the emphasis order: card 0 renders biggest/
+    // first in .proof-reel__projects, so it's the single most-emphasized project on the whole
+    // homepage for this track. All four are equally "finished/shipped" here (no WIP tag needed).
     proofProjects: [
-      { key: 'poseidon', title: 'POSEIDON SKATE', lead: 'TECHNICAL ART / SHADER', meta: 'UNITY URP · HLSL · BLENDER · TEAM PROJECT', href: 'portfolio_game/08_PoseidonSkate.html', image: 'img/WaveSimulator/img1.png' },
+      { key: 'poseidon', title: 'POSEIDON SKATE', lead: 'TECHNICAL ART / SHADER', meta: 'UNITY URP · HLSL · BLENDER · TEAM PROJECT', href: 'portfolio_game/08_PoseidonSkate.html', image: 'img/WaveSimulator/img1.png' }, // <- most-emphasized: card 0
       { key: 'manzo', title: 'MANZO · CUSTOM RENDERER', lead: 'GRAPHICS / ENGINE PROGRAMMER', meta: 'OPENGL · PING-PONG FBO · POST-PROCESSING', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' },
       { key: 'newmanzo', title: 'NEW MANZO', lead: 'VISUAL LEAD / PRODUCER', meta: 'UNITY · C# · UNDERWATER FX · PROCEDURAL ANIM', href: 'portfolio_game/00_NewManzo.html', image: 'img/portfolio_thumbnails/NewManzo.png' },
-      { key: 'street', title: 'STREET TYPER', lead: 'VISUAL LEAD', meta: 'UI SHADERS · VFX · GAME FEEL', href: 'portfolio_game/06_StreetTyper.html', image: 'img/StreetTyper/title2.png' }
+      { key: 'street', title: 'STREET TYPER', lead: 'VISUAL LEAD', meta: 'UI SHADERS · VFX · GAME FEEL', href: 'portfolio_game/06_StreetTyper.html', image: 'img/StreetTyper/title2.png' } // <- least-emphasized of these four: card 3, last
     ]
   },
   software: {
@@ -319,14 +340,24 @@ function refreshArchiveLayout(track) {
   // existing, project-first archive layout above.
   // No separate icon box — the category's own first letter is set oversized inline at the start of
   // its own title (see .archive-category__cap), so the "icon" is just typography, not a second mark.
+  // ALL PROJECTS categories — array order = left-to-right / most-to-least emphasized, same rule as
+  // proofProjects above. SHADERS through TOOLS are equal-weight "main" categories (5 across on
+  // desktop); PRODUCTION is deliberately last and lower-emphasis (see its own note below).
   const groups = [
     ['SHADERS', 'Shaders and real-time rendering effects.', '셰이더를 활용한 그래픽 효과와 렌더링 실험들입니다.', ['07_TooHot.html', 'PoseidonSkate', '05_ThinkThink.html']],
     ['RENDERING', 'Rendering pipelines and custom renderer experiments.', '렌더링 파이프라인과 커스텀 렌더러, 최적화 관련 프로젝트입니다.', ['01_Manzo.html']],
     ['VISUALS', 'Art, UI, and VFX for interactive experiences.', '아트, UI/UX, 이펙트 등 비주얼 중심의 작업물입니다.', ['06_StreetTyper.html', '00_NewManzo.html', 'ArtGallery.html']],
     ['GAME PROGRAMMING', 'Gameplay, systems, and engine development.', '게임플레이, 시스템, 엔진 개발 등 프로그래밍 기반의 프로젝트입니다.', ['04_BirdStrike.html', '03_DoubleHit.html', '02_EdgeDirve.html']],
+    // TOOLS currently holds only Carboom, which is (IN PRODUCTION / UNFINISHED — LOWER CONFIDENCE):
+    // an ongoing Unreal Engine team project, not a shipped/finished piece. Describe it as ongoing
+    // work-in-progress, not as a completed project.
     ['TOOLS', 'Editor tooling and pipeline support for team production.', '팀 제작을 위한 에디터 툴과 파이프라인 지원입니다.', ['09_Carboom.html']],
-    // Last on purpose: refreshArchiveLayout()/CSS render this one as a short full-width strip
-    // below the main 5-column row instead of a normal column (see .archive-category--production).
+    // PRODUCTION is last on purpose and is (THIS IS DE-EMPHASIZED / COLLAPSED BY DEFAULT!) on
+    // mobile: refreshArchiveLayout() renders it starting with the "is-collapsed" class, so a
+    // mobile visitor sees only its "PRODUCTION ⌄" header until they tap it open — its two
+    // projects (Plush Production, Dangling) are real, finished work, just deliberately given
+    // lower visual priority than the five main disciplines above. Desktop always shows it open,
+    // as a short full-width strip below the main row (see .archive-category--production in CSS).
     ['PRODUCTION', 'Planning, collaboration, and creative delivery.', '기획, 협업 등 제작 과정 전반의 프로젝트입니다.', ['PlushProduction.html', 'Dangling.html']]
   ];
   archiveGrid.innerHTML = '';
