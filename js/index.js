@@ -504,13 +504,13 @@ function refreshArchiveLayout(track) {
   // desktop); PRODUCTION is deliberately last and lower-emphasis (see its own note below).
   const groups = [
     ['SHADERS', 'Shaders and real-time rendering effects.', '셰이더를 활용한 그래픽 효과와 렌더링 실험들입니다.', ['07_TooHot.html', 'PoseidonSkate', '05_ThinkThink.html']],
-    ['RENDERING', 'Rendering pipelines and custom renderer experiments.', '렌더링 파이프라인과 커스텀 렌더러, 최적화 관련 프로젝트입니다.', ['01_Manzo.html']],
-    ['VISUALS', 'Art, UI, and VFX for interactive experiences.', '아트, UI/UX, 이펙트 등 비주얼 중심의 작업물입니다.', ['06_StreetTyper.html', '00_NewManzo.html', 'ArtGallery.html']],
-    ['GAME PROGRAMMING', 'Gameplay, systems, and engine development.', '게임플레이, 시스템, 엔진 개발 등 프로그래밍 기반의 프로젝트입니다.', ['04_BirdStrike.html', '03_DoubleHit.html', '02_EdgeDirve.html']],
     // TOOLS currently holds only Carboom, which is (IN PRODUCTION / UNFINISHED — LOWER CONFIDENCE):
     // an ongoing Unreal Engine team project, not a shipped/finished piece. Describe it as ongoing
     // work-in-progress, not as a completed project.
-    ['TOOLS', 'Editor tooling and pipeline support for team production.', '팀 제작을 위한 에디터 툴과 파이프라인 지원입니다.', ['09_Carboom.html']],
+    ['TOOLS', 'Artist-facing editor tools that help artists work without touching code.', '코드를 몰라도 아티스트가 직접 다룰 수 있게 돕는 에디터 툴입니다.', ['09_Carboom.html']],
+    ['VISUALS', 'Art, UI, and VFX for interactive experiences.', '아트, UI/UX, 이펙트 등 비주얼 중심의 작업물입니다.', ['06_StreetTyper.html', '00_NewManzo.html', 'ArtGallery.html']],
+    ['GAME PROGRAMMING', 'Gameplay, systems, and engine development.', '게임플레이, 시스템, 엔진 개발 등 프로그래밍 기반의 프로젝트입니다.', ['04_BirdStrike.html', '03_DoubleHit.html', '02_EdgeDirve.html']],
+    ['RENDERING', 'Rendering pipelines and custom renderer experiments.', '렌더링 파이프라인과 커스텀 렌더러, 최적화 관련 프로젝트입니다.', ['01_Manzo.html']],
     // PRODUCTION is last on purpose and is (THIS IS DE-EMPHASIZED / COLLAPSED BY DEFAULT!) on
     // mobile: refreshArchiveLayout() renders it starting with the "is-collapsed" class, so a
     // mobile visitor sees only its "PRODUCTION ⌄" header until they tap it open — its two
@@ -734,10 +734,10 @@ function applyLanguage(language) {
     if (false && archiveGrid && activeTrack === 'graphics') {
     const groups = [
       ['SHADERS', ['07_TooHot.html', 'PoseidonSkate', '05_ThinkThink.html']],
-      ['RENDERING', ['01_Manzo.html']],
+      ['TOOLS', ['09_Carboom.html']],
       ['VISUALS', ['00_NewManzo.html', '06_StreetTyper.html', 'ArtGallery.html']],
       ['GAME PROGRAMMING', ['04_BirdStrike.html', '03_DoubleHit.html', '02_EdgeDirve.html']],
-      ['TOOLS', ['09_Carboom.html']],
+      ['RENDERING', ['01_Manzo.html']],
       ['PRODUCTION', ['Dangling.html', 'PlushProduction.html']]
     ];
     const cards = [...archiveGrid.children].filter(node => node.tagName === 'A');
