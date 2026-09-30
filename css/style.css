@@ -3470,6 +3470,24 @@ body .return-button.project-back-button:hover {
   white-space: nowrap;
 }
 .proof-skills.is-visible .proof-skills__chip { opacity: 1; transform: translateY(0); }
+.proof-summary {
+  position: absolute;
+  top: clamp(4.4rem, 11vh, 6.4rem);
+  left: 50%;
+  transform: translate(-50%, -1.2rem);
+  z-index: 2;
+  margin: 0;
+  max-width: min(38rem, 80%);
+  text-align: center;
+  color: rgba(255,255,255,0.92);
+  font-size: clamp(0.7rem, 1.05vw, 0.85rem);
+  line-height: 1.5;
+  text-shadow: 0 .15rem .6rem rgba(0,0,0,.4);
+  opacity: 0;
+  transition: opacity 420ms ease 140ms, transform 420ms cubic-bezier(.18,.8,.3,1.15) 140ms;
+  pointer-events: none;
+}
+.proof-summary.is-visible { opacity: 1; transform: translate(-50%, 0); }
 .link-scene--proof .scene-vine,
 .link-scene--proof .proof-reel { position: relative; z-index: 1; }
 .link-scene--proof.is-hovering .scene-vine,

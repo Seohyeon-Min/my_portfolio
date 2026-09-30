@@ -121,6 +121,20 @@ const PROOF_SKILLS = {
   toohot: ['Shaders', 'Gameplay']
 };
 
+// One-line "what I actually did" summary shown alongside the falling skill chips (read via the
+// existing `currentLanguage` global, same pattern as profile.proofSummary etc. below).
+const PROOF_SUMMARY = {
+  poseidon: { en: 'Modeling → rigging → game integration for the Poseidon character, plus the ocean/wave shaders and VFX.', ko: '포세이돈 캐릭터 모델링 → 리깅 → 게임 적용, 그리고 바다·파도 셰이더와 VFX 제작.' },
+  manzo: { en: 'Built the custom engine\'s OpenGL renderer and wrote its GLSL shaders.', ko: '커스텀 엔진의 OpenGL 렌더러 구축과 GLSL 셰이더 작성.' },
+  carboom: { en: 'Artist-facing editor tools: procedural background placement and a DataAsset-driven workflow.', ko: '아티스트용 에디터 툴 제작 — 프로시저럴 배경 배치, 데이터에셋 기반 워크플로우.' },
+  street: { en: 'UI shaders, VFX, and game feel as visual lead.', ko: '비주얼 리드로서 UI 셰이더, VFX, 게임 필 담당.' },
+  newmanzo: { en: 'Gameplay systems, FMOD audio integration, and shaders.', ko: '게임플레이 시스템, FMOD 오디오 연동, 셰이더 작업.' },
+  doublehit: { en: 'Rendering, shaders, and sprite-based rigging.', ko: '렌더링, 셰이더, 스프라이트 리깅.' },
+  dangling: { en: 'Illustration work.', ko: '일러스트 작업.' },
+  plush: { en: 'Illustration and production.', ko: '일러스트와 프로덕션.' },
+  toohot: { en: 'Shaders and gameplay.', ko: '셰이더와 게임플레이.' }
+};
+
 // Hovering a Proof Reel card: the vine graphic and the section's own title/summary fade out,
 // the other cards dim to ~50% opacity, and the hovered project's hero video (or poster, if it
 // has none) fades in behind everything. Delegated on the scene itself rather than bound per
@@ -133,6 +147,7 @@ function initProofReelHover() {
   const video = backdrop.querySelector('.proof-backdrop__video');
   const img = backdrop.querySelector('.proof-backdrop__img');
   const skillsBox = scene.querySelector('.proof-skills');
+  const summaryBox = scene.querySelector('.proof-summary');
 
   let current = null;
   const clear = () => {
@@ -140,6 +155,7 @@ function initProofReelHover() {
     scene.querySelectorAll('.proof-shot').forEach(card => card.classList.remove('is-hover-active'));
     backdrop.classList.remove('is-visible');
     if (skillsBox) skillsBox.classList.remove('is-visible');
+    if (summaryBox) summaryBox.classList.remove('is-visible');
     current = null;
     video.pause();
   };
@@ -171,6 +187,12 @@ function initProofReelHover() {
       // chips just appear instead of animating in.
       void skillsBox.offsetHeight;
       skillsBox.classList.toggle('is-visible', skills.length > 0);
+    }
+    if (summaryBox) {
+      const summary = PROOF_SUMMARY[key];
+      const text = summary ? (summary[currentLanguage] || summary.en) : '';
+      summaryBox.textContent = text;
+      summaryBox.classList.toggle('is-visible', Boolean(text));
     }
   };
 
