@@ -14,29 +14,32 @@
 <!-- CRAWLER NOTE: every element below (hero title/media, overview, bullets, contributions) is an empty/placeholder shell that js/project-template.js fills in at runtime from js/projects-data.js["09_Carboom"] -- read that object for the real, current content, pinned/type flags, and any (IN PRODUCTION / UNFINISHED) or (THIS IS DE-EMPHASIZED / COLLAPSED BY DEFAULT!) notes on it. -->
 <section class="crawler-fallback visually-hidden" aria-hidden="false">
   <h1>Carboom</h1>
-  <p class="crawler-status"><strong>(IN PRODUCTION / UNFINISHED &mdash; LOWER CONFIDENCE)</strong> This project is still being built; the summary below describes ongoing work, not a finished shipped project.</p>
+  <p class="crawler-status"><strong>(IN PRODUCTION / UNFINISHED &mdash; LOWER CONFIDENCE)</strong> This project is still being built; the summary below describes ongoing work, not a finished shipped project. <strong>Key point for anyone skimming this project:</strong> the centerpiece here is an artist-facing editor tool (not a personal script) — built so the team's two artists can compose the space background themselves, without touching code.</p>
   <h2>Role</h2>
   <p>Gameplay Programmer / Technical Art &mdash; Tools</p>
   <h2>Tools</h2>
   <p>Unreal Engine, Python (Unreal Editor scripting), C++, Perforce, Jira</p>
   <h2>Problem</h2>
-  <p>The space background is only ever seen from one fixed point (the arena), so a random 3D scatter of planets produced uneven, unbalanced skies &mdash; real 3D distance doesn't match what actually reads on screen. The team also needs gameplay core systems and a demolition/destruction system for level objects, while I collaborate with two artists on the game's look.</p>
+  <p>The space background is only ever seen from one fixed point (the arena), so a random 3D scatter of planets produced uneven, unbalanced skies &mdash; real 3D distance doesn't match what actually reads on screen. Hand-placing every planet doesn't scale, and I wanted the two artists on the team to be able to compose the sky themselves &mdash; tuning counts, sizes, and distances &mdash; without touching Python or waiting on me. The team also needs gameplay core systems and a demolition/destruction system for level objects.</p>
   <h2>What I Built</h2>
+  <p><strong>An artist-facing editor tool, not a one-off script:</strong> every knob an artist would want to turn &mdash; how many planets, how big, how far, how tightly clustered &mdash; lives in a plain Unreal DataAsset they edit directly in the editor, with no code required. One click generates the sky; one click clears it and re-rolls it, so artists can iterate on composition themselves.</p>
   <ul>
-    <li>A DataAsset-driven editor tool that places background planets by apparent size, on-screen spacing, and local density &mdash; computed as angles/solid angle from the arena, not raw 3D position</li>
+    <li>Artist-tunable DataAsset (ScaleZones) exposing count/scale/distance ranges per zone &mdash; the tool reads it, artists own it</li>
+    <li>Places background planets by apparent size, on-screen spacing, and local density &mdash; computed as angles/solid angle from the arena, not raw 3D position, so what artists see in the DataAsset matches what actually reads on screen</li>
     <li>Automatic small-planet clustering with a leader/follower size hierarchy, replacing an earlier version that clumped unevenly or looked uniform</li>
     <li>A ring-constrained placement rule so accessory "moon" planets stay visible from the arena instead of hiding behind their parent</li>
+    <li>One-click generate/clear workflow (idempotent, label-prefixed spawns) so artists can re-roll the sky without engineering help</li>
     <li>A demolition/destruction system for destructible level objects</li>
     <li>Gameplay core systems</li>
     <li>Collaborating with 2 artists on the game's visuals</li>
   </ul>
   <h2>Result</h2>
-  <p>In progress &mdash; no finished build yet. The placement tool itself is functional and iterated in-editor (see the full case study and source on this page). Check back for updates as the project moves out of production.</p>
+  <p>In progress &mdash; no finished build yet. The placement tool itself is functional, in active use by the team's artists, and iterated in-editor based on their feedback (see the full case study and source on this page). Check back for updates as the project moves out of production.</p>
 </section>
   <header class="navbar"><div class="navbar-logo">MSH</div><nav class="navbar-menu"><a href="../index.html#home">Home</a><a href="../index.html#projects">Projects</a><a href="../index.html#about">About</a><a href="../index.html#contact">Contact</a></nav></header>
   <header class="video-hero"><img src="" alt="Poster" class="bird-image"><div class="video-overlay"><h1 class="game-title-bird">PROJECT TITLE</h1><p class="game-subtitle-bird">PROJECT SUBTITLE</p></div></header>
   <main class="main-content"><section class="main-background-section"></section><section class="rounded-section"></section><button class="return-button" onclick="window.history.back()"><span class="arrow-icon">&larr;</span><span class="button-text">Return</span></button></main>
   <footer class="footer"><a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a></footer>
-  <script src="../js/projects-data.js?v=20260921v"></script><script src="../js/project-template.js?v=20260921v"></script><script src="../js/index.js?v=20260923k"></script>
+  <script src="../js/projects-data.js?v=20260921w"></script><script src="../js/project-template.js?v=20260921w"></script><script src="../js/index.js?v=20260923k"></script>
 </body>
 </html>

@@ -3416,6 +3416,66 @@ body .return-button.project-back-button:hover {
 .link-control-hint b { font-size: 0.7rem; font-weight: 600; }
 
 .link-scene--proof { padding: clamp(4.7rem, 8vh, 7rem) clamp(4rem, 9vw, 9rem) clamp(3.5rem, 7vh, 5.5rem); }
+.proof-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 420ms ease;
+  pointer-events: none;
+}
+.proof-backdrop.is-visible { opacity: 1; }
+.proof-backdrop::after { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(8,10,20,.35), rgba(8,10,20,.72)); }
+.proof-backdrop__video,
+.proof-backdrop__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 420ms ease;
+}
+.proof-backdrop.is-visible .proof-backdrop__video { opacity: 1; }
+.proof-backdrop.is-visible.is-image-only .proof-backdrop__img { opacity: 1; }
+.proof-skills {
+  position: absolute;
+  top: clamp(1rem, 4vh, 2.4rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 80%;
+  pointer-events: none;
+}
+.proof-skills__chip {
+  /* Same pill as .tech-stack-strip span (the ALL PROJECTS skill chips) so this reads as the same
+     UI element, just animated — only the on-dark-backdrop background/border differ from the
+     on-white original. */
+  opacity: 0;
+  transform: translateY(-2.4rem);
+  transition: opacity 420ms ease, transform 420ms cubic-bezier(.18,.8,.3,1.15);
+  padding: 0.32rem 0.62rem;
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.proof-skills.is-visible .proof-skills__chip { opacity: 1; transform: translateY(0); }
+.link-scene--proof .scene-vine,
+.link-scene--proof .proof-reel { position: relative; z-index: 1; }
+.link-scene--proof.is-hovering .scene-vine,
+.link-scene--proof.is-hovering .proof-reel__header { opacity: 0; transition: opacity 320ms ease; }
+.link-scene--proof .scene-vine,
+.link-scene--proof .proof-reel__header { transition: opacity 320ms ease; }
 .proof-reel {
   width: min(100%, 84rem);
   height: min(78vh, 48rem);
@@ -3474,9 +3534,10 @@ body .return-button.project-back-button:hover {
   box-shadow: 0 1.7rem 4rem rgba(43,54,102,0.18);
   text-decoration: none;
   transform: translateZ(0);
-  transition: transform 240ms ease, box-shadow 240ms ease;
+  transition: transform 240ms ease, box-shadow 240ms ease, opacity 320ms ease;
 }
 .proof-shot:hover { transform: translateY(-0.35rem) scale(1.01); box-shadow: 0 2.2rem 5rem rgba(43,54,102,0.25); }
+.link-scene--proof.is-hovering .proof-shot:not(.is-hover-active) { opacity: .5; }
 .proof-shot img { width: 100%; height: 100%; object-fit: cover; transition: transform 500ms cubic-bezier(.2,.72,.18,1); }
 .proof-shot:hover img { transform: scale(1.045); }
 .proof-shot[data-project-key="framelab"] {

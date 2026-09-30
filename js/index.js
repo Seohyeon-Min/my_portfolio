@@ -88,6 +88,106 @@ const portfolioTracks = {
   }
 };
 
+// Proof Reel hover backdrop: video where the project actually has a hero video file, poster
+// image otherwise. Keyed by the same `key` each proofProjects entry already carries (see
+// card.dataset.projectKey in applyPortfolioTrack), so this works across all three tracks without
+// needing to know which track is active. New Manzo's hero is a YouTube embed, not a video file,
+// so it only gets a poster here — embedding a second autoplaying iframe just for a hover backdrop
+// wasn't worth the complexity.
+const PROOF_HERO_MEDIA = {
+  poseidon: { video: 'img/PoseidonSkate/PlayVid.mp4', poster: 'img/WaveSimulator/img1.png' },
+  manzo: { video: 'img/MANZO/MANZO_trailer.mp4', poster: 'img/portfolio_thumbnails/Manzo.png' },
+  toohot: { video: 'img/TooHot/트레일러1_low.mp4', poster: 'img/TooHot/hero.png' },
+  street: { video: 'img/StreetTyper/STTrailer_ko1.mp4', poster: 'img/StreetTyper/hero.png' },
+  carboom: { video: 'img/Carboom/TempHero.mp4', poster: 'img/portfolio_thumbnails/Carboom_placeholder.svg' },
+  newmanzo: { poster: 'img/portfolio_thumbnails/NewManzo.png' },
+  doublehit: { poster: 'img/portfolio_thumbnails/DoubleHit.png' },
+  dangling: { poster: 'img/portfolio_thumbnails/Dangling.jpg' },
+  plush: { poster: 'img/Plush/real1.jpg' }
+};
+
+// Chips that drop in above the backdrop on hover: short "what I actually did" contribution tags,
+// not generic tech-stack labels (not reused from the tech-stack-strip's `projectTools` fuzzy-match
+// strings below, since those are bags of words meant for substring filtering, not display copy).
+const PROOF_SKILLS = {
+  poseidon: ['Modeling', 'Rigging', 'Game Integration', 'Ocean Shader', 'VFX'],
+  manzo: ['Custom Engine', 'OpenGL Renderer', 'GLSL Shaders'],
+  carboom: ['Editor Tooling', 'Procedural Placement', 'DataAsset Workflow'],
+  street: ['UI Shaders', 'VFX', 'Game Feel'],
+  newmanzo: ['Gameplay Systems', 'Audio (FMOD)', 'Shaders'],
+  doublehit: ['Rendering', 'Shaders', 'Sprite Rigging'],
+  dangling: ['Illustration'],
+  plush: ['Illustration', 'Production'],
+  toohot: ['Shaders', 'Gameplay']
+};
+
+// Hovering a Proof Reel card: the vine graphic and the section's own title/summary fade out,
+// the other cards dim to ~50% opacity, and the hovered project's hero video (or poster, if it
+// has none) fades in behind everything. Delegated on the scene itself rather than bound per
+// card, so it keeps working after applyPortfolioTrack relabels the same 3-4 card elements for a
+// different track — nothing here needs rebinding when the track changes.
+function initProofReelHover() {
+  const scene = document.querySelector('.link-scene--proof');
+  const backdrop = document.querySelector('.proof-backdrop');
+  if (!scene || !backdrop) return;
+  const video = backdrop.querySelector('.proof-backdrop__video');
+  const img = backdrop.querySelector('.proof-backdrop__img');
+  const skillsBox = scene.querySelector('.proof-skills');
+
+  let current = null;
+  const clear = () => {
+    scene.classList.remove('is-hovering');
+    scene.querySelectorAll('.proof-shot').forEach(card => card.classList.remove('is-hover-active'));
+    backdrop.classList.remove('is-visible');
+    if (skillsBox) skillsBox.classList.remove('is-visible');
+    current = null;
+    video.pause();
+  };
+  const activate = card => {
+    const key = card.dataset.projectKey;
+    if (!key || key === current) return;
+    current = key;
+    const media = PROOF_HERO_MEDIA[key];
+    scene.classList.add('is-hovering');
+    scene.querySelectorAll('.proof-shot').forEach(other => other.classList.toggle('is-hover-active', other === card));
+    backdrop.classList.add('is-visible');
+    if (media && media.video) {
+      backdrop.classList.remove('is-image-only');
+      if (video.dataset.src !== media.video) { video.dataset.src = media.video; video.src = media.video; }
+      video.play().catch(() => {});
+      img.src = media.poster || '';
+    } else {
+      backdrop.classList.add('is-image-only');
+      video.pause();
+      img.src = (media && media.poster) || '';
+    }
+    if (skillsBox) {
+      const skills = PROOF_SKILLS[key] || [];
+      skillsBox.innerHTML = skills
+        .map((skill, i) => `<span class="proof-skills__chip" style="transition-delay:${i * 70}ms">${skill}</span>`)
+        .join('');
+      // Force a reflow so the freshly-set (delay-less) initial state is committed before adding
+      // is-visible — otherwise the browser can coalesce both class changes into one frame and the
+      // chips just appear instead of animating in.
+      void skillsBox.offsetHeight;
+      skillsBox.classList.toggle('is-visible', skills.length > 0);
+    }
+  };
+
+  scene.addEventListener('pointerover', event => {
+    const card = event.target.closest('.proof-shot');
+    if (card) activate(card);
+  });
+  scene.addEventListener('pointerout', event => {
+    // Only clear once the pointer actually leaves every card (not just moving between two
+    // children of the same card), so hovering a card's inner elements doesn't flicker the backdrop.
+    if (event.target.closest('.proof-shot') && !event.relatedTarget?.closest('.proof-shot')) clear();
+  });
+  scene.addEventListener('focusout', event => {
+    if (!event.relatedTarget || !scene.contains(event.relatedTarget) || !event.relatedTarget.closest('.proof-shot')) clear();
+  });
+}
+
 function syncProjectTrackLinks(root, track) {
   if (!root) return;
   root.querySelectorAll('a[href*="portfolio_game/"], a[href*="portfolio_planning/"], a[href*="portfolio/"]').forEach(link => {
@@ -597,6 +697,7 @@ function applyLanguage(language) {
   refreshArchiveLayout(activeTrack);
   ensureLanguageToggle();
   initSceneVines();
+  initProofReelHover();
   const techStrip = document.querySelector('.tech-stack-strip');
   if (techStrip) {
     const skills = [...techStrip.querySelectorAll('.tech-stack-strip__track > span:not(.tech-stack-strip__dup)')];
