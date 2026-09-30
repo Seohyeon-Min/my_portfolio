@@ -320,10 +320,10 @@ function refreshArchiveLayout(track) {
   // No separate icon box — the category's own first letter is set oversized inline at the start of
   // its own title (see .archive-category__cap), so the "icon" is just typography, not a second mark.
   const groups = [
-    ['SHADERS', 'Shaders and real-time rendering effects.', '셰이더를 활용한 그래픽 효과와 렌더링 실험들입니다.', ['07_TooHot.html', 'PoseidonSkate']],
+    ['SHADERS', 'Shaders and real-time rendering effects.', '셰이더를 활용한 그래픽 효과와 렌더링 실험들입니다.', ['07_TooHot.html', 'PoseidonSkate', '05_ThinkThink.html']],
     ['RENDERING', 'Rendering pipelines and custom renderer experiments.', '렌더링 파이프라인과 커스텀 렌더러, 최적화 관련 프로젝트입니다.', ['01_Manzo.html']],
     ['VISUALS', 'Art, UI, and VFX for interactive experiences.', '아트, UI/UX, 이펙트 등 비주얼 중심의 작업물입니다.', ['06_StreetTyper.html', '00_NewManzo.html', 'ArtGallery.html']],
-    ['GAME PROGRAMMING', 'Gameplay, systems, and engine development.', '게임플레이, 시스템, 엔진 개발 등 프로그래밍 기반의 프로젝트입니다.', ['04_BirdStrike.html', '03_DoubleHit.html', '05_ThinkThink.html', '02_EdgeDirve.html']],
+    ['GAME PROGRAMMING', 'Gameplay, systems, and engine development.', '게임플레이, 시스템, 엔진 개발 등 프로그래밍 기반의 프로젝트입니다.', ['04_BirdStrike.html', '03_DoubleHit.html', '02_EdgeDirve.html']],
     ['PRODUCTION', 'Planning, collaboration, and creative delivery.', '기획, 협업 등 제작 과정 전반의 프로젝트입니다.', ['PlushProduction.html', 'Dangling.html']]
   ];
   archiveGrid.innerHTML = '';
@@ -513,10 +513,10 @@ function applyLanguage(language) {
     const activeTrack = new URLSearchParams(window.location.search).get('track') || localStorage.getItem('portfolio-track') || 'graphics';
     if (false && archiveGrid && activeTrack === 'graphics') {
     const groups = [
-      ['SHADERS', ['07_TooHot.html', 'PoseidonSkate']],
+      ['SHADERS', ['07_TooHot.html', 'PoseidonSkate', '05_ThinkThink.html']],
       ['RENDERING', ['01_Manzo.html']],
       ['VISUALS', ['00_NewManzo.html', '06_StreetTyper.html', 'ArtGallery.html']],
-      ['GAME PROGRAMMING', ['04_BirdStrike.html', '03_DoubleHit.html', '05_ThinkThink.html', '02_EdgeDirve.html']],
+      ['GAME PROGRAMMING', ['04_BirdStrike.html', '03_DoubleHit.html', '02_EdgeDirve.html']],
       ['PRODUCTION', ['Dangling.html', 'PlushProduction.html']]
     ];
     const cards = [...archiveGrid.children].filter(node => node.tagName === 'A');
