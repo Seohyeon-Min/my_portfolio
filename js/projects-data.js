@@ -42,7 +42,7 @@ const projectsData = {
       "팀 저장소 585개 커밋 중 418개 기여"
     ],
     experience: {
-      role: "Project Lead · Primary C# Programmer · Game Artist / Visual Direction",
+      role: "비주얼 리드 · 프로듀서 · 주요 C# 프로그래머",
       period: "2025년 8월 – 최종 빌드",
       description: "주요 C# 기여자로서 게임플레이, 보스, 리듬, UI, 툴과 비주얼 시스템 전반을 구현했습니다. 저장소 기록상 전체 585개 커밋 중 418개를 기여했으며, 프로젝트가 장기화된 뒤에는 범위와 인원을 재편해 2주 마감 스프린트로 플레이 가능한 빌드를 완성했습니다."
     },    
@@ -84,8 +84,8 @@ const projectsData = {
           htmlContent: `<section><h2>Unity/C# 시스템 오너십</h2><p><strong>저장소 기록:</strong> 전체 585개 커밋 중 418개를 기여했고, 플러그인을 제외한 주요 C#·셰이더·에디터 코드 367개 파일 중 328개에 작업 기록이 있습니다. 단순 통합이 아니라 게임의 주요 런타임 시스템 대부분을 직접 설계·구현·수정했습니다.</p><h3>게임플레이와 전투</h3><p>함선 이동과 모듈, 사냥 모드, 콤보·차지, 대미지 처리, 보스 상태와 재사용 가능한 패턴 구조를 구현했습니다. 투사체와 텔레그래프, 여러 보스 패턴을 데이터 중심으로 조합할 수 있도록 구성했습니다.</p><h3>FMOD 리듬 동기화</h3><p>FMOD 타임라인을 기준으로 박자 이벤트와 판정 창을 만들고, 플레이 환경별 체감 오차를 조정하는 캘리브레이션과 디버그 UI까지 연결했습니다.</p><h3>보스와 프로시저럴 애니메이션</h3><p>게 보스의 다리 IK와 절차적 보행, 껍질 파괴와 단계 전환, 거대화 연출을 구현해 패턴 로직과 시각적 상태가 함께 움직이도록 구성했습니다.</p><h3>게임 플로우·데이터·UI</h3><p>챕터와 시퀀스, 세이브·인벤토리·상점, 대사와 말풍선, HUD와 모니터형 UI를 연결했습니다. 반복 제작을 줄이기 위해 씬 빌더, 범위 편집기, UI 스타일 프리셋 등 Unity 에디터 도구도 제작했습니다.</p></section>`
         },
         {
-          title: "Project Lead",
-          category: "Project Lead",
+          title: "프로듀싱",
+          category: "Producing",
           items: [
             "프로젝트 관리, 팀 내 커뮤니케이션, 그래픽스 파이프라인의 기술적 지원",
             "여러 차례 바뀐 기획과 팀의 실제 개발 상태, 구성원별 가용 시간, 남은 일정을 함께 검토해 기존 범위로는 완수가 어렵다고 판단",
@@ -1444,7 +1444,7 @@ applyEnglishProjectOverride("00_NewManzo", {
     "418 of 585 repository commits"
   ],
   experience: {
-    role: "Primary C# Programmer · Game Artist / Visual Director · Production Lead",
+    role: "Visual Lead · Producer · Primary C# Programmer",
     period: "August 2025 – Final Build",
     description: "Served as the primary C# contributor across gameplay, bosses, rhythm, UI, tools, and visual systems. Repository history records 418 of 585 commits under my account; after the project lost momentum, I also reset scope and led a two-week closing sprint to a playable build."
   },
@@ -1485,7 +1485,7 @@ applyEnglishProjectOverride("00_NewManzo", {
       },
       {
         title: "Production",
-        category: "Project Lead",
+        category: "Producing",
         items: [
           "Evaluated repeated design changes against the team's actual implementation state, member availability, and remaining schedule, then determined that the existing scope was not realistically finishable",
           "Preserved the strongest combat work and reframed the game as a focused boss rush, cutting exploration and secondary features to create a coherent, shippable scope",
