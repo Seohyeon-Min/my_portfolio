@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <defs>
+    <radialGradient id="bg" cx="30%" cy="25%" r="85%">
+      <stop offset="0%" stop-color="#2a1f4d"/>
+      <stop offset="55%" stop-color="#140f2b"/>
+      <stop offset="100%" stop-color="#07050f"/>
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <circle cx="980" cy="180" r="70" fill="#5b4a9e" opacity="0.55"/>
+  <circle cx="1080" cy="140" r="18" fill="#8a7cd1" opacity="0.6"/>
+  <circle cx="220" cy="560" r="46" fill="#3d3470" opacity="0.5"/>
+  <circle cx="360" cy="470" r="10" fill="#c7bdf0" opacity="0.5"/>
+  <!-- Card thumbnails get cropped hard on mobile (object-fit:cover into a 3:4 box), which only ever
+       shows the centered ~540px-wide band of this 1280-wide canvas (x 370-910). Every text line below
+       is sized/kept short enough to sit fully inside that band so nothing reads as cut off there. -->
+  <text x="640" y="345" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="46" font-weight="700" fill="#f4f1ff" letter-spacing="3">CARBOOM</text>
+  <text x="640" y="388" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="600" fill="#a79be0" letter-spacing="2">IN PRODUCTION</text>
+  <text x="640" y="414" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="600" fill="#a79be0" letter-spacing="2">ASSETS COMING SOON</text>
+</svg>

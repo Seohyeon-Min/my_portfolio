@@ -324,21 +324,34 @@ function refreshArchiveLayout(track) {
     ['RENDERING', 'Rendering pipelines and custom renderer experiments.', '렌더링 파이프라인과 커스텀 렌더러, 최적화 관련 프로젝트입니다.', ['01_Manzo.html']],
     ['VISUALS', 'Art, UI, and VFX for interactive experiences.', '아트, UI/UX, 이펙트 등 비주얼 중심의 작업물입니다.', ['06_StreetTyper.html', '00_NewManzo.html', 'ArtGallery.html']],
     ['GAME PROGRAMMING', 'Gameplay, systems, and engine development.', '게임플레이, 시스템, 엔진 개발 등 프로그래밍 기반의 프로젝트입니다.', ['04_BirdStrike.html', '03_DoubleHit.html', '02_EdgeDirve.html']],
+    ['TOOLS', 'Editor tooling and pipeline support for team production.', '팀 제작을 위한 에디터 툴과 파이프라인 지원입니다.', ['09_Carboom.html']],
+    // Last on purpose: refreshArchiveLayout()/CSS render this one as a short full-width strip
+    // below the main 5-column row instead of a normal column (see .archive-category--production).
     ['PRODUCTION', 'Planning, collaboration, and creative delivery.', '기획, 협업 등 제작 과정 전반의 프로젝트입니다.', ['PlushProduction.html', 'Dangling.html']]
   ];
   archiveGrid.innerHTML = '';
   groups.forEach(([label, descriptionEn, descriptionKo, keys]) => {
     const cards = existingCards.filter(card => keys.some(key => card.getAttribute('href')?.includes(key)));
     if (!cards.length) return;
+    const isProduction = label === 'PRODUCTION';
     const section = document.createElement('section');
-    section.className = `archive-category archive-category--overview${label === 'PRODUCTION' ? ' archive-category--production' : ''}`;
+    // is-collapsed only means anything on mobile (see the CSS) — PRODUCTION starts collapsed there,
+    // opened by tapping its header; desktop ignores the class and always shows it as the short strip.
+    section.className = `archive-category archive-category--overview${isProduction ? ' archive-category--production is-collapsed' : ''}`;
     // SHADERS' fundamentals button is separate navigation (the 8 GLSL/rendering studies), not part of
     // the count-based card layout below, so it always renders regardless of card count.
     const isShaders = label === 'SHADERS';
     const footer = isShaders
       ? `<button type="button" class="archive-category__all archive-category__all--fundamentals" data-graphics-open><span data-en="GRAPHICS FUNDAMENTALS" data-ko="그래픽스 펀더맨탈">${currentLanguage === 'ko' ? '그래픽스 펀더맨탈' : 'GRAPHICS FUNDAMENTALS'}</span><b>↗</b></button>`
       : '';
-    section.innerHTML = `<header class="archive-category__header"><h3><span class="archive-category__cap" aria-hidden="true">${label.charAt(0)}</span>${label.slice(1)}</h3></header><p data-en="${descriptionEn}" data-ko="${descriptionKo}">${currentLanguage === 'ko' ? descriptionKo : descriptionEn}</p><div class="archive-category__grid"></div>${footer}`;
+    const headerInner = `<h3><span class="archive-category__cap" aria-hidden="true">${label.charAt(0)}</span>${label.slice(1)}</h3>`;
+    // PRODUCTION's whole header bar is the toggle (mobile only — see CSS), not a small button off
+    // to the side: a big, obviously-tappable row with a chevron that flips when opened, same
+    // pattern as any accordion/dropdown header.
+    const header = isProduction
+      ? `<button type="button" class="archive-category__header archive-category__header--toggle" data-archive-toggle aria-expanded="false" aria-label="Toggle production projects">${headerInner}<b class="archive-category__chevron" aria-hidden="true">⌄</b></button>`
+      : `<header class="archive-category__header">${headerInner}</header>`;
+    section.innerHTML = `${header}<p data-en="${descriptionEn}" data-ko="${descriptionKo}">${currentLanguage === 'ko' ? descriptionKo : descriptionEn}</p><div class="archive-category__grid"></div>${footer}`;
     const target = section.querySelector('.archive-category__grid');
     target.tabIndex = 0;
     target.setAttribute('aria-label', `${label} projects`);
@@ -350,6 +363,22 @@ function refreshArchiveLayout(track) {
     cards.forEach(card => target.appendChild(card));
     archiveGrid.appendChild(section);
   });
+  // Delegated on archiveGrid itself (bound once, guarded below) rather than re-queried and
+  // re-bound to the PRODUCTION button on every refreshArchiveLayout() call — archiveGrid survives
+  // the innerHTML='' rebuild above even though its children (including the button) don't, so a
+  // direct listener on the button would silently stop working after the next track/language switch.
+  if (!archiveGrid.dataset.toggleBound) {
+    archiveGrid.dataset.toggleBound = 'true';
+    archiveGrid.addEventListener('click', event => {
+      const toggleBtn = event.target.closest('[data-archive-toggle]');
+      if (!toggleBtn) return;
+      // Mobile-only open/close for PRODUCTION (see .is-collapsed in CSS — a no-op on desktop,
+      // which always shows the short strip regardless of this class).
+      const section = toggleBtn.closest('.archive-category--production');
+      const collapsed = section.classList.toggle('is-collapsed');
+      toggleBtn.setAttribute('aria-expanded', String(!collapsed));
+    });
+  }
 }
 
 function applyPortfolioTrack(requestedTrack, updateUrl = true) {
@@ -517,6 +546,7 @@ function applyLanguage(language) {
       ['RENDERING', ['01_Manzo.html']],
       ['VISUALS', ['00_NewManzo.html', '06_StreetTyper.html', 'ArtGallery.html']],
       ['GAME PROGRAMMING', ['04_BirdStrike.html', '03_DoubleHit.html', '02_EdgeDirve.html']],
+      ['TOOLS', ['09_Carboom.html']],
       ['PRODUCTION', ['Dangling.html', 'PlushProduction.html']]
     ];
     const cards = [...archiveGrid.children].filter(node => node.tagName === 'A');
@@ -541,6 +571,7 @@ function applyLanguage(language) {
     const cards = [...document.querySelectorAll('.link-archive-grid a, .portfolio__item[href]')];
     const projectTools = {
       '02_EdgeDirve.html': 'Unreal Engine',
+      '09_Carboom.html': 'Unreal Engine C++ Python',
       '00_NewManzo.html': 'C# FMOD HLSL Clip Studio Paint Aseprite GitHub', '01_Manzo.html': 'C++ OpenGL GLSL Custom Engine Clip Studio Paint GitHub',
       '03_DoubleHit.html': 'C++ GLSL OpenGL Spriter Pro Clip Studio Paint GitHub', '04_BirdStrike.html': 'C++ Clip Studio Paint Cakewalk raylib GitHub',
       '05_ThinkThink.html': 'Unity HLSL C# GitHub', '06_StreetTyper.html': 'C# Unity Spriter Pro 2D Rigging Animation HLSL Clip Studio Paint GitHub',

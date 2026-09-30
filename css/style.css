@@ -5389,7 +5389,15 @@ body.simple-lightbox-open { overflow:hidden; }
 .link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active) .link-progress,
 .link-start-app[data-track="graphics"]:has(.link-scene--archive.is-active) .link-arrow { opacity:0; pointer-events:none; }
 
-@media (hover:hover) and (pointer:fine) {
+/* min-width:901px added on top of hover:hover/pointer:fine: without it, a real desktop browser
+   window just resized narrow (mouse, not touch) matched BOTH this block and the max-width:900px
+   mobile block below at once, and this block's more-specific PRODUCTION rules (grid-column,
+   fixed height, hidden description, row layout, etc.) kept winning over the mobile block's own
+   resets — the recurring root cause behind several bugs already patched around in this file
+   (the scene vines, the [data-count] card layout, and now the PRODUCTION toggle showing an empty
+   box). Requiring real desktop width here removes the overlap outright instead of patching
+   around it again. */
+@media (hover:hover) and (pointer:fine) and (min-width:901px) {
   .link-start-app[data-track="graphics"] .archive-panel {
     top:5dvh;
     /* Was 96vw (nearly edge-to-edge on wide screens); cap it like .proof-reel so the ALL PROJECTS
@@ -5415,9 +5423,17 @@ body.simple-lightbox-open { overflow:hidden; }
   .link-start-app[data-track="graphics"] .tech-stack-strip__track { display:contents; animation:none; }
   .link-start-app[data-track="graphics"] .tech-stack-strip__dup { display:none; }
   .link-start-app[data-track="graphics"] .tech-stack-strip span { padding:.36rem .65rem; background:#f8f9ff; font-size:clamp(.4rem,.64vw,.65rem); }
-  .link-start-app[data-track="graphics"] .link-archive-grid { position:relative; flex:1 1 auto; width:calc(100% + 1.3rem); min-height:0; margin:clamp(.85rem,2.2vh,1.5rem) -.65rem -.65rem; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:clamp(.3rem,.5vw,.55rem); padding:.65rem; border:1px solid rgba(97,125,216,.2); border-radius:1.5rem; background:rgba(255,255,255,.66); box-shadow:0 1rem 3rem rgba(43,54,102,.08); }
+  .link-start-app[data-track="graphics"] .link-archive-grid { position:relative; flex:1 1 auto; width:calc(100% + 1.3rem); min-height:0; margin:clamp(.85rem,2.2vh,1.5rem) -.65rem -.65rem; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); grid-template-rows:minmax(0,1fr) auto; gap:clamp(.3rem,.5vw,.55rem); padding:.65rem; border:1px solid rgba(97,125,216,.2); border-radius:1.5rem; background:rgba(255,255,255,.66); box-shadow:0 1rem 3rem rgba(43,54,102,.08); }
   .link-start-app[data-track="graphics"] .link-archive-grid > .archive-category--overview { grid-column:auto; width:auto; min-width:0; height:100%; min-height:0; display:flex; flex-direction:column; padding:clamp(.5rem,1vw,1.15rem); border-radius:1rem; overflow:visible; }
-  .link-start-app[data-track="graphics"] .archive-category--overview.archive-category--production { padding:clamp(.5rem,1vw,1.15rem); }
+  /* PRODUCTION is the 6th item in a 5-column row, so it wraps to its own row below the main
+     disciplines — grid-column:1/-1 stretches it across that whole row instead of sitting in
+     just the first column, and height:auto (instead of the 100%-of-row-1 every other category
+     gets) lets that row stay short, sized to its own compact content. */
+  .link-start-app[data-track="graphics"] .link-archive-grid > .archive-category--overview.archive-category--production { grid-column:1 / -1; height:auto; flex-direction:row; align-items:center; gap:clamp(.5rem,1vw,1rem); padding:clamp(.4rem,.8vw,.7rem) clamp(.6rem,1.2vw,1rem); }
+  .link-start-app[data-track="graphics"] .archive-category--overview.archive-category--production .archive-category__header { flex:0 0 auto; min-height:0; }
+  .link-start-app[data-track="graphics"] .archive-category--overview.archive-category--production > p { display:none; }
+  .link-start-app[data-track="graphics"] .archive-category--overview.archive-category--production .archive-category__grid { flex:1 1 auto; height:clamp(3.4rem,8vh,4.6rem); }
+  .link-start-app[data-track="graphics"] .archive-category--overview.archive-category--production .archive-category__grid[data-count="2"] { grid-template-columns:1fr 1fr; grid-template-rows:1fr; }
   .link-start-app[data-track="graphics"] .archive-category__header { gap:clamp(.15rem,.4vw,.3rem); min-height:clamp(2rem,5vh,3rem); }
   .link-start-app[data-track="graphics"] .archive-category--overview h3 { margin:0; font-size:clamp(.58rem,1.05vw,1.08rem); line-height:1.15; letter-spacing:-.04em; }
   .link-start-app[data-track="graphics"] .archive-category__header small { margin-top:.25rem; color:var(--ls-blue); font-size:clamp(.4rem,.62vw,.64rem); }
@@ -5444,6 +5460,12 @@ body.simple-lightbox-open { overflow:hidden; }
   .link-start-app[data-track="graphics"] .archive-category--overview .archive-card__copy b { font-size:clamp(.55rem,.75vw,.78rem); }
   .link-start-app[data-track="graphics"] .archive-category--overview .archive-card__copy small { font-size:clamp(.42rem,.62vw,.62rem); }
   .link-start-app[data-track="graphics"] .archive-category__all--fundamentals { font-size:clamp(.5rem,.72vw,.68rem); }
+  /* Desktop shows PRODUCTION plainly (the short strip) — the header renders as a <button> for
+     both devices (see refreshArchiveLayout()), but here it's reset to look and behave like the
+     other categories' plain header: no chevron, no button chrome, and .is-collapsed (a
+     mobile-only concept) never hides anything regardless of which state it's stuck in. */
+  .link-start-app[data-track="graphics"] .archive-category__header--toggle { display:flex; width:auto; border:0; background:none; cursor:default; }
+  .link-start-app[data-track="graphics"] .archive-category__chevron { display:none; }
 }
 
 /* Narrow screens: stack disciplines, then swipe project cards within each row. */
@@ -5490,4 +5512,26 @@ body.simple-lightbox-open { overflow:hidden; }
   .link-start-app[data-track="graphics"] .archive-category__all--fundamentals { width:100%; margin-top:.8rem; padding:.7rem .9rem; }
   .link-start-app[data-track="graphics"] .archive-panel.has-expanded-category { overflow-y:auto; }
   .link-start-app[data-track="graphics"] .archive-panel.has-expanded-category .link-archive-grid::before { display:none; }
+  /* PRODUCTION stays inside the grid like every other category on mobile now (no more separate
+     container) — but undo the desktop-only "short full-width strip" treatment (row direction,
+     fixed small height, forced 2-column count layout) with matching specificity, or a narrow
+     mouse-driven window matches both media blocks at once and the more-specific desktop rules
+     win, squashing the cards into that short wide shape instead of the normal portrait row. */
+  .link-start-app[data-track="graphics"] .archive-category--overview.archive-category--production { flex-direction:column; height:auto; padding:.6rem; }
+  .link-start-app[data-track="graphics"] .archive-category--overview.archive-category--production .archive-category__grid { height:auto; }
+  .link-start-app[data-track="graphics"] .archive-category--overview.archive-category--production .archive-category__grid[data-count="2"] { grid-template-columns:none; grid-template-rows:none; }
+  /* Collapsed by default on mobile only — tapping the whole header bar opens or closes it (see
+     the delegated [data-archive-toggle] click handler in index.js). Desktop ignores .is-collapsed
+     entirely (the header renders as plain <header>, not a button, there — see .archive-category__
+     header--toggle below being reset back to a normal, non-interactive header). */
+  .link-start-app[data-track="graphics"] .archive-category--production.is-collapsed .archive-category__grid,
+  .link-start-app[data-track="graphics"] .archive-category--production.is-collapsed > p { display:none; }
+  /* The entire header bar is the button — full width, obviously tappable, not a small icon off to
+     the side that's easy to miss or mis-tap. */
+  .link-start-app[data-track="graphics"] .archive-category__header--toggle { display:flex; align-items:center; justify-content:space-between; gap:.5rem; width:100%; border:0; background:none; text-align:left; cursor:pointer; }
+  .link-start-app[data-track="graphics"] .archive-category__header--toggle:active { opacity:.7; }
+  .link-start-app[data-track="graphics"] .archive-category__chevron { flex:0 0 auto; display:grid; place-items:center; width:1.5rem; height:1.5rem; border:1px solid color-mix(in srgb,var(--ls-violet) 35%,transparent); border-radius:50%; background:#fff; color:var(--ls-violet); font-size:.9rem; line-height:1; transition:transform 180ms ease; }
+  /* Chevron points down when closed (there's more to reveal) and flips to point up once opened —
+     driven straight off aria-expanded, the same flag the click handler already keeps in sync. */
+  .link-start-app[data-track="graphics"] .archive-category__header--toggle[aria-expanded="true"] .archive-category__chevron { transform:rotate(180deg); }
 }

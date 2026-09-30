@@ -1254,6 +1254,48 @@ const projectsData = {
       }
     }
   },
+  "09_Carboom": {
+    type: "game",
+    title: "Carboom",
+    subtitle: "Space demolition action — in production",
+    pageTitle: "Carboom — Min Seohyeon Portfolio",
+    heroType: "image",
+    heroMedia: "../img/portfolio_thumbnails/Carboom_placeholder.svg",
+    overview: "A team project built in Unreal Engine, currently in production. I own gameplay core and technical art, building editor tools — procedural space-background placement and a demolition system — alongside two collaborating artists.",
+    features: [
+      "Editor tool that procedurally places background planets, with count, distance, scale, and spread all exposed as parameters",
+      "A demolition/destruction system for destructible level objects",
+      "Gameplay core systems",
+      "Built in Unreal Engine with a 2-artist collaboration"
+    ],
+    experience: {
+      role: "Gameplay Programmer / Technical Art — Tools",
+      period: "2026 · Team project (in production)",
+      description: "Own gameplay core and technical art on a team Unreal Engine project, building editor tooling — procedural space-background placement and a demolition system — while collaborating with two artists on the game's look."
+    },
+    tools: "Unreal Engine · Python (Unreal Editor scripting) · C++",
+    trailers: [],
+    videos: [],
+    source: null,
+    localized: {
+      ko: {
+        subtitle: "우주 데몰리션 액션 — 제작 중",
+        overview: "Unreal Engine으로 만드는 팀 프로젝트로, 현재 제작 중입니다. 게임플레이 코어와 테크니컬 아트를 맡아 우주 배경 자동 배치, 데몰리션 시스템 등 에디터 툴을 만들고 있고, 아티스트 2명과 협업하고 있습니다.",
+        features: [
+          "개수·거리·스케일·spread를 파라미터로 노출한, 배경 행성을 절차적으로 배치하는 에디터 툴",
+          "레벨의 파괴 가능한 오브젝트를 위한 데몰리션/파괴 시스템",
+          "게임플레이 코어 시스템",
+          "Unreal Engine 기반, 아티스트 2명과 협업"
+        ],
+        experience: {
+          role: "게임플레이 프로그래머 / 테크니컬 아트 — 툴",
+          period: "2026년 · 팀 프로젝트 (제작 중)",
+          description: "Unreal Engine 팀 프로젝트에서 게임플레이 코어와 테크니컬 아트를 담당하며, 우주 배경 자동 배치·데몰리션 시스템 등 에디터 툴을 제작하고 있습니다. 비주얼은 아티스트 2명과 협업합니다."
+        }
+      }
+    }
+  },
+
   "07_TooHot": {
     type: "game",
     pinned: true,
