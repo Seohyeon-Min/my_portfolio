@@ -244,6 +244,30 @@ function initProofReelHover() {
   scene.addEventListener('focusout', event => {
     if (!event.relatedTarget || !scene.contains(event.relatedTarget) || !event.relatedTarget.closest('.proof-shot')) clear();
   });
+
+  warmProofVideos();
+}
+
+// The first hover on a Proof Reel card used to visibly stutter — its video had never been
+// fetched (preload="none" on the real <video>), so the hover handler triggered a cold network
+// fetch + decode right as the backdrop tried to fade in. Warming the browser's HTTP cache ahead
+// of time fixes that, but doing all of it at once would just move the stutter earlier (a burst of
+// simultaneous fetches competing with whatever the page is still doing). Instead: one video at a
+// time, only when the browser is idle, with a low fetch priority — so it never competes with
+// anything the user is actually interacting with, and by the time they hover a card, that card's
+// video is very likely already sitting in cache.
+function warmProofVideos() {
+  const urls = [...new Set(Object.values(PROOF_HERO_MEDIA).map(m => m.video).filter(Boolean))];
+  let i = 0;
+  const warmNext = () => {
+    if (i >= urls.length) return;
+    const url = urls[i++];
+    fetch(url, { priority: 'low', credentials: 'same-origin' }).catch(() => {}).finally(() => {
+      schedule(warmNext);
+    });
+  };
+  const schedule = fn => (window.requestIdleCallback ? window.requestIdleCallback(fn, { timeout: 2000 }) : window.setTimeout(fn, 300));
+  schedule(warmNext);
 }
 
 function syncProjectTrackLinks(root, track) {
