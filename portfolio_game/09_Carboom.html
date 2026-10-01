@@ -21,7 +21,7 @@
   <h2>Tools</h2>
   <p>Unreal Engine, Python (Unreal Editor scripting), C++, Perforce, Jira</p>
   <h2>Problem</h2>
-  <p>The space background is only ever seen from one fixed point (the arena), so a random 3D scatter of planets produced uneven, unbalanced skies &mdash; real 3D distance doesn't match what actually reads on screen. Hand-placing every planet doesn't scale, and I wanted the two artists on the team to be able to compose the sky themselves &mdash; tuning counts, sizes, and distances &mdash; without touching Python or waiting on me. The team also needs gameplay core systems and a demolition/destruction system for level objects.</p>
+  <p>The space background is only ever seen from one fixed point (the arena), so a random 3D scatter of planets produced uneven, unbalanced skies &mdash; real 3D distance doesn't match what actually reads on screen. Hand-placing every planet doesn't scale, and I wanted the two artists on the team to be able to compose the sky themselves &mdash; tuning counts, sizes, and distances &mdash; without touching Python or waiting on me. The team also needs gameplay core systems.</p>
   <h2>What I Built</h2>
   <p><strong>An artist-facing editor tool, not a one-off script:</strong> every knob an artist would want to turn &mdash; how many planets, how big, how far, how tightly clustered &mdash; lives in a plain Unreal DataAsset they edit directly in the editor, with no code required. One click generates the sky; one click clears it and re-rolls it, so artists can iterate on composition themselves.</p>
   <ul>
@@ -30,7 +30,6 @@
     <li>Automatic small-planet clustering with a leader/follower size hierarchy, replacing an earlier version that clumped unevenly or looked uniform</li>
     <li>A ring-constrained placement rule so accessory "moon" planets stay visible from the arena instead of hiding behind their parent</li>
     <li>One-click generate/clear workflow (idempotent, label-prefixed spawns) so artists can re-roll the sky without engineering help</li>
-    <li>A demolition/destruction system for destructible level objects</li>
     <li>Gameplay core systems</li>
     <li>Collaborating with 2 artists on the game's visuals</li>
   </ul>
@@ -41,6 +40,6 @@
   <header class="video-hero"><img src="" alt="Poster" class="bird-image"><div class="video-overlay"><h1 class="game-title-bird">PROJECT TITLE</h1><p class="game-subtitle-bird">PROJECT SUBTITLE</p></div></header>
   <main class="main-content"><section class="main-background-section"></section><section class="rounded-section"></section><button class="return-button" onclick="window.history.back()"><span class="arrow-icon">&larr;</span><span class="button-text">Return</span></button></main>
   <footer class="footer"><a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a></footer>
-  <script src="../js/projects-data.js?v=20260921w"></script><script src="../js/project-template.js?v=20260921w"></script><script src="../js/index.js?v=20260923x"></script>
+  <script src="../js/projects-data.js?v=20260921x"></script><script src="../js/project-template.js?v=20260921x"></script><script src="../js/index.js?v=20260923x"></script>
 </body>
 </html>

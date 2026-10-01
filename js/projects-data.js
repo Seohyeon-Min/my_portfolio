@@ -1277,23 +1277,22 @@ const projectsData = {
   "09_Carboom": {
     type: "game",
     title: "Carboom",
-    subtitle: "Space demolition action — in production",
+    subtitle: "Space action — in production",
     pageTitle: "Carboom — Min Seohyeon Portfolio",
     heroType: "video",
     heroMedia: "../img/Carboom/TempHero.mp4",
     heroPoster: "../img/portfolio_thumbnails/Carboom_placeholder.svg",
-    overview: "A team project built in Unreal Engine, currently in production. I own gameplay core and technical art, building artist-facing editor tools — a DataAsset-driven procedural space-background placement tool and a demolition system — for the two artists I collaborate with to use directly, without touching code.",
+    overview: "A team project built in Unreal Engine, currently in production. I own gameplay core and technical art, building an artist-facing editor tool — a DataAsset-driven procedural space-background placement tool — for the two artists I collaborate with to use directly, without touching code.",
     features: [
       "Artist-facing editor tool that procedurally places background planets — count, distance, scale, and spread all exposed as an artist-editable DataAsset, no Python required",
       "One-click generate/clear workflow so artists can re-roll and iterate on the sky composition themselves",
-      "A demolition/destruction system for destructible level objects",
       "Gameplay core systems",
       "Built in Unreal Engine with a 2-artist collaboration"
     ],
     experience: {
       role: "Gameplay Programmer / Technical Art — Tools",
       period: "2026 · Team project (in production)",
-      description: "Own gameplay core and technical art on a team Unreal Engine project, building artist-facing editor tooling — a DataAsset-driven procedural space-background placement tool and a demolition system — so the two artists I collaborate with can tune and iterate on the game's look themselves, without touching code."
+      description: "Own gameplay core and technical art on a team Unreal Engine project, building an artist-facing editor tool — a DataAsset-driven procedural space-background placement tool — so the two artists I collaborate with can tune and iterate on the game's look themselves, without touching code."
     },
     tools: "Unreal Engine · Python (Unreal Editor scripting) · C++ · Perforce · Jira",
     trailers: [],
@@ -2235,19 +2234,18 @@ def clear_planets():
     source: null,
     localized: {
       ko: {
-        subtitle: "우주 데몰리션 액션 — 제작 중",
-        overview: "Unreal Engine으로 만드는 팀 프로젝트로, 현재 제작 중입니다. 게임플레이 코어와 테크니컬 아트를 맡아, 코드를 몰라도 아티스트가 직접 다룰 수 있는 에디터 툴 — DataAsset 기반 우주 배경 자동 배치 툴과 데몰리션 시스템 — 을 만들고 있고, 함께 작업하는 아티스트 2명이 실제로 쓰는 걸 목표로 하고 있습니다.",
+        subtitle: "우주 액션 — 제작 중",
+        overview: "Unreal Engine으로 만드는 팀 프로젝트로, 현재 제작 중입니다. 게임플레이 코어와 테크니컬 아트를 맡아, 코드를 몰라도 아티스트가 직접 다룰 수 있는 에디터 툴 — DataAsset 기반 우주 배경 자동 배치 툴 — 을 만들고 있고, 함께 작업하는 아티스트 2명이 실제로 쓰는 걸 목표로 하고 있습니다.",
         features: [
           "개수·거리·스케일·클러스터링까지 아티스트가 편집 가능한 DataAsset으로 노출한, 배경 행성을 절차적으로 배치하는 아티스트용 에디터 툴 (파이썬 코드 접근 불필요)",
           "아티스트가 직접 하늘 구성을 재생성/초기화하며 반복 작업할 수 있는 원클릭 generate/clear 워크플로우",
-          "레벨의 파괴 가능한 오브젝트를 위한 데몰리션/파괴 시스템",
           "게임플레이 코어 시스템",
           "Unreal Engine 기반, 아티스트 2명과 협업"
         ],
         experience: {
           role: "게임플레이 프로그래머 / 테크니컬 아트 — 툴",
           period: "2026년 · 팀 프로젝트 (제작 중)",
-          description: "Unreal Engine 팀 프로젝트에서 게임플레이 코어와 테크니컬 아트를 담당하며, 함께 작업하는 아티스트 2명이 코드 없이 직접 쓸 수 있는 에디터 툴 — 아레나 시점의 화면 구도를 고려한 우주 배경 자동 배치 시스템과 데몰리션 시스템 — 을 제작하고 있습니다."
+          description: "Unreal Engine 팀 프로젝트에서 게임플레이 코어와 테크니컬 아트를 담당하며, 함께 작업하는 아티스트 2명이 코드 없이 직접 쓸 수 있는 에디터 툴 — 아레나 시점의 화면 구도를 고려한 우주 배경 자동 배치 시스템 — 을 제작하고 있습니다."
         },
         contributions: {
           sections: [

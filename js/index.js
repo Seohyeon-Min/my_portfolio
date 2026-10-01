@@ -253,7 +253,10 @@ function initProofReelHover() {
     if (!event.relatedTarget || !scene.contains(event.relatedTarget) || !event.relatedTarget.closest('.proof-shot')) clear();
   });
 
-  warmProofVideos();
+  // Not called here: at this point applyPortfolioTrack() hasn't labeled the cards with
+  // data-project-key yet during initial load (initProofReelHover() runs before it in the
+  // DOMContentLoaded handler), so warmProofVideos() would find nothing to warm. It's called from
+  // applyPortfolioTrack() itself instead, once the cards actually have their keys — see there.
 }
 
 // The first hover on a Proof Reel card used to visibly stutter — its video had never been
@@ -264,15 +267,28 @@ function initProofReelHover() {
 // time, only when the browser is idle, with a low fetch priority — so it never competes with
 // anything the user is actually interacting with, and by the time they hover a card, that card's
 // video is very likely already sitting in cache.
+//
+// Two real bugs lived here before: (1) it warmed every PROOF_HERO_MEDIA entry across ALL THREE
+// tracks — 5 videos, 60MB+ — instead of just the ≤4 actually shown on the active track, so most
+// of that bandwidth was spent on videos the visitor might never see, and if they hovered a real
+// card while an unrelated track's video was mid-download, that download was still competing for
+// the same connection/bandwidth and made the real one stutter. Fixed by reading the keys that are
+// actually on screen (`.proof-shot[data-project-key]`) instead of the whole media map, and
+// re-running this on every track switch so the newly-visible track's videos get warmed too —
+// already-warmed URLs just resolve from cache instantly, no extra cost. (2) the fetch() response
+// body was never read, so the browser had no reason to finish draining/caching it before moving
+// on to the next URL — .arrayBuffer() forces it to actually complete.
 function warmProofVideos() {
-  const urls = [...new Set(Object.values(PROOF_HERO_MEDIA).map(m => m.video).filter(Boolean))];
+  const keys = [...document.querySelectorAll('.proof-shot[data-project-key]')].map(card => card.dataset.projectKey);
+  const urls = [...new Set(keys.map(key => PROOF_HERO_MEDIA[key]?.video).filter(Boolean))];
   let i = 0;
   const warmNext = () => {
     if (i >= urls.length) return;
     const url = urls[i++];
-    fetch(url, { priority: 'low', credentials: 'same-origin' }).catch(() => {}).finally(() => {
-      schedule(warmNext);
-    });
+    fetch(url, { priority: 'low', credentials: 'same-origin' })
+      .then(response => response.arrayBuffer())
+      .catch(() => {})
+      .finally(() => schedule(warmNext));
   };
   const schedule = fn => (window.requestIdleCallback ? window.requestIdleCallback(fn, { timeout: 2000 }) : window.setTimeout(fn, 300));
   schedule(warmNext);
@@ -664,6 +680,9 @@ function applyPortfolioTrack(requestedTrack, updateUrl = true) {
   const proofProjectsGrid = document.querySelector('.proof-reel__projects');
   proofProjectsGrid?.classList.toggle('is-four', profile.proofProjects.length === 4);
   applyNewestProjectBadge();
+  // Re-warm for whichever videos are visible on this track now — a no-op (cache hit) for ones
+  // already warmed, real work only for a track being shown for the first time this visit.
+  warmProofVideos();
   syncProjectTrackLinks(document, track);
   document.querySelectorAll('[data-track-select]').forEach(button => {
     const selected = button.dataset.trackSelect === track;
