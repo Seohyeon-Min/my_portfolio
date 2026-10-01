@@ -879,7 +879,7 @@ const projectsData = {
         {
           title: "UI 셰이더 시스템",
           category: "Technical",
-          htmlContent: `<section class="development" id="ui-style-origin"><span class="case-label">최초 개발</span><h2>UI 셰이더 시스템은 여기서 시작됐습니다</h2><p class="case-study-lede">둥근 버튼, 게이지, 카드마다 그림을 새로 그리는 대신, 하나의 Unity <strong>URP UI 셰이더</strong>(<code>UIStyle.shader</code>)를 컴포넌트 하나(<code>UIStyle.cs</code>)로 제어하도록 만들어서, 어떤 <code>Image</code>든 Inspector에서 값만 조절하면 원하는 모양으로 스타일링되게 했습니다.</p><div class="engineering-summary" aria-label="시스템 규모"><article><span class="engineering-icon" aria-hidden="true">◆</span><strong>4</strong><small>셰이더·컴포넌트·에디터·프리셋 스크립트</small></article><article><span class="engineering-icon" aria-hidden="true">▦</span><strong>9</strong><small>Inspector에 노출된 스타일 그룹</small></article><article><span class="engineering-icon" aria-hidden="true">✦</span><strong>실시간</strong><small>OnValidate로 플레이 모드 없이 즉시 미리보기</small></article><article><span class="engineering-icon" aria-hidden="true">↗</span><strong>재사용</strong><small>.unitypackage로 패키징해 스트리트 타이퍼로 이식</small></article></div><h3>Inspector 필드 (ThinkThink 기준)</h3><div class="decision-table-wrap"><table class="decision-table"><thead><tr><th>그룹</th><th>주요 필드</th><th>기능</th></tr></thead><tbody><tr><th scope="row">모서리 둥글기</th><td>Corner Radius, Capsule/Pill 토글</td><td>SDF 기반 라운딩, 해상도 독립적</td></tr><tr><th scope="row">드롭 섀도우</th><td>Offset, Color, Blur, Size</td><td>별도 스프라이트 없이 외부 그림자 표현</td></tr><tr><th scope="row">인사이드 섀도우</th><td>Offset, Color, Blur</td><td>눌린/파인 느낌의 내부 그림자</td></tr><tr><th scope="row">그래디언트</th><td>기본 색상; Color Gradient(시작/끝/방향/블렌드); Light Gradient(강도/방향); Hue Shift(웜/쿨)</td><td>색상과 명암 그래디언트를 한 패스에서 겹겹이 표현</td></tr><tr><th scope="row">엣지 하이라이트</th><td>Strength, Size</td><td>림 라이트 느낌의 가장자리 발광</td></tr><tr><th scope="row">Material</th><td>Material Type(Plastic / Metal / Glass / Paper)</td><td>표면 질감 프리셋 전환</td></tr><tr><th scope="row">노이즈</th><td>Enable, Strength</td><td>단색이 밴딩되지 않도록 미세 노이즈 추가</td></tr><tr><th scope="row">Bottom Edge Line</th><td>Thickness, Intensity, Color, Sharpness</td><td>그림자와 별개로 정의하는 아래쪽 엣지 라인</td></tr><tr><th scope="row">Preset</th><td><code>UIStylePreset</code> 에셋</td><td>스타일 전체를 에셋 하나로 저장·재적용</td></tr></tbody></table></div><h3>패키지 안의 셰이더 모듈</h3><ul><li><strong>UIStyle.shader</strong>: 위의 통합 스타일링 셰이더</li><li><strong>UIBlur.shader</strong>: 9-Tap 최적화 블러</li><li><strong>SimpleGradient.shader</strong>: 경량 UI 그라디언트</li><li><strong>UIColorTint.shader</strong>: 텍스처 알파 기반 컬러 틴트</li><li><strong>WaveNoise.shader</strong>: 다중 레이어 애니메이션 노이즈</li></ul><div class="system-map"><h3>스트리트 타이퍼에서 확장된 부분</h3><ol><li><span>01</span><strong>모서리 개별 둥글기</strong><small>하나의 값 대신 네 모서리를 각각 독립적으로 조절</small></li><li><span>02</span><strong>다이아몬드 모양</strong><small>변의 곡률과 기울기(skew)까지 조절 가능한 새 도형</small></li><li><span>03</span><strong>방사형 그래디언트</strong><small>방향성 그래디언트 옆에 중심→가장자리 방식 추가</small></li><li><span>04</span><strong>윤곽선(Outline)</strong><small>엣지 라인과 별도로 안쪽을 따라가는 전용 윤곽선</small></li><li><span>05</span><strong>게이지 Fill</strong><small>HP바·타이머용 Fill Amount 추가, 줄어들어도 모서리 유지</small></li></ol></div><p>핵심 셰이더와 컴포넌트는 그대로 가져갔고, 스트리트 타이퍼의 카드 전투 UI에 필요했던 모양과 테두리 표현만 새로 늘렸습니다.</p><a class="evidence-link" href="06_StreetTyper.html?contributionTab=Art#ui-style-extended">스트리트 타이퍼에서 확장된 모습 보기 ↗</a><h3>Editor Tooling</h3><p><strong>UIStyle.cs</strong> 스크립트를 제작하여 Inspector에서 셰이더 파라미터를 직관적으로 제어하고 UI 스타일 프리셋을 저장 및 적용할 수 있는 시스템을 구현했습니다.</p><h3>Technical Stack</h3><ul><li>Unity Universal Render Pipeline (URP)</li><li>HLSL Shader Programming</li><li>Signed Distance Field (SDF) Rendering</li><li>C# Editor Tooling</li></ul><h3>Development Notes</h3><p>셰이더 구조 설계와 시스템 통합 과정에서 AI 기반 개발 도구를 적극 활용하여 반복 작업과 실험 속도를 높였습니다. 이를 통해 약 <strong>1,000+ lines 규모의 셰이더 코드</strong>와 재사용 가능한 UI 스타일 시스템을 구축했습니다.</p></section>`
+          htmlContent: `<section class="development" id="ui-style-origin"><span class="case-label">최초 개발</span><h2>UI 셰이더 시스템은 여기서 시작됐습니다</h2><p class="case-study-lede">버튼, 게이지, 카드를 하나부터 열까지 전부 똑같은 그림체로 손으로 그리려면 시간이 너무 오래 걸렸습니다. 그래서 하나의 Unity <strong>URP UI 셰이더</strong>(<code>UIStyle.shader</code>)를 컴포넌트 하나(<code>UIStyle.cs</code>)로 제어하도록 만들어서, 어떤 <code>Image</code>든 Inspector에서 값만 조절하면 원하는 모양으로 스타일링되게 했습니다. 완성한 스타일은 <code>UIStylePreset</code> 에셋으로 저장해뒀다가 다른 UI에도 바로 불러와 재사용할 수 있습니다.</p><div class="engineering-summary" aria-label="시스템 규모"><article><span class="engineering-icon" aria-hidden="true">◆</span><strong>4</strong><small>셰이더·컴포넌트·에디터·프리셋 스크립트</small></article><article><span class="engineering-icon" aria-hidden="true">▦</span><strong>9</strong><small>Inspector에 노출된 스타일 그룹</small></article><article><span class="engineering-icon" aria-hidden="true">✦</span><strong>실시간</strong><small>OnValidate로 플레이 모드 없이 즉시 미리보기</small></article><article><span class="engineering-icon" aria-hidden="true">↗</span><strong>재사용</strong><small>.unitypackage로 패키징해 스트리트 타이퍼로 이식</small></article></div><h3>Inspector 필드 (ThinkThink 기준)</h3><div class="decision-table-wrap"><table class="decision-table"><thead><tr><th>그룹</th><th>주요 필드</th><th>기능</th></tr></thead><tbody><tr><th scope="row">모서리 둥글기</th><td>Corner Radius, Capsule/Pill 토글</td><td>SDF 기반 라운딩, 해상도 독립적</td></tr><tr><th scope="row">드롭 섀도우</th><td>Offset, Color, Blur, Size</td><td>별도 스프라이트 없이 외부 그림자 표현</td></tr><tr><th scope="row">인사이드 섀도우</th><td>Offset, Color, Blur</td><td>눌린/파인 느낌의 내부 그림자</td></tr><tr><th scope="row">그래디언트</th><td>기본 색상; Color Gradient(시작/끝/방향/블렌드); Light Gradient(강도/방향); Hue Shift(웜/쿨)</td><td>색상과 명암 그래디언트를 한 패스에서 겹겹이 표현</td></tr><tr><th scope="row">엣지 하이라이트</th><td>Strength, Size</td><td>림 라이트 느낌의 가장자리 발광</td></tr><tr><th scope="row">Material</th><td>Material Type(Plastic / Metal / Glass / Paper)</td><td>표면 질감 프리셋 전환</td></tr><tr><th scope="row">노이즈</th><td>Enable, Strength</td><td>단색이 밴딩되지 않도록 미세 노이즈 추가</td></tr><tr><th scope="row">Bottom Edge Line</th><td>Thickness, Intensity, Color, Sharpness</td><td>그림자와 별개로 정의하는 아래쪽 엣지 라인</td></tr><tr><th scope="row">Preset</th><td><code>UIStylePreset</code> 에셋</td><td>스타일 전체를 에셋 하나로 저장·재적용</td></tr></tbody></table></div><h3>패키지 안의 셰이더 모듈</h3><ul><li><strong>UIStyle.shader</strong>: 위의 통합 스타일링 셰이더</li><li><strong>UIBlur.shader</strong>: 9-Tap 최적화 블러</li><li><strong>SimpleGradient.shader</strong>: 경량 UI 그라디언트</li><li><strong>UIColorTint.shader</strong>: 텍스처 알파 기반 컬러 틴트</li><li><strong>WaveNoise.shader</strong>: 다중 레이어 애니메이션 노이즈</li></ul><div class="system-map"><h3>스트리트 타이퍼에서 확장된 부분</h3><ol><li><span>01</span><strong>모서리 개별 둥글기</strong><small>하나의 값 대신 네 모서리를 각각 독립적으로 조절</small></li><li><span>02</span><strong>다이아몬드 모양</strong><small>변의 곡률과 기울기(skew)까지 조절 가능한 새 도형</small></li><li><span>03</span><strong>방사형 그래디언트</strong><small>방향성 그래디언트 옆에 중심→가장자리 방식 추가</small></li><li><span>04</span><strong>윤곽선(Outline)</strong><small>엣지 라인과 별도로 안쪽을 따라가는 전용 윤곽선</small></li><li><span>05</span><strong>게이지 Fill</strong><small>HP바·타이머용 Fill Amount 추가, 줄어들어도 모서리 유지</small></li></ol></div><p>핵심 셰이더와 컴포넌트는 그대로 가져갔고, 스트리트 타이퍼의 카드 전투 UI에 필요했던 모양과 테두리 표현만 새로 늘렸습니다.</p><a class="evidence-link" href="06_StreetTyper.html?contributionTab=Art#ui-style-extended">스트리트 타이퍼에서 확장된 모습 보기 ↗</a><h3>Editor Tooling</h3><p><strong>UIStyle.cs</strong> 스크립트를 제작하여 Inspector에서 셰이더 파라미터를 직관적으로 제어하고 UI 스타일 프리셋을 저장 및 적용할 수 있는 시스템을 구현했습니다.</p><h3>Technical Stack</h3><ul><li>Unity Universal Render Pipeline (URP)</li><li>HLSL Shader Programming</li><li>Signed Distance Field (SDF) Rendering</li><li>C# Editor Tooling</li></ul><h3>Development Notes</h3><p>셰이더 구조 설계와 시스템 통합 과정에서 AI 기반 개발 도구를 적극 활용하여 반복 작업과 실험 속도를 높였습니다. 이를 통해 약 <strong>1,000+ lines 규모의 셰이더 코드</strong>와 재사용 가능한 UI 스타일 시스템을 구축했습니다.</p></section>`
         }
       ]
     },
@@ -1302,7 +1302,7 @@ const projectsData = {
         {
           title: "Procedural Space Background Tool",
           category: "Technical",
-          htmlContent: `<section><h2>An Editor Tool That Places Planets by How They Look, Not Just Where They Are</h2><p class="case-study-lede">Built for the two artists on the team, not just for me &mdash; every knob (count, scale, distance, clustering) lives in a plain DataAsset they edit directly, with a one-click generate/clear loop to re-roll the sky themselves. The space background is only ever seen from one fixed point (the arena), so I built the placement tool around apparent size and on-screen spacing instead of raw 3D coordinates &mdash; then iterated the composition and clustering rules with the artists after reviewing early passes in-editor together.</p>${renderEngineeringCaseStudy({metrics:[{icon:"◉",value:"View-space",label:"composition, not 3D distance"},{icon:"⌘",value:"DataAsset",label:"artist-tunable zones"},{icon:"◈",value:"Leader/follower",label:"cluster size hierarchy"},{icon:"↻",value:"Idempotent",label:"generate/clear, re-runnable"}],architecture:[{title:"Settings DataAsset",detail:"Artist-tunable zones, cluster, and accessory parameters"},{title:"Zone + cluster planning",detail:"Decide counts/sizes, pre-build clusters as one “disc” each"},{title:"View-space composition",detail:"Place largest-apparent-size first, spacing/density checked as angles from the arena"},{title:"Accessory pass",detail:"Ring-constrained moons attached to qualifying parents"},{title:"Spawn / clear",detail:"Idempotent actor spawn, label-prefixed for one-click cleanup"}],cases:[{label:"Composition",title:"Placing by apparent size instead of real distance",problem:"The background is only ever seen from one fixed arena viewpoint, so real 3D distance doesn't match what actually reads on screen — a far big planet and a near small one can look the same size, and naive random placement produced uneven, unbalanced skies.",decision:"Compute everything — apparent size, spacing, and local density — as angles and solid angle from the arena, not 3D position.",implementation:"to_view() converts a planet's location/radius into an apparent angular radius; fits_composition() enforces a geometric-mean spacing rule (big+big far apart, small+small can sit close) and a probabilistic density budget so already-crowded areas rarely accept more, without a hard cutoff that would leave visible gaps.",verification:"Iterated visually with the tool's own generate/clear cycle in-editor until the sky read as evenly weighted instead of clumping on one side."},{label:"Iteration",title:"A curve couldn't express what the composition needed",problem:"The first version sampled size from a ScaleDistribution curve, but curves can't express “this many planets of this size around this distance,” and splitting total distance into ratios (like gradient stops) doesn't work in a Blueprint DataAsset — editing one entry doesn't renormalize the others back to summing to 1.",decision:"Replace the curve with an explicit ScaleZones array: each zone gets its own count, scale range, and distance range, and zones are allowed to overlap instead of being forced to partition the whole range.",implementation:"Also hit Blueprint struct members getting mangled internal names (e.g. “Count_2_ABCD…”); get_struct_value() falls back to parsing export_text() when get_editor_property() fails on the mangled name.",verification:"Zone ranges and counts are logged to the Output Log on every run so an artist tuning the DataAsset can confirm what actually got read."},{label:"Clustering",title:"Fixing “rich-get-richer” clumping and same-size clusters",problem:"The first clustering approach dropped small planets near whichever small planet was already placed, which snowballed into one dense clump versus scattered big planets instead of an even mix — and even after that was fixed, same-sized members scattered evenly inside a disc looked uniform and unnatural, like a pile of eggs.",decision:"Pre-build clusters sized with 1/n weighting (many small clusters, occasional big ones) and place each cluster as its own disc under the same spacing/density rules as a single big planet; then force a leader-plus-followers size hierarchy inside each cluster instead of same-sized members.",implementation:"build_clusters() picks a leader (largest) and smallest member and enforces a minimum leader/smallest scale ratio; cluster_offset() scatters members with a Gaussian (dense center, sparse edge) instead of a uniform disc fill, plus a slight elliptical stretch per cluster so shapes don't all read as perfect circles.",verification:"Max cluster size was tuned down from 12 to 7 members after an in-editor visual pass looked too densely packed."}],decisions:[{system:"Background placement",choice:"View-space composition (angle/solid-angle math)",reason:"Matches what's actually seen from the one fixed camera point.",tradeoff:"More math than naive 3D scatter; O(n²) composition checks per placement."},{system:"Size/count control",choice:"ScaleZones DataAsset array",reason:"Artist-tunable per zone without touching Python.",tradeoff:"Zones can overlap instead of neatly partitioning distance."},{system:"Small planets",choice:"Pre-built leader/follower clusters",reason:"Reads as a natural, uneven grouping instead of a uniform scatter.",tradeoff:"Extra clustering pass before the main placement loop."},{system:"Accessory moons",choice:"Ring-constrained direction (not a full cone)",reason:"Keeps them visibly offset from the parent instead of hiding or overlapping it.",tradeoff:"Narrower valid placement area, more re-rolls when space is tight."}],note:"no source link is included here — the case study above is described directly from the implementation and its in-code design notes."})}<details class="technical-deep-dive full-source"><summary><span>Code</span><strong>Show full source — space_background.py</strong></summary><div class="technical-deep-dive-body"><p>Pasted in full from the private Perforce depot (no public repo to link to) — the exact, current version of the script discussed above.</p><pre><code>import unreal
+          htmlContent: `<section><h2>An Editor Tool That Places Planets by How They Look, Not Just Where They Are</h2><p class="case-study-lede">Built for the two artists on the team, not just for me &mdash; every knob (count, scale, distance, clustering) lives in a plain DataAsset they edit directly, with a one-click generate/clear loop to re-roll the sky themselves. The space background is only ever seen from one fixed point (the arena), so I built the placement tool around apparent size and on-screen spacing instead of raw 3D coordinates &mdash; then iterated the composition and clustering rules with the artists after reviewing early passes in-editor together.</p>${renderEngineeringCaseStudy({metrics:[{icon:"◉",value:"View-space",label:"composition, not 3D distance"},{icon:"⌘",value:"DataAsset",label:"artist-tunable zones"},{icon:"◈",value:"Leader/follower",label:"cluster size hierarchy"},{icon:"↻",value:"Idempotent",label:"generate/clear, re-runnable"}],architecture:[{title:"Settings DataAsset",detail:"Artist-tunable zones, cluster, and accessory parameters"},{title:"Zone + cluster planning",detail:"Decide counts/sizes, pre-build clusters as one “disc” each"},{title:"View-space composition",detail:"Place largest-apparent-size first, spacing/density checked as angles from the arena"},{title:"Accessory pass",detail:"Ring-constrained moons attached to qualifying parents"},{title:"Spawn / clear",detail:"Idempotent actor spawn, label-prefixed for one-click cleanup"}],cases:[{label:"Composition",title:"Placing by apparent size instead of real distance",problem:"The background is only ever seen from one fixed arena viewpoint, so real 3D distance doesn't match what actually reads on screen — a far big planet and a near small one can look the same size, and naive random placement produced uneven, unbalanced skies.",decision:"Compute everything — apparent size, spacing, and local density — as angles and solid angle from the arena, not 3D position.",implementation:"to_view() converts a planet's location/radius into an apparent angular radius; fits_composition() enforces a geometric-mean spacing rule (big+big far apart, small+small can sit close) and a probabilistic density budget so already-crowded areas rarely accept more, without a hard cutoff that would leave visible gaps.",verification:"Iterated visually with the tool's own generate/clear cycle in-editor until the sky read as evenly weighted instead of clumping on one side."},{label:"Iteration",title:"A curve couldn't express what the composition needed",problem:"The first version sampled size from a ScaleDistribution curve, but curves can't express “this many planets of this size around this distance,” and splitting total distance into ratios (like gradient stops) doesn't work in a Blueprint DataAsset — editing one entry doesn't renormalize the others back to summing to 1.",decision:"Replace the curve with an explicit ScaleZones array: each zone gets its own count, scale range, and distance range, and zones are allowed to overlap instead of being forced to partition the whole range.",implementation:"Also hit Blueprint struct members getting mangled internal names (e.g. “Count_2_ABCD…”); get_struct_value() falls back to parsing export_text() when get_editor_property() fails on the mangled name.",verification:"Zone ranges and counts are logged to the Output Log on every run so an artist tuning the DataAsset can confirm what actually got read."},{label:"Clustering",title:"Fixing “rich-get-richer” clumping and same-size clusters",problem:"The first clustering approach dropped small planets near whichever small planet was already placed, which snowballed into one dense clump versus scattered big planets instead of an even mix — and even after that was fixed, same-sized members scattered evenly inside a disc looked uniform and unnatural, like a pile of eggs.",decision:"Pre-build clusters sized with 1/n weighting (many small clusters, occasional big ones) and place each cluster as its own disc under the same spacing/density rules as a single big planet; then force a leader-plus-followers size hierarchy inside each cluster instead of same-sized members.",implementation:"build_clusters() picks a leader (largest) and smallest member and enforces a minimum leader/smallest scale ratio; cluster_offset() scatters members with a Gaussian (dense center, sparse edge) instead of a uniform disc fill, plus a slight elliptical stretch per cluster so shapes don't all read as perfect circles.",verification:"Max cluster size was tuned down from 12 to 7 members after an in-editor visual pass looked too densely packed."}],decisions:[{system:"Background placement",choice:"View-space composition (angle/solid-angle math)",reason:"Matches what's actually seen from the one fixed camera point.",tradeoff:"More math than naive 3D scatter; O(n²) composition checks per placement."},{system:"Size/count control",choice:"ScaleZones DataAsset array",reason:"Artist-tunable per zone without touching Python.",tradeoff:"Zones can overlap instead of neatly partitioning distance."},{system:"Small planets",choice:"Pre-built leader/follower clusters",reason:"Reads as a natural, uneven grouping instead of a uniform scatter.",tradeoff:"Extra clustering pass before the main placement loop."},{system:"Accessory moons",choice:"Ring-constrained direction (not a full cone)",reason:"Keeps them visibly offset from the parent instead of hiding or overlapping it.",tradeoff:"Narrower valid placement area, more re-rolls when space is tight."}],note:"Result: hand-placing this many planets with real compositional judgment — checking apparent size and spacing from one fixed viewpoint, by eye, every time — would take hours per pass; the tool collapses that to one generate/clear click. (No source link is included here — the case study above is described directly from the implementation and its in-code design notes.)"})}<details class="technical-deep-dive full-source"><summary><span>Code</span><strong>Show full source — space_background.py</strong></summary><div class="technical-deep-dive-body"><p>Pasted in full from the private Perforce depot (no public repo to link to) — the exact, current version of the script discussed above.</p><pre><code>import unreal
 import random
 import math
 
@@ -2252,7 +2252,7 @@ def clear_planets():
             {
               title: "우주 배경 자동 배치 툴",
               category: "Technical",
-              htmlContent: `<section><h2>위치가 아니라 "어떻게 보이는가"를 기준으로 행성을 배치하는 에디터 툴</h2><p class="case-study-lede">저를 위해서가 아니라 함께 작업하는 아티스트 2명을 위해 만든 툴입니다 — 개수·스케일·거리·군집 같은 모든 조절값이 아티스트가 직접 편집하는 DataAsset 하나에 들어있고, 원클릭 generate/clear로 하늘 구성을 스스로 재생성해볼 수 있습니다. 우주 배경은 항상 아레나라는 고정된 한 지점에서만 보이기 때문에, 실제 3D 좌표 대신 겉보기 크기와 화면상 간격을 기준으로 배치 로직을 설계했고, 아티스트들과 함께 에디터에서 결과를 보며 구도와 군집 규칙을 반복적으로 다듬었습니다.</p>${renderEngineeringCaseStudy({labels:{systemMap:"시스템 구조",problem:"문제",decision:"결정",implementation:"구현",verification:"검증",keyDecisions:"핵심 결정",decisionLog:"결정 로그",decisionTitle:"왜 이렇게 구조화했는가",system:"시스템",choice:"선택",why:"이유",tradeoff:"트레이드오프",codeEvidence:"코드 근거",viewSource:"소스 보기 ↗"},metrics:[{icon:"◉",value:"뷰 공간",label:"구도 계산 (3D 거리 아님)"},{icon:"⌘",value:"DataAsset",label:"아티스트가 직접 튜닝"},{icon:"◈",value:"대장/졸개",label:"군집 크기 계층"},{icon:"↻",value:"멱등성",label:"재생성/정리, 반복 실행 가능"}],architecture:[{title:"설정 DataAsset",detail:"아티스트가 조절 가능한 구간·군집·악세서리 파라미터"},{title:"구간·군집 계획",detail:"개수/크기를 먼저 정하고 군집을 하나의 '원판'으로 미리 구성"},{title:"뷰 공간 구도 배치",detail:"겉보기 크기가 큰 것부터, 간격/밀도는 아레나 기준 각도로 검사"},{title:"악세서리 배치",detail:"조건을 만족하는 기준 행성에 링 제한을 걸어 위성 부착"},{title:"스폰 / 정리",detail:"라벨 프리픽스 기반으로 멱등적으로 스폰·정리"}],cases:[{label:"구도",title:"실제 거리 대신 겉보기 크기로 배치하기",problem:"배경은 항상 고정된 아레나 시점에서만 보이기 때문에 실제 3D 거리는 화면에 실제로 보이는 것과 일치하지 않습니다 — 멀리 있는 큰 행성과 가까운 작은 행성이 화면에선 같은 크기로 보일 수 있고, 단순 랜덤 배치는 균형이 안 맞는 하늘을 만들었습니다.",decision:"겉보기 크기, 간격, 주변 밀도를 전부 3D 위치가 아니라 아레나 기준 각도·입체각으로 계산합니다.",implementation:"to_view()가 행성의 위치·반지름을 겉보기 각반지름으로 변환하고, fits_composition()이 기하평균 기반 간격 규칙(큰 것끼리는 멀리, 작은 것끼리는 가까이 가능)과 확률적 밀도 예산(이미 붐비는 영역은 잘 안 들어오되, 딱 막지는 않아 빈 공간이 생기지 않게)을 적용합니다.",verification:"툴 자체의 재생성/정리 기능으로 에디터에서 직접 반복 확인하며, 하늘이 한쪽으로 쏠리지 않고 고르게 느껴질 때까지 다듬었습니다."},{label:"반복 개선",title:"커브로는 표현할 수 없었던 구도 요구사항",problem:"처음엔 ScaleDistribution 커브로 크기를 샘플링했는데, 커브로는 '이 크기대는 몇 개, 이 거리쯤'을 표현하기 어려웠고, 전체 거리를 그래디언트 스톱처럼 비율로 나누는 것도 블루프린트 DataAsset에서는 한 칸을 바꿀 때 나머지가 자동으로 재정규화되지 않아 합이 1로 안 맞았습니다.",decision:"커브 대신 명시적인 ScaleZones 배열로 바꿨습니다 — 각 구간마다 개수·스케일 범위·거리 범위를 직접 지정하고, 전체 범위를 나누는 대신 구간끼리 겹치는 것도 허용했습니다.",implementation:"블루프린트 스트럭트 멤버 이름이 'Count_2_ABCD...'처럼 맹글링되는 문제도 만나서, get_struct_value()가 get_editor_property() 실패 시 export_text()를 직접 파싱하는 폴백을 추가했습니다.",verification:"매 실행마다 구간별 범위와 개수를 Output Log에 남겨서, DataAsset을 튜닝하는 아티스트가 실제로 뭐가 읽혔는지 바로 확인할 수 있게 했습니다."},{label:"군집화",title:"'부익부' 뭉침과 균일한 군집 문제 해결",problem:"처음 군집 로직은 작은 행성을 이미 놓인 작은 행성 근처에 확률적으로 떨어뜨렸는데, 이게 한쪽으로 계속 몰려서(부익부) 큰 덩어리 하나와 흩어진 큰 행성들로만 나뉘었습니다. 이걸 고친 뒤에도, 크기가 비슷한 멤버들을 원판 안에 고르게 뿌리니 알 무더기처럼 부자연스러워 보였습니다.",decision:"군집을 1/n 가중치로 미리 크기별로 만들어(작은 군집은 많고 큰 군집은 가끔) 각 군집을 큰 행성 하나와 같은 간격/밀도 규칙을 적용받는 원판으로 배치합니다. 그리고 군집 안에서는 멤버 크기를 똑같이 두지 않고 대장+졸개 크기 계층을 강제합니다.",implementation:"build_clusters()가 대장(가장 큰 것)과 가장 작은 멤버를 뽑아 최소 크기 비율을 강제하고, cluster_offset()이 원판에 균등하게 뿌리는 대신 가우시안(중심은 촘촘, 가장자리는 듬성)으로 멤버를 흩뿌리며 군집마다 살짝 타원형으로 늘립니다.",verification:"에디터에서 시각적으로 확인한 뒤 군집 최대 인원을 12명에서 7명으로 줄였습니다(너무 빽빽해 보여서)."}],decisions:[{system:"배경 배치",choice:"뷰 공간 구도(각도/입체각) 계산",reason:"고정된 카메라 한 지점에서 실제로 보이는 것과 일치시키기 위해.",tradeoff:"단순 3D 스캐터보다 계산이 복잡함 — 배치마다 O(n²) 구도 검사."},{system:"크기/개수 제어",choice:"ScaleZones DataAsset 배열",reason:"Python 코드를 건드리지 않고 구간별로 아티스트가 직접 튜닝 가능.",tradeoff:"구간끼리 거리를 깔끔하게 나누지 않고 겹칠 수 있음."},{system:"작은 행성",choice:"미리 구성한 대장/졸개 군집",reason:"균일한 산포 대신 자연스럽고 불균일한 그룹으로 보임.",tradeoff:"메인 배치 루프 전에 별도 군집화 단계가 추가됨."},{system:"악세서리 위성",choice:"전체 원뿔이 아닌 링 제한 방향",reason:"기준 행성에 숨거나 겹치지 않고 항상 옆으로 보이게 하기 위해.",tradeoff:"배치 가능 영역이 좁아져 자리 재시도가 늘어남."}],note:"위 케이스 스터디는 실제 구현과 코드 내 설계 노트를 바탕으로 직접 설명한 것입니다."})}<details class="technical-deep-dive full-source"><summary><span>코드</span><strong>전체 소스 보기 — space_background.py</strong></summary><div class="technical-deep-dive-body"><p>비공개 Perforce 저장소에서 그대로 붙여넣은 코드입니다 (링크할 수 있는 공개 저장소가 없음) — 위에서 설명한 스크립트의 현재 버전 그대로입니다.</p><pre><code>import unreal
+              htmlContent: `<section><h2>위치가 아니라 "어떻게 보이는가"를 기준으로 행성을 배치하는 에디터 툴</h2><p class="case-study-lede">저를 위해서가 아니라 함께 작업하는 아티스트 2명을 위해 만든 툴입니다 — 개수·스케일·거리·군집 같은 모든 조절값이 아티스트가 직접 편집하는 DataAsset 하나에 들어있고, 원클릭 generate/clear로 하늘 구성을 스스로 재생성해볼 수 있습니다. 우주 배경은 항상 아레나라는 고정된 한 지점에서만 보이기 때문에, 실제 3D 좌표 대신 겉보기 크기와 화면상 간격을 기준으로 배치 로직을 설계했고, 아티스트들과 함께 에디터에서 결과를 보며 구도와 군집 규칙을 반복적으로 다듬었습니다.</p>${renderEngineeringCaseStudy({labels:{systemMap:"시스템 구조",problem:"문제",decision:"결정",implementation:"구현",verification:"검증",keyDecisions:"핵심 결정",decisionLog:"결정 로그",decisionTitle:"왜 이렇게 구조화했는가",system:"시스템",choice:"선택",why:"이유",tradeoff:"트레이드오프",codeEvidence:"코드 근거",viewSource:"소스 보기 ↗"},metrics:[{icon:"◉",value:"뷰 공간",label:"구도 계산 (3D 거리 아님)"},{icon:"⌘",value:"DataAsset",label:"아티스트가 직접 튜닝"},{icon:"◈",value:"대장/졸개",label:"군집 크기 계층"},{icon:"↻",value:"멱등성",label:"재생성/정리, 반복 실행 가능"}],architecture:[{title:"설정 DataAsset",detail:"아티스트가 조절 가능한 구간·군집·악세서리 파라미터"},{title:"구간·군집 계획",detail:"개수/크기를 먼저 정하고 군집을 하나의 '원판'으로 미리 구성"},{title:"뷰 공간 구도 배치",detail:"겉보기 크기가 큰 것부터, 간격/밀도는 아레나 기준 각도로 검사"},{title:"악세서리 배치",detail:"조건을 만족하는 기준 행성에 링 제한을 걸어 위성 부착"},{title:"스폰 / 정리",detail:"라벨 프리픽스 기반으로 멱등적으로 스폰·정리"}],cases:[{label:"구도",title:"실제 거리 대신 겉보기 크기로 배치하기",problem:"배경은 항상 고정된 아레나 시점에서만 보이기 때문에 실제 3D 거리는 화면에 실제로 보이는 것과 일치하지 않습니다 — 멀리 있는 큰 행성과 가까운 작은 행성이 화면에선 같은 크기로 보일 수 있고, 단순 랜덤 배치는 균형이 안 맞는 하늘을 만들었습니다.",decision:"겉보기 크기, 간격, 주변 밀도를 전부 3D 위치가 아니라 아레나 기준 각도·입체각으로 계산합니다.",implementation:"to_view()가 행성의 위치·반지름을 겉보기 각반지름으로 변환하고, fits_composition()이 기하평균 기반 간격 규칙(큰 것끼리는 멀리, 작은 것끼리는 가까이 가능)과 확률적 밀도 예산(이미 붐비는 영역은 잘 안 들어오되, 딱 막지는 않아 빈 공간이 생기지 않게)을 적용합니다.",verification:"툴 자체의 재생성/정리 기능으로 에디터에서 직접 반복 확인하며, 하늘이 한쪽으로 쏠리지 않고 고르게 느껴질 때까지 다듬었습니다."},{label:"반복 개선",title:"커브로는 표현할 수 없었던 구도 요구사항",problem:"처음엔 ScaleDistribution 커브로 크기를 샘플링했는데, 커브로는 '이 크기대는 몇 개, 이 거리쯤'을 표현하기 어려웠고, 전체 거리를 그래디언트 스톱처럼 비율로 나누는 것도 블루프린트 DataAsset에서는 한 칸을 바꿀 때 나머지가 자동으로 재정규화되지 않아 합이 1로 안 맞았습니다.",decision:"커브 대신 명시적인 ScaleZones 배열로 바꿨습니다 — 각 구간마다 개수·스케일 범위·거리 범위를 직접 지정하고, 전체 범위를 나누는 대신 구간끼리 겹치는 것도 허용했습니다.",implementation:"블루프린트 스트럭트 멤버 이름이 'Count_2_ABCD...'처럼 맹글링되는 문제도 만나서, get_struct_value()가 get_editor_property() 실패 시 export_text()를 직접 파싱하는 폴백을 추가했습니다.",verification:"매 실행마다 구간별 범위와 개수를 Output Log에 남겨서, DataAsset을 튜닝하는 아티스트가 실제로 뭐가 읽혔는지 바로 확인할 수 있게 했습니다."},{label:"군집화",title:"'부익부' 뭉침과 균일한 군집 문제 해결",problem:"처음 군집 로직은 작은 행성을 이미 놓인 작은 행성 근처에 확률적으로 떨어뜨렸는데, 이게 한쪽으로 계속 몰려서(부익부) 큰 덩어리 하나와 흩어진 큰 행성들로만 나뉘었습니다. 이걸 고친 뒤에도, 크기가 비슷한 멤버들을 원판 안에 고르게 뿌리니 알 무더기처럼 부자연스러워 보였습니다.",decision:"군집을 1/n 가중치로 미리 크기별로 만들어(작은 군집은 많고 큰 군집은 가끔) 각 군집을 큰 행성 하나와 같은 간격/밀도 규칙을 적용받는 원판으로 배치합니다. 그리고 군집 안에서는 멤버 크기를 똑같이 두지 않고 대장+졸개 크기 계층을 강제합니다.",implementation:"build_clusters()가 대장(가장 큰 것)과 가장 작은 멤버를 뽑아 최소 크기 비율을 강제하고, cluster_offset()이 원판에 균등하게 뿌리는 대신 가우시안(중심은 촘촘, 가장자리는 듬성)으로 멤버를 흩뿌리며 군집마다 살짝 타원형으로 늘립니다.",verification:"에디터에서 시각적으로 확인한 뒤 군집 최대 인원을 12명에서 7명으로 줄였습니다(너무 빽빽해 보여서)."}],decisions:[{system:"배경 배치",choice:"뷰 공간 구도(각도/입체각) 계산",reason:"고정된 카메라 한 지점에서 실제로 보이는 것과 일치시키기 위해.",tradeoff:"단순 3D 스캐터보다 계산이 복잡함 — 배치마다 O(n²) 구도 검사."},{system:"크기/개수 제어",choice:"ScaleZones DataAsset 배열",reason:"Python 코드를 건드리지 않고 구간별로 아티스트가 직접 튜닝 가능.",tradeoff:"구간끼리 거리를 깔끔하게 나누지 않고 겹칠 수 있음."},{system:"작은 행성",choice:"미리 구성한 대장/졸개 군집",reason:"균일한 산포 대신 자연스럽고 불균일한 그룹으로 보임.",tradeoff:"메인 배치 루프 전에 별도 군집화 단계가 추가됨."},{system:"악세서리 위성",choice:"전체 원뿔이 아닌 링 제한 방향",reason:"기준 행성에 숨거나 겹치지 않고 항상 옆으로 보이게 하기 위해.",tradeoff:"배치 가능 영역이 좁아져 자리 재시도가 늘어남."}],note:"결과: 이 정도 구도 판단(아레나라는 고정 시점에서 겉보기 크기와 간격을 매번 눈으로 확인)까지 신경 써서 행성을 손으로 배치하려면 한 번 배치할 때마다 몇 시간씩 걸립니다 — 이 툴을 쓰면 generate/clear 한 번 클릭으로 끝납니다. (비공개 Perforce 저장소라 링크할 수 있는 공개 저장소가 없어서, 위 케이스 스터디는 실제 구현과 코드 내 설계 노트를 바탕으로 직접 설명한 것입니다.)"})}<details class="technical-deep-dive full-source"><summary><span>코드</span><strong>전체 소스 보기 — space_background.py</strong></summary><div class="technical-deep-dive-body"><p>비공개 Perforce 저장소에서 그대로 붙여넣은 코드입니다 (링크할 수 있는 공개 저장소가 없음) — 위에서 설명한 스크립트의 현재 버전 그대로입니다.</p><pre><code>import unreal
 import random
 import math
 
@@ -3197,6 +3197,8 @@ def clear_planets():
     overviewImage: "../img/TooHot/Boss1.png",
     overview: "A Unity game-jam boss-action project built around readable attack patterns, escalating encounters, and responsive visual feedback.",
     features: [
+      "Replaced frame-by-frame character animation with separated body-part rigs driven by skeletal animation — the jam's 10-day timeline had no room for hand-drawn frames",
+      "Built the character's fire effect as a shader instead of hand-drawn flame animation, so no frame of it was ever drawn by hand",
       "A custom shadow shader integrated and art-directed for a cohesive, grounded combat presentation",
       "Telegraphed straight, spiral, curved, bouncing, and beam attacks",
       "Boss encounters, hit zones, projectiles, player feedback, and VFX systems",
@@ -3216,7 +3218,7 @@ def clear_planets():
         {
           title: "Art & VFX",
           category: "Art",
-          htmlContent: `<section><h2>Implemented by Me</h2><p>Created and integrated game art, composed the combat presentation, and added a custom shadow shader, pattern-specific VFX, UI styling, animation, and impact feedback. I tuned color, scale, timing, and hierarchy so players could read danger quickly while attacks still felt forceful.</p><div class="engineering-summary" aria-label="Art coverage"><article><span class="engineering-icon" aria-hidden="true">🌑</span><strong>Shader</strong><small>Custom shadow treatment</small></article><article><span class="engineering-icon" aria-hidden="true">✨</span><strong>VFX</strong><small>Telegraphs · projectiles · beams</small></article><article><span class="engineering-icon" aria-hidden="true">🧩</span><strong>UI</strong><small>Gradients · rounding · URP blur</small></article><article><span class="engineering-icon" aria-hidden="true">🎬</span><strong>Animation</strong><small>Boss + portrait feedback</small></article></div><figure style="margin:1rem 0"><img src="../img/TooHot/CardUI.png" alt="Too Hot card UI styled with the custom UI shader" style="max-width:100%;border-radius:.8rem" /></figure><figure style="margin:1rem 0"><video src="../img/TooHot/effect.mp4" controls muted loop playsinline preload="metadata" style="max-width:100%;border-radius:.8rem"></video><figcaption style="margin-top:.5rem;font-size:.72rem;opacity:.75">A handful of the VFX I built, composited together on one screen — not the full set, just a sample.</figcaption></figure><p style="font-size:.78rem;opacity:.8">The map artwork at the top of this page is also mine, hand-drawn for the project.</p><h3>Custom shadow shader</h3><p>I built and integrated the shadow treatment as part of the real-time visual pipeline, then tuned it against the characters, arena, and effects. It gives the 2D artwork a consistent sense of contact and depth inside Unity instead of relying on individually painted shadow assets.</p><h3>Visual systems in the build</h3><p>The shadow shader works alongside telegraphs, hit zones, projectile and beam effects, player feedback, portraits, boss animation, and shader-driven UI presentation. My focus was connecting those elements into a coherent player experience rather than treating them as isolated assets.</p><h3>Authorship note</h3><p>This was collaborative game-jam work. The shadow shader, art, composition, VFX, UI, animation, and integration described here are my direct contributions; gameplay systems written by teammates are credited as team output.</p></section>`
+          htmlContent: `<section><h2>Implemented by Me</h2><p>Created and integrated game art, composed the combat presentation, and added a custom shadow shader, pattern-specific VFX, UI styling, animation, and impact feedback. I tuned color, scale, timing, and hierarchy so players could read danger quickly while attacks still felt forceful.</p><div class="engineering-case-grid"><article class="engineering-case"><span class="case-label">Artist Problem</span><h3>No time for frame-by-frame animation</h3><p>The character needed full animation, including fire, but the jam's 10-day timeline left no time to hand-draw it frame by frame.</p></article><article class="engineering-case"><span class="case-label">Technical Solution</span><h3>Skeletal rig + a shader for the fire</h3><p>I switched the character to separated body parts driven by skeletal animation instead of drawn frames, and built the fire effect itself as a shader rather than flame artwork.</p></article><article class="engineering-case"><span class="case-label">Result</span><h3>A handful of frames instead of a full animation set</h3><p>The rig and the shader carried most of the motion and all of the fire, so the artist only had to hand-draw a handful of frames instead of a full frame-by-frame set — inside a 10-day jam.</p></article></div><div class="engineering-summary" aria-label="Art coverage"><article><span class="engineering-icon" aria-hidden="true">🌑</span><strong>Shader</strong><small>Custom shadow treatment</small></article><article><span class="engineering-icon" aria-hidden="true">✨</span><strong>VFX</strong><small>Telegraphs · projectiles · beams</small></article><article><span class="engineering-icon" aria-hidden="true">🧩</span><strong>UI</strong><small>Gradients · rounding · URP blur</small></article><article><span class="engineering-icon" aria-hidden="true">🎬</span><strong>Animation</strong><small>Boss + portrait feedback</small></article></div><figure style="margin:1rem 0"><img src="../img/TooHot/CardUI.png" alt="Too Hot card UI styled with the custom UI shader" style="max-width:100%;border-radius:.8rem" /></figure><figure style="margin:1rem 0"><video src="../img/TooHot/effect.mp4" controls muted loop playsinline preload="metadata" style="max-width:100%;border-radius:.8rem"></video><figcaption style="margin-top:.5rem;font-size:.72rem;opacity:.75">A handful of the VFX I built, composited together on one screen — not the full set, just a sample.</figcaption></figure><p style="font-size:.78rem;opacity:.8">The map artwork at the top of this page is also mine, hand-drawn for the project.</p><h3>Custom shadow shader</h3><p>I built and integrated the shadow treatment as part of the real-time visual pipeline, then tuned it against the characters, arena, and effects. It gives the 2D artwork a consistent sense of contact and depth inside Unity instead of relying on individually painted shadow assets.</p><h3>Visual systems in the build</h3><p>The shadow shader works alongside telegraphs, hit zones, projectile and beam effects, player feedback, portraits, boss animation, and shader-driven UI presentation. My focus was connecting those elements into a coherent player experience rather than treating them as isolated assets.</p><h3>Authorship note</h3><p>This was collaborative game-jam work. The shadow shader, art, composition, VFX, UI, animation, and integration described here are my direct contributions; gameplay systems written by teammates are credited as team output.</p></section>`
         },
         {
           title: "Producing",
@@ -3235,6 +3237,8 @@ def clear_planets():
         subtitle: "게임잼 기간 안에 구현한 커스텀 그림자 셰이더와 실시간 VFX, 테크니컬 디렉팅",
         overview: "짧은 게임잼 기간 동안 보스 공격의 가독성과 손맛을 집중적으로 다듬은 Unity 액션 게임입니다. 플레이어가 위험 범위와 공격 방향을 즉시 알아보고, 피격과 반격의 결과도 확실하게 느낄 수 있도록 화면을 구성했습니다.",
         features: [
+          "10일짜리 잼 일정상 프레임 단위 손그림 애니메이션을 그릴 시간이 없어, 캐릭터를 부위별로 분리해 스켈레탈 애니메이션으로 전환",
+          "캐릭터에 들어가는 불 이펙트를 손그림 애니메이션이 아니라 셰이더로 제작해, 불 프레임을 따로 그릴 필요가 없게 함",
           "캐릭터와 전투 공간에 깊이와 접지감을 더하는 커스텀 그림자 셰이더 제작·적용",
           "직선·나선·곡선·반사 투사체와 빔의 방향을 미리 읽을 수 있는 공격 전조",
           "피격 범위와 투사체, 보스 패턴에 맞춘 플레이어 피드백과 VFX",
@@ -3251,7 +3255,7 @@ def clear_planets():
             {
               title: "아트 · VFX",
               category: "Art",
-              htmlContent: `<section><h2>제가 직접 구현한 작업</h2><p>게임 아트를 제작·적용하고 전투 화면을 구성했으며, 커스텀 그림자 셰이더와 패턴별 VFX, UI 스타일, 애니메이션, 타격 피드백을 추가했습니다. 플레이어가 위험을 빠르게 읽으면서도 공격은 강하게 느끼도록 색과 크기, 타이밍, 화면의 위계를 반복해서 조절했습니다.</p><div class="engineering-summary" aria-label="아트 제작 범위"><article><span class="engineering-icon" aria-hidden="true">🌑</span><strong>셰이더</strong><small>커스텀 그림자 표현</small></article><article><span class="engineering-icon" aria-hidden="true">✨</span><strong>VFX</strong><small>전조 · 투사체 · 빔</small></article><article><span class="engineering-icon" aria-hidden="true">🧩</span><strong>UI</strong><small>그라디언트 · 라운딩 · URP 블러</small></article><article><span class="engineering-icon" aria-hidden="true">🎬</span><strong>애니메이션</strong><small>보스 · 포트레이트 피드백</small></article></div><figure style="margin:1rem 0"><img src="../img/TooHot/CardUI.png" alt="커스텀 UI 셰이더를 적용한 Too Hot 카드 UI" style="max-width:100%;border-radius:.8rem" /></figure><figure style="margin:1rem 0"><video src="../img/TooHot/effect.mp4" controls muted loop playsinline preload="metadata" style="max-width:100%;border-radius:.8rem"></video><figcaption style="margin-top:.5rem;font-size:.72rem;opacity:.75">제가 만든 이펙트 중 일부를 한 화면에 모아본 영상입니다 — 전부는 아니고 몇 개만 골랐습니다.</figcaption></figure><p style="font-size:.78rem;opacity:.8">페이지 맨 위의 맵 아트워크도 제가 직접 그렸습니다.</p><h3>커스텀 그림자 셰이더</h3><p>캐릭터와 전투 공간이 따로 떠 보이지 않도록 실시간 그림자 표현을 제작해 Unity에 적용했습니다. 에셋마다 그림자를 별도로 그려 넣는 대신, 캐릭터와 배경, 이펙트를 함께 보며 그림자 표현을 조절해 2D 화면에 일관된 접지감과 깊이를 만들었습니다.</p><h3>플레이 화면에 연결된 요소</h3><p>그림자 셰이더를 공격 전조와 피격 범위, 투사체·빔 이펙트, 플레이어 피드백, 포트레이트, 보스 애니메이션, 셰이더 기반 UI와 하나의 경험으로 연결했습니다. 개별 에셋보다 실제 플레이에서 함께 작동하는 화면을 만드는 데 집중했습니다.</p><h3>기여 범위</h3><p>이 프로젝트는 팀으로 만든 게임잼 작품입니다. 여기서 소개하는 그림자 셰이더와 아트, 화면 구성, VFX, UI, 애니메이션, 통합은 제가 직접 맡았으며, 팀원이 작성한 게임플레이 시스템은 팀 결과물로 구분합니다.</p></section>`
+              htmlContent: `<section><h2>제가 직접 구현한 작업</h2><p>게임 아트를 제작·적용하고 전투 화면을 구성했으며, 커스텀 그림자 셰이더와 패턴별 VFX, UI 스타일, 애니메이션, 타격 피드백을 추가했습니다. 플레이어가 위험을 빠르게 읽으면서도 공격은 강하게 느끼도록 색과 크기, 타이밍, 화면의 위계를 반복해서 조절했습니다.</p><div class="engineering-case-grid"><article class="engineering-case"><span class="case-label">아티스트의 문제</span><h3>프레임 단위 애니메이션을 그릴 시간이 없었음</h3><p>캐릭터에 불 이펙트까지 들어가는 애니메이션이 필요했지만, 10일짜리 잼 일정상 프레임을 하나하나 손으로 그릴 시간이 없었습니다.</p></article><article class="engineering-case"><span class="case-label">기술적 해결</span><h3>스켈레탈 리그 + 불은 셰이더로</h3><p>캐릭터를 부위별로 분리해 스켈레탈 애니메이션으로 움직이게 바꾸고, 불 이펙트 자체도 그림이 아니라 셰이더로 제작했습니다.</p></article><article class="engineering-case"><span class="case-label">결과</span><h3>전체 프레임 대신 몇 장만 직접 그림</h3><p>리그와 셰이더가 움직임과 불 이펙트를 대부분 대신해서, 아티스트는 전체 프레임을 다 그리는 대신 몇 장만 직접 그리면 됐습니다 — 10일 안에.</p></article></div><div class="engineering-summary" aria-label="아트 제작 범위"><article><span class="engineering-icon" aria-hidden="true">🌑</span><strong>셰이더</strong><small>커스텀 그림자 표현</small></article><article><span class="engineering-icon" aria-hidden="true">✨</span><strong>VFX</strong><small>전조 · 투사체 · 빔</small></article><article><span class="engineering-icon" aria-hidden="true">🧩</span><strong>UI</strong><small>그라디언트 · 라운딩 · URP 블러</small></article><article><span class="engineering-icon" aria-hidden="true">🎬</span><strong>애니메이션</strong><small>보스 · 포트레이트 피드백</small></article></div><figure style="margin:1rem 0"><img src="../img/TooHot/CardUI.png" alt="커스텀 UI 셰이더를 적용한 Too Hot 카드 UI" style="max-width:100%;border-radius:.8rem" /></figure><figure style="margin:1rem 0"><video src="../img/TooHot/effect.mp4" controls muted loop playsinline preload="metadata" style="max-width:100%;border-radius:.8rem"></video><figcaption style="margin-top:.5rem;font-size:.72rem;opacity:.75">제가 만든 이펙트 중 일부를 한 화면에 모아본 영상입니다 — 전부는 아니고 몇 개만 골랐습니다.</figcaption></figure><p style="font-size:.78rem;opacity:.8">페이지 맨 위의 맵 아트워크도 제가 직접 그렸습니다.</p><h3>커스텀 그림자 셰이더</h3><p>캐릭터와 전투 공간이 따로 떠 보이지 않도록 실시간 그림자 표현을 제작해 Unity에 적용했습니다. 에셋마다 그림자를 별도로 그려 넣는 대신, 캐릭터와 배경, 이펙트를 함께 보며 그림자 표현을 조절해 2D 화면에 일관된 접지감과 깊이를 만들었습니다.</p><h3>플레이 화면에 연결된 요소</h3><p>그림자 셰이더를 공격 전조와 피격 범위, 투사체·빔 이펙트, 플레이어 피드백, 포트레이트, 보스 애니메이션, 셰이더 기반 UI와 하나의 경험으로 연결했습니다. 개별 에셋보다 실제 플레이에서 함께 작동하는 화면을 만드는 데 집중했습니다.</p><h3>기여 범위</h3><p>이 프로젝트는 팀으로 만든 게임잼 작품입니다. 여기서 소개하는 그림자 셰이더와 아트, 화면 구성, VFX, UI, 애니메이션, 통합은 제가 직접 맡았으며, 팀원이 작성한 게임플레이 시스템은 팀 결과물로 구분합니다.</p></section>`
             },
             {
               title: "프로듀싱",
@@ -3341,7 +3345,7 @@ function renderNewManzoArtShowcase(lang = "en") {
 
 function renderManzoRendererFeature(lang = "en") {
   const ko = lang === "ko";
-  return `<section class="renderer-feature" id="custom-renderer"><span class="renderer-eyebrow">C++ · OpenGL · GLSL</span><h2>CUSTOM<br>RENDERER<span>.</span></h2><p class="renderer-lede">${ko ? "게임의 드로우 순서와 화면 효과를 직접 제어하기 위해 레이어 기반 드로우 큐와 멀티패스 후처리 파이프라인을 설계·구현했습니다." : "I designed and implemented a layer-based draw queue and multi-pass post-processing pipeline to control draw order and screen effects directly."}</p><div class="renderer-flow" aria-label="${ko ? "커스텀 렌더러 처리 순서" : "Custom renderer pipeline"}"><article><span>01</span><strong>${ko ? "드로우 큐" : "Draw queues"}</strong><small>${ko ? "배경 · 월드 · UI · Late" : "Background · World · UI · Late"}</small></article><i>→</i><article><span>02</span><strong>${ko ? "씬 FBO" : "Scene FBO"}</strong><small>${ko ? "한 프레임을 텍스처로 렌더" : "Render the frame to texture"}</small></article><i>→</i><article class="renderer-ping"><span>03</span><strong>Ping-Pong FBO</strong><small>${ko ? "두 버퍼를 번갈아 읽고 쓰기" : "Alternate read and write targets"}</small></article><i>→</i><article><span>04</span><strong>${ko ? "최종 합성" : "Final composite"}</strong><small>${ko ? "기본 프레임버퍼로 출력" : "Present to the default framebuffer"}</small></article></div><div class="renderer-explanation"><article><h3>${ko ? "왜 핑퐁 구조인가" : "Why ping-pong framebuffers"}</h3><p>${ko ? "하나의 텍스처를 동시에 읽고 쓰면 이전 패스의 결과를 안전하게 다음 패스로 전달할 수 없습니다. 두 개의 FBO를 만들고, 현재 패스는 한쪽 color attachment를 입력으로 읽으면서 반대쪽에 출력한 뒤 매 패스마다 역할을 교환했습니다." : "A texture cannot safely act as both the source and destination of the same pass. I created two FBOs so each pass reads the previous color attachment, writes to the opposite target, then swaps their roles."}</p></article><article><h3>${ko ? "패스를 데이터 흐름으로 이해하기" : "Thinking in render-pass data flow"}</h3><p>${ko ? "수중 왜곡 → Bloom → God Ray처럼 각 셰이더는 이전 패스의 완성된 화면을 입력으로 받습니다. 효과를 오브젝트마다 붙이는 대신 전체 화면 처리 단계로 분리해 순서, 입력과 출력을 명확하게 관리했습니다." : "Each shader receives the completed output of the previous pass—underwater distortion → bloom → god rays. Treating effects as full-screen stages made ordering, inputs, and outputs explicit."}</p></article><article><h3>${ko ? "회고: 남아있는 병목" : "Retrospective note"}</h3><p>${ko ? "이 렌더러는 스프라이트 1개당 draw call을 하나씩 발행하고, 배칭이나 인스턴싱이 없습니다. 드로우 콜 타입 분기도 dynamic_cast로 처리해 매 프레임 RTTI 비용이 들어갑니다. 당시 프로젝트 규모에서는 문제가 없었지만, 오브젝트 수가 늘어나면 명확한 병목이 됩니다. 지금 다시 만든다면 셰이더/텍스처 기준으로 배칭하고, dynamic_cast 대신 태그나 variant 기반 디스패치로 바꿀 것 같습니다." : "The renderer issues one draw call per sprite with no batching or instancing, and per-object type dispatch relies on dynamic_cast in the render loop, fine for the project's scope at the time, but a clear bottleneck at higher object counts. Looking back, I'd batch by shader/texture and replace the RTTI dispatch with a tagged/variant-based draw call system."}</p></article></div><pre class="renderer-code"><code>postProcessFramebuffer[horizontal].Bind();\nglBindTexture(GL_TEXTURE_2D,\n  postProcessFramebuffer[!horizontal].GetColorAttachment());\nRenderQuad();\nhorizontal = !horizontal;</code></pre><a class="renderer-source" href="https://github.com/Seohyeon-Min/manzo/blob/main/Manzo/Manzo/Engine/Render.cpp" target="_blank" rel="noopener noreferrer">Render.cpp ↗</a><a class="engine-foundation-link" href="03_DoubleHit.html?track=software#custom-engine-foundation"><span>${ko ? "이 렌더러의 기틀" : "Foundation of this renderer"}</span><strong>${ko ? "Double Hit에서 제작한 커스텀 엔진 →" : "The custom engine built for Double Hit →"}</strong></a></section>`;
+  return `<section class="renderer-feature" id="custom-renderer"><span class="renderer-eyebrow">C++ · OpenGL · GLSL</span><h2>CUSTOM<br>RENDERER<span>.</span></h2><p class="renderer-lede">${ko ? "더 멋진 비주얼을 만들려면 단순히 오브젝트를 그리는 것만으로는 부족했습니다 — 화면 효과(언더워터 왜곡, Bloom, God Ray 같은)를 입히려면 드로우 순서와 화면 효과를 직접 제어할 수 있는 구조가 필요했고, 그래서 레이어 기반 드로우 큐와 멀티패스 후처리 파이프라인을 설계·구현했습니다." : "Getting a more striking visual result meant more than just drawing objects — layering screen effects like underwater distortion, bloom, and god rays on top required direct control over draw order and screen effects, so I designed and implemented a layer-based draw queue and multi-pass post-processing pipeline to make that possible."}</p><div class="renderer-flow" aria-label="${ko ? "커스텀 렌더러 처리 순서" : "Custom renderer pipeline"}"><article><span>01</span><strong>${ko ? "드로우 큐" : "Draw queues"}</strong><small>${ko ? "배경 · 월드 · UI · Late" : "Background · World · UI · Late"}</small></article><i>→</i><article><span>02</span><strong>${ko ? "씬 FBO" : "Scene FBO"}</strong><small>${ko ? "한 프레임을 텍스처로 렌더" : "Render the frame to texture"}</small></article><i>→</i><article class="renderer-ping"><span>03</span><strong>Ping-Pong FBO</strong><small>${ko ? "두 버퍼를 번갈아 읽고 쓰기" : "Alternate read and write targets"}</small></article><i>→</i><article><span>04</span><strong>${ko ? "최종 합성" : "Final composite"}</strong><small>${ko ? "기본 프레임버퍼로 출력" : "Present to the default framebuffer"}</small></article></div><div class="renderer-explanation"><article><h3>${ko ? "왜 핑퐁 구조인가" : "Why ping-pong framebuffers"}</h3><p>${ko ? "하나의 텍스처를 동시에 읽고 쓰면 이전 패스의 결과를 안전하게 다음 패스로 전달할 수 없습니다. 두 개의 FBO를 만들고, 현재 패스는 한쪽 color attachment를 입력으로 읽으면서 반대쪽에 출력한 뒤 매 패스마다 역할을 교환했습니다." : "A texture cannot safely act as both the source and destination of the same pass. I created two FBOs so each pass reads the previous color attachment, writes to the opposite target, then swaps their roles."}</p></article><article><h3>${ko ? "패스를 데이터 흐름으로 이해하기" : "Thinking in render-pass data flow"}</h3><p>${ko ? "수중 왜곡 → Bloom → God Ray처럼 각 셰이더는 이전 패스의 완성된 화면을 입력으로 받습니다. 효과를 오브젝트마다 붙이는 대신 전체 화면 처리 단계로 분리해 순서, 입력과 출력을 명확하게 관리했습니다." : "Each shader receives the completed output of the previous pass—underwater distortion → bloom → god rays. Treating effects as full-screen stages made ordering, inputs, and outputs explicit."}</p></article><article><h3>${ko ? "회고: 남아있는 병목" : "Retrospective note"}</h3><p>${ko ? "이 렌더러는 스프라이트 1개당 draw call을 하나씩 발행하고, 배칭이나 인스턴싱이 없습니다. 드로우 콜 타입 분기도 dynamic_cast로 처리해 매 프레임 RTTI 비용이 들어갑니다. 당시 프로젝트 규모에서는 문제가 없었지만, 오브젝트 수가 늘어나면 명확한 병목이 됩니다. 지금 다시 만든다면 셰이더/텍스처 기준으로 배칭하고, dynamic_cast 대신 태그나 variant 기반 디스패치로 바꿀 것 같습니다." : "The renderer issues one draw call per sprite with no batching or instancing, and per-object type dispatch relies on dynamic_cast in the render loop, fine for the project's scope at the time, but a clear bottleneck at higher object counts. Looking back, I'd batch by shader/texture and replace the RTTI dispatch with a tagged/variant-based draw call system."}</p></article></div><pre class="renderer-code"><code>postProcessFramebuffer[horizontal].Bind();\nglBindTexture(GL_TEXTURE_2D,\n  postProcessFramebuffer[!horizontal].GetColorAttachment());\nRenderQuad();\nhorizontal = !horizontal;</code></pre><a class="renderer-source" href="https://github.com/Seohyeon-Min/manzo/blob/main/Manzo/Manzo/Engine/Render.cpp" target="_blank" rel="noopener noreferrer">Render.cpp ↗</a><a class="engine-foundation-link" href="03_DoubleHit.html?track=software#custom-engine-foundation"><span>${ko ? "이 렌더러의 기틀" : "Foundation of this renderer"}</span><strong>${ko ? "Double Hit에서 제작한 커스텀 엔진 →" : "The custom engine built for Double Hit →"}</strong></a></section>`;
 }
 
 function renderManzoDebuggingFeature(lang = "en") {
@@ -3882,7 +3886,7 @@ applyEnglishProjectOverride("05_ThinkThink", {
       {
         title: "UI Shader System",
         category: "Technical",
-        htmlContent: `<section class="development" id="ui-style-origin"><span class="case-label">ORIGINAL SYSTEM</span><h2>The UI Shader System Started Here</h2><p class="case-study-lede">Instead of hand-making art for every rounded button, gauge, and card, I built a single Unity <strong>URP UI shader</strong> (<code>UIStyle.shader</code>) driven by one component (<code>UIStyle.cs</code>), so any <code>Image</code> could become a styled shape just by tuning parameters in the Inspector.</p><div class="engineering-summary" aria-label="System scope"><article><span class="engineering-icon" aria-hidden="true">◆</span><strong>4</strong><small>Runtime/editor scripts: shader, component, editor, preset</small></article><article><span class="engineering-icon" aria-hidden="true">▦</span><strong>9</strong><small>Style groups exposed in the Inspector</small></article><article><span class="engineering-icon" aria-hidden="true">✦</span><strong>Live</strong><small>Previews instantly via OnValidate, no Play mode needed</small></article><article><span class="engineering-icon" aria-hidden="true">↗</span><strong>Reused</strong><small>Packaged as a .unitypackage and carried into Street Typer</small></article></div><h3>Inspector fields (as built for ThinkThink)</h3><div class="decision-table-wrap"><table class="decision-table"><thead><tr><th>Group</th><th>Key fields</th><th>What it does</th></tr></thead><tbody><tr><th scope="row">Rounded Corners</th><td>Corner Radius, Capsule/Pill toggles</td><td>SDF-based rounding, resolution-independent</td></tr><tr><th scope="row">Drop Shadow</th><td>Offset, Color, Blur, Size</td><td>Outer shadow without a separate sprite</td></tr><tr><th scope="row">Inner Shadow</th><td>Offset, Color, Blur</td><td>Inset shadow for a pressed/recessed look</td></tr><tr><th scope="row">Gradient</th><td>Base Color; Color Gradient (Start/End/Direction/Blend); Light Gradient (Strength/Direction); Hue Shift (Warm/Cool)</td><td>Layered color + lighting gradient in one pass</td></tr><tr><th scope="row">Edge Highlight</th><td>Strength, Size</td><td>Rim-light style edge glow</td></tr><tr><th scope="row">Material</th><td>Material Type (Plastic / Metal / Glass / Paper)</td><td>Swaps the surface-response preset</td></tr><tr><th scope="row">Noise</th><td>Enable, Strength</td><td>Micro-noise so flat colors don't band</td></tr><tr><th scope="row">Bottom Edge Line</th><td>Thickness, Intensity, Color, Sharpness</td><td>A defined base edge line, independent of shadows</td></tr><tr><th scope="row">Preset</th><td><code>UIStylePreset</code> asset</td><td>Save and re-apply an entire style as one asset</td></tr></tbody></table></div><h3>Shader modules in the package</h3><ul><li><strong>UIStyle.shader</strong>: the unified styling shader above</li><li><strong>UIBlur.shader</strong>: 9-tap optimized blur</li><li><strong>SimpleGradient.shader</strong>: lightweight UI gradient</li><li><strong>UIColorTint.shader</strong>: texture-alpha-based color tint</li><li><strong>WaveNoise.shader</strong>: multi-layer animated noise</li></ul><div class="system-map"><h3>Extended in Street Typer</h3><ol><li><span>01</span><strong>Per-corner radius</strong><small>Each of the 4 corners rounds independently instead of sharing one value</small></li><li><span>02</span><strong>Diamond shape</strong><small>New primitive with adjustable edge curvature and skew</small></li><li><span>03</span><strong>Radial gradient</strong><small>Center-to-edge gradient option added next to the directional one</small></li><li><span>04</span><strong>Outline</strong><small>A dedicated inward-facing outline, separate from the edge line</small></li><li><span>05</span><strong>Gauge fill</strong><small>Fill-amount control added for HP/timer-style bars, corners preserved as it drains</small></li></ol></div><p>The core shader and component carried over unchanged; Street Typer's card-combat UI just needed shapes and edges the original button-and-card set didn't.</p><a class="evidence-link" href="06_StreetTyper.html?contributionTab=Art#ui-style-extended">See it extended in Street Typer's Art tab ↗</a><h3>Editor Tooling</h3><p>Built a <strong>UIStyle.cs</strong> script that lets shader parameters be controlled intuitively from the Inspector, with a system for saving and applying UI style presets.</p><h3>Technical Stack</h3><ul><li>Unity Universal Render Pipeline (URP)</li><li>HLSL shader programming</li><li>Signed Distance Field (SDF) rendering</li><li>C# editor tooling</li></ul><h3>Development Notes</h3><p>Used AI-assisted development tools throughout shader design and system integration to speed up iteration and experimentation, building roughly <strong>1,000+ lines of shader code</strong> and a reusable UI style system.</p></section>`
+        htmlContent: `<section class="development" id="ui-style-origin"><span class="case-label">ORIGINAL SYSTEM</span><h2>The UI Shader System Started Here</h2><p class="case-study-lede">Hand-drawing every rounded button, gauge, and card in the same art style would have taken far too long. So I built a single Unity <strong>URP UI shader</strong> (<code>UIStyle.shader</code>) driven by one component (<code>UIStyle.cs</code>), so any <code>Image</code> could become a styled shape just by tuning parameters in the Inspector. Finished styles save as a <code>UIStylePreset</code> asset, so they can be pulled back up and reused on other UI later.</p><div class="engineering-summary" aria-label="System scope"><article><span class="engineering-icon" aria-hidden="true">◆</span><strong>4</strong><small>Runtime/editor scripts: shader, component, editor, preset</small></article><article><span class="engineering-icon" aria-hidden="true">▦</span><strong>9</strong><small>Style groups exposed in the Inspector</small></article><article><span class="engineering-icon" aria-hidden="true">✦</span><strong>Live</strong><small>Previews instantly via OnValidate, no Play mode needed</small></article><article><span class="engineering-icon" aria-hidden="true">↗</span><strong>Reused</strong><small>Packaged as a .unitypackage and carried into Street Typer</small></article></div><h3>Inspector fields (as built for ThinkThink)</h3><div class="decision-table-wrap"><table class="decision-table"><thead><tr><th>Group</th><th>Key fields</th><th>What it does</th></tr></thead><tbody><tr><th scope="row">Rounded Corners</th><td>Corner Radius, Capsule/Pill toggles</td><td>SDF-based rounding, resolution-independent</td></tr><tr><th scope="row">Drop Shadow</th><td>Offset, Color, Blur, Size</td><td>Outer shadow without a separate sprite</td></tr><tr><th scope="row">Inner Shadow</th><td>Offset, Color, Blur</td><td>Inset shadow for a pressed/recessed look</td></tr><tr><th scope="row">Gradient</th><td>Base Color; Color Gradient (Start/End/Direction/Blend); Light Gradient (Strength/Direction); Hue Shift (Warm/Cool)</td><td>Layered color + lighting gradient in one pass</td></tr><tr><th scope="row">Edge Highlight</th><td>Strength, Size</td><td>Rim-light style edge glow</td></tr><tr><th scope="row">Material</th><td>Material Type (Plastic / Metal / Glass / Paper)</td><td>Swaps the surface-response preset</td></tr><tr><th scope="row">Noise</th><td>Enable, Strength</td><td>Micro-noise so flat colors don't band</td></tr><tr><th scope="row">Bottom Edge Line</th><td>Thickness, Intensity, Color, Sharpness</td><td>A defined base edge line, independent of shadows</td></tr><tr><th scope="row">Preset</th><td><code>UIStylePreset</code> asset</td><td>Save and re-apply an entire style as one asset</td></tr></tbody></table></div><h3>Shader modules in the package</h3><ul><li><strong>UIStyle.shader</strong>: the unified styling shader above</li><li><strong>UIBlur.shader</strong>: 9-tap optimized blur</li><li><strong>SimpleGradient.shader</strong>: lightweight UI gradient</li><li><strong>UIColorTint.shader</strong>: texture-alpha-based color tint</li><li><strong>WaveNoise.shader</strong>: multi-layer animated noise</li></ul><div class="system-map"><h3>Extended in Street Typer</h3><ol><li><span>01</span><strong>Per-corner radius</strong><small>Each of the 4 corners rounds independently instead of sharing one value</small></li><li><span>02</span><strong>Diamond shape</strong><small>New primitive with adjustable edge curvature and skew</small></li><li><span>03</span><strong>Radial gradient</strong><small>Center-to-edge gradient option added next to the directional one</small></li><li><span>04</span><strong>Outline</strong><small>A dedicated inward-facing outline, separate from the edge line</small></li><li><span>05</span><strong>Gauge fill</strong><small>Fill-amount control added for HP/timer-style bars, corners preserved as it drains</small></li></ol></div><p>The core shader and component carried over unchanged; Street Typer's card-combat UI just needed shapes and edges the original button-and-card set didn't.</p><a class="evidence-link" href="06_StreetTyper.html?contributionTab=Art#ui-style-extended">See it extended in Street Typer's Art tab ↗</a><h3>Editor Tooling</h3><p>Built a <strong>UIStyle.cs</strong> script that lets shader parameters be controlled intuitively from the Inspector, with a system for saving and applying UI style presets.</p><h3>Technical Stack</h3><ul><li>Unity Universal Render Pipeline (URP)</li><li>HLSL shader programming</li><li>Signed Distance Field (SDF) rendering</li><li>C# editor tooling</li></ul><h3>Development Notes</h3><p>Used AI-assisted development tools throughout shader design and system integration to speed up iteration and experimentation, building roughly <strong>1,000+ lines of shader code</strong> and a reusable UI style system.</p></section>`
       }
     ]
   }
@@ -4041,7 +4045,9 @@ applyEnglishProjectOverride("02_meshes", {
           ["Depth", "Transparency without transparency", "Alpha stays at 1. Instead I stack opaque colors with lerp (deep water, a lighter surface tint, then the caustic lines) and add a Fresnel term. This avoids sorting problems and keeps the skybox and distant objects from showing through the ocean."],
           ["Pattern", "A caustic network from Voronoi", "Each pixel finds its nearest cell seeds. The gap between the first and second distance draws the cell borders; the gap between the second and third marks the nodes where three cells meet, so lines stay dim and glow at the joints. Two rounds of domain warping make them wobble, and the pattern uses world XZ and the terrain's own flow time so it moves with the surface."],
           ["Camera", "Scatter and whitecaps from the view angle", "Looking straight down blends toward a dark underwater color, while grazing, distant angles blend toward white. A threshold with a tiny edge softness turns the whitecaps into a hard, toon-style cutoff."]
-        ]
+        ],
+        codeLabel: "Code", codeTitle: "Ocean.shader, in full",
+        codeIntro: "The complete HLSL source, cleaned up for readability — the original study version's line-by-line Korean learning notes are gone, but every line of actual shader logic is unchanged."
       },
       game: {
         title: "Play Poseidon Skate",
@@ -4148,7 +4154,9 @@ applyEnglishProjectOverride("02_meshes", {
           ["깊이", "투명도 없이 투명해 보이기", "알파는 항상 1로 두고, 불투명한 색을 lerp로 여러 겹(깊은 물색, 밝은 표면색, 커스틱 선) 쌓은 뒤 Fresnel을 더했습니다. 정렬 문제를 피하고, 스카이박스나 먼 오브젝트가 바다에 비쳐 보이는 현상도 막았습니다."],
           ["무늬", "Voronoi로 만든 커스틱 그물망", "각 픽셀에서 가장 가까운 씨앗 점들을 찾고, 1등과 2등의 거리 차로 셀 경계선을, 2등과 3등의 거리 차로 세 셀이 만나는 마디를 뽑았습니다. 그래서 선은 흐리게, 마디는 진하게 보입니다. 도메인 워핑을 두 번 걸어 선이 구불거리게 했고, 월드 XZ 좌표와 지형과 같은 흐름 시간을 써서 표면과 함께 움직이게 했습니다."],
           ["카메라", "시선 각도로 만드는 산란과 흰 물결", "정면으로 내려다볼수록 어두운 물속 색으로, 비스듬하고 먼 곳일수록 흰색으로 섞입니다. 문턱값과 아주 작은 경계 부드러움을 써서 흰 물결을 툰처럼 딱 끊기게 만들었습니다."]
-        ]
+        ],
+        codeLabel: "코드", codeTitle: "Ocean.shader 전문",
+        codeIntro: "HLSL 전체 소스코드입니다. 가독성을 위해 정리했습니다 — 원본에 있던 줄 단위 한국어 주석은 뺐지만, 실제 셰이더 로직은 한 줄도 바뀌지 않았습니다."
       },
       game: {
         title: "Poseidon Skate 플레이",
@@ -4230,11 +4238,427 @@ applyEnglishProjectOverride("02_meshes", {
         + `<p class="psk-toc-hint"><span class="psk-toc-mouse">${svg('<rect x="3" y="2" width="18" height="30" rx="9"/><path d="M12 8v6"/>', 16, 22, "0 0 24 34")}</span>${t.hint}</p>`
         + `</nav>`;
     };
-    const deep = (label, title, body) => `<details class="technical-deep-dive"><summary><span>${label}</span><strong>${title}</strong></summary><div class="technical-deep-dive-body">${body}</div></details>`;
+    // Full HLSL source for Ocean.shader, cleaned of the original study file's line-by-line
+    // Korean learning-diary comments (see PROOF_SUMMARY/'what I learned' content above for that
+    // narrative instead) — kept as its own constant since it's large and not localized.
+    const OCEAN_SHADER_SOURCE = `Shader "Custom/Ocean"
+{
+    Properties
+    {
+        _Color ("Color", Color) = (0.1, 0.4, 0.7, 1)
+        _LightDirection ("Light Direction", Vector) = (0.5, 1, 0.3, 0)
+
+        _NoiseScale ("Noise Scale", Range(0.1, 5)) = 1.5
+        _FlowDirection ("Flow Direction (XZ)", Vector) = (1, 0, 0, 0)
+        _FlowSpeed ("Flow Speed", Range(0, 5)) = 0.1
+        _MorphSpeed ("Morph Speed (flow-noise gradient rotation rate)", Range(0, 5)) = 0.15
+        _Amplitude ("Amplitude (peak height above/below zero)", Range(0, 4)) = 0.1
+        _PullStrength ("Pull Strength (how hard slopes get pulled into ridges)", Range(0, 0.9)) = 0.5
+
+        _WarpScale ("Warp Scale (domain-warp noise scale; smaller = broader bends)", Range(0.05, 2)) = 0.3
+        _WarpStrength ("Warp Strength (how hard coordinates get bent, in noise cells)", Range(0, 2)) = 0.5
+
+        _CausticColor ("Caustic Color", Color) = (1, 1, 1, 1)
+        _CausticScale ("Caustic Scale (mesh size of the light-net pattern)", Range(0.1, 5)) = 1.0
+        _CausticSpeed ("Caustic Speed (multiplier on the terrain's own flow speed)", Range(0, 2)) = 0.3
+        _CausticDistortion ("Caustic Distortion (1st-pass domain warp, broad flow)", Range(0, 1)) = 0.4
+        _CausticDistortion2 ("Caustic Distortion 2 (2nd-pass warp, fine detail)", Range(0, 1)) = 0.4
+        _CausticLineWidth ("Caustic Line Width", Range(0.01, 0.5)) = 0.08
+        _CausticIntensity ("Caustic Intensity", Range(0, 3)) = 1.0
+        _CausticCornerWidth ("Caustic Corner Width (radius counted as a node)", Range(0.01, 0.5)) = 0.12
+        _CausticWallBrightness ("Caustic Wall Brightness (min brightness far from a node)", Range(0, 1)) = 0.25
+
+        // Fed from C# with the rideable wave's position, so the caustic net fades out near it
+        // instead of the two patterns visually clashing.
+        _WaveWorldPos ("Wave World Pos (XZ, set from HalfpipeWaveGenerator)", Vector) = (0, 0, 0, 0)
+        _WaveFadeRadius ("Wave Fade Radius (world units)", Range(1, 100)) = 10.0
+        _WaveFadeSharpness ("Wave Fade Sharpness (higher = sharper falloff)", Range(0.5, 8)) = 1.0
+
+        _ScatterColor ("Scatter Color (dark underwater tone seen looking straight down)", Color) = (0.02, 0.1, 0.2, 1)
+        _ScatterPower ("Scatter Power (higher = only the most direct angle darkens)", Range(0.5, 8)) = 2.0
+        _ScatterIntensity ("Scatter Intensity", Range(0, 1)) = 0.6
+
+        _WhitecapColor ("Whitecap Color", Color) = (1, 1, 1, 1)
+        _WhitecapGrazingPower ("Whitecap Grazing Power (higher = only near-grazing angles react)", Range(0.5, 8)) = 3.0
+        _WhitecapDistance ("Whitecap Distance (world units for full effect)", Range(1, 100)) = 20.0
+        _WhitecapIntensity ("Whitecap Intensity", Range(0, 1)) = 0.8
+        _WhitecapThreshold ("Whitecap Threshold (toon-style hard cutoff)", Range(0, 1)) = 0.5
+        _WhitecapEdgeSoftness ("Whitecap Edge Softness (smaller = harder toon edge)", Range(0.001, 0.5)) = 0.1
+
+        // Wake left behind a moving rider: rather than painting new color, this bends the
+        // existing caustic (Voronoi) UVs along the rider's trail so the net looks dragged/rippled.
+        // _OceanTrailTex is updated globally every frame from C# (OceanTrailPainter), so it is
+        // declared only in the HLSL variables below, not here as a per-material Property.
+        _OceanTrailDistortStrength ("Ocean Trail Distort Strength", Range(0, 10)) = 8.31
+        _OceanTrailPushStrength ("Ocean Trail Push Strength", Range(0, 5)) = 1.0
+        _OceanTrailLineColor ("Ocean Trail Line Color", Color) = (1, 1, 1, 1)
+        _OceanTrailLineThreshold ("Ocean Trail Line Threshold", Range(0.01, 0.99)) = 0.279
+        _OceanTrailLineWidth ("Ocean Trail Line Width", Range(0.001, 0.3)) = 0.077
+        _OceanTrailLineNoiseScale ("Ocean Trail Line Noise Scale", Range(0.1, 5)) = 1.12
+        _OceanTrailLineNoiseStrength ("Ocean Trail Line Noise Strength", Range(0, 1)) = 0.327
+        _OceanTrailLineIntensity ("Ocean Trail Line Intensity", Range(0, 3)) = 1.69
+    }
+    SubShader
+    {
+        Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" }
+        LOD 100
+
+        Pass
+        {
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+
+            // Needed or MainLightRealtimeShadow() compiles to a permanent "no shadow" path.
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+            #pragma multi_compile _ _SHADOWS_SOFT
+
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+
+            struct Attributes
+            {
+                float4 positionOS : POSITION;
+            };
+
+            struct Varyings
+            {
+                float4 positionHCS : SV_POSITION;
+                float3 positionWS : TEXCOORD0;
+                float3 normalWS : TEXCOORD1;   // per-vertex normal from the slope, so shading stays smooth
+                float4 shadowCoord : TEXCOORD2;
+            };
+
+            float4 _Color;
+            float4 _LightDirection;
+
+            float _NoiseScale;
+            float4 _FlowDirection;
+            float _FlowSpeed;
+            float _MorphSpeed;
+            float _Amplitude;
+            float _PullStrength;
+            float _WarpScale;
+            float _WarpStrength;
+            float4 _CausticColor;
+            float _CausticScale;
+            float _CausticSpeed;
+            float _CausticDistortion;
+            float _CausticDistortion2;
+            float _CausticLineWidth;
+            float _CausticIntensity;
+            float _CausticCornerWidth;
+            float _CausticWallBrightness;
+            float4 _WaveWorldPos;
+            float _WaveFadeRadius;
+            float _WaveFadeSharpness;
+            float4 _ScatterColor;
+            float _ScatterPower;
+            float _ScatterIntensity;
+            float4 _WhitecapColor;
+            float _WhitecapGrazingPower;
+            float _WhitecapDistance;
+            float _WhitecapIntensity;
+            float _WhitecapThreshold;
+            float _WhitecapEdgeSoftness;
+
+            TEXTURE2D(_OceanTrailTex);
+            SAMPLER(sampler_OceanTrailTex);
+            float4 _OceanTrailCenter;
+            float _OceanTrailAreaSize;
+            float _OceanTrailDistortStrength;
+            float _OceanTrailPushStrength;
+            float4 _OceanTrailLineColor;
+            float _OceanTrailLineThreshold;
+            float _OceanTrailLineWidth;
+            float _OceanTrailLineNoiseScale;
+            float _OceanTrailLineNoiseStrength;
+            float _OceanTrailLineIntensity;
+
+            // Deterministic "position -&gt; pseudo-random 0..1" hash. GPUs have no real RNG, so this
+            // stands in for one wherever the shader needs a fixed value per grid point.
+            float Hash21(float2 p)
+            {
+                p = frac(p * float2(123.34, 456.21));
+                p += dot(p, p + 45.32);
+                return frac(p.x * p.y);
+            }
+
+            // Flow Noise (Perlin &amp; Neyret, 2001): instead of adding time as a 3rd noise axis
+            // (which read as peaks popping in/out at new random spots), each grid point's
+            // gradient is a unit vector whose *angle* rotates continuously over time. The
+            // rotation is smooth, so neighboring points never go out of sync the way a
+            // sudden value swap would.
+            float2 RandomGradient2D(float2 p, float time)
+            {
+                float baseAngle = Hash21(p) * 2.0 * PI;
+                float rotSpeed = Hash21(p + 7.7) * 2.0 - 1.0; // per-point speed/direction, so it doesn't rotate as one rigid sheet
+                float angle = baseAngle + time * rotSpeed;
+                return float2(cos(angle), sin(angle));
+            }
+
+            // Classic Perlin noise: find the 4 grid corners around p, take each corner's
+            // gradient dotted with the vector to p, then blend the 4 results with a quintic
+            // (6t^5-15t^4+10t^3) curve so both the value and its slope stay continuous.
+            float PerlinNoise2D(float2 p, float time)
+            {
+                float2 cell = floor(p);
+                float2 f = frac(p);
+
+                float n00 = dot(RandomGradient2D(cell + float2(0,0), time), f - float2(0,0));
+                float n10 = dot(RandomGradient2D(cell + float2(1,0), time), f - float2(1,0));
+                float n01 = dot(RandomGradient2D(cell + float2(0,1), time), f - float2(0,1));
+                float n11 = dot(RandomGradient2D(cell + float2(1,1), time), f - float2(1,1));
+
+                float2 u = f*f*f*(f*(f*6.0-15.0)+10.0);
+                float nx0 = lerp(n00, n10, u.x);
+                float nx1 = lerp(n01, n11, u.x);
+                float nxy = lerp(nx0, nx1, u.y);
+
+                return nxy * 0.5 + 0.5; // roughly -0.71..0.71 -&gt; 0..1
+            }
+
+            float2 Hash22(float2 p)
+            {
+                return float2(Hash21(p + 17.0), Hash21(p + 43.0));
+            }
+
+            // Voronoi/cellular noise: one random seed point per cell; f1/f2/f3 are the
+            // distances to the 1st/2nd/3rd closest seeds (checked across the 3x3 neighborhood,
+            // since a nearer seed can sit in an adjacent cell). f2-f1 traces cell borders;
+            // f3-f2 marks the nodes where three cells meet. Used only for the surface's white
+            // net pattern, independent of the terrain height in GetHeight().
+            float3 Voronoi2D(float2 p)
+            {
+                float2 cell = floor(p);
+                float2 f = frac(p);
+
+                float f1 = 8.0;
+                float f2 = 8.0;
+                float f3 = 8.0;
+
+                for (int y = -1; y &lt;= 1; y++)
+                {
+                    for (int x = -1; x &lt;= 1; x++)
+                    {
+                        float2 neighbor = float2(x, y);
+                        float2 seed = Hash22(cell + neighbor);
+                        float dist = length(neighbor + seed - f);
+
+                        if (dist &lt; f1) { f3 = f2; f2 = f1; f1 = dist; }
+                        else if (dist &lt; f2) { f3 = f2; f2 = dist; }
+                        else if (dist &lt; f3) { f3 = dist; }
+                    }
+                }
+                return float3(f1, f2, f3);
+            }
+
+            // Scales posXZ and domain-warps it (bends the sampling coordinate with a second,
+            // lower-frequency noise before feeding it to the grid) so the regular noise grid
+            // doesn't read as a visible, regular tiling pattern. The terrain height and the
+            // Voronoi seed grid both sample through this same warped space, so they stay aligned.
+            float2 GetWarpedPos(float2 posXZ, float time)
+            {
+                float2 scaledPos = posXZ * _NoiseScale;
+                float2 warp = float2(
+                    PerlinNoise2D(scaledPos * _WarpScale + 17.0, time),
+                    PerlinNoise2D(scaledPos * _WarpScale + 91.0, time)
+                ) - 0.5;
+                return scaledPos + warp * _WarpStrength;
+            }
+
+            // Samples the rider's trail mask at a world XZ position. Uses the explicit-LOD
+            // variant because vert() has no screen-space derivatives to pick a mip level from.
+            float SampleOceanTrailMask(float2 worldXZ)
+            {
+                float2 uv = (worldXZ - _OceanTrailCenter.xy) / _OceanTrailAreaSize + 0.5;
+                if (uv.x &lt; 0.0 || uv.x &gt; 1.0 || uv.y &lt; 0.0 || uv.y &gt; 1.0) return 0.0;
+                return SAMPLE_TEXTURE2D_LOD(_OceanTrailTex, sampler_OceanTrailTex, uv, 0).r;
+            }
+
+            // Height of the surface at posXZ, in [-_Amplitude, _Amplitude]. Also called at
+            // neighboring offsets in vert() to approximate the slope by finite differences.
+            float GetHeight(float2 posXZ, float time)
+            {
+                float2 warpedPos = GetWarpedPos(posXZ, time);
+                float noise = PerlinNoise2D(warpedPos, time);
+                return (noise * 2.0 - 1.0) * _Amplitude;
+            }
+
+            Varyings vert(Attributes IN)
+            {
+                Varyings OUT;
+                float3 positionOS = IN.positionOS.xyz;
+
+                // Grid-point gradients rotate over time instead of a 3rd noise axis (see
+                // RandomGradient2D) — smooth and continuous, not a hard swap to a new shape.
+                float flowT = _Time.y * _MorphSpeed;
+
+                // Only the *sampling* coordinate moves with the flow, never the vertex itself —
+                // that keeps the mesh in place while the pattern on it slides sideways. Sampling
+                // in world space (not object space) also keeps the terrain seamless across tile
+                // boundaries, since every tile mesh shares the same local coordinate range.
+                float3 worldBasePos = TransformObjectToWorld(positionOS);
+                float2 flowOffset = normalize(_FlowDirection.xz) * _FlowSpeed * _Time.y;
+                float2 samplePos = worldBasePos.xz + flowOffset;
+                float height = GetHeight(samplePos, flowT);
+
+                // Steep slopes get pulled into sharp ridges, by slope magnitude rather than
+                // height — so a low but steep hillside still ridges while a tall, gentle one
+                // doesn't. The slope is a finite-difference approximation: sample height a small
+                // eps to each side and divide by the true distance between those two samples (2*eps).
+                float eps = 0.05;
+                float hR = GetHeight(samplePos + float2(eps, 0), flowT);
+                float hL = GetHeight(samplePos - float2(eps, 0), flowT);
+                float hU = GetHeight(samplePos + float2(0, eps), flowT);
+                float hD = GetHeight(samplePos - float2(0, eps), flowT);
+                float2 gradient = float2(hR - hL, hU - hD) / (2.0 * eps);
+
+                // Wake push: independent of the terrain noise, using the trail mask's own
+                // gradient (a comet-tail shape, so its gradient naturally points sideways,
+                // producing the two raised "wake" edges). A larger eps than the terrain's is
+                // needed since the trail texture is coarser per-texel.
+                float trailEps = 0.3;
+                float tR = SampleOceanTrailMask(worldBasePos.xz + float2(trailEps, 0));
+                float tL = SampleOceanTrailMask(worldBasePos.xz - float2(trailEps, 0));
+                float tU = SampleOceanTrailMask(worldBasePos.xz + float2(0, trailEps));
+                float tD = SampleOceanTrailMask(worldBasePos.xz - float2(0, trailEps));
+                float2 trailGradWS = float2(tR - tL, tU - tD) / (2.0 * trailEps);
+                float trailPushHeight = length(trailGradWS) * _OceanTrailPushStrength;
+                gradient += trailGradWS * _OceanTrailPushStrength; // folds into shading too, so the pushed-up area isn't lit flat
+
+                // Threshold is fixed at 0 (ridging starts the instant there's any slope), and the
+                // falloff is linear (saturate), not a smoothed curve — so the fold-over reads as a
+                // hard, toon-style crease rather than a soft bump.
+                float slopeMag = length(gradient);
+                float pullFactor = saturate(slopeMag) * _PullStrength;
+
+                // Surface normal derived analytically from the slope rather than from screen-space
+                // derivatives (ddx/ddy): for height field h(x,z), the tangents (1,dh/dx,0) and
+                // (0,dh/dz,1) cross to (-dh/dx, 1, -dh/dz) — smooth per-vertex instead of flat
+                // per-triangle.
+                float3 normalOS = normalize(float3(-gradient.x, 1.0, -gradient.y));
+
+                // pullFactor already includes the trail's contribution to gradient, so wake edges
+                // automatically get pushed sideways as well as upward, with no extra code.
+                positionOS.xz += gradient * pullFactor;
+                positionOS.y += height + trailPushHeight;
+
+                OUT.positionWS = TransformObjectToWorld(positionOS);
+                OUT.positionHCS = TransformWorldToHClip(OUT.positionWS);
+                OUT.normalWS = TransformObjectToWorldNormal(normalOS);
+                OUT.shadowCoord = TransformWorldToShadowCoord(OUT.positionWS);
+
+                return OUT;
+            }
+
+            float4 frag(Varyings IN) : SV_Target
+            {
+                float3 normalWS = normalize(IN.normalWS);
+
+                float3 lightDir = normalize(_LightDirection.xyz);
+                float diffuse = saturate(dot(normalWS, lightDir));
+
+                float shadowAttenuation = MainLightRealtimeShadow(IN.shadowCoord);
+                diffuse *= shadowAttenuation;
+
+                // ambient + (1-ambient)*diffuse keeps the brightest point exactly at _Color
+                // (diffuse=1 -&gt; ambient + (1-ambient) = 1.0), instead of overshooting past it.
+                float ambient = 0.15;
+                float3 litColor = _Color.rgb * (ambient + diffuse * (1.0 - ambient));
+
+                // Scatter: looking straight down blends toward a dark underwater tone; off-axis
+                // keeps the base color — a cheap stand-in for water's own Fresnel behavior.
+                float3 viewDir = normalize(GetCameraPositionWS() - IN.positionWS);
+                float viewDotNormal = saturate(dot(normalWS, viewDir));
+                float scatterFactor = pow(viewDotNormal, _ScatterPower) * _ScatterIntensity;
+                litColor = lerp(litColor, _ScatterColor.rgb, saturate(scatterFactor));
+
+                // Whitecaps: the opposite condition from Scatter — grazing angle AND distance
+                // both need to be high, mimicking how a distant, shallow-angle horizon blurs into
+                // a hazy white band.
+                float grazingFactor = pow(1.0 - viewDotNormal, _WhitecapGrazingPower);
+                float camDist = length(GetCameraPositionWS() - IN.positionWS);
+                float distanceFactor = saturate(camDist / max(_WhitecapDistance, 0.0001));
+                float whitecapRaw = grazingFactor * distanceFactor;
+                float whitecapMask = smoothstep(_WhitecapThreshold - _WhitecapEdgeSoftness,
+                                                 _WhitecapThreshold + _WhitecapEdgeSoftness, whitecapRaw);
+                float whitecapFactor = whitecapMask * _WhitecapIntensity;
+                litColor = lerp(litColor, _WhitecapColor.rgb, saturate(whitecapFactor));
+
+                // The caustic net shares the terrain's own flow (same flowOffset/flowT), so the
+                // pattern rides the same current instead of drifting on its own.
+                float flowT = _Time.y * _MorphSpeed;
+                float2 flowOffset = normalize(_FlowDirection.xz) * _FlowSpeed * _Time.y;
+                float2 worldXZ = (IN.positionWS.xz + flowOffset) * _CausticScale;
+
+                // Trail: sample the rider's trail texture at this pixel's world XZ, then use its
+                // screen-space gradient (ddx/ddy) as a bend direction for the caustic UVs below —
+                // this warps the net along the trail's *edge* (where the mask changes fastest),
+                // not inside the trail itself.
+                float2 trailUV = (IN.positionWS.xz - _OceanTrailCenter.xy) / _OceanTrailAreaSize + 0.5;
+                float trailMask = 0.0;
+                if (trailUV.x &gt;= 0.0 &amp;&amp; trailUV.x &lt;= 1.0 &amp;&amp; trailUV.y &gt;= 0.0 &amp;&amp; trailUV.y &lt;= 1.0)
+                {
+                    trailMask = SAMPLE_TEXTURE2D(_OceanTrailTex, sampler_OceanTrailTex, trailUV).r;
+                }
+                float2 trailGrad = float2(ddx(trailMask), ddy(trailMask));
+
+                // Wake outline: traces where trailMask crosses a threshold, with the threshold
+                // itself jittered by noise so the line looks hand-drawn rather than a clean curve.
+                float lineNoise = PerlinNoise2D(IN.positionWS.xz * _OceanTrailLineNoiseScale, _Time.y) - 0.5;
+                float noisyTrailMask = trailMask + lineNoise * _OceanTrailLineNoiseStrength;
+                float distFromLine = abs(noisyTrailMask - _OceanTrailLineThreshold);
+                float trailLineMask = 1.0 - smoothstep(0.0, _OceanTrailLineWidth, distFromLine);
+                litColor += _OceanTrailLineColor.rgb * trailLineMask * _OceanTrailLineIntensity;
+
+                // Two passes of domain warping on the caustic UVs: a low-frequency pass for the
+                // broad flow, then a second, higher-frequency pass on top of the already-warped
+                // result for fine, organic wobble (a common "stacked domain warp" technique).
+                float warpX = PerlinNoise2D(worldXZ * 0.5, flowT * _CausticSpeed) - 0.5;
+                float warpY = PerlinNoise2D(worldXZ * 0.5 + 100.0, flowT * _CausticSpeed) - 0.5;
+                float2 warpedUV = worldXZ + float2(warpX, warpY) * _CausticDistortion * 4.0;
+
+                float warpX2 = PerlinNoise2D(warpedUV * 2.5 + 300.0, flowT * _CausticSpeed) - 0.5;
+                float warpY2 = PerlinNoise2D(warpedUV * 2.5 + 400.0, flowT * _CausticSpeed) - 0.5;
+                warpedUV += float2(warpX2, warpY2) * _CausticDistortion2 * 1.5;
+
+                // Third warp pass, trail-only: bends the net further wherever a rider has passed,
+                // on top of (not instead of) the two terrain-flow warps above.
+                warpedUV += trailGrad * _OceanTrailDistortStrength;
+
+                float3 f = Voronoi2D(warpedUV);
+                float edge = f.y - f.x;   // near 0 = right on a cell border
+                float lineMask = 1.0 - smoothstep(0.0, _CausticLineWidth, edge);
+
+                float corner = f.z - f.y; // near 0 = a node where three cells meet
+                float cornerMask = 1.0 - smoothstep(0.0, _CausticCornerWidth, corner);
+                float wallStrength = lerp(_CausticWallBrightness, 1.0, cornerMask); // dimmer on plain walls, brighter at nodes
+
+                // Caustic net fades out near the rideable wave, so the two patterns never overlap
+                // and read as visual noise.
+                float distToWave = length(IN.positionWS.xz - _WaveWorldPos.xz);
+                float waveFadeFactor = pow(saturate(distToWave / max(_WaveFadeRadius, 0.0001)), _WaveFadeSharpness);
+
+                // Added on top of the lit base color (not blended), the usual approach for a
+                // foam/sparkle highlight layer.
+                litColor += _CausticColor.rgb * lineMask * wallStrength * _CausticIntensity * waveFadeFactor;
+
+                return float4(litColor, _Color.a);
+            }
+
+            ENDHLSL
+        }
+    }
+}`;
+    const deep = (label, title, body, openByDefault) => `<details class="technical-deep-dive"${openByDefault ? " open" : ""}><summary><span>${label}</span><strong>${title}</strong></summary><div class="technical-deep-dive-body">${body}</div></details>`;
     // Collapsible "what can an artist change" table: one row per Inspector field group.
-    const fieldTable = (s, intro) => deep(s.artistLabel, s.artistTitle, `${intro ? `<p>${intro}</p>` : ""}<div class="decision-table-wrap"><table class="decision-table"><thead><tr>${s.artistHead.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${s.artistRows.map(([g, f, w]) => `<tr><th scope="row">${g}</th><td>${f}</td><td>${w}</td></tr>`).join("")}</tbody></table></div>`);
+    const fieldTable = (s, intro, openByDefault) => deep(s.artistLabel, s.artistTitle, `${intro ? `<p>${intro}</p>` : ""}<div class="decision-table-wrap"><table class="decision-table"><thead><tr>${s.artistHead.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${s.artistRows.map(([g, f, w]) => `<tr><th scope="row">${g}</th><td>${f}</td><td>${w}</td></tr>`).join("")}</tbody></table></div>`, openByDefault);
     const blocks = {
-      shaders: `<div class="psk-block" id="psk-shaders"><h3>${c.shaders.title}</h3><p class="psk-lead">${c.shaders.lead}</p><ul class="psk-takeaways">${c.shaders.takeaways.map(([b, rest]) => `<li><strong>${b}</strong> ${rest}</li>`).join("")}</ul>${deep(c.shaders.deepLabel, c.shaders.deepTitle, `<div class="direction-case-grid">${c.shaders.cards.map(([label, title, body]) => `<article><span class="case-label">${label}</span><h3>${title}</h3><p>${body}</p></article>`).join("")}</div>`)}${fieldTable(c.shaders, c.shaders.artistIntro)}</div>`,
+      // Ocean/wave/tornado shaders are the flagship work on this project, so unlike every other
+      // deep-dive/artist-controls pair on the page, both start expanded (open) instead of
+      // collapsed behind a "+" — the one section worth showing in full without a click.
+      shaders: `<div class="psk-block" id="psk-shaders"><h3>${c.shaders.title}</h3><p class="psk-lead">${c.shaders.lead}</p><ul class="psk-takeaways">${c.shaders.takeaways.map(([b, rest]) => `<li><strong>${b}</strong> ${rest}</li>`).join("")}</ul>${deep(c.shaders.deepLabel, c.shaders.deepTitle, `<div class="direction-case-grid">${c.shaders.cards.map(([label, title, body]) => `<article><span class="case-label">${label}</span><h3>${title}</h3><p>${body}</p></article>`).join("")}</div>`, true)}${fieldTable(c.shaders, c.shaders.artistIntro, true)}${deep(c.shaders.codeLabel, c.shaders.codeTitle, `<p>${c.shaders.codeIntro}</p><pre><code>${OCEAN_SHADER_SOURCE}</code></pre>`)}</div>`,
       game: `<div class="psk-block" id="psk-game"><h3>${c.game.title}</h3><p class="psk-lead">${c.game.lead}</p><div class="psk-demo" data-lazy-embed data-src="../webgl/PoseidonSkate/index.html" data-title="${c.game.embedTitle}"><img src="../img/PoseidonSkate/game-poster.jpg" alt="${c.game.alt}" loading="lazy"><button type="button" class="psk-demo-play">${c.game.play}</button></div><p class="psk-links"><a href="../webgl/PoseidonSkate/index.html" target="_blank" rel="noopener">${c.game.fullscreen}</a> · <span class="psk-hint">${c.game.hint}</span></p></div>`,
       blender: `<div class="psk-block" id="psk-blender"><h3>${c.blender.title}</h3><div class="psk-figs">${c.blender.figs.map(([file, alt, cap]) => `<figure><img src="../img/PoseidonSkate/${file}" alt="${alt}" loading="lazy"><figcaption>${cap}</figcaption></figure>`).join("")}</div><p class="psk-lead">${c.blender.lead}</p>${deep(c.blender.deepLabel, c.blender.deepTitle, `<p>${c.blender.body}</p>`)}</div>`,
       vfx: `<div class="psk-block" id="psk-vfx"><h3>${c.vfx.title}</h3><p class="psk-lead">${c.vfx.lead}</p><div class="psk-vfx-video"><video src="../img/PoseidonSkate/VfxVid.mp4?v=20260921b" width="732" height="470" aria-label="${c.vfx.alt}" autoplay loop muted playsinline preload="auto"></video><a class="psk-vfx-fallback" href="../img/PoseidonSkate/VfxVid.mp4?v=20260921b" target="_blank" rel="noopener" hidden>${c.vfx.fallback}<small class="psk-vfx-diag"></small></a></div><h4>${c.vfx.ringTitle}</h4><p class="psk-lead">${c.vfx.ringLead}</p><ul class="psk-takeaways">${c.vfx.ringPoints.map(([b, rest]) => `<li><strong>${b}:</strong> ${rest}</li>`).join("")}</ul>${fieldTable(c.vfx)}</div>`,

@@ -29,7 +29,7 @@ const portfolioTracks = {
       en: 'I make visuals through code.',
       ko: '코드로 비주얼을 만듭니다.'
     },
-    evidence: ['SHADERS · VFX', 'C++ · OPENGL', 'ART DIRECTION'],
+    evidence: ['SHADERS', 'TOOLS', 'C++'],
     proofTitle: 'VISUALS, CODE, ENGINE.',
     proofSummary: {
       en: 'Four projects focused on solving visual production problems through real-time graphics and artist-facing tools.',

@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@200..900&family=Source+Sans+3:wght@200..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/style.css?v=20260923y">
+  <link rel="stylesheet" href="../css/style.css?v=20260923aa">
 </head>
 <body>
 <!-- CRAWLER NOTE: every element below (hero title/media, overview, bullets, contributions) is an empty/placeholder shell that js/project-template.js fills in at runtime from js/projects-data.js["07_TooHot"] -- read that object for the real, current content, pinned/type flags, and any (IN PRODUCTION / UNFINISHED) or (THIS IS DE-EMPHASIZED / COLLAPSED BY DEFAULT!) notes on it. -->
@@ -34,17 +34,19 @@
   <p>A game-jam boss-action project needed readable attack patterns, escalating encounters, and responsive visual feedback delivered under a hard deadline, with a cross-discipline backlog to manage.</p>
   <h2>What I Built</h2>
   <ul>
+    <li>The character needed full animation, including fire, with no time in the 10-day jam to hand-draw it frame by frame &mdash; switched to separated body parts driven by skeletal animation instead</li>
+    <li>Built the character's fire effect as a shader rather than hand-drawn flame artwork, so the fire frames didn't need to be drawn separately</li>
     <li>Built and art-directed a custom real-time shadow shader for cohesive, grounded combat presentation</li>
     <li>Telegraphed straight, spiral, curved, bouncing, and beam attack patterns, plus boss/hit-zone/projectile/VFX systems</li>
     <li>Defined system requirements and drove a 130+ item, cross-discipline P0-P3 backlog to completion</li>
   </ul>
   <h2>Result</h2>
-  <p>Delivered a complete, readable boss-action game under the game-jam deadline with all specified systems shipped.</p>
+  <p>Delivered a complete, readable boss-action game under the game-jam deadline with all specified systems shipped &mdash; including a fully animated, fire-wielding character for which the artist only had to hand-draw a handful of frames instead of a full set.</p>
 </section>
   <header class="navbar"><div class="navbar-logo">MSH</div><nav class="navbar-menu"><a href="../index.html#home">Home</a><a href="../index.html#projects">Projects</a><a href="../index.html#about">About</a><a href="../index.html#contact">Contact</a></nav></header>
   <header class="video-hero"><img src="" alt="Poster" class="bird-image"><div class="video-overlay"><h1 class="game-title-bird">TOO HOT!</h1><p class="game-subtitle-bird">A custom shadow shader, real-time VFX, and technical direction built under a game-jam deadline</p></div></header>
   <main class="main-content"><section class="main-background-section"></section><section class="rounded-section"></section><button class="return-button" onclick="window.history.back()"><span class="arrow-icon">&larr;</span><span class="button-text">Return</span></button></main>
   <footer class="footer"><a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a></footer>
-  <script src="../js/projects-data.js?v=20260921p"></script><script src="../js/project-template.js?v=20260921p"></script><script src="../js/index.js?v=20260923y"></script>
+  <script src="../js/projects-data.js?v=20260922c"></script><script src="../js/project-template.js?v=20260922c"></script><script src="../js/index.js?v=20260923aa"></script>
 </body>
 </html>

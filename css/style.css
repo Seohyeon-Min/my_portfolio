@@ -3769,7 +3769,14 @@ body .return-button.project-back-button:hover {
 .link-start-app[data-track="graphics"] .archive-panel { max-height:none; overflow:hidden; }
 .link-archive-grid > .archive-category { flex: 0 0 auto; width: 100%; }
 .link-start-app[data-track="graphics"] .archive-category--overview { display:flex; flex-direction:column; min-width:0; height:clamp(22rem,52vh,25.5rem); min-height:0; padding:.85rem; border:1px solid color-mix(in srgb,var(--ls-blue) 17%,transparent); border-radius:1rem; background:linear-gradient(120deg,color-mix(in srgb,var(--ls-blue) 5%,white),rgba(255,255,255,.72)); box-shadow:0 .7rem 2.4rem rgba(43,54,102,.055); }
-.link-start-app[data-track="graphics"] .archive-category--overview.archive-category--production { margin-top:0; padding:1rem; border-color:color-mix(in srgb,#55a7c5 24%,transparent); background:linear-gradient(120deg,rgba(236,250,255,.76),rgba(255,255,255,.74)); }
+.link-start-app[data-track="graphics"] .archive-category--overview.archive-category--production { margin-top:0; padding:1rem; border-color:color-mix(in srgb,var(--ls-muted) 22%,transparent); background:rgba(246,243,237,0.45); box-shadow:none; }
+/* Pull the one bit of color left (the oversized cap letter) down to the same muted gray as the
+   PRODUCTION label text — every other category's cap stays accent-blue, so this is the one visual
+   signal that actually reads as "lower priority" rather than just "smaller box". */
+.link-start-app[data-track="graphics"] .archive-category--overview.archive-category--production .archive-category__cap,
+.link-start-app[data-track="graphics"] .archive-category--overview.archive-category--production .archive-category__header small { color: var(--ls-muted); }
+.link-start-app[data-track="graphics"] .archive-category--overview.archive-category--production .archive-category__grid img { filter: saturate(.72) brightness(.96); opacity: .88; transition: filter 220ms ease, opacity 220ms ease; }
+.link-start-app[data-track="graphics"] .archive-category--overview.archive-category--production .archive-category__grid a:hover img { filter: none; opacity: 1; }
 .archive-category__header { display:flex; flex-direction:column; gap:.15rem; }
 .archive-category--overview h3 { display:flex; align-items:center; margin:0; color:var(--ls-ink); font-size:.9rem; font-weight:800; letter-spacing:-.04em; }
 /* The category's own first letter, set oversized inline — stands in for a separate icon glyph. */
