@@ -32,8 +32,8 @@ const portfolioTracks = {
     evidence: ['SHADERS · VFX', 'C++ · OPENGL', 'ART DIRECTION'],
     proofTitle: 'VISUALS, CODE, ENGINE.',
     proofSummary: {
-      en: 'Four representative projects across shaders, rendering, VFX, and technical art.',
-      ko: '셰이더, 렌더링, VFX, 테크니컬 아트에 걸친 네 개의 대표 프로젝트입니다.'
+      en: 'Four projects focused on solving visual production problems through real-time graphics and artist-facing tools.',
+      ko: '실시간 그래픽스와 아티스트를 위한 툴로 비주얼 프로덕션 문제를 해결하는 데 집중한 네 개의 프로젝트입니다.'
     },
     // PROOF REEL (graphics track) — array order IS the emphasis order: card 0 renders biggest/
     // first in .proof-reel__projects, so it's the single most-emphasized project on the whole
