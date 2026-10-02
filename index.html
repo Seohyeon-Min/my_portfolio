@@ -93,8 +93,9 @@
       </section>
 
       <section class="link-scene link-scene--proof" data-scene="proof" aria-label="Proof Reel">
+        <!-- Decorative hover backdrop. One <video class="proof-backdrop__video"> per hero video is
+             created at runtime by ensureProofVideos() in js/index.js (none exist in this static HTML). -->
         <div class="proof-backdrop" aria-hidden="true">
-          <video class="proof-backdrop__video" muted loop playsinline preload="none"></video>
           <img class="proof-backdrop__img" alt="" />
         </div>
         <div class="proof-skills" aria-hidden="true"></div>

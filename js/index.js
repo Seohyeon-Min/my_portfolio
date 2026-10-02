@@ -95,11 +95,11 @@ const portfolioTracks = {
 // so it only gets a poster here — embedding a second autoplaying iframe just for a hover backdrop
 // wasn't worth the complexity.
 const PROOF_HERO_MEDIA = {
-  poseidon: { video: 'img/PoseidonSkate/PlayVid.mp4', poster: 'img/WaveSimulator/img1.png' },
-  manzo: { video: 'img/MANZO/MANZO_trailer.mp4', poster: 'img/portfolio_thumbnails/Manzo.png' },
-  toohot: { video: 'img/TooHot/트레일러1_low.mp4', poster: 'img/TooHot/hero.png' },
-  street: { video: 'img/StreetTyper/STTrailer_ko1.mp4', poster: 'img/StreetTyper/hero.png' },
-  carboom: { video: 'img/Carboom/TempHero.mp4', poster: 'img/portfolio_thumbnails/Carboom_placeholder.svg' },
+  poseidon: { video: 'img/PoseidonSkate/PlayVid_bg.mp4', poster: 'img/WaveSimulator/img1.png' },
+  manzo: { video: 'img/MANZO/MANZO_trailer_bg.mp4', poster: 'img/portfolio_thumbnails/Manzo.png' },
+  toohot: { video: 'img/TooHot/트레일러1_low_bg.mp4', poster: 'img/TooHot/hero.png' },
+  street: { video: 'img/StreetTyper/STTrailer_ko1_bg.mp4', poster: 'img/StreetTyper/hero.png' },
+  carboom: { video: 'img/Carboom/TempHero_bg.mp4', poster: 'img/portfolio_thumbnails/Carboom_placeholder.svg' },
   newmanzo: { poster: 'img/portfolio_thumbnails/NewManzo.png' },
   doublehit: { poster: 'img/portfolio_thumbnails/DoubleHit.png' },
   dangling: { poster: 'img/portfolio_thumbnails/Dangling.jpg' },
@@ -181,7 +181,6 @@ function initProofReelHover() {
   const scene = document.querySelector('.link-scene--proof');
   const backdrop = document.querySelector('.proof-backdrop');
   if (!scene || !backdrop) return;
-  const video = backdrop.querySelector('.proof-backdrop__video');
   const img = backdrop.querySelector('.proof-backdrop__img');
   const skillsBox = scene.querySelector('.proof-skills');
   const summaryBox = scene.querySelector('.proof-summary');
@@ -194,10 +193,7 @@ function initProofReelHover() {
     if (skillsBox) skillsBox.classList.remove('is-visible');
     if (summaryBox) summaryBox.classList.remove('is-visible');
     current = null;
-    // Pause after the backdrop's own opacity transition (see .proof-backdrop in style.css) finishes,
-    // not immediately — pausing right away freeze-frames the video mid-fade instead of letting it
-    // fade out while still playing.
-    window.setTimeout(() => video.pause(), 420);
+    showProofVideo(null);
   };
   // Exposed so activateScene() can force this shut (video included) the instant the user scrolls
   // away from the Proof Reel scene — a hover that's still "on" when the scene changes would
@@ -213,12 +209,10 @@ function initProofReelHover() {
     backdrop.classList.add('is-visible');
     if (media && media.video) {
       backdrop.classList.remove('is-image-only');
-      if (video.dataset.src !== media.video) { video.dataset.src = media.video; video.src = media.video; }
-      video.play().catch(() => {});
-      img.src = media.poster || '';
+      showProofVideo(media.video);
     } else {
       backdrop.classList.add('is-image-only');
-      video.pause();
+      showProofVideo(null);
       img.src = (media && media.poster) || '';
     }
     if (skillsBox) {
@@ -255,43 +249,95 @@ function initProofReelHover() {
 
   // Not called here: at this point applyPortfolioTrack() hasn't labeled the cards with
   // data-project-key yet during initial load (initProofReelHover() runs before it in the
-  // DOMContentLoaded handler), so warmProofVideos() would find nothing to warm. It's called from
-  // applyPortfolioTrack() itself instead, once the cards actually have their keys — see there.
+  // DOMContentLoaded handler), so ensureProofVideos() would find nothing to create. It's called
+  // from applyPortfolioTrack() itself instead, once the cards actually have their keys — see there.
 }
 
-// The first hover on a Proof Reel card used to visibly stutter — its video had never been
-// fetched (preload="none" on the real <video>), so the hover handler triggered a cold network
-// fetch + decode right as the backdrop tried to fade in. Warming the browser's HTTP cache ahead
-// of time fixes that, but doing all of it at once would just move the stutter earlier (a burst of
-// simultaneous fetches competing with whatever the page is still doing). Instead: one video at a
-// time, only when the browser is idle, with a low fetch priority — so it never competes with
-// anything the user is actually interacting with, and by the time they hover a card, that card's
-// video is very likely already sitting in cache.
-//
-// Two real bugs lived here before: (1) it warmed every PROOF_HERO_MEDIA entry across ALL THREE
-// tracks — 5 videos, 60MB+ — instead of just the ≤4 actually shown on the active track, so most
-// of that bandwidth was spent on videos the visitor might never see, and if they hovered a real
-// card while an unrelated track's video was mid-download, that download was still competing for
-// the same connection/bandwidth and made the real one stutter. Fixed by reading the keys that are
-// actually on screen (`.proof-shot[data-project-key]`) instead of the whole media map, and
-// re-running this on every track switch so the newly-visible track's videos get warmed too —
-// already-warmed URLs just resolve from cache instantly, no extra cost. (2) the fetch() response
-// body was never read, so the browser had no reason to finish draining/caching it before moving
-// on to the next URL — .arrayBuffer() forces it to actually complete.
-function warmProofVideos() {
-  const keys = [...document.querySelectorAll('.proof-shot[data-project-key]')].map(card => card.dataset.projectKey);
-  const urls = [...new Set(keys.map(key => PROOF_HERO_MEDIA[key]?.video).filter(Boolean))];
-  let i = 0;
-  const warmNext = () => {
-    if (i >= urls.length) return;
-    const url = urls[i++];
-    fetch(url, { priority: 'low', credentials: 'same-origin' })
-      .then(response => response.arrayBuffer())
-      .catch(() => {})
-      .finally(() => schedule(warmNext));
-  };
+// One <video> per hero video URL, all stacked inside .proof-backdrop; only the `.is-active` one is
+// visible (see .proof-backdrop__video in style.css). This replaced a single shared <video> whose
+// src was swapped on every hover — each swap threw away the decoder and re-buffered from 0, which
+// is what made hopping between cards stutter, and HTTP-cache warming via fetch() didn't reliably
+// help because <video> uses Range requests. Now each video is buffered once and switching cards is
+// just an opacity crossfade between already-decoded elements.
+const proofVideos = new Map(); // url -> { video, pauseTimer }
+const proofVideoQueue = [];
+let proofVideoLoading = false;
+
+function loadProofVideo(entry) {
+  if (entry.video.src) return;
+  entry.video.preload = 'auto';
+  entry.video.src = entry.url;
+}
+
+// Buffer one video at a time, when the browser is idle, so the downloads don't burst all at once
+// and compete with whatever the visitor is actually doing. A hovered card jumps the queue via
+// loadProofVideo() in showProofVideo().
+function pumpProofVideoQueue() {
+  if (proofVideoLoading) return;
+  const entry = proofVideoQueue.shift();
+  if (!entry) return;
+  if (entry.video.src) { pumpProofVideoQueue(); return; }
+  proofVideoLoading = true;
   const schedule = fn => (window.requestIdleCallback ? window.requestIdleCallback(fn, { timeout: 2000 }) : window.setTimeout(fn, 300));
-  schedule(warmNext);
+  // The timeout is a fallback for browsers that decline to buffer (e.g. data-saver mode) and so
+  // never fire canplaythrough — without it the rest of the queue would never load.
+  const fallback = window.setTimeout(() => done(), 15000);
+  const done = () => {
+    if (!proofVideoLoading) return;
+    window.clearTimeout(fallback);
+    entry.video.removeEventListener('canplaythrough', done);
+    entry.video.removeEventListener('error', done);
+    proofVideoLoading = false;
+    schedule(pumpProofVideoQueue);
+  };
+  entry.video.addEventListener('canplaythrough', done);
+  entry.video.addEventListener('error', done);
+  loadProofVideo(entry);
+}
+
+// Creates (once) a <video> for every hero video on the cards currently on screen, and queues them
+// for buffering. Re-run on every track switch; videos from a previous track are kept (paused) so
+// switching back is instant.
+function ensureProofVideos() {
+  const backdrop = document.querySelector('.proof-backdrop');
+  if (!backdrop) return;
+  const keys = [...document.querySelectorAll('.proof-shot[data-project-key]')].map(card => card.dataset.projectKey);
+  keys.forEach(key => {
+    const media = PROOF_HERO_MEDIA[key];
+    if (!media?.video || proofVideos.has(media.video)) return;
+    const video = document.createElement('video');
+    video.className = 'proof-backdrop__video';
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.preload = 'none';
+    if (media.poster) video.poster = media.poster;
+    backdrop.insertBefore(video, backdrop.firstChild);
+    const entry = { url: media.video, video, pauseTimer: 0 };
+    proofVideos.set(media.video, entry);
+    proofVideoQueue.push(entry);
+  });
+  pumpProofVideoQueue();
+}
+
+// Shows/plays the video for `url` (null = none) and fades out whichever was showing. The outgoing
+// one is paused only after the 420ms opacity transition, so it fades while still moving instead of
+// freeze-framing — and that pending pause is cancelled if the same video is shown again before it
+// fires (previously an uncancelled setTimeout paused a video that had just been re-hovered).
+function showProofVideo(url) {
+  proofVideos.forEach(entry => {
+    const { video } = entry;
+    if (entry.url === url) {
+      window.clearTimeout(entry.pauseTimer);
+      loadProofVideo(entry);
+      video.classList.add('is-active');
+      video.play().catch(() => {});
+    } else if (video.classList.contains('is-active')) {
+      video.classList.remove('is-active');
+      window.clearTimeout(entry.pauseTimer);
+      entry.pauseTimer = window.setTimeout(() => video.pause(), 420);
+    }
+  });
 }
 
 function syncProjectTrackLinks(root, track) {
@@ -682,7 +728,7 @@ function applyPortfolioTrack(requestedTrack, updateUrl = true) {
   applyNewestProjectBadge();
   // Re-warm for whichever videos are visible on this track now — a no-op (cache hit) for ones
   // already warmed, real work only for a track being shown for the first time this visit.
-  warmProofVideos();
+  ensureProofVideos();
   syncProjectTrackLinks(document, track);
   document.querySelectorAll('[data-track-select]').forEach(button => {
     const selected = button.dataset.trackSelect === track;

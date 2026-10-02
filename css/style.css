@@ -3446,7 +3446,7 @@ body .return-button.project-back-button:hover {
   opacity: 0;
   transition: opacity 420ms ease;
 }
-.proof-backdrop.is-visible .proof-backdrop__video { opacity: 1; }
+.proof-backdrop.is-visible .proof-backdrop__video.is-active { opacity: 1; }
 .proof-backdrop.is-visible.is-image-only .proof-backdrop__img { opacity: 1; }
 .proof-skills {
   position: absolute;

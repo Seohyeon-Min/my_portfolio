@@ -1302,7 +1302,7 @@ const projectsData = {
         {
           title: "Procedural Space Background Tool",
           category: "Technical",
-          htmlContent: `<section><h2>An Editor Tool That Places Planets by How They Look, Not Just Where They Are</h2><p class="case-study-lede">Built for the two artists on the team, not just for me &mdash; every knob (count, scale, distance, clustering) lives in a plain DataAsset they edit directly, with a one-click generate/clear loop to re-roll the sky themselves. The space background is only ever seen from one fixed point (the arena), so I built the placement tool around apparent size and on-screen spacing instead of raw 3D coordinates &mdash; then iterated the composition and clustering rules with the artists after reviewing early passes in-editor together.</p>${renderEngineeringCaseStudy({metrics:[{icon:"◉",value:"View-space",label:"composition, not 3D distance"},{icon:"⌘",value:"DataAsset",label:"artist-tunable zones"},{icon:"◈",value:"Leader/follower",label:"cluster size hierarchy"},{icon:"↻",value:"Idempotent",label:"generate/clear, re-runnable"}],architecture:[{title:"Settings DataAsset",detail:"Artist-tunable zones, cluster, and accessory parameters"},{title:"Zone + cluster planning",detail:"Decide counts/sizes, pre-build clusters as one “disc” each"},{title:"View-space composition",detail:"Place largest-apparent-size first, spacing/density checked as angles from the arena"},{title:"Accessory pass",detail:"Ring-constrained moons attached to qualifying parents"},{title:"Spawn / clear",detail:"Idempotent actor spawn, label-prefixed for one-click cleanup"}],cases:[{label:"Composition",title:"Placing by apparent size instead of real distance",problem:"The background is only ever seen from one fixed arena viewpoint, so real 3D distance doesn't match what actually reads on screen — a far big planet and a near small one can look the same size, and naive random placement produced uneven, unbalanced skies.",decision:"Compute everything — apparent size, spacing, and local density — as angles and solid angle from the arena, not 3D position.",implementation:"to_view() converts a planet's location/radius into an apparent angular radius; fits_composition() enforces a geometric-mean spacing rule (big+big far apart, small+small can sit close) and a probabilistic density budget so already-crowded areas rarely accept more, without a hard cutoff that would leave visible gaps.",verification:"Iterated visually with the tool's own generate/clear cycle in-editor until the sky read as evenly weighted instead of clumping on one side."},{label:"Iteration",title:"A curve couldn't express what the composition needed",problem:"The first version sampled size from a ScaleDistribution curve, but curves can't express “this many planets of this size around this distance,” and splitting total distance into ratios (like gradient stops) doesn't work in a Blueprint DataAsset — editing one entry doesn't renormalize the others back to summing to 1.",decision:"Replace the curve with an explicit ScaleZones array: each zone gets its own count, scale range, and distance range, and zones are allowed to overlap instead of being forced to partition the whole range.",implementation:"Also hit Blueprint struct members getting mangled internal names (e.g. “Count_2_ABCD…”); get_struct_value() falls back to parsing export_text() when get_editor_property() fails on the mangled name.",verification:"Zone ranges and counts are logged to the Output Log on every run so an artist tuning the DataAsset can confirm what actually got read."},{label:"Clustering",title:"Fixing “rich-get-richer” clumping and same-size clusters",problem:"The first clustering approach dropped small planets near whichever small planet was already placed, which snowballed into one dense clump versus scattered big planets instead of an even mix — and even after that was fixed, same-sized members scattered evenly inside a disc looked uniform and unnatural, like a pile of eggs.",decision:"Pre-build clusters sized with 1/n weighting (many small clusters, occasional big ones) and place each cluster as its own disc under the same spacing/density rules as a single big planet; then force a leader-plus-followers size hierarchy inside each cluster instead of same-sized members.",implementation:"build_clusters() picks a leader (largest) and smallest member and enforces a minimum leader/smallest scale ratio; cluster_offset() scatters members with a Gaussian (dense center, sparse edge) instead of a uniform disc fill, plus a slight elliptical stretch per cluster so shapes don't all read as perfect circles.",verification:"Max cluster size was tuned down from 12 to 7 members after an in-editor visual pass looked too densely packed."}],decisions:[{system:"Background placement",choice:"View-space composition (angle/solid-angle math)",reason:"Matches what's actually seen from the one fixed camera point.",tradeoff:"More math than naive 3D scatter; O(n²) composition checks per placement."},{system:"Size/count control",choice:"ScaleZones DataAsset array",reason:"Artist-tunable per zone without touching Python.",tradeoff:"Zones can overlap instead of neatly partitioning distance."},{system:"Small planets",choice:"Pre-built leader/follower clusters",reason:"Reads as a natural, uneven grouping instead of a uniform scatter.",tradeoff:"Extra clustering pass before the main placement loop."},{system:"Accessory moons",choice:"Ring-constrained direction (not a full cone)",reason:"Keeps them visibly offset from the parent instead of hiding or overlapping it.",tradeoff:"Narrower valid placement area, more re-rolls when space is tight."}],note:"Result: hand-placing this many planets with real compositional judgment — checking apparent size and spacing from one fixed viewpoint, by eye, every time — would take hours per pass; the tool collapses that to one generate/clear click. (No source link is included here — the case study above is described directly from the implementation and its in-code design notes.)"})}<details class="technical-deep-dive full-source"><summary><span>Code</span><strong>Show full source — space_background.py</strong></summary><div class="technical-deep-dive-body"><p>Pasted in full from the private Perforce depot (no public repo to link to) — the exact, current version of the script discussed above.</p><pre><code>import unreal
+          htmlContent: `<section><h2>An Editor Tool That Places Planets by How They Look, Not Just Where They Are</h2><p class="case-study-lede">Built for the two artists on the team, not just for me &mdash; every knob (count, scale, distance, clustering) lives in a plain DataAsset they edit directly, with a one-click generate/clear loop to re-roll the sky themselves. The space background is only ever seen from one fixed point (the arena), so I built the placement tool around apparent size and on-screen spacing instead of raw 3D coordinates &mdash; then iterated the composition and clustering rules with the artists after reviewing early passes in-editor together.</p>${renderEngineeringCaseStudy({metrics:[{icon:"◉",value:"View-space",label:"composition, not 3D distance"},{icon:"⌘",value:"DataAsset",label:"artist-tunable zones"},{icon:"◈",value:"Leader/follower",label:"cluster size hierarchy"},{icon:"↻",value:"Idempotent",label:"generate/clear, re-runnable"}],architecture:[{title:"Settings DataAsset",detail:"Artist-tunable zones, cluster, and accessory parameters"},{title:"Zone + cluster planning",detail:"Decide counts/sizes, pre-build clusters as one “disc” each"},{title:"View-space composition",detail:"Place largest-apparent-size first, spacing/density checked as angles from the arena"},{title:"Accessory pass",detail:"Ring-constrained moons attached to qualifying parents"},{title:"Spawn / clear",detail:"Idempotent actor spawn, label-prefixed for one-click cleanup"}],cases:[{label:"Composition",title:"Placing by apparent size instead of real distance",problem:"The background is only ever seen from one fixed arena viewpoint, so real 3D distance doesn't match what actually reads on screen — a far big planet and a near small one can look the same size, and naive random placement produced uneven, unbalanced skies.",decision:"Compute everything — apparent size, spacing, and local density — as angles and solid angle from the arena, not 3D position.",implementation:"to_view() converts a planet's location/radius into an apparent angular radius; fits_composition() enforces a geometric-mean spacing rule (big+big far apart, small+small can sit close) and a probabilistic density budget so already-crowded areas rarely accept more, without a hard cutoff that would leave visible gaps.",verification:"Iterated visually with the tool's own generate/clear cycle in-editor until the sky read as evenly weighted instead of clumping on one side."},{label:"Iteration",title:"A curve couldn't express what the composition needed",problem:"The first version sampled size from a ScaleDistribution curve, but curves can't express “this many planets of this size around this distance,” and splitting total distance into ratios (like gradient stops) doesn't work in a Blueprint DataAsset — editing one entry doesn't renormalize the others back to summing to 1.",decision:"Replace the curve with an explicit ScaleZones array: each zone gets its own count, scale range, and distance range, and zones are allowed to overlap instead of being forced to partition the whole range.",implementation:"Also hit Blueprint struct members getting mangled internal names (e.g. “Count_2_ABCD…”); get_struct_value() falls back to parsing export_text() when get_editor_property() fails on the mangled name.",verification:"Zone ranges and counts are logged to the Output Log on every run so an artist tuning the DataAsset can confirm what actually got read."},{label:"Clustering",title:"Fixing “rich-get-richer” clumping and same-size clusters",problem:"The first clustering approach dropped small planets near whichever small planet was already placed, which snowballed into one dense clump versus scattered big planets instead of an even mix — and even after that was fixed, same-sized members scattered evenly inside a disc looked uniform and unnatural, like a pile of eggs.",decision:"Pre-build clusters sized with 1/n weighting (many small clusters, occasional big ones) and place each cluster as its own disc under the same spacing/density rules as a single big planet; then force a leader-plus-followers size hierarchy inside each cluster instead of same-sized members.",implementation:"build_clusters() picks a leader (largest) and smallest member and enforces a minimum leader/smallest scale ratio; cluster_offset() scatters members with a Gaussian (dense center, sparse edge) instead of a uniform disc fill, plus a slight elliptical stretch per cluster so shapes don't all read as perfect circles.",verification:"Max cluster size was tuned down from 12 to 7 members after an in-editor visual pass looked too densely packed."},{label:"Locking",title:"Letting artists lock the planets they like mid-iteration",problem:"Every regenerate replaced the whole sky, so an artist happy with 90% of a layout still had to re-roll everything just to fix the rest — there was no way to keep specific planets in place while reshuffling around them.",decision:"Add a per-planet Locked flag: locked planets are skipped by Clear and fed back into the next Generate as already-placed, so new planets are placed around them instead of overwriting them.",implementation:"Newer planets store Locked as a Blueprint instance-editable bool (a checkbox in Details); older planets were plain StaticMeshActors with no such property, so is_locked()/set_locked() fall back to a BG_Locked actor tag when the property lookup fails. Locked planets also carry a BG_Zone_N tag so a later Generate knows which zone’s Count to subtract them from — a planet locked before zones existed has none, so guess_zone() infers it from whichever zone’s scale/distance range it fits best.",verification:"Lock/Unlock run as a single undoable editor transaction and log how many planets were (un)locked; Clear logs how many locked planets it kept, so an artist can confirm nothing they locked got swept away."}],decisions:[{system:"Background placement",choice:"View-space composition (angle/solid-angle math)",reason:"Matches what's actually seen from the one fixed camera point.",tradeoff:"More math than naive 3D scatter; O(n²) composition checks per placement."},{system:"Size/count control",choice:"ScaleZones DataAsset array",reason:"Artist-tunable per zone without touching Python.",tradeoff:"Zones can overlap instead of neatly partitioning distance."},{system:"Small planets",choice:"Pre-built leader/follower clusters",reason:"Reads as a natural, uneven grouping instead of a uniform scatter.",tradeoff:"Extra clustering pass before the main placement loop."},{system:"Accessory moons",choice:"Ring-constrained direction (not a full cone)",reason:"Keeps them visibly offset from the parent instead of hiding or overlapping it.",tradeoff:"Narrower valid placement area, more re-rolls when space is tight."}],note:"Result: hand-placing this many planets with real compositional judgment — checking apparent size and spacing from one fixed viewpoint, by eye, every time — would take hours per pass; the tool collapses that to one generate/clear click. (No source link is included here — the case study above is described directly from the implementation and its in-code design notes.)"})}<details class="technical-deep-dive full-source"><summary><span>Code</span><strong>Show full source — space_background.py</strong></summary><div class="technical-deep-dive-body"><p>Pasted in full from the private Perforce depot (no public repo to link to) — the exact, current version of the script discussed above.</p><pre><code>import unreal
 import random
 import math
 
@@ -1377,6 +1377,28 @@ CLUSTER_MAX_STRETCH = 1.8
 # Raising MIN pushes accessories further to the side; MAX near 90 reaches the parent's side.
 ACCESSORY_RING_MIN_ANGLE = 45.0
 ACCESSORY_RING_MAX_ANGLE = 75.0
+
+# 이 라벨로 시작하는 액터만 배경 행성으로 봄
+# Only actors whose label starts with this count as background planets.
+PLANET_LABEL_PREFIX = "BG_Planet_"
+ACCESSORY_LABEL_PREFIX = "BG_Planet_Acc_"
+
+# 행성 액터 BP. StaticMeshActor를 부모로 하고 Instance Editable bool 변수 "Locked"를 가짐
+# -&gt; 행성 클릭하면 Details에 Locked 체크박스가 뜸
+# Planet actor BP. Parent is StaticMeshActor, with an Instance Editable bool variable "Locked"
+# -&gt; clicking a planet shows a Locked checkbox in Details.
+PLANET_BP_PATH = "/Game/Editor/BP_BGPlanet"
+LOCK_PROPERTY = "Locked"
+
+# 락 걸린 행성은 clear에서 안 지워지고, 다음 generate에 "이미 놓인 행성"으로 들어감
+# BG_Locked 태그는 BP 전에 StaticMeshActor로 만든 행성용 (체크박스가 없으니 태그로 락)
+# Zone 태그는 락 걸린 행성이 어느 구간 Count를 차지하는지 알려줌 (BG_Zone_1, BG_Zone_2 ...)
+# Locked planets survive clear and join the next generate as "already placed planets".
+# The BG_Locked tag is for planets made as StaticMeshActors before the BP (no checkbox, so a tag locks them).
+# The zone tag tells which zone's Count a locked planet uses up (BG_Zone_1, BG_Zone_2 ...).
+LOCK_TAG = "BG_Locked"
+ACCESSORY_TAG = "BG_Accessory"
+ZONE_TAG_PREFIX = "BG_Zone_"
 
 
 def get_settings():
@@ -1660,7 +1682,7 @@ def in_spawn_area(direction):
     return 0.0 &lt;= direction[2] &lt;= MAX_Z_DIR
 
 
-def estimate_view_density(layout_items):
+def estimate_view_density(layout_items, locked_layout):
     # 전체 배치 단위(행성 + 무리)의 시각적 질량 합 / 스폰 영역 입체각 = 평균 밀도
     # 스폰 영역(z 0 ~ MAX_Z_DIR 띠)의 입체각 = 2π·MAX_Z_DIR
     # 배치 전이라 거리는 구간 중간값으로 추정.
@@ -1669,7 +1691,10 @@ def estimate_view_density(layout_items):
     # Solid angle of the spawn band (z from 0 to MAX_Z_DIR) = 2 * pi * MAX_Z_DIR.
     # Placement hasn't happened yet, so distance is estimated as the zone's midpoint.
     # Using this as the baseline keeps the whole thing normalized even when Count or scales change.
+    # 락 걸린 행성은 이미 놓여 있으니 실제 겉보기 크기로 더함
+    # Locked planets are already placed, so their actual apparent size is added.
     total_mass = sum(view_mass(item["alpha_est"]) for item in layout_items)
+    total_mass += sum(item["mass"] for item in locked_layout)
 
     return total_mass / (2.0 * math.pi * MAX_Z_DIR)
 
@@ -1998,19 +2023,28 @@ def place_cluster(cluster, placed, layout, min_gap, size_spacing, density_budget
     return placed_count
 
 
-def place_main_planets(zones, min_gap, size_spacing, cluster_chance):
+def place_main_planets(zones, min_gap, size_spacing, cluster_chance, locked):
+    # 락 걸린 행성은 자기 구간 Count를 차지함 -&gt; Count 5에 락 1개면 4개만 새로 뽑음
+    # Locked planets use up their zone's Count -&gt; Count 5 with 1 locked spawns only 4 new.
+    locked_main = [planet for planet in locked if not planet["accessory"]]
     pending = []
 
     for zone_index, zone in enumerate(zones, start=1):
+        locked_count = sum(
+            1 for planet in locked_main if planet["zone"] == zone_index
+        )
+        count = max(0, zone["count"] - locked_count)
+
         unreal.log(
             f"Zone {zone_index}: distance "
             f"{zone['min_distance']:.0f} ~ {zone['max_distance']:.0f}, "
-            f"scale {zone['min_scale']} ~ {zone['max_scale']}"
+            f"scale {zone['min_scale']} ~ {zone['max_scale']}, "
+            f"count {count} (+{locked_count} locked)"
         )
 
         mid_distance = (zone["min_distance"] + zone["max_distance"]) * 0.5
 
-        for _ in range(zone["count"]):
+        for _ in range(count):
             scale = random.uniform(
                 zone["min_scale"],
                 zone["max_scale"]
@@ -2027,7 +2061,7 @@ def place_main_planets(zones, min_gap, size_spacing, cluster_chance):
             })
 
     if not pending:
-        return []
+        return list(locked)
 
     pending.sort(key=lambda item: item["alpha_est"], reverse=True)
 
@@ -2051,10 +2085,16 @@ def place_main_planets(zones, min_gap, size_spacing, cluster_chance):
     layout_items = big_items + scattered + clusters
     layout_items.sort(key=lambda item: item["alpha_est"], reverse=True)
 
-    density_budget = estimate_view_density(layout_items) * DENSITY_TOLERANCE
+    density_budget = (
+        estimate_view_density(layout_items, locked_main) * DENSITY_TOLERANCE
+    )
 
-    placed = []   # 실제 행성 (3D 간격, 화면 겹침 검사용) / Real planets (3D spacing, on-screen overlap checks)
-    layout = []   # 배치 단위 = 행성 + 무리 원판 (컴포지션 검사용) / Layout items = planets + cluster discs (composition checks)
+    # 락 걸린 행성을 먼저 넣어두면 간격/밀도/겹침 규칙이 걔들까지 포함해서 적용됨.
+    # 악세사리는 컴포지션 단위가 아니라서 placed(3D 간격, 화면 겹침)에만 넣음
+    # Seeding locked planets first makes the spacing/density/overlap rules include them.
+    # Accessories aren't composition items, so they only go into placed (3D spacing, on-screen overlap).
+    placed = list(locked)       # 실제 행성 (3D 간격, 화면 겹침 검사용) / Real planets (3D spacing, on-screen overlap checks)
+    layout = list(locked_main)  # 배치 단위 = 행성 + 무리 원판 (컴포지션 검사용) / Layout items = planets + cluster discs (composition checks)
 
     for item in layout_items:
         if item["kind"] == "cluster":
@@ -2066,7 +2106,10 @@ def place_main_planets(zones, min_gap, size_spacing, cluster_chance):
                 item, placed, layout, min_gap, size_spacing, density_budget
             )
 
-    unreal.log(f"Main planets: {len(placed)} / {len(pending)} placed")
+    unreal.log(
+        f"Main planets: {len(placed) - len(locked)} / {len(pending)} placed "
+        f"(+{len(locked)} locked)"
+    )
 
     return placed
 
@@ -2084,9 +2127,12 @@ def place_accessory_planets(placed, accessory, min_gap):
     # At first this was a cone (0-30 degrees), but near the center arena, accessory and parent
     # lined up, so the accessory overlapped the parent's front and looked ugly.
     # So it became a ring with the center cut out (45-75 degrees) -&gt; still in front, but offset to the side.
+    # 락 걸린 행성은 지금 모습 그대로 두려고 새 악세사리를 안 붙임
+    # Locked planets stay exactly as they are, so they get no new accessory.
     parents = [
         planet for planet in placed
-        if planet["scale"] &gt;= accessory["parent_min_scale"]
+        if not planet.get("locked")
+        and planet["scale"] &gt;= accessory["parent_min_scale"]
     ]
 
     accessories = []
@@ -2157,9 +2203,37 @@ def place_accessory_planets(placed, accessory, min_gap):
     return accessories
 
 
-def spawn_planet(actor_subsystem, mesh, location, scale, label):
+def next_free_label(prefix, used_labels):
+    # 락 걸린 행성이 BG_Planet_3 같은 라벨을 이미 쓰고 있을 수 있어서 빈 번호를 찾음
+    # A locked planet may already use a label like BG_Planet_3, so find a free number.
+    index = 0
+
+    while f"{prefix}{index}" in used_labels:
+        index += 1
+
+    label = f"{prefix}{index}"
+    used_labels.add(label)
+
+    return label
+
+
+def load_planet_class():
+    planet_class = unreal.EditorAssetLibrary.load_blueprint_class(
+        PLANET_BP_PATH
+    )
+
+    if not planet_class:
+        raise RuntimeError(
+            f"Could not load planet BP: {PLANET_BP_PATH} "
+            f"(StaticMeshActor parent + Instance Editable bool '{LOCK_PROPERTY}')"
+        )
+
+    return planet_class
+
+
+def spawn_planet(actor_subsystem, planet_class, mesh, location, scale, label, tags):
     planet = actor_subsystem.spawn_actor_from_class(
-        unreal.StaticMeshActor,
+        planet_class,
         unreal.Vector(*location),
         unreal.Rotator()
     )
@@ -2175,6 +2249,119 @@ def spawn_planet(actor_subsystem, mesh, location, scale, label):
     )
 
     planet.set_actor_label(label)
+    planet.set_editor_property("tags", [unreal.Name(tag) for tag in tags])
+
+
+def actor_tags(actor):
+    return [str(tag) for tag in actor.get_editor_property("tags")]
+
+
+def is_planet_actor(actor):
+    return actor.get_actor_label().startswith(PLANET_LABEL_PREFIX)
+
+
+def is_locked(actor):
+    # BP 행성은 Details의 Locked 체크박스, 예전 StaticMeshActor 행성은 BG_Locked 태그
+    # BP planets use the Locked checkbox in Details, old StaticMeshActor planets use the BG_Locked tag.
+    try:
+        if actor.get_editor_property(LOCK_PROPERTY):
+            return True
+    except Exception:
+        pass
+
+    return LOCK_TAG in actor_tags(actor)
+
+
+def set_locked(actor, locked):
+    # 체크박스가 있으면 체크박스로, 없으면 태그로. 풀 때는 둘 다 지움
+    # Use the checkbox if there is one, otherwise the tag. Unlocking clears both.
+    tags = [tag for tag in actor_tags(actor) if tag != LOCK_TAG]
+
+    try:
+        actor.set_editor_property(LOCK_PROPERTY, locked)
+    except Exception:
+        if locked:
+            tags.append(LOCK_TAG)
+
+    return tags
+
+
+def is_accessory_actor(actor):
+    return (
+        ACCESSORY_TAG in actor_tags(actor)
+        or actor.get_actor_label().startswith(ACCESSORY_LABEL_PREFIX)
+    )
+
+
+def guess_zone(zones, location, scale):
+    # Zone 태그가 없는 행성(락 기능 전에 만든 것)은 스케일/거리가 제일 잘 맞는 구간으로 침.
+    # 무리의 제일 작은 멤버는 MinScale 밑으로 줄어들 수 있어서 딱 맞는 구간이 없을 수도 있음
+    # Planets without a zone tag (made before locking existed) get the zone their scale/distance fits best.
+    # A cluster's smallest member may be shrunk below MinScale, so an exact match may not exist.
+    distance = vec_length(location)
+
+    def miss(value, low, high):
+        if value &lt; low:
+            return (low - value) / max(low, 1e-6)
+        if value &gt; high:
+            return (value - high) / max(high, 1e-6)
+        return 0.0
+
+    scores = [
+        miss(scale, zone["min_scale"], zone["max_scale"])
+        + miss(distance, zone["min_distance"], zone["max_distance"])
+        for zone in zones
+    ]
+
+    return scores.index(min(scores)) + 1
+
+
+def actor_zone(actor, zones, location, scale):
+    for tag in actor_tags(actor):
+        if tag.startswith(ZONE_TAG_PREFIX):
+            try:
+                return int(tag[len(ZONE_TAG_PREFIX):])
+            except ValueError:
+                pass
+
+    return guess_zone(zones, location, scale)
+
+
+def collect_locked_planets(zones):
+    # 락 걸린 행성을 배치 로직에서 쓰는 형태로 읽어옴
+    # Read locked planets into the shape the placement logic uses.
+    actor_subsystem = unreal.get_editor_subsystem(
+        unreal.EditorActorSubsystem
+    )
+
+    locked = []
+
+    for actor in actor_subsystem.get_all_level_actors():
+        if not is_planet_actor(actor) or not is_locked(actor):
+            continue
+
+        loc = actor.get_actor_location()
+        location = (loc.x, loc.y, loc.z)
+        scale = actor.get_actor_scale3d().x
+        radius = planet_radius(scale)
+        direction, alpha = to_view(location, radius)
+        accessory = is_accessory_actor(actor)
+
+        locked.append({
+            "location": location,
+            "scale": scale,
+            "radius": radius,
+            "zone": None if accessory else actor_zone(
+                actor, zones, location, scale
+            ),
+            "direction": direction,
+            "alpha": alpha,
+            "mass": view_mass(alpha),
+            "locked": True,
+            "accessory": accessory,
+        })
+
+    return locked
 
 
 def generate_planets():
@@ -2186,8 +2373,10 @@ def generate_planets():
     size_spacing = settings.get_editor_property("SizeSpacing")
     cluster_chance = settings.get_editor_property("ClusterChance")
 
+    locked = collect_locked_planets(zones)
+
     placed = place_main_planets(
-        zones, min_gap, size_spacing, cluster_chance
+        zones, min_gap, size_spacing, cluster_chance, locked
     )
     accessories = place_accessory_planets(placed, accessory, min_gap)
 
@@ -2195,39 +2384,124 @@ def generate_planets():
         unreal.EditorActorSubsystem
     )
 
+    planet_class = load_planet_class()
     mesh = unreal.load_asset("/Engine/BasicShapes/Sphere")
 
-    for index, planet in enumerate(placed):
+    used_labels = {
+        actor.get_actor_label()
+        for actor in actor_subsystem.get_all_level_actors()
+        if is_planet_actor(actor)
+    }
+
+    # 락 걸린 행성은 이미 레벨에 있으니 새로 뽑힌 것만 스폰
+    # Locked planets are already in the level, so only spawn the new ones.
+    for planet in placed:
+        if planet.get("locked"):
+            continue
+
+        label = next_free_label(PLANET_LABEL_PREFIX, used_labels)
+
         spawn_planet(
-            actor_subsystem, mesh,
+            actor_subsystem, planet_class, mesh,
             planet["location"], planet["scale"],
-            f"BG_Planet_{index}"
+            label,
+            [f"{ZONE_TAG_PREFIX}{planet['zone']}"]
         )
 
         unreal.log(
-            f"Planet {index} (zone {planet['zone']}): "
+            f"{label} (zone {planet['zone']}): "
             f"scale = {planet['scale']}"
         )
 
     # 라벨이 BG_Planet_로 시작해야 clear_planets에서 같이 지워짐
     # Labels must start with BG_Planet_ so clear_planets removes them too.
-    for index, planet in enumerate(accessories):
+    for planet in accessories:
         spawn_planet(
-            actor_subsystem, mesh,
+            actor_subsystem, planet_class, mesh,
             planet["location"], planet["scale"],
-            f"BG_Planet_Acc_{index}"
+            next_free_label(ACCESSORY_LABEL_PREFIX, used_labels),
+            [ACCESSORY_TAG]
         )
 
 
 def clear_planets():
+    # 락 걸린 행성은 남김
+    # Locked planets are kept.
     actor_subsystem = unreal.get_editor_subsystem(
         unreal.EditorActorSubsystem
     )
 
+    kept = 0
+
     for actor in actor_subsystem.get_all_level_actors():
-        if actor.get_actor_label().startswith("BG_Planet_"):
-            actor_subsystem.destroy_actor(actor)
-</code></pre></div></details></section>`
+        if not is_planet_actor(actor):
+            continue
+
+        if is_locked(actor):
+            kept += 1
+            continue
+
+        actor_subsystem.destroy_actor(actor)
+
+    if kept:
+        unreal.log(f"Clear: kept {kept} locked planets")
+
+
+def set_selected_locked(locked):
+    # 아웃라이너/뷰포트에서 선택한 행성에 락을 걸거나 풂.
+    # 락 걸 때 Zone 태그가 없으면(예전에 만든 행성) 추정한 구간을 태그로 박아둠
+    # Lock or unlock the planets selected in the outliner/viewport.
+    # When locking a planet with no zone tag (made earlier), the guessed zone is written as a tag.
+    actor_subsystem = unreal.get_editor_subsystem(
+        unreal.EditorActorSubsystem
+    )
+
+    actors = [
+        actor for actor in actor_subsystem.get_selected_level_actors()
+        if is_planet_actor(actor)
+    ]
+
+    if not actors:
+        unreal.log_warning("No BG_Planet_ actors selected")
+        return
+
+    zones = read_zones(get_settings()) if locked else None
+
+    with unreal.ScopedEditorTransaction(
+        "Lock Planets" if locked else "Unlock Planets"
+    ):
+        for actor in actors:
+            actor.modify()
+
+            tags = set_locked(actor, locked)
+
+            if locked:
+                has_zone = any(tag.startswith(ZONE_TAG_PREFIX) for tag in tags)
+
+                if not has_zone and not is_accessory_actor(actor):
+                    loc = actor.get_actor_location()
+                    zone = guess_zone(
+                        zones,
+                        (loc.x, loc.y, loc.z),
+                        actor.get_actor_scale3d().x
+                    )
+                    tags.append(f"{ZONE_TAG_PREFIX}{zone}")
+
+            actor.set_editor_property(
+                "tags", [unreal.Name(tag) for tag in tags]
+            )
+
+    unreal.log(
+        f"{'Locked' if locked else 'Unlocked'} {len(actors)} planets"
+    )
+
+
+def lock_selected():
+    set_selected_locked(True)
+
+
+def unlock_selected():
+    set_selected_locked(False)</code></pre></div></details></section>`
         }
       ]
     },
@@ -2252,7 +2526,7 @@ def clear_planets():
             {
               title: "우주 배경 자동 배치 툴",
               category: "Technical",
-              htmlContent: `<section><h2>위치가 아니라 "어떻게 보이는가"를 기준으로 행성을 배치하는 에디터 툴</h2><p class="case-study-lede">저를 위해서가 아니라 함께 작업하는 아티스트 2명을 위해 만든 툴입니다 — 개수·스케일·거리·군집 같은 모든 조절값이 아티스트가 직접 편집하는 DataAsset 하나에 들어있고, 원클릭 generate/clear로 하늘 구성을 스스로 재생성해볼 수 있습니다. 우주 배경은 항상 아레나라는 고정된 한 지점에서만 보이기 때문에, 실제 3D 좌표 대신 겉보기 크기와 화면상 간격을 기준으로 배치 로직을 설계했고, 아티스트들과 함께 에디터에서 결과를 보며 구도와 군집 규칙을 반복적으로 다듬었습니다.</p>${renderEngineeringCaseStudy({labels:{systemMap:"시스템 구조",problem:"문제",decision:"결정",implementation:"구현",verification:"검증",keyDecisions:"핵심 결정",decisionLog:"결정 로그",decisionTitle:"왜 이렇게 구조화했는가",system:"시스템",choice:"선택",why:"이유",tradeoff:"트레이드오프",codeEvidence:"코드 근거",viewSource:"소스 보기 ↗"},metrics:[{icon:"◉",value:"뷰 공간",label:"구도 계산 (3D 거리 아님)"},{icon:"⌘",value:"DataAsset",label:"아티스트가 직접 튜닝"},{icon:"◈",value:"대장/졸개",label:"군집 크기 계층"},{icon:"↻",value:"멱등성",label:"재생성/정리, 반복 실행 가능"}],architecture:[{title:"설정 DataAsset",detail:"아티스트가 조절 가능한 구간·군집·악세서리 파라미터"},{title:"구간·군집 계획",detail:"개수/크기를 먼저 정하고 군집을 하나의 '원판'으로 미리 구성"},{title:"뷰 공간 구도 배치",detail:"겉보기 크기가 큰 것부터, 간격/밀도는 아레나 기준 각도로 검사"},{title:"악세서리 배치",detail:"조건을 만족하는 기준 행성에 링 제한을 걸어 위성 부착"},{title:"스폰 / 정리",detail:"라벨 프리픽스 기반으로 멱등적으로 스폰·정리"}],cases:[{label:"구도",title:"실제 거리 대신 겉보기 크기로 배치하기",problem:"배경은 항상 고정된 아레나 시점에서만 보이기 때문에 실제 3D 거리는 화면에 실제로 보이는 것과 일치하지 않습니다 — 멀리 있는 큰 행성과 가까운 작은 행성이 화면에선 같은 크기로 보일 수 있고, 단순 랜덤 배치는 균형이 안 맞는 하늘을 만들었습니다.",decision:"겉보기 크기, 간격, 주변 밀도를 전부 3D 위치가 아니라 아레나 기준 각도·입체각으로 계산합니다.",implementation:"to_view()가 행성의 위치·반지름을 겉보기 각반지름으로 변환하고, fits_composition()이 기하평균 기반 간격 규칙(큰 것끼리는 멀리, 작은 것끼리는 가까이 가능)과 확률적 밀도 예산(이미 붐비는 영역은 잘 안 들어오되, 딱 막지는 않아 빈 공간이 생기지 않게)을 적용합니다.",verification:"툴 자체의 재생성/정리 기능으로 에디터에서 직접 반복 확인하며, 하늘이 한쪽으로 쏠리지 않고 고르게 느껴질 때까지 다듬었습니다."},{label:"반복 개선",title:"커브로는 표현할 수 없었던 구도 요구사항",problem:"처음엔 ScaleDistribution 커브로 크기를 샘플링했는데, 커브로는 '이 크기대는 몇 개, 이 거리쯤'을 표현하기 어려웠고, 전체 거리를 그래디언트 스톱처럼 비율로 나누는 것도 블루프린트 DataAsset에서는 한 칸을 바꿀 때 나머지가 자동으로 재정규화되지 않아 합이 1로 안 맞았습니다.",decision:"커브 대신 명시적인 ScaleZones 배열로 바꿨습니다 — 각 구간마다 개수·스케일 범위·거리 범위를 직접 지정하고, 전체 범위를 나누는 대신 구간끼리 겹치는 것도 허용했습니다.",implementation:"블루프린트 스트럭트 멤버 이름이 'Count_2_ABCD...'처럼 맹글링되는 문제도 만나서, get_struct_value()가 get_editor_property() 실패 시 export_text()를 직접 파싱하는 폴백을 추가했습니다.",verification:"매 실행마다 구간별 범위와 개수를 Output Log에 남겨서, DataAsset을 튜닝하는 아티스트가 실제로 뭐가 읽혔는지 바로 확인할 수 있게 했습니다."},{label:"군집화",title:"'부익부' 뭉침과 균일한 군집 문제 해결",problem:"처음 군집 로직은 작은 행성을 이미 놓인 작은 행성 근처에 확률적으로 떨어뜨렸는데, 이게 한쪽으로 계속 몰려서(부익부) 큰 덩어리 하나와 흩어진 큰 행성들로만 나뉘었습니다. 이걸 고친 뒤에도, 크기가 비슷한 멤버들을 원판 안에 고르게 뿌리니 알 무더기처럼 부자연스러워 보였습니다.",decision:"군집을 1/n 가중치로 미리 크기별로 만들어(작은 군집은 많고 큰 군집은 가끔) 각 군집을 큰 행성 하나와 같은 간격/밀도 규칙을 적용받는 원판으로 배치합니다. 그리고 군집 안에서는 멤버 크기를 똑같이 두지 않고 대장+졸개 크기 계층을 강제합니다.",implementation:"build_clusters()가 대장(가장 큰 것)과 가장 작은 멤버를 뽑아 최소 크기 비율을 강제하고, cluster_offset()이 원판에 균등하게 뿌리는 대신 가우시안(중심은 촘촘, 가장자리는 듬성)으로 멤버를 흩뿌리며 군집마다 살짝 타원형으로 늘립니다.",verification:"에디터에서 시각적으로 확인한 뒤 군집 최대 인원을 12명에서 7명으로 줄였습니다(너무 빽빽해 보여서)."}],decisions:[{system:"배경 배치",choice:"뷰 공간 구도(각도/입체각) 계산",reason:"고정된 카메라 한 지점에서 실제로 보이는 것과 일치시키기 위해.",tradeoff:"단순 3D 스캐터보다 계산이 복잡함 — 배치마다 O(n²) 구도 검사."},{system:"크기/개수 제어",choice:"ScaleZones DataAsset 배열",reason:"Python 코드를 건드리지 않고 구간별로 아티스트가 직접 튜닝 가능.",tradeoff:"구간끼리 거리를 깔끔하게 나누지 않고 겹칠 수 있음."},{system:"작은 행성",choice:"미리 구성한 대장/졸개 군집",reason:"균일한 산포 대신 자연스럽고 불균일한 그룹으로 보임.",tradeoff:"메인 배치 루프 전에 별도 군집화 단계가 추가됨."},{system:"악세서리 위성",choice:"전체 원뿔이 아닌 링 제한 방향",reason:"기준 행성에 숨거나 겹치지 않고 항상 옆으로 보이게 하기 위해.",tradeoff:"배치 가능 영역이 좁아져 자리 재시도가 늘어남."}],note:"결과: 이 정도 구도 판단(아레나라는 고정 시점에서 겉보기 크기와 간격을 매번 눈으로 확인)까지 신경 써서 행성을 손으로 배치하려면 한 번 배치할 때마다 몇 시간씩 걸립니다 — 이 툴을 쓰면 generate/clear 한 번 클릭으로 끝납니다. (비공개 Perforce 저장소라 링크할 수 있는 공개 저장소가 없어서, 위 케이스 스터디는 실제 구현과 코드 내 설계 노트를 바탕으로 직접 설명한 것입니다.)"})}<details class="technical-deep-dive full-source"><summary><span>코드</span><strong>전체 소스 보기 — space_background.py</strong></summary><div class="technical-deep-dive-body"><p>비공개 Perforce 저장소에서 그대로 붙여넣은 코드입니다 (링크할 수 있는 공개 저장소가 없음) — 위에서 설명한 스크립트의 현재 버전 그대로입니다.</p><pre><code>import unreal
+              htmlContent: `<section><h2>위치가 아니라 "어떻게 보이는가"를 기준으로 행성을 배치하는 에디터 툴</h2><p class="case-study-lede">저를 위해서가 아니라 함께 작업하는 아티스트 2명을 위해 만든 툴입니다 — 개수·스케일·거리·군집 같은 모든 조절값이 아티스트가 직접 편집하는 DataAsset 하나에 들어있고, 원클릭 generate/clear로 하늘 구성을 스스로 재생성해볼 수 있습니다. 우주 배경은 항상 아레나라는 고정된 한 지점에서만 보이기 때문에, 실제 3D 좌표 대신 겉보기 크기와 화면상 간격을 기준으로 배치 로직을 설계했고, 아티스트들과 함께 에디터에서 결과를 보며 구도와 군집 규칙을 반복적으로 다듬었습니다.</p>${renderEngineeringCaseStudy({labels:{systemMap:"시스템 구조",problem:"문제",decision:"결정",implementation:"구현",verification:"검증",keyDecisions:"핵심 결정",decisionLog:"결정 로그",decisionTitle:"왜 이렇게 구조화했는가",system:"시스템",choice:"선택",why:"이유",tradeoff:"트레이드오프",codeEvidence:"코드 근거",viewSource:"소스 보기 ↗"},metrics:[{icon:"◉",value:"뷰 공간",label:"구도 계산 (3D 거리 아님)"},{icon:"⌘",value:"DataAsset",label:"아티스트가 직접 튜닝"},{icon:"◈",value:"대장/졸개",label:"군집 크기 계층"},{icon:"↻",value:"멱등성",label:"재생성/정리, 반복 실행 가능"}],architecture:[{title:"설정 DataAsset",detail:"아티스트가 조절 가능한 구간·군집·악세서리 파라미터"},{title:"구간·군집 계획",detail:"개수/크기를 먼저 정하고 군집을 하나의 '원판'으로 미리 구성"},{title:"뷰 공간 구도 배치",detail:"겉보기 크기가 큰 것부터, 간격/밀도는 아레나 기준 각도로 검사"},{title:"악세서리 배치",detail:"조건을 만족하는 기준 행성에 링 제한을 걸어 위성 부착"},{title:"스폰 / 정리",detail:"라벨 프리픽스 기반으로 멱등적으로 스폰·정리"}],cases:[{label:"구도",title:"실제 거리 대신 겉보기 크기로 배치하기",problem:"배경은 항상 고정된 아레나 시점에서만 보이기 때문에 실제 3D 거리는 화면에 실제로 보이는 것과 일치하지 않습니다 — 멀리 있는 큰 행성과 가까운 작은 행성이 화면에선 같은 크기로 보일 수 있고, 단순 랜덤 배치는 균형이 안 맞는 하늘을 만들었습니다.",decision:"겉보기 크기, 간격, 주변 밀도를 전부 3D 위치가 아니라 아레나 기준 각도·입체각으로 계산합니다.",implementation:"to_view()가 행성의 위치·반지름을 겉보기 각반지름으로 변환하고, fits_composition()이 기하평균 기반 간격 규칙(큰 것끼리는 멀리, 작은 것끼리는 가까이 가능)과 확률적 밀도 예산(이미 붐비는 영역은 잘 안 들어오되, 딱 막지는 않아 빈 공간이 생기지 않게)을 적용합니다.",verification:"툴 자체의 재생성/정리 기능으로 에디터에서 직접 반복 확인하며, 하늘이 한쪽으로 쏠리지 않고 고르게 느껴질 때까지 다듬었습니다."},{label:"반복 개선",title:"커브로는 표현할 수 없었던 구도 요구사항",problem:"처음엔 ScaleDistribution 커브로 크기를 샘플링했는데, 커브로는 '이 크기대는 몇 개, 이 거리쯤'을 표현하기 어려웠고, 전체 거리를 그래디언트 스톱처럼 비율로 나누는 것도 블루프린트 DataAsset에서는 한 칸을 바꿀 때 나머지가 자동으로 재정규화되지 않아 합이 1로 안 맞았습니다.",decision:"커브 대신 명시적인 ScaleZones 배열로 바꿨습니다 — 각 구간마다 개수·스케일 범위·거리 범위를 직접 지정하고, 전체 범위를 나누는 대신 구간끼리 겹치는 것도 허용했습니다.",implementation:"블루프린트 스트럭트 멤버 이름이 'Count_2_ABCD...'처럼 맹글링되는 문제도 만나서, get_struct_value()가 get_editor_property() 실패 시 export_text()를 직접 파싱하는 폴백을 추가했습니다.",verification:"매 실행마다 구간별 범위와 개수를 Output Log에 남겨서, DataAsset을 튜닝하는 아티스트가 실제로 뭐가 읽혔는지 바로 확인할 수 있게 했습니다."},{label:"군집화",title:"'부익부' 뭉침과 균일한 군집 문제 해결",problem:"처음 군집 로직은 작은 행성을 이미 놓인 작은 행성 근처에 확률적으로 떨어뜨렸는데, 이게 한쪽으로 계속 몰려서(부익부) 큰 덩어리 하나와 흩어진 큰 행성들로만 나뉘었습니다. 이걸 고친 뒤에도, 크기가 비슷한 멤버들을 원판 안에 고르게 뿌리니 알 무더기처럼 부자연스러워 보였습니다.",decision:"군집을 1/n 가중치로 미리 크기별로 만들어(작은 군집은 많고 큰 군집은 가끔) 각 군집을 큰 행성 하나와 같은 간격/밀도 규칙을 적용받는 원판으로 배치합니다. 그리고 군집 안에서는 멤버 크기를 똑같이 두지 않고 대장+졸개 크기 계층을 강제합니다.",implementation:"build_clusters()가 대장(가장 큰 것)과 가장 작은 멤버를 뽑아 최소 크기 비율을 강제하고, cluster_offset()이 원판에 균등하게 뿌리는 대신 가우시안(중심은 촘촘, 가장자리는 듬성)으로 멤버를 흩뿌리며 군집마다 살짝 타원형으로 늘립니다.",verification:"에디터에서 시각적으로 확인한 뒤 군집 최대 인원을 12명에서 7명으로 줄였습니다(너무 빽빽해 보여서)."},{label:"락",title:"반복 작업 중 마음에 드는 행성을 락으로 고정하기",problem:"재생성할 때마다 하늘 전체가 바뀐어서, 배치 결과의 90%가 마음에 들어도 나머지 10%를 고쿄오려면 전부 다시 굴려야 했습니다 — 특정 행성만 그대로 두고 나머지만 다시 섞을 방법이 없었습니다.",decision:"행성별 Locked 플래그를 추가했습니다. 락 걸린 행성은 Clear에서 지워지지 않고, 다음 Generate에 이미 배치된 행성으로 다시 들어가서 새 행성들이 그 자리를 피해 배치됩니다.",implementation:"최근에 만든 행성은 Blueprint의 Instance Editable bool(Details 패널의 체크박스)로 Locked를 저장하지만, 그 전에 StaticMeshActor로 만든 예전 행성은 해당 프로퍼티가 없어서 is_locked()/set_locked()가 프로퍼티 조회 실패 시 BG_Locked 태그로 대체합니다. 락 걸린 행성은 BG_Zone_N 태그도 같이 가지고 있어서, 나중에 Generate할 때 어느 구간(Zone)의 Count에서 뼼야 할지 알 수 있습니다 — Zone 기능이 생기기 전에 락 걸린 행성은 태그가 없으므로, guess_zone()이 스케일/거리 범위가 가장 잘 맞는 구간을 추정합니다.",verification:"Lock/Unlock은 되돌릴 수 있는 에디터 트랜잭션 하나로 실행되며 몇 개를 (언)락했는지 로그로 남기고, Clear도 몇 개의 락 걸린 행성을 유지했는지 로그로 남겨서 아티스트가 락 걸은 행성이 사라지지 않았는지 확인할 수 있습니다."}],decisions:[{system:"배경 배치",choice:"뷰 공간 구도(각도/입체각) 계산",reason:"고정된 카메라 한 지점에서 실제로 보이는 것과 일치시키기 위해.",tradeoff:"단순 3D 스캐터보다 계산이 복잡함 — 배치마다 O(n²) 구도 검사."},{system:"크기/개수 제어",choice:"ScaleZones DataAsset 배열",reason:"Python 코드를 건드리지 않고 구간별로 아티스트가 직접 튜닝 가능.",tradeoff:"구간끼리 거리를 깔끔하게 나누지 않고 겹칠 수 있음."},{system:"작은 행성",choice:"미리 구성한 대장/졸개 군집",reason:"균일한 산포 대신 자연스럽고 불균일한 그룹으로 보임.",tradeoff:"메인 배치 루프 전에 별도 군집화 단계가 추가됨."},{system:"악세서리 위성",choice:"전체 원뿔이 아닌 링 제한 방향",reason:"기준 행성에 숨거나 겹치지 않고 항상 옆으로 보이게 하기 위해.",tradeoff:"배치 가능 영역이 좁아져 자리 재시도가 늘어남."}],note:"결과: 이 정도 구도 판단(아레나라는 고정 시점에서 겉보기 크기와 간격을 매번 눈으로 확인)까지 신경 써서 행성을 손으로 배치하려면 한 번 배치할 때마다 몇 시간씩 걸립니다 — 이 툴을 쓰면 generate/clear 한 번 클릭으로 끝납니다. (비공개 Perforce 저장소라 링크할 수 있는 공개 저장소가 없어서, 위 케이스 스터디는 실제 구현과 코드 내 설계 노트를 바탕으로 직접 설명한 것입니다.)"})}<details class="technical-deep-dive full-source"><summary><span>코드</span><strong>전체 소스 보기 — space_background.py</strong></summary><div class="technical-deep-dive-body"><p>비공개 Perforce 저장소에서 그대로 붙여넣은 코드입니다 (링크할 수 있는 공개 저장소가 없음) — 위에서 설명한 스크립트의 현재 버전 그대로입니다.</p><pre><code>import unreal
 import random
 import math
 
@@ -2327,6 +2601,28 @@ CLUSTER_MAX_STRETCH = 1.8
 # Raising MIN pushes accessories further to the side; MAX near 90 reaches the parent's side.
 ACCESSORY_RING_MIN_ANGLE = 45.0
 ACCESSORY_RING_MAX_ANGLE = 75.0
+
+# 이 라벨로 시작하는 액터만 배경 행성으로 봄
+# Only actors whose label starts with this count as background planets.
+PLANET_LABEL_PREFIX = "BG_Planet_"
+ACCESSORY_LABEL_PREFIX = "BG_Planet_Acc_"
+
+# 행성 액터 BP. StaticMeshActor를 부모로 하고 Instance Editable bool 변수 "Locked"를 가짐
+# -&gt; 행성 클릭하면 Details에 Locked 체크박스가 뜸
+# Planet actor BP. Parent is StaticMeshActor, with an Instance Editable bool variable "Locked"
+# -&gt; clicking a planet shows a Locked checkbox in Details.
+PLANET_BP_PATH = "/Game/Editor/BP_BGPlanet"
+LOCK_PROPERTY = "Locked"
+
+# 락 걸린 행성은 clear에서 안 지워지고, 다음 generate에 "이미 놓인 행성"으로 들어감
+# BG_Locked 태그는 BP 전에 StaticMeshActor로 만든 행성용 (체크박스가 없으니 태그로 락)
+# Zone 태그는 락 걸린 행성이 어느 구간 Count를 차지하는지 알려줌 (BG_Zone_1, BG_Zone_2 ...)
+# Locked planets survive clear and join the next generate as "already placed planets".
+# The BG_Locked tag is for planets made as StaticMeshActors before the BP (no checkbox, so a tag locks them).
+# The zone tag tells which zone's Count a locked planet uses up (BG_Zone_1, BG_Zone_2 ...).
+LOCK_TAG = "BG_Locked"
+ACCESSORY_TAG = "BG_Accessory"
+ZONE_TAG_PREFIX = "BG_Zone_"
 
 
 def get_settings():
@@ -2610,7 +2906,7 @@ def in_spawn_area(direction):
     return 0.0 &lt;= direction[2] &lt;= MAX_Z_DIR
 
 
-def estimate_view_density(layout_items):
+def estimate_view_density(layout_items, locked_layout):
     # 전체 배치 단위(행성 + 무리)의 시각적 질량 합 / 스폰 영역 입체각 = 평균 밀도
     # 스폰 영역(z 0 ~ MAX_Z_DIR 띠)의 입체각 = 2π·MAX_Z_DIR
     # 배치 전이라 거리는 구간 중간값으로 추정.
@@ -2619,7 +2915,10 @@ def estimate_view_density(layout_items):
     # Solid angle of the spawn band (z from 0 to MAX_Z_DIR) = 2 * pi * MAX_Z_DIR.
     # Placement hasn't happened yet, so distance is estimated as the zone's midpoint.
     # Using this as the baseline keeps the whole thing normalized even when Count or scales change.
+    # 락 걸린 행성은 이미 놓여 있으니 실제 겉보기 크기로 더함
+    # Locked planets are already placed, so their actual apparent size is added.
     total_mass = sum(view_mass(item["alpha_est"]) for item in layout_items)
+    total_mass += sum(item["mass"] for item in locked_layout)
 
     return total_mass / (2.0 * math.pi * MAX_Z_DIR)
 
@@ -2948,19 +3247,28 @@ def place_cluster(cluster, placed, layout, min_gap, size_spacing, density_budget
     return placed_count
 
 
-def place_main_planets(zones, min_gap, size_spacing, cluster_chance):
+def place_main_planets(zones, min_gap, size_spacing, cluster_chance, locked):
+    # 락 걸린 행성은 자기 구간 Count를 차지함 -&gt; Count 5에 락 1개면 4개만 새로 뽑음
+    # Locked planets use up their zone's Count -&gt; Count 5 with 1 locked spawns only 4 new.
+    locked_main = [planet for planet in locked if not planet["accessory"]]
     pending = []
 
     for zone_index, zone in enumerate(zones, start=1):
+        locked_count = sum(
+            1 for planet in locked_main if planet["zone"] == zone_index
+        )
+        count = max(0, zone["count"] - locked_count)
+
         unreal.log(
             f"Zone {zone_index}: distance "
             f"{zone['min_distance']:.0f} ~ {zone['max_distance']:.0f}, "
-            f"scale {zone['min_scale']} ~ {zone['max_scale']}"
+            f"scale {zone['min_scale']} ~ {zone['max_scale']}, "
+            f"count {count} (+{locked_count} locked)"
         )
 
         mid_distance = (zone["min_distance"] + zone["max_distance"]) * 0.5
 
-        for _ in range(zone["count"]):
+        for _ in range(count):
             scale = random.uniform(
                 zone["min_scale"],
                 zone["max_scale"]
@@ -2977,7 +3285,7 @@ def place_main_planets(zones, min_gap, size_spacing, cluster_chance):
             })
 
     if not pending:
-        return []
+        return list(locked)
 
     pending.sort(key=lambda item: item["alpha_est"], reverse=True)
 
@@ -3001,10 +3309,16 @@ def place_main_planets(zones, min_gap, size_spacing, cluster_chance):
     layout_items = big_items + scattered + clusters
     layout_items.sort(key=lambda item: item["alpha_est"], reverse=True)
 
-    density_budget = estimate_view_density(layout_items) * DENSITY_TOLERANCE
+    density_budget = (
+        estimate_view_density(layout_items, locked_main) * DENSITY_TOLERANCE
+    )
 
-    placed = []   # 실제 행성 (3D 간격, 화면 겹침 검사용) / Real planets (3D spacing, on-screen overlap checks)
-    layout = []   # 배치 단위 = 행성 + 무리 원판 (컴포지션 검사용) / Layout items = planets + cluster discs (composition checks)
+    # 락 걸린 행성을 먼저 넣어두면 간격/밀도/겹침 규칙이 걔들까지 포함해서 적용됨.
+    # 악세사리는 컴포지션 단위가 아니라서 placed(3D 간격, 화면 겹침)에만 넣음
+    # Seeding locked planets first makes the spacing/density/overlap rules include them.
+    # Accessories aren't composition items, so they only go into placed (3D spacing, on-screen overlap).
+    placed = list(locked)       # 실제 행성 (3D 간격, 화면 겹침 검사용) / Real planets (3D spacing, on-screen overlap checks)
+    layout = list(locked_main)  # 배치 단위 = 행성 + 무리 원판 (컴포지션 검사용) / Layout items = planets + cluster discs (composition checks)
 
     for item in layout_items:
         if item["kind"] == "cluster":
@@ -3016,7 +3330,10 @@ def place_main_planets(zones, min_gap, size_spacing, cluster_chance):
                 item, placed, layout, min_gap, size_spacing, density_budget
             )
 
-    unreal.log(f"Main planets: {len(placed)} / {len(pending)} placed")
+    unreal.log(
+        f"Main planets: {len(placed) - len(locked)} / {len(pending)} placed "
+        f"(+{len(locked)} locked)"
+    )
 
     return placed
 
@@ -3034,9 +3351,12 @@ def place_accessory_planets(placed, accessory, min_gap):
     # At first this was a cone (0-30 degrees), but near the center arena, accessory and parent
     # lined up, so the accessory overlapped the parent's front and looked ugly.
     # So it became a ring with the center cut out (45-75 degrees) -&gt; still in front, but offset to the side.
+    # 락 걸린 행성은 지금 모습 그대로 두려고 새 악세사리를 안 붙임
+    # Locked planets stay exactly as they are, so they get no new accessory.
     parents = [
         planet for planet in placed
-        if planet["scale"] &gt;= accessory["parent_min_scale"]
+        if not planet.get("locked")
+        and planet["scale"] &gt;= accessory["parent_min_scale"]
     ]
 
     accessories = []
@@ -3107,9 +3427,37 @@ def place_accessory_planets(placed, accessory, min_gap):
     return accessories
 
 
-def spawn_planet(actor_subsystem, mesh, location, scale, label):
+def next_free_label(prefix, used_labels):
+    # 락 걸린 행성이 BG_Planet_3 같은 라벨을 이미 쓰고 있을 수 있어서 빈 번호를 찾음
+    # A locked planet may already use a label like BG_Planet_3, so find a free number.
+    index = 0
+
+    while f"{prefix}{index}" in used_labels:
+        index += 1
+
+    label = f"{prefix}{index}"
+    used_labels.add(label)
+
+    return label
+
+
+def load_planet_class():
+    planet_class = unreal.EditorAssetLibrary.load_blueprint_class(
+        PLANET_BP_PATH
+    )
+
+    if not planet_class:
+        raise RuntimeError(
+            f"Could not load planet BP: {PLANET_BP_PATH} "
+            f"(StaticMeshActor parent + Instance Editable bool '{LOCK_PROPERTY}')"
+        )
+
+    return planet_class
+
+
+def spawn_planet(actor_subsystem, planet_class, mesh, location, scale, label, tags):
     planet = actor_subsystem.spawn_actor_from_class(
-        unreal.StaticMeshActor,
+        planet_class,
         unreal.Vector(*location),
         unreal.Rotator()
     )
@@ -3125,6 +3473,119 @@ def spawn_planet(actor_subsystem, mesh, location, scale, label):
     )
 
     planet.set_actor_label(label)
+    planet.set_editor_property("tags", [unreal.Name(tag) for tag in tags])
+
+
+def actor_tags(actor):
+    return [str(tag) for tag in actor.get_editor_property("tags")]
+
+
+def is_planet_actor(actor):
+    return actor.get_actor_label().startswith(PLANET_LABEL_PREFIX)
+
+
+def is_locked(actor):
+    # BP 행성은 Details의 Locked 체크박스, 예전 StaticMeshActor 행성은 BG_Locked 태그
+    # BP planets use the Locked checkbox in Details, old StaticMeshActor planets use the BG_Locked tag.
+    try:
+        if actor.get_editor_property(LOCK_PROPERTY):
+            return True
+    except Exception:
+        pass
+
+    return LOCK_TAG in actor_tags(actor)
+
+
+def set_locked(actor, locked):
+    # 체크박스가 있으면 체크박스로, 없으면 태그로. 풀 때는 둘 다 지움
+    # Use the checkbox if there is one, otherwise the tag. Unlocking clears both.
+    tags = [tag for tag in actor_tags(actor) if tag != LOCK_TAG]
+
+    try:
+        actor.set_editor_property(LOCK_PROPERTY, locked)
+    except Exception:
+        if locked:
+            tags.append(LOCK_TAG)
+
+    return tags
+
+
+def is_accessory_actor(actor):
+    return (
+        ACCESSORY_TAG in actor_tags(actor)
+        or actor.get_actor_label().startswith(ACCESSORY_LABEL_PREFIX)
+    )
+
+
+def guess_zone(zones, location, scale):
+    # Zone 태그가 없는 행성(락 기능 전에 만든 것)은 스케일/거리가 제일 잘 맞는 구간으로 침.
+    # 무리의 제일 작은 멤버는 MinScale 밑으로 줄어들 수 있어서 딱 맞는 구간이 없을 수도 있음
+    # Planets without a zone tag (made before locking existed) get the zone their scale/distance fits best.
+    # A cluster's smallest member may be shrunk below MinScale, so an exact match may not exist.
+    distance = vec_length(location)
+
+    def miss(value, low, high):
+        if value &lt; low:
+            return (low - value) / max(low, 1e-6)
+        if value &gt; high:
+            return (value - high) / max(high, 1e-6)
+        return 0.0
+
+    scores = [
+        miss(scale, zone["min_scale"], zone["max_scale"])
+        + miss(distance, zone["min_distance"], zone["max_distance"])
+        for zone in zones
+    ]
+
+    return scores.index(min(scores)) + 1
+
+
+def actor_zone(actor, zones, location, scale):
+    for tag in actor_tags(actor):
+        if tag.startswith(ZONE_TAG_PREFIX):
+            try:
+                return int(tag[len(ZONE_TAG_PREFIX):])
+            except ValueError:
+                pass
+
+    return guess_zone(zones, location, scale)
+
+
+def collect_locked_planets(zones):
+    # 락 걸린 행성을 배치 로직에서 쓰는 형태로 읽어옴
+    # Read locked planets into the shape the placement logic uses.
+    actor_subsystem = unreal.get_editor_subsystem(
+        unreal.EditorActorSubsystem
+    )
+
+    locked = []
+
+    for actor in actor_subsystem.get_all_level_actors():
+        if not is_planet_actor(actor) or not is_locked(actor):
+            continue
+
+        loc = actor.get_actor_location()
+        location = (loc.x, loc.y, loc.z)
+        scale = actor.get_actor_scale3d().x
+        radius = planet_radius(scale)
+        direction, alpha = to_view(location, radius)
+        accessory = is_accessory_actor(actor)
+
+        locked.append({
+            "location": location,
+            "scale": scale,
+            "radius": radius,
+            "zone": None if accessory else actor_zone(
+                actor, zones, location, scale
+            ),
+            "direction": direction,
+            "alpha": alpha,
+            "mass": view_mass(alpha),
+            "locked": True,
+            "accessory": accessory,
+        })
+
+    return locked
 
 
 def generate_planets():
@@ -3136,8 +3597,10 @@ def generate_planets():
     size_spacing = settings.get_editor_property("SizeSpacing")
     cluster_chance = settings.get_editor_property("ClusterChance")
 
+    locked = collect_locked_planets(zones)
+
     placed = place_main_planets(
-        zones, min_gap, size_spacing, cluster_chance
+        zones, min_gap, size_spacing, cluster_chance, locked
     )
     accessories = place_accessory_planets(placed, accessory, min_gap)
 
@@ -3145,39 +3608,124 @@ def generate_planets():
         unreal.EditorActorSubsystem
     )
 
+    planet_class = load_planet_class()
     mesh = unreal.load_asset("/Engine/BasicShapes/Sphere")
 
-    for index, planet in enumerate(placed):
+    used_labels = {
+        actor.get_actor_label()
+        for actor in actor_subsystem.get_all_level_actors()
+        if is_planet_actor(actor)
+    }
+
+    # 락 걸린 행성은 이미 레벨에 있으니 새로 뽑힌 것만 스폰
+    # Locked planets are already in the level, so only spawn the new ones.
+    for planet in placed:
+        if planet.get("locked"):
+            continue
+
+        label = next_free_label(PLANET_LABEL_PREFIX, used_labels)
+
         spawn_planet(
-            actor_subsystem, mesh,
+            actor_subsystem, planet_class, mesh,
             planet["location"], planet["scale"],
-            f"BG_Planet_{index}"
+            label,
+            [f"{ZONE_TAG_PREFIX}{planet['zone']}"]
         )
 
         unreal.log(
-            f"Planet {index} (zone {planet['zone']}): "
+            f"{label} (zone {planet['zone']}): "
             f"scale = {planet['scale']}"
         )
 
     # 라벨이 BG_Planet_로 시작해야 clear_planets에서 같이 지워짐
     # Labels must start with BG_Planet_ so clear_planets removes them too.
-    for index, planet in enumerate(accessories):
+    for planet in accessories:
         spawn_planet(
-            actor_subsystem, mesh,
+            actor_subsystem, planet_class, mesh,
             planet["location"], planet["scale"],
-            f"BG_Planet_Acc_{index}"
+            next_free_label(ACCESSORY_LABEL_PREFIX, used_labels),
+            [ACCESSORY_TAG]
         )
 
 
 def clear_planets():
+    # 락 걸린 행성은 남김
+    # Locked planets are kept.
     actor_subsystem = unreal.get_editor_subsystem(
         unreal.EditorActorSubsystem
     )
 
+    kept = 0
+
     for actor in actor_subsystem.get_all_level_actors():
-        if actor.get_actor_label().startswith("BG_Planet_"):
-            actor_subsystem.destroy_actor(actor)
-</code></pre></div></details></section>`
+        if not is_planet_actor(actor):
+            continue
+
+        if is_locked(actor):
+            kept += 1
+            continue
+
+        actor_subsystem.destroy_actor(actor)
+
+    if kept:
+        unreal.log(f"Clear: kept {kept} locked planets")
+
+
+def set_selected_locked(locked):
+    # 아웃라이너/뷰포트에서 선택한 행성에 락을 걸거나 풂.
+    # 락 걸 때 Zone 태그가 없으면(예전에 만든 행성) 추정한 구간을 태그로 박아둠
+    # Lock or unlock the planets selected in the outliner/viewport.
+    # When locking a planet with no zone tag (made earlier), the guessed zone is written as a tag.
+    actor_subsystem = unreal.get_editor_subsystem(
+        unreal.EditorActorSubsystem
+    )
+
+    actors = [
+        actor for actor in actor_subsystem.get_selected_level_actors()
+        if is_planet_actor(actor)
+    ]
+
+    if not actors:
+        unreal.log_warning("No BG_Planet_ actors selected")
+        return
+
+    zones = read_zones(get_settings()) if locked else None
+
+    with unreal.ScopedEditorTransaction(
+        "Lock Planets" if locked else "Unlock Planets"
+    ):
+        for actor in actors:
+            actor.modify()
+
+            tags = set_locked(actor, locked)
+
+            if locked:
+                has_zone = any(tag.startswith(ZONE_TAG_PREFIX) for tag in tags)
+
+                if not has_zone and not is_accessory_actor(actor):
+                    loc = actor.get_actor_location()
+                    zone = guess_zone(
+                        zones,
+                        (loc.x, loc.y, loc.z),
+                        actor.get_actor_scale3d().x
+                    )
+                    tags.append(f"{ZONE_TAG_PREFIX}{zone}")
+
+            actor.set_editor_property(
+                "tags", [unreal.Name(tag) for tag in tags]
+            )
+
+    unreal.log(
+        f"{'Locked' if locked else 'Unlocked'} {len(actors)} planets"
+    )
+
+
+def lock_selected():
+    set_selected_locked(True)
+
+
+def unlock_selected():
+    set_selected_locked(False)</code></pre></div></details></section>`
             }
           ]
         }
