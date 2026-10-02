@@ -11,6 +11,10 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 ASSETS = ROOT / "docs" / ".assets"
+# Cover letters are personal application material, not meant to be pushed to GitHub — they live
+# under ignored/ (see .gitignore) instead of docs/, unlike the resumes built in this same script.
+COVERLETTER_DIR = ROOT / "ignored" / "coverletter"
+COVERLETTER_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def link_icon_path(accent):
@@ -358,7 +362,7 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
             "Since deciding in high school that I wanted to work in the game industry, I have pursued that goal by studying computer science and game development at DigiPen. I am applying for the Gameplay Programmer Intern position at Epic Games because I would like to bring together the two things I have enjoyed throughout that path: programming and building games as part of a team.",
         ]
         build_cover_letter(
-            DOCS/"CoverLetter_Epic_Gameplay_Programmer.pdf",
+            COVERLETTER_DIR/"CoverLetter_Epic_Gameplay_Programmer.pdf",
             gameplay_role,
             "August 29, 2026",
             ["Epic Games Hiring Team", "Gameplay Programmer Intern — Fortnite"],
@@ -371,7 +375,7 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
         team_paragraph = "I also work well as part of a team with people in different roles. While developing Too Hot, I reviewed every teammate's code and gave feedback, and just as often took feedback on my own work in return — I care as much about how a team gets to a working build together as I do about my individual contribution."
 
         build_cover_letter(
-            DOCS/"CoverLetter_AnaVation.pdf", swe_role, "August 29, 2026",
+            COVERLETTER_DIR/"CoverLetter_AnaVation.pdf", swe_role, "August 29, 2026",
             ["AnaVation Hiring Team", "Computer Science Intern — Huntsville, AL"],
             [
                 core_systems_paragraph,
@@ -382,7 +386,7 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
         )
 
         build_cover_letter(
-            DOCS/"CoverLetter_NorthwoodSpace_Embedded.pdf", swe_role, "August 29, 2026",
+            COVERLETTER_DIR/"CoverLetter_NorthwoodSpace_Embedded.pdf", swe_role, "August 29, 2026",
             ["Northwood Space Hiring Team", "Embedded Software Engineer Intern — Los Angeles / Torrance, CA"],
             [
                 core_systems_paragraph,
@@ -393,7 +397,7 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
         )
 
         build_cover_letter(
-            DOCS/"CoverLetter_NorthwoodSpace_SWE.pdf", swe_role, "August 29, 2026",
+            COVERLETTER_DIR/"CoverLetter_NorthwoodSpace_SWE.pdf", swe_role, "August 29, 2026",
             ["Northwood Space Hiring Team", "Software Engineer Intern, Multiple Teams — Los Angeles / Torrance, CA"],
             [
                 core_systems_paragraph,
@@ -404,7 +408,7 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
         )
 
         build_cover_letter(
-            DOCS/"CoverLetter_TELUSDigital.pdf", swe_role, "August 29, 2026",
+            COVERLETTER_DIR/"CoverLetter_TELUSDigital.pdf", swe_role, "August 29, 2026",
             ["TELUS Digital Hiring Team", "Software Engineer Intern — Summer 2027"],
             [
                 core_systems_paragraph,
@@ -415,7 +419,7 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
         )
 
         build_cover_letter(
-            DOCS/"CoverLetter_AutoOwners.pdf", swe_role, "August 29, 2026",
+            COVERLETTER_DIR/"CoverLetter_AutoOwners.pdf", swe_role, "August 29, 2026",
             ["Auto-Owners Insurance Hiring Team", "Software Developer Intern — Lansing, MI"],
             [
                 core_systems_paragraph,
@@ -426,7 +430,7 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
         )
 
         build_cover_letter(
-            DOCS/"CoverLetter_Roblox.pdf", gameplay_role, "August 29, 2026",
+            COVERLETTER_DIR/"CoverLetter_Roblox.pdf", gameplay_role, "August 29, 2026",
             ["Roblox Hiring Team", "Software Engineer Intern — San Mateo, CA"],
             [
                 core_systems_paragraph,

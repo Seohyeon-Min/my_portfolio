@@ -6,7 +6,7 @@ from pypdf import PdfReader
 from build_resumes import build_cover_letter, FOREST
 
 ROOT = Path(__file__).resolve().parents[1]
-DEST = ROOT / 'docs' / 'cover_letters'
+DEST = ROOT / 'ignored' / 'coverletter'
 DEST.mkdir(exist_ok=True)
 (DEST / 'archive').mkdir(exist_ok=True)
 source = ROOT / 'scripts' / 'build_resumes.py'
@@ -22,10 +22,14 @@ common = DEST / 'common_paragraphs.md'
 if not common.exists():
     common.write_text('\n\n'.join(shared[k] for k in ('core_systems_paragraph', 'team_paragraph')) + '\n', encoding='utf-8')
 
-for pdf in (ROOT / 'docs').glob('CoverLetter_*.pdf'):
+# build_resumes.py now writes cover letters straight into DEST (ignored/coverletter) instead of
+# docs/ root, so this loop is legacy — it only does anything if a stray PDF still needs archiving.
+for pdf in (ROOT / 'ignored' / 'coverletter').glob('CoverLetter_*.pdf'):
     target = DEST / pdf.name
     if pdf.name == 'CoverLetter_Roblox.pdf':
         target = DEST / 'archive' / 'CoverLetter_Roblox_2026-08-29.pdf'
+    if pdf.resolve() == target.resolve():
+        continue
     if target.exists():
         raise FileExistsError(target)
     move(str(pdf), str(target))

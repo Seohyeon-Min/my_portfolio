@@ -2,5 +2,9 @@
 /docs/Application_Tracker.xlsx
 /docs/Application_Tracker.xlsx.inspect.ndjson
 
+# Private application/interview prep material (cover letters, interview-prep notes) — keep local,
+# never push to GitHub.
+/ignored/
+
 # Local spreadsheet runtime link
 /node_modules/
