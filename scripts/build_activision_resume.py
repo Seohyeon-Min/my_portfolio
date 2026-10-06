@@ -62,7 +62,7 @@ additional = [
 ]
 
 skills = [
-    ("Tools &amp; Pipelines", "Blender Geometry Nodes, Python, Unreal Engine editor tooling, DataAsset workflows, C# editor tools, mesh Boolean / volume remesh"),
+    ("Tools &amp; Pipelines", "Blender Geometry Nodes, Python, Unreal Engine editor tooling, DataAsset workflows, C# editor tools and presets"),
     ("3D / Game Engines", "Blender (modeling, rigging), Unity URP, Unreal Engine (Cascade/Niagara VFX), custom C++/OpenGL engine"),
     ("Real-Time Graphics", "HLSL, ShaderLab, GLSL, OpenGL, UI shaders, framebuffer post-processing, procedural animation, RenderDoc"),
     ("Programming", "C++, C#, Python, C, JavaScript; object-oriented programming practices, debugging, performance profiling"),

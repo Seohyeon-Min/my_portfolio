@@ -792,7 +792,9 @@ function ensureLanguageToggle() {
 }
 
 const RESUME_BY_TRACK = {
-  graphics: { file: 'Resume_TA_Graphics.pdf', label: 'TA / GRAPHICS RESUME ↗' },
+  // Default (graphics / tech-art track) resume: the Activision Tech Art one built by
+  // scripts/build_activision_resume.py, which merges Resume.pdf and Resume_TA_Graphics.pdf.
+  graphics: { file: 'Resume_Activision_Tech_Art.pdf', label: 'TECH ART RESUME ↗' },
   software: { file: 'Resume_Gameplay_Engineer.pdf', label: 'GAMEPLAY ENGINEER RESUME ↗' },
   product: { file: 'Resume_Production.pdf', label: 'PRODUCTION RESUME ↗' }
 };
@@ -801,7 +803,7 @@ function updateResumeLinks() {
   const activeTrack = document.querySelector('.link-start-app')?.dataset.track || localStorage.getItem('portfolio-track') || 'graphics';
   const primary = RESUME_BY_TRACK[activeTrack] || RESUME_BY_TRACK.graphics;
   const alternate = activeTrack === 'product' ? RESUME_BY_TRACK.graphics : RESUME_BY_TRACK.product;
-  const resumeSelector = 'a[href$="Resume.pdf"], a[href$="Resume_KR.pdf"], a[href$="Resume_TA_Graphics.pdf"], a[href$="Resume_Production.pdf"], a[href$="Resume_Gameplay_Engineer.pdf"]';
+  const resumeSelector = 'a[href$="Resume_Activision_Tech_Art.pdf"], a[href$="Resume.pdf"], a[href$="Resume_KR.pdf"], a[href$="Resume_TA_Graphics.pdf"], a[href$="Resume_Production.pdf"], a[href$="Resume_Gameplay_Engineer.pdf"]';
   document.querySelectorAll(resumeSelector).forEach(link => {
     const currentHref = link.getAttribute('href') || '';
     const prefix = currentHref.startsWith('../') ? '../docs/' : 'docs/';

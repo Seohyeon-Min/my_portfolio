@@ -82,7 +82,7 @@
     }
     const track = getPreferredTrack();
     const { file: resumeFile, label: resumeLabel } = (typeof RESUME_BY_TRACK !== 'undefined' && RESUME_BY_TRACK[track])
-      || { file: 'Resume_TA_Graphics.pdf', label: 'TA / GRAPHICS RESUME ↗' };
+      || { file: 'Resume_Activision_Tech_Art.pdf', label: 'TECH ART RESUME ↗' };
     const navbar = document.querySelector('.navbar');
     if (navbar) {
       navbar.innerHTML = `

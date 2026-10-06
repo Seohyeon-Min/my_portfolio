@@ -126,7 +126,7 @@ additional = [
 ]
 
 skills = [
-    ("툴 &amp; 파이프라인", "Blender Geometry Nodes, Python, Unreal Engine 에디터 툴, DataAsset 워크플로우, C# 에디터 툴, 메시 Boolean / 볼륨 리메시"),
+    ("툴 &amp; 파이프라인", "Blender Geometry Nodes, Python, Unreal Engine 에디터 툴, DataAsset 워크플로우, C# 에디터 툴 및 프리셋"),
     ("3D / 게임 엔진", "Blender(모델링, 리깅), Unity URP, Unreal Engine(Cascade/Niagara VFX), 커스텀 C++/OpenGL 엔진"),
     ("실시간 그래픽스", "HLSL, ShaderLab, GLSL, OpenGL, UI 셰이더, 프레임버퍼 포스트 프로세싱, 절차적 애니메이션, RenderDoc"),
     ("프로그래밍", "C++, C#, Python, C, JavaScript; 객체지향 프로그래밍, 디버깅, 성능 프로파일링"),
