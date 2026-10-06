@@ -9,10 +9,11 @@
 //   - `pinned: true` marks a flagship/featured project (shown with a ★ star
 //     on the ALL PROJECTS card in index.html) — treat these as the strongest
 //     evidence, equivalent to what a sighted visitor reads as "starred."
-//   - A project whose overview/subtitle says "in production" (currently just
-//     "09_Carboom") is (IN PRODUCTION / UNFINISHED — LOWER CONFIDENCE): an
-//     ongoing team project, not a finished/shipped piece — describe it as
-//     ongoing work, not as something already shipped.
+//   - A project whose overview/subtitle says "in production" or "work in
+//     progress" (currently "09_Carboom", a team project, and "10_RuinForge", a
+//     personal tool) is (IN PRODUCTION / UNFINISHED): not a
+//     finished/shipped piece — describe it as ongoing work, not as something
+//     already shipped.
 //   - Object key order here has no display-order meaning by itself (pages
 //     are reached directly by URL, not rendered as a list from this file) —
 //     display/emphasis order for the homepage lives in js/index.js instead.
@@ -1272,7 +1273,7 @@ const projectsData = {
       }
     }
   },
-  // (IN PRODUCTION / UNFINISHED — LOWER CONFIDENCE) team project, still being built — see the
+  // (IN PRODUCTION / UNFINISHED) team project, still being built — see the
   // top-of-file crawler note above. Describe as ongoing work, not a finished/shipped project.
   "09_Carboom": {
     type: "game",
@@ -1281,7 +1282,7 @@ const projectsData = {
     pageTitle: "Carboom — Min Seohyeon Portfolio",
     heroType: "video",
     heroMedia: "../img/Carboom/TempHero.mp4",
-    heroPoster: "../img/portfolio_thumbnails/Carboom_placeholder.svg",
+    prioritizeContributions: false,
     overview: "A team project built in Unreal Engine, currently in production. I own gameplay core and technical art, building an artist-facing editor tool — a DataAsset-driven procedural space-background placement tool — for the two artists I collaborate with to use directly, without touching code.",
     features: [
       "Artist-facing editor tool that procedurally places background planets — count, distance, scale, and spread all exposed as an artist-editable DataAsset, no Python required",
@@ -1296,7 +1297,15 @@ const projectsData = {
     },
     tools: "Unreal Engine · Python (Unreal Editor scripting) · C++ · Perforce · Jira",
     trailers: [],
-    videos: [],
+    videos: [{
+      title: "Planet Lock Workflow",
+      src: "../img/Carboom/planet-lock-workflow.mp4"
+    }],
+    gallery: {
+      title: "Planet Lock Workflow — Work in Progress",
+      subtitle: "The Planet Lock video shows an artist preserving a selected planet while re-generating the rest of the background. The project is still in production; this is an in-editor workflow recording, not final game art.",
+      images: []
+    },
     contributions: {
       sections: [
         {
@@ -2521,6 +2530,11 @@ def unlock_selected():
           period: "2026년 · 팀 프로젝트 (제작 중)",
           description: "Unreal Engine 팀 프로젝트에서 게임플레이 코어와 테크니컬 아트를 담당하며, 함께 작업하는 아티스트 2명이 코드 없이 직접 쓸 수 있는 에디터 툴 — 아레나 시점의 화면 구도를 고려한 우주 배경 자동 배치 시스템 — 을 제작하고 있습니다."
         },
+        gallery: {
+          title: "Planet Lock 워크플로우 — 작업 중",
+          subtitle: "Planet Lock 영상은 아티스트가 선택한 행성을 고정한 채 나머지 배경만 다시 생성하는 흐름을 보여줍니다. 게임은 아직 제작 중이며, 이 영상은 최종 게임 아트가 아닌 에디터 워크플로우 기록입니다.",
+          images: []
+        },
         contributions: {
           sections: [
             {
@@ -3733,6 +3747,70 @@ def unlock_selected():
     }
   },
 
+  // (IN PRODUCTION / UNFINISHED) Ruin Forge (working title) is a personal,
+  // still-in-progress Blender Geometry Nodes tool. Only the "Implemented" parts below are built and
+  // working; the "In progress" and "Planned" lists are NOT finished features — don't describe them
+  // as done. Image slots are placeholders until their render files exist (see renderMediaSlots()).
+  "10_RuinForge": {
+    type: "game",
+    title: "Ruin Forge",
+    subtitle: "Procedural concrete damage tool · Blender Geometry Nodes — work in progress",
+    pageTitle: "Ruin Forge — Min Seohyeon Portfolio",
+    heroType: "image",
+    heroMedia: "../img/portfolio_thumbnails/RuinForge_placeholder.svg",
+    overview: "A personal, in-progress procedural tool built in Blender Geometry Nodes for environment artists: move a single control object and the concrete wall generates natural surface damage — the outer layer flaking away like an eggshell to reveal the wall underneath — plus cracks that grow out of the actual broken edge. The core rule: cracks must start from the boundary the Boolean cut really created, not from a hand-drawn line or a distance approximation.",
+    features: [
+      "Move one control object (DamageCtrl) and the damage follows — no hand-modeling per wall",
+      "Two-layer wall: the outer shell breaks away to expose the inner wall",
+      "Cracks seeded from the Boolean's real intersecting edges, only at sharply bent corners",
+      "Randomized zigzag V-groove cracks, cleaned to 0 non-manifold edges"
+    ],
+    experience: {
+      role: "Technical Art — Tools (solo)",
+      period: "2026 · Personal project (work in progress)",
+      description: "Built the node network myself in Blender 5.2 Geometry Nodes, aimed at environment artists who otherwise hand-model every broken wall and crack for ruins and battle-damaged scenes."
+    },
+    tools: "Blender 5.2 (Geometry Nodes) · Python",
+    trailers: [],
+    videos: [],
+    contributions: {
+      sections: [
+        {
+          title: "Procedural Concrete Damage Tool",
+          category: "Technical",
+          htmlContent: `<section><h2>Cracks That Start Where the Wall Actually Broke</h2><p class="case-study-lede">Ruined and battle-scarred walls usually mean hand-modeling every break and every crack, again and again. This tool lets an environment artist place one control object and get damage that reads like real concrete — a thin outer skin flaking away like an eggshell to expose the wall underneath, with no round holes or repeating patterns. Cracks start from the boundary the Boolean cut actually produced, extracted as data — not from a hand-drawn line or a distance approximation.</p><p class="metric-source-note"><strong>Work in progress:</strong> everything under the case studies below is built and working. The "In progress" and "Planned" sections at the end are not finished yet.</p>${renderMediaSlots([{src:"../img/RuinForge/01_full-wall.png",alt:"Full render of a concrete wall with surface damage and cracks generated by Ruin Forge",label:"Result",caption:"Full wall render"}])}${renderEngineeringCaseStudy({metrics:[{icon:"◇",value:"Intersecting Edges",label:"cracks start on the real Boolean cut"},{icon:"∠",value:"Dot product",label:"corner-only crack seeds"},{icon:"✓",value:"0",label:"non-manifold edges after cleanup"},{icon:"⌖",value:"1 control",label:"move DamageCtrl, damage follows"}],architecture:[{title:"DamageCtrl",detail:"Control object read through Object Info (Relative), so damage follows the wall when it moves or rotates"},{title:"Irregular cutter",detail:"Curve → noise-displaced points → Curve to Mesh → Mesh to Volume → Volume to Mesh"},{title:"Outer-wall Boolean",detail:"Mesh Boolean (Difference, Manifold) cuts WallOut and exposes WallIn"},{title:"Boundary extraction",detail:"Intersecting Edges → Mesh to Curve selection: only the edges the cut created"},{title:"Corner seeds",detail:"Resample, compare neighbor directions, keep sharp corners, randomly pick some"},{title:"Zigzag cracks",detail:"Instanced 12-segment template, alternating offsets, tapered diamond sweep, cut into the wall"}],architectureNote:"Two separate objects: WallOut (the outer concrete skin) and WallIn (the wall behind it). When WallOut is cut away, WallIn shows through.",cases:[{label:"Boundary",title:"Using the cut the Boolean really made, not an approximation",problem:"A crack drawn by hand, or placed by distance from the damage center, never quite lines up with the irregular edge the cut actually produced — the crack reads as pasted on instead of growing out of the break.",decision:"Treat the Boolean's own result as the source of truth: switch the Mesh Boolean solver to Manifold and use its Intersecting Edges output.",implementation:"Intersecting Edges is wired into the Selection input of Mesh to Curve, so only the boundary edges the Boolean created become a curve — that curve is what the crack logic reads from.",verification:"A wiring mistake once fed every wall edge into that selection and spawned 1,000+ cracks along the whole wall outline; tracing it back to the selection input and reconnecting Intersecting Edges brought crack seeds back to the cut boundary only."},{label:"Corners",title:"Starting cracks only where the boundary bends sharply",problem:"Spawning cracks along the entire boundary looks uniform and fake — real concrete tends to split from sharp turns in the break, not evenly everywhere.",decision:"Measure how sharply the boundary bends at each point, keep only the sharp ones as candidates, then pick just some of them at random.",implementation:"Resample the boundary curve densely, read each point's previous and next neighbor positions (Offset Point in Curve + Evaluate at Index), and compare the two directions with a Dot Product. Points bent past a threshold are stored as a \"corner\" attribute; a random probability then picks a subset of corners to grow cracks from.",verification:"Cracks appear at only some of the sharp turns instead of in a uniform ring around every break."},{label:"Shape",title:"Zigzag cracks that don't repeat",problem:"A single straight or regularly bent crack shape, repeated at every seed, reads as a stamp.",decision:"Instance one straight template per seed and break it up with alternating, randomized offsets, then sweep a tapered V-shaped profile along it.",implementation:"A 12-segment straight template is instanced at each seed and aligned outward using the cross product of the boundary tangent and the wall normal. Each point's Index parity (mod 2) pushes it left or right for a zigzag; bend size and segment spacing along the crack are randomized to remove repetition. A diamond cross-section (Curve Circle, resolution 4) is swept along it, thinning toward the tip, to carve a V-shaped groove.",verification:"Neighboring cracks no longer share the same rhythm or bend sizes."},{label:"Topology",title:"Fixing holes and broken faces from overlapping crack cutters",problem:"Crack cutters overlap and self-intersect; with the Float Boolean solver that produced holes and broken faces in the wall mesh.",decision:"Merge all crack cutters into one clean closed mesh before cutting, and cut with the Manifold solver.",implementation:"The crack cutters go through Mesh to Volume → Volume to Mesh, which rebuilds them as a single closed mesh, and that mesh is cut with the Manifold Boolean.",verification:"The result has 0 non-manifold edges."}],decisions:[{system:"Crack seeds",choice:"Boolean Intersecting Edges as data",reason:"Cracks start exactly on the break the cut produced, wherever DamageCtrl moves.",tradeoff:"Ties the crack logic to the Manifold solver's output."},{system:"Boolean solver",choice:"Manifold instead of Float",reason:"Exposes Intersecting Edges and gives clean results on closed input.",tradeoff:"Inputs need to be closed meshes, hence the volume rebuild of the cutters."},{system:"Cutter cleanup",choice:"Mesh to Volume → Volume to Mesh",reason:"Turns overlapping, self-intersecting pieces into one closed mesh.",tradeoff:"Voxel resolution trades fine detail against evaluation cost."},{system:"Wall structure",choice:"Separate WallOut / WallIn objects",reason:"The outer skin can break away while the inner wall stays as what's revealed.",tradeoff:"Two objects to keep aligned; the inner wall is still a plain surface for now."}]})}${renderMediaSlots([{src:"../img/RuinForge/02_boundary-curve.png",alt:"Debug view of the boundary curve extracted from the Boolean's intersecting edges",label:"Boundary",caption:"Boundary curve extracted from Intersecting Edges"},{src:"../img/RuinForge/03_corner-seeds.png",alt:"Debug view of boundary points flagged as corners, with cracks growing from some of them",label:"Corners",caption:"Corner points and the cracks picked from them"},{src:"../img/RuinForge/04_crack-closeup.png",alt:"Close-up render of zigzag V-groove cracks",label:"Shape",caption:"Crack close-up"},{src:"../img/RuinForge/05_manifold-fix.png",alt:"Before and after comparison of the wall mesh, broken faces versus a clean manifold result",label:"Topology",caption:"Float Boolean holes vs. Manifold result"}])}<h3>Moving the control object</h3><p>The same wall with DamageCtrl in different positions — the break, the exposed inner wall, and the cracks are all regenerated from the new cut.</p>${renderMediaSlots([{src:"../img/RuinForge/06_ctrl-compare.png",alt:"Comparison renders of the same wall with the damage control object in different positions",label:"Control",caption:"DamageCtrl moved to different positions"}])}<h3>In progress</h3><p>Exposing artist parameters on the modifier panel, so the tool can be tuned without opening the node tree. Not finished yet:</p><ul><li><strong>Damage Size</strong> — size of the break</li><li><strong>Edge Noise</strong> — how irregular the broken edge is</li><li><strong>Seed</strong> — random seed</li><li><strong>Crack Probability</strong> — chance a corner grows a crack</li><li><strong>Crack Length</strong> / <strong>Crack Width</strong></li></ul><h3>Planned (not built yet)</h3><ul><li><strong>Brick inner wall</strong> — build WallIn from real brick blocks (half-offset rows with mortar joints); only where the outer wall is badly broken do bricks fall out in chunks, with neighbors loosened and tilted into a stepped break. Inner damage stays smaller than outer damage.</li><li><strong>Concave corner check</strong> — use a Raycast to tell whether the inside of a bend is the hole, so cracks start only at concave corners where stress concentrates.</li><li><strong>Crack direction fix</strong> — some cracks currently grow toward the hole; flip them using the damage center as reference.</li><li><strong>Crack branches</strong></li></ul>${renderMediaSlots([{src:"../img/RuinForge/07_node-tree.png",alt:"Overview of the Geometry Nodes tree",label:"Nodes",caption:"Geometry Nodes tree overview"}])}<p class="engineering-note">Every render on this page is my own, from the tool itself.</p></section>`
+        }
+      ]
+    },
+    source: null,
+    localized: {
+      ko: {
+        subtitle: "절차적 콘크리트 파손 툴 · Blender Geometry Nodes — 진행 중",
+        overview: "환경/배경 아티스트를 위해 Blender Geometry Nodes로 만들고 있는 개인 프로젝트입니다. 컨트롤 오브젝트 하나를 옮기기만 하면 콘크리트 벽에 자연스러운 표면 파손 — 겉면이 계란 껍질처럼 얕게 벗겨지며 안쪽 벽이 드러나는 — 과, 실제로 깨진 경계에서 뻗어 나가는 크랙이 자동으로 생성됩니다. 핵심 원칙은 크랙이 손으로 그린 선이나 거리 근사가 아니라, Boolean이 실제로 만든 경계에서 시작해야 한다는 것입니다.",
+        features: [
+          "컨트롤 오브젝트(DamageCtrl) 하나만 옮기면 파손이 따라옴 — 벽마다 손으로 모델링할 필요 없음",
+          "2겹 벽 구조: 겉벽이 벗겨지면 안쪽 벽이 드러남",
+          "Boolean의 실제 교차 경계에서, 크게 꺾인 지점에서만 크랙 시작",
+          "랜덤한 지그재그 V자 크랙, 비매니폴드 엣지 0개로 정리"
+        ],
+        experience: {
+          role: "테크니컬 아트 — 툴 (개인)",
+          period: "2026년 · 개인 프로젝트 (진행 중)",
+          description: "Blender 5.2 Geometry Nodes로 노드를 직접 구성했습니다. 폐허나 전투 흔적 벽을 만들 때마다 파손 형상과 크랙을 손으로 모델링하는 환경 아티스트의 반복 작업을 줄이는 것이 목표입니다."
+        },
+        contributions: {
+          sections: [
+            {
+              title: "절차적 콘크리트 파손 툴",
+              category: "Technical",
+              htmlContent: `<section><h2>실제로 깨진 자리에서 시작하는 크랙</h2><p class="case-study-lede">폐허나 전투 흔적이 남은 벽을 만들려면 보통 파손 형상과 크랙을 매번 손으로 모델링해야 합니다. 이 툴은 환경 아티스트가 컨트롤 오브젝트 하나만 놓으면 실제 콘크리트처럼 보이는 파손 — 얇은 겉면이 계란 껍질처럼 벗겨지며 안쪽 벽이 드러나는 — 을 만들어 줍니다. 원형 구멍이나 반복 패턴은 배제했습니다. 크랙은 수동으로 그린 선이나 거리 근사가 아니라, Boolean 연산이 실제로 만든 경계를 데이터로 추출해 그 지점에서 시작합니다.</p><p class="metric-source-note"><strong>진행 중인 프로젝트:</strong> 아래 케이스 스터디의 내용은 구현이 끝나 동작하는 부분입니다. 맨 아래 "진행 중"과 "계획" 항목은 아직 완성되지 않았습니다.</p>${renderMediaSlots([{src:"../img/RuinForge/01_full-wall.png",alt:"Ruin Forge로 표면 파손과 크랙을 생성한 콘크리트 벽 전체 렌더",label:"결과",caption:"벽 전체 렌더"}],"ko")}${renderEngineeringCaseStudy({labels:{systemMap:"시스템 구조",problem:"문제",decision:"결정",implementation:"구현",verification:"검증",keyDecisions:"핵심 결정",decisionLog:"결정 로그",decisionTitle:"왜 이렇게 구조화했는가",system:"시스템",choice:"선택",why:"이유",tradeoff:"트레이드오프",codeEvidence:"코드 근거",viewSource:"소스 보기 ↗"},metrics:[{icon:"◇",value:"Intersecting Edges",label:"실제 Boolean 경계에서 크랙 시작"},{icon:"∠",value:"내적",label:"꺾인 지점에서만 크랙 시작"},{icon:"✓",value:"0",label:"정리 후 비매니폴드 엣지"},{icon:"⌖",value:"컨트롤 1개",label:"DamageCtrl을 옮기면 파손이 따라옴"}],architecture:[{title:"DamageCtrl",detail:"Object Info(Relative)로 읽어서 벽을 이동·회전해도 파손이 따라감"},{title:"불규칙한 커터",detail:"커브 → 노이즈로 흔든 위치 → Curve to Mesh → Mesh to Volume → Volume to Mesh"},{title:"겉벽 Boolean",detail:"Mesh Boolean(Difference, Manifold)으로 WallOut을 깎아 WallIn 노출"},{title:"경계 추출",detail:"Intersecting Edges → Mesh to Curve Selection: 커팅이 만든 엣지만"},{title:"꺾임 지점",detail:"리샘플 후 앞뒤 방향을 비교해 크게 꺾인 점만 남기고, 그중 일부를 랜덤 선택"},{title:"지그재그 크랙",detail:"12마디 템플릿 인스턴스, 좌우 교차 오프셋, 가늘어지는 마름모 스윕으로 벽을 깎음"}],architectureNote:"겉벽(WallOut)과 안벽(WallIn)은 별도 오브젝트입니다. WallOut이 깎여 나가면 그 자리에 WallIn이 드러납니다.",cases:[{label:"경계",title:"근사값이 아니라 Boolean이 실제로 만든 경계를 쓰기",problem:"손으로 그린 크랙이나 파손 중심으로부터의 거리로 배치한 크랙은, 커팅이 실제로 만든 불규칙한 경계와 정확히 맞지 않습니다 — 깨진 자리에서 뻗어 나온 게 아니라 위에 붙여 놓은 것처럼 보입니다.",decision:"Boolean의 결과 자체를 기준으로 삼았습니다. Mesh Boolean의 solver를 Manifold로 바꾸고, 그 출력인 Intersecting Edges를 사용합니다.",implementation:"Intersecting Edges를 Mesh to Curve의 Selection에 연결해서, Boolean이 만든 경계 엣지만 커브가 되게 했습니다. 크랙 로직은 이 커브를 읽습니다.",verification:"한 번은 연결 실수로 벽의 모든 엣지가 Selection에 들어가서 벽 전체 외곽을 따라 크랙이 1,000개 넘게 생겼습니다. Selection 입력까지 거슬러 올라가 Intersecting Edges를 다시 연결해, 크랙 시작점이 커팅 경계에만 생기도록 고쳤습니다."},{label:"꺾임",title:"경계가 크게 꺾인 곳에서만 크랙 시작하기",problem:"경계 전체를 따라 크랙을 만들면 균일해서 가짜처럼 보입니다 — 실제 콘크리트는 파손 경계의 날카롭게 꺾인 곳에서 갈라지는 경향이 있습니다.",decision:"경계의 각 점이 얼마나 꺾였는지 측정해서 크게 꺾인 점만 후보로 남기고, 그중 일부만 랜덤으로 고릅니다.",implementation:"경계 커브를 촘촘히 리샘플하고, 각 점의 앞뒤 이웃 점 위치를 읽어(Offset Point in Curve + Evaluate at Index) 두 방향을 내적(Dot Product)으로 비교합니다. 임계값보다 많이 꺾인 점은 \"corner\" 속성으로 저장하고, 랜덤 확률로 그중 일부에서만 크랙을 만듭니다.",verification:"모든 파손 주위에 고리처럼 균일하게 생기지 않고, 날카롭게 꺾인 지점 중 일부에서만 크랙이 생깁니다."},{label:"형상",title:"반복되지 않는 지그재그 크랙",problem:"똑같은 직선이나 규칙적으로 꺾인 크랙 모양이 시작점마다 반복되면 도장을 찍은 것처럼 보입니다.",decision:"시작점마다 직선 템플릿 하나를 배치하고 좌우 교차하는 랜덤 오프셋으로 흔든 뒤, 끝으로 갈수록 가늘어지는 V자 단면을 스윕합니다.",implementation:"12마디 직선 템플릿을 시작점마다 인스턴스로 배치하고, 경계 접선과 벽 노멀의 외적으로 바깥 방향을 향하게 정렬합니다. 각 점 Index의 홀짝(mod 2)으로 좌우를 번갈아 밀어 지그재그를 만들고, 꺾임 크기와 진행 방향 마디 간격을 랜덤으로 줘서 반복을 없앴습니다. 마름모 단면(Curve Circle, 해상도 4)을 끝으로 갈수록 가늘게 스윕해 V자 균열 홈을 표현합니다.",verification:"이웃한 크랙끼리 같은 리듬이나 같은 꺾임 크기를 공유하지 않습니다."},{label:"토폴로지",title:"겹치는 크랙 커터 때문에 생긴 구멍과 깨진 면 해결",problem:"크랙 커터들이 서로 겹치고 자기교차해서, Float Boolean으로 깎으면 벽 메시에 구멍과 깨진 면이 생겼습니다.",decision:"깎기 전에 모든 크랙 커터를 하나의 깔끔한 닫힌 메시로 합치고, Manifold solver로 깎습니다.",implementation:"크랙 커터를 Mesh to Volume → Volume to Mesh로 하나의 닫힌 메시로 다시 만든 뒤, Manifold Boolean으로 깎습니다.",verification:"비매니폴드 엣지 0개."}],decisions:[{system:"크랙 시작점",choice:"Boolean의 Intersecting Edges를 데이터로 사용",reason:"DamageCtrl을 어디로 옮겨도 크랙이 정확히 커팅 경계에서 시작함.",tradeoff:"크랙 로직이 Manifold solver의 출력에 묶임."},{system:"Boolean solver",choice:"Float 대신 Manifold",reason:"Intersecting Edges 출력을 제공하고, 닫힌 입력에서 깔끔한 결과를 냄.",tradeoff:"입력이 닫힌 메시여야 해서 커터를 볼륨으로 재구성하는 단계가 필요함."},{system:"커터 정리",choice:"Mesh to Volume → Volume to Mesh",reason:"겹치고 자기교차하는 조각들을 하나의 닫힌 메시로 바꿈.",tradeoff:"복셀 해상도에 따라 디테일과 계산 비용이 맞바뀜."},{system:"벽 구조",choice:"WallOut / WallIn 오브젝트 분리",reason:"겉면만 벗겨지고 안벽은 드러나는 면으로 남길 수 있음.",tradeoff:"두 오브젝트를 맞춰 관리해야 함. 안벽은 아직 단순한 면."}]})}${renderMediaSlots([{src:"../img/RuinForge/02_boundary-curve.png",alt:"Boolean의 Intersecting Edges에서 추출한 경계 커브 디버그 뷰",label:"경계",caption:"Intersecting Edges에서 추출한 경계 커브"},{src:"../img/RuinForge/03_corner-seeds.png",alt:"corner로 표시된 경계 점과 그중 일부에서 자란 크랙 디버그 뷰",label:"꺾임",caption:"corner 점과 그중 선택된 크랙"},{src:"../img/RuinForge/04_crack-closeup.png",alt:"지그재그 V자 크랙 클로즈업 렌더",label:"형상",caption:"크랙 클로즈업"},{src:"../img/RuinForge/05_manifold-fix.png",alt:"깨진 면이 있는 벽 메시와 깔끔한 매니폴드 결과 비교",label:"토폴로지",caption:"Float Boolean의 구멍 vs. Manifold 결과"}],"ko")}<h3>컨트롤 오브젝트 옮기기</h3><p>같은 벽에서 DamageCtrl 위치만 바꾼 결과입니다 — 파손 형상, 드러난 안벽, 크랙이 모두 새 커팅을 기준으로 다시 생성됩니다.</p>${renderMediaSlots([{src:"../img/RuinForge/06_ctrl-compare.png",alt:"파손 컨트롤 오브젝트 위치를 바꾼 같은 벽 비교 렌더",label:"컨트롤",caption:"DamageCtrl 위치 비교"}],"ko")}<h3>진행 중</h3><p>노드 트리를 열지 않고도 조절할 수 있도록 아티스트용 파라미터를 모디파이어 패널에 노출하는 작업입니다. 아직 완성되지 않았습니다:</p><ul><li><strong>Damage Size</strong> — 파손 크기</li><li><strong>Edge Noise</strong> — 가장자리 불규칙도</li><li><strong>Seed</strong> — 랜덤 시드</li><li><strong>Crack Probability</strong> — 꺾인 지점에서 크랙이 생길 확률</li><li><strong>Crack Length</strong> / <strong>Crack Width</strong> — 크랙 길이 / 굵기</li></ul><h3>계획 (아직 구현 전)</h3><ul><li><strong>벽돌 구조 안벽</strong> — 안벽 전체를 실제 벽돌 블록(줄마다 반 칸 엇갈림, 줄눈 포함)으로 구성. 겉벽이 크게 벗겨진 안쪽에서만 벽돌이 덩어리로 빠지고, 주변 벽돌은 헐거워져 기울어지는 계단식 파손. 안벽 손상 범위는 겉벽보다 작게.</li><li><strong>오목한 모서리 판별</strong> — Raycast로 꺾인 안쪽이 구멍인지 판단해, 응력이 집중되는 오목한 지점에서만 크랙 시작.</li><li><strong>크랙 방향 보정</strong> — 일부 크랙이 구멍 쪽으로 자라는 문제를 파손 중심 기준으로 뒤집어 해결.</li><li><strong>크랙 가지(branch) 생성</strong></li></ul>${renderMediaSlots([{src:"../img/RuinForge/07_node-tree.png",alt:"Geometry Nodes 트리 전체 모습",label:"노드",caption:"Geometry Nodes 트리 전체"}],"ko")}<p class="engineering-note">이 페이지의 모든 렌더는 툴로 직접 만든 제 결과물입니다.</p></section>`
+            }
+          ]
+        }
+      }
+    }
+  },
+
   "07_TooHot": {
     type: "game",
     pinned: true,
@@ -3875,6 +3953,120 @@ function applyEnglishProjectOverride(projectId, english) {
   Object.assign(project, english);
 }
 
+// Ruin Forge portfolio update: renders and the inner-brick pass arrived after the first draft.
+(() => {
+  const p = projectsData["10_RuinForge"];
+  if (!p) return;
+  p.heroMedia = "../img/RuinForge/01_main.jpg";
+  p.subtitle = "Procedural ruined-wall tool · Blender 5.2 Geometry Nodes · in progress";
+  p.overview = "An artist-facing Geometry Nodes tool that generates concrete shell damage, boundary-driven cracks, and damaged brickwork from one control object. Artists can tune from an intact surface to a punched-through ruin without hand-modeling each result.";
+  p.features = ["One DamageCtrl drives plaster damage, cracks, and exposed bricks", "Cracks originate from the Boolean boundary at qualifying concave corners", "Two-stage brick damage preserves chunks, then fractures boundary bricks", "Mortar cleanup and hidden-brick removal reduce geometry from about 116k to 30k vertices"];
+  p.experience = { role: "Technical Artist — Procedural Tools (solo)", period: "2026 · Personal project", description: "Owned the tool behavior, parameter requirements, validation criteria, and final node integration. Collaborated with AI on parts of the node construction, then verified geometry, topology, and artist-facing controls." };
+  const media = (lang, items) => renderMediaSlots(items.map(([src, label, caption, alt]) => ({ src: `../img/RuinForge/${src}`, label, caption, alt })), lang);
+  const story = (lang) => {
+    const ko = lang === "ko";
+    const x = ko ? {
+      title: "하나의 컨트롤로 만드는 절차적 폐허 벽", lead: "겉면의 콘크리트 파손·크랙과 그 안쪽의 벽돌 구조 붕괴를 하나의 컨트롤 오브젝트로 생성하는 아티스트용 툴입니다. 모든 결과는 모디파이어 파라미터로 조절됩니다.", result: "최종 결과", structure: "단방향 구조로 순환 참조 피하기", structureText: "겉벽(WallOut)과 안벽(WallIn)을 분리했습니다. 안벽은 겉벽의 결과만 메시 속성으로 전달받아 Attribute Statistic으로 읽습니다. 겉벽은 안벽을 알 필요가 없어 같은 파손 데이터를 공유하면서도 순환 참조가 생기지 않습니다.", cracks: "실제 파손 경계를 따르는 크랙", cracksText: "노이즈로 변형한 볼륨 커터를 Manifold Boolean으로 겉벽에 적용하고, Intersecting Edges로 실제 경계를 추출합니다. 이웃 방향의 내적과 Raycast를 함께 사용해 오목한 모서리만 시작점으로 고른 뒤, 인덱스 교차 오프셋·랜덤 진폭·방향 jitter로 반복되지 않는 지그재그 크랙을 만듭니다.", bricks: "벽돌을 두 단계로 파손", bricksText: "1차에서는 부드러운 파손 깊이와 벽돌별 랜덤 오프셋으로 벽돌을 통째로 제거해 덩어리를 유지합니다. 2차에서는 얕은 보로노이·노이즈 커터로 경계 벽돌만 깨뜨려 자연스러운 단면을 만듭니다. Influence와 Depth로 멀쩡함부터 부분 파손, 관통 파손까지 연속적으로 조절합니다.", compare: "파라미터 비교", compareText: "같은 벽에서 Inner Break Influence / Depth만 바꾼 결과입니다.", quality: "최적화와 품질 정리", qualityText: "보이지 않는 안쪽 벽돌을 생략하고 빠진 벽돌 주변의 줄눈을 제거해 약 11.6만 버텍스에서 3만으로 줄였습니다. 벽 끝 벽돌은 클리핑하고 벽돌·줄눈의 근접면을 정리해 z-fighting도 제거했습니다.", ai: "AI 협업 범위", aiText: "요구사항 정의, 파손 방향, 파라미터 설계, 검증과 최종 통합은 제가 맡았습니다. 보로노이 크랙 네트워크와 일부 노드 구성은 AI와 협업했습니다. 결과는 실제 렌더와 토폴로지·성능 수치로 검증했습니다.", next: "한계와 다음 단계", nextText: "현재 로컬 +X를 바라보는 평면 벽을 기준으로 합니다. 다음 단계는 고정 축을 표면 노멀 샘플링으로 일반화해 곡면과 옆면에도 대응하고, 참조 겉벽 오브젝트를 모디파이어 입력으로 노출해 여러 벽에 재사용하는 것입니다." } : {
+      title: "Procedural ruin walls from one control object", lead: "An artist-facing tool that generates concrete shell damage, cracks, and collapsing interior brickwork from a single control object. Every result is exposed as modifier parameters.", result: "Final result", structure: "One-way data flow; no circular dependency", structureText: "WallOut and WallIn are separate objects. WallIn reads shared damage values from WallOut mesh attributes through Attribute Statistic; WallOut never reads WallIn, so both layers share the break without a circular reference.", cracks: "Cracks follow the real break boundary", cracksText: "A noise-deformed volume cutter damages the outer wall through a Manifold Boolean. Intersecting Edges extracts the resulting boundary. Neighbor-direction dot products and Raycast select concave corners, then alternating offsets and randomized jitter form non-repeating zigzag cracks.", bricks: "Two-stage brick damage", bricksText: "Stage one removes whole bricks with smooth damage depth and per-brick random offsets, preserving the sense of chunks. Stage two fractures only boundary bricks with shallow Voronoi/noise cutters for a convincing cross-section. Influence and Depth continuously move from intact to partial to punched-through damage.", compare: "Parameter comparison", compareText: "The same wall with only Inner Break Influence / Depth changed.", quality: "Optimization and cleanup", qualityText: "Skipping unseen interior bricks and removing mortar around missing bricks reduced geometry from about 116k to 30k vertices. End bricks are clipped, and near-coplanar brick/mortar faces are cleaned to remove z-fighting.", ai: "AI collaboration", aiText: "I owned requirements, damage direction, parameter design, verification, and final integration. I collaborated with AI on the Voronoi crack network and parts of node construction, then validated results with renders, topology checks, and performance counts.", next: "Limits and next steps", nextText: "The current tool assumes a planar wall facing local +X. Next, sampled surface normals will replace that fixed axis for curved and side-facing surfaces, and WallOut will become a modifier input for reuse across walls." };
+    const final = media(lang, [["01_main.jpg", ko ? "메인 렌더" : "Hero render", ko ? "콘크리트 껍데기, 크랙, 안쪽 벽돌 구조" : "Concrete shell, cracks, and interior brick structure", ko ? "크랙과 노출된 벽돌 구조가 보이는 Ruin Forge 전체 렌더" : "Full Ruin Forge render with cracked concrete and exposed brick"], ["02_closeup_bricks.jpg", ko ? "벽돌 단면" : "Brick cross-section", ko ? "1차 제거 + 2차 경계 파손" : "Stage-one removal + stage-two edge fracture", ko ? "통째로 빠진 벽돌과 부분 파손 벽돌의 클로즈업" : "Close-up of removed and partially fractured bricks"], ["03_closeup_cracks.jpg", ko ? "크랙" : "Cracks", ko ? "경계에서 시작하는 불규칙한 균열" : "Irregular fractures growing from the boundary", ko ? "벽 표면의 절차적 크랙 클로즈업" : "Close-up of procedural cracks"]]);
+    const compare = media(lang, [["04_compare_0_0.jpg", "0 / 0", ko ? "거의 멀쩡한 안벽" : "Mostly intact inner wall", ko ? "파손 영향도와 깊이 0의 벽" : "Wall at zero break influence and depth"], ["05_compare_05_05.jpg", "0.5 / 0.5", ko ? "부분 파손" : "Partial damage", ko ? "중간 파손 설정의 벽" : "Wall at a mid-level break setting"], ["06_compare_1_1.jpg", "1 / 1", ko ? "원뿔형 관통 파손" : "Conical punched-through damage", ko ? "파손 영향도와 깊이 1의 벽" : "Wall at full break influence and depth"]]);
+    return `<section><h2>${x.title}</h2><p class="case-study-lede">${x.lead}</p><p class="metric-source-note"><strong>${ko ? "진행 중인 개인 프로젝트:" : "Personal work in progress:"}</strong> ${ko ? "이 페이지는 현재 구현·검증된 기능과 렌더를 기준으로 정리했습니다." : "This page documents features that are currently implemented and verified."}</p><h3>${x.result}</h3>${final}<h3>${x.structure}</h3><p>${x.structureText}</p><h3>${x.cracks}</h3><p>${x.cracksText}</p><h3>${x.bricks}</h3><p>${x.bricksText}</p><h3>${x.compare}</h3><p>${x.compareText}</p>${compare}<h3>${x.quality}</h3><p>${x.qualityText}</p><h3>${x.ai}</h3><p>${x.aiText}</p><h3>${x.next}</h3><p>${x.nextText}</p></section>`;
+  };
+  p.contributions.sections = [{ title: "Procedural Ruin-Wall Tool", category: "Technical", htmlContent: story("en") }];
+  const ko = p.localized.ko;
+  ko.subtitle = "절차적 폐허 벽 파손 툴 · Blender 5.2 Geometry Nodes · 진행 중";
+  ko.overview = "콘크리트 껍데기 파손, 실제 파손 경계에서 자라는 크랙, 손상된 내부 벽돌 구조를 컨트롤 오브젝트 하나로 생성하는 아티스트용 Geometry Nodes 툴입니다. 겉벽과 안쪽 벽돌 벽을 분리해 멀쩡한 표면부터 관통된 폐허 벽까지 손으로 모델링하지 않고 조절할 수 있습니다.";
+  ko.features = ["DamageCtrl 하나로 겉벽 파손·크랙·노출된 벽돌 구조를 함께 제어", "Boolean 경계와 오목한 모서리에서만 시작하는 크랙", "1차 벽돌 제거 + 2차 경계 파손으로 덩어리와 단면을 분리", "줄눈 정리와 보이지 않는 벽돌 생략으로 약 11.6만 → 3만 버텍스"];
+  ko.experience = { role: "테크니컬 아티스트 — 절차적 툴 (개인)", period: "2026년 · 개인 프로젝트", description: "툴의 동작 방향, 파라미터 요구사항, 검증 기준과 최종 노드 통합을 설계했습니다. 노드 구성 일부는 AI와 협업했으며, 결과 지오메트리·토폴로지·아티스트용 제어를 직접 검증했습니다." };
+  ko.contributions.sections = [{ title: "절차적 폐허 벽 파손 툴", category: "Technical", htmlContent: story("ko") }];
+})();
+
+// Expanded Ruin Forge case study: parameters, iteration evidence, node layout, and authorship.
+(() => {
+  const p = projectsData["10_RuinForge"];
+  if (!p) return;
+  const figures = (lang, list) => renderMediaSlots(list.map(([file, label, caption, alt]) => ({ src: `../img/RuinForge/${file}`, label, caption, alt })), lang);
+  const makeCaseStudy = (lang) => {
+    const ko = lang === "ko";
+    const s = ko ? {
+      heading: "툴을 어떻게 쓰는지까지 보여주는 절차적 파손 시스템",
+      lede: "Ruin Forge는 ‘한 장의 결과물’을 만드는 노드가 아니라, 환경 아티스트가 DamageCtrl을 옮기고 몇 개의 값만 조절해 여러 상태의 폐허 벽을 만들 수 있도록 설계한 Geometry Nodes 툴입니다.",
+      status: "진행 중인 개인 프로젝트", intro: "아래에는 현재 구현되어 렌더로 확인한 기능만 담았습니다. 곡면 대응, 여러 벽 재사용, 최종 재질 작업은 다음 단계입니다.",
+      use: "아티스트 워크플로", useCopy: "작업자는 노드 트리를 열지 않고 DamageCtrl로 파손 위치를 정한 뒤, 모디파이어 패널에서 범위·깊이·시드·균열 성격을 조절합니다. 같은 셋업으로 멀쩡한 벽부터 깊게 관통된 벽까지 빠르게 반복할 수 있습니다.",
+      controls: "모디파이어 파라미터", controlsCopy: "외벽과 안벽의 조절 범위를 분리해, 모양은 유지하면서 손상만 바꾸거나 반대로 내부 파손만 강조할 수 있습니다.",
+      bricks: "두 단계 벽돌 파손", bricksCopy: "1차 단계는 벽돌 중심에서 파손 깊이를 샘플링하고, 벽돌별 랜덤 오프셋을 적용해 해당 벽돌 전체를 제거합니다. 2차 단계는 얕은 보로노이·노이즈 커터를 경계 벽돌에만 적용해 단면을 파손합니다. 두 단계를 분리해 벽돌 제거 범위와 경계 벽돌의 파손 정도를 독립적으로 조절합니다.",
+      compare: "Influence / Depth 비교", compareCopy: "같은 벽에서 Inner Break Influence와 Depth만 바꾼 결과입니다. 0/0은 거의 멀쩡한 안벽, 0.5/0.5는 부분 파손, 1/1은 원뿔형 관통 파손입니다.",
+      iteration: "크랙 결과 변형", iterationCopy: "V2와 V3는 해당 툴을 사용해 생성한 다양한 크랙 결과입니다.",
+      nodes: "노드 구조", nodesCopy: "바깥쪽 파손과 안쪽 벽돌 파손을 분리했습니다. WallOut은 파손 데이터의 원천이고, WallIn은 그 결과를 메시 속성으로 전달받아 Attribute Statistic으로 읽습니다. 따라서 안벽이 겉벽을 되읽지 않아 순환 참조 없이 동일한 파손을 공유합니다.",
+      quality: "검증·최적화", qualityCopy: "크랙 커터는 볼륨으로 정리한 뒤 Manifold Boolean으로 적용해 비매니폴드 엣지를 0개로 만들었습니다. 또한 보이지 않는 안쪽 벽돌을 생략하고 빠진 벽돌 주변의 줄눈을 제거해 약 11.6만에서 3만 버텍스로 줄였으며, 벽 끝 벽돌 클리핑과 근접면 정리로 z-fighting을 제거했습니다.",
+      authorship: "AI 협업과 직접 구현 범위", ownTitle: "직접 설계·구현·검증", own: ["아티스트 문제 정의, 툴 동작 방향, 모디파이어 파라미터와 품질 기준 설계", "겉벽/안벽 단방향 데이터 구조, 실제 Boolean 경계 기반 크랙 시작점, 오목 모서리 판정의 요구사항 결정", "벽돌 2단계 파손, 줄눈 정리, 벽 끝 클리핑, z-fighting 해결과 버텍스 최적화", "렌더 결과·토폴로지·성능 수치를 확인하고 최종 노드 통합"], aiTitle: "AI와 협업한 부분", ai: ["보로노이 크랙 네트워크의 노드 구성: 포물면 리프트 + Convex Hull로 들로네를 만들고 Dual Mesh로 셀을 얻는 접근", "일부 반복적인 Geometry Nodes 연결과 초기 노드 조합 제안"], boundary: "AI가 제안한 노드 구성도 요구사항에 맞는지, 툴에서 실제로 어떤 결과가 나오는지, 토폴로지와 성능이 기준을 만족하는지는 제가 확인하고 수정했습니다. 따라서 결과 이미지가 아니라 문제 정의·선택·검증 과정을 함께 보여줍니다.",
+      next: "현재 한계와 다음 단계", nextCopy: "현재 로컬 +X를 바라보는 평면 벽 기준입니다. 다음으로 고정 축을 표면 노멀 샘플링으로 일반화해 곡면·옆면에 대응하고, 참조 겉벽 오브젝트를 모디파이어 입력으로 노출해 여러 벽에서 재사용할 예정입니다. 깨진 면의 재질도 텍스처와 노멀맵으로 보강합니다." } : {
+      heading: "A procedural damage system that shows how artists use it", lede: "Ruin Forge is not a node graph for one image. It is a Geometry Nodes tool designed so environment artists can move DamageCtrl and tune a few values to generate many ruined-wall states.", status: "Personal project in progress", intro: "This page covers only implemented features verified in renders. Curved-surface support, multi-wall reuse, and final materials remain next steps.", use: "Artist workflow", useCopy: "Without opening the node tree, an artist places DamageCtrl, then adjusts range, depth, seed, and crack character in the modifier panel. The same setup supports quick iteration from intact to deeply punched-through walls.", controls: "Modifier parameters", controlsCopy: "Outer and inner damage controls are separated, so artists can preserve a silhouette while changing damage, or emphasize interior destruction independently.", bricks: "Two-stage brick damage", bricksCopy: "Stage one reads damage depth at each brick center and removes whole bricks with randomized offsets, preserving chunks. Stage two applies shallow Voronoi/noise cutters only to boundary bricks for a broken cross-section. Separating these stages keeps chunk mass and fracture detail independently tunable.", compare: "Influence / Depth comparison", compareCopy: "Only Inner Break Influence and Depth change across this same wall: 0/0 stays mostly intact, 0.5/0.5 partially breaks, and 1/1 punches through in a cone.", iteration: "Crack design iteration", iterationCopy: "V2 and V3 are experiments in how the crack system can be used and extended. The core reads the real Boolean boundary from Intersecting Edges, selects concave turns with neighbor-direction dot products and Raycast, then layers alternating offsets, randomized amplitude, and directional jitter to avoid repeated zigzags.", nodes: "Node structure", nodesCopy: "Outer damage and interior brick damage are separate. WallOut is the source of damage data; WallIn receives it through mesh attributes and reads it with Attribute Statistic. The layers share damage without a circular reference.", quality: "Validation and optimization", qualityCopy: "Volume cleanup followed by a Manifold Boolean produces 0 non-manifold edges. Skipping unseen inner bricks and removing mortar around missing bricks reduced the mesh from about 116k to 30k vertices; end-brick clipping and near-face cleanup remove z-fighting.", authorship: "AI collaboration and individual ownership", ownTitle: "Designed, implemented, and validated by me", own: ["Artist problem definition, tool behavior, modifier parameters, and quality criteria", "The one-way WallOut/WallIn structure, boundary-driven crack requirement, and concave-corner rule", "Two-stage brick damage, mortar cleanup, end clipping, z-fighting fixes, and vertex optimization", "Render, topology, and performance checks plus final node integration"], aiTitle: "AI-assisted", ai: ["Node construction for the Voronoi crack network: paraboloid lift + Convex Hull for Delaunay, then Dual Mesh for cells", "Suggestions for repetitive Geometry Nodes wiring and initial node combinations"], boundary: "I reviewed and revised AI-suggested graphs against the requirements, final visual result, topology, and performance. The page therefore shows the decisions and validation—not only the final image.", next: "Current limits and next steps", nextCopy: "The current tool assumes a planar wall facing local +X. Next, fixed axes will become sampled surface normals for curved and side-facing surfaces; WallOut will become a modifier input for reuse across walls, and material textures/normal maps will strengthen broken surfaces." };
+    const params = figures(lang, [["Parameter.png", ko ? "겉벽 파라미터" : "Outer-wall controls", ko ? "파손 크기·크랙·보로노이 조절" : "Damage, crack, and Voronoi controls", ko ? "Ruin Forge 외벽 모디파이어 파라미터" : "Ruin Forge outer-wall modifier parameters"], ["ParameterIn.png", ko ? "안벽 파라미터" : "Inner-wall controls", ko ? "Influence·Depth·Brick Jitter 조절" : "Influence, Depth, and Brick Jitter controls", ko ? "Ruin Forge 안벽 모디파이어 파라미터" : "Ruin Forge inner-wall modifier parameters"]]);
+    const versions = figures(lang, [["crack_otherV2.png", "V2", ko ? "크랙 사용/확장 실험" : "Crack-use experiment", ko ? "Ruin Forge 크랙 V2 실험 이미지" : "Ruin Forge crack V2 experiment"], ["crack_otherV3.png", "V3", ko ? "크랙 사용/확장 실험" : "Crack-use experiment", ko ? "Ruin Forge 크랙 V3 실험 이미지" : "Ruin Forge crack V3 experiment"]]);
+    const nodes = figures(lang, [["NodeOuter.png", ko ? "WallOut" : "WallOut", ko ? "겉벽 파손·크랙 노드 그룹" : "Outer-wall damage and crack group", ko ? "Ruin Forge 외벽 Geometry Nodes 그래프" : "Ruin Forge outer-wall Geometry Nodes graph"], ["NodeInner.png", ko ? "WallIn" : "WallIn", ko ? "안벽 벽돌 파손 노드 그룹" : "Interior brick-damage group", ko ? "Ruin Forge 안벽 Geometry Nodes 그래프" : "Ruin Forge interior-wall Geometry Nodes graph"]]);
+    const result = figures(lang, [["01_main.jpg", ko ? "메인 렌더" : "Hero render", ko ? "콘크리트 껍데기·크랙·벽돌 구조" : "Concrete shell, cracks, and brick structure", ko ? "크랙과 노출된 벽돌 구조가 보이는 Ruin Forge 전체 렌더" : "Full Ruin Forge render"], ["02_closeup_bricks.jpg", ko ? "벽돌 단면" : "Brick cross-section", ko ? "통째로 빠진 벽돌 + 경계 파손" : "Whole-brick loss + boundary fracture", ko ? "부분 파손 벽돌 클로즈업" : "Partially fractured bricks"], ["03_closeup_cracks.jpg", ko ? "크랙" : "Cracks", ko ? "경계에서 시작하는 불규칙한 균열" : "Irregular boundary-driven fractures", ko ? "벽 표면 절차적 크랙" : "Procedural wall cracks"]]);
+    const comparison = figures(lang, [["04_compare_0_0.jpg", "0 / 0", ko ? "거의 멀쩡한 안벽" : "Mostly intact", ko ? "파손 영향도와 깊이 0" : "Zero break influence and depth"], ["05_compare_05_05.jpg", "0.5 / 0.5", ko ? "부분 파손" : "Partial damage", ko ? "중간 파손 설정" : "Mid-level damage"], ["06_compare_1_1.jpg", "1 / 1", ko ? "원뿔형 관통 파손" : "Punched-through damage", ko ? "파손 영향도와 깊이 1" : "Full break influence and depth"]]);
+    const list = (items) => `<ul>${items.map(item => `<li>${item}</li>`).join("")}</ul>`;
+    return `<section><h2>${s.heading}</h2><p class="case-study-lede">${s.lede}</p><p class="metric-source-note"><strong>${s.status}:</strong> ${s.intro}</p><h3>${s.use}</h3><p>${s.useCopy}</p><h3>${s.controls}</h3><p>${s.controlsCopy}</p>${params}<h3>${s.bricks}</h3><p>${s.bricksCopy}</p><h3>${s.compare}</h3><p>${s.compareCopy}</p>${comparison}<h3>${s.iteration}</h3><p>${s.iterationCopy}</p>${versions}<h3>${s.nodes}</h3><p>${s.nodesCopy}</p>${nodes}<h3>${s.quality}</h3><p>${s.qualityCopy}</p><h3>${s.authorship}</h3><h4>${s.ownTitle}</h4>${list(s.own)}<h4>${s.aiTitle}</h4>${list(s.ai)}<p class="engineering-note">${s.boundary}</p><h3>${s.next}</h3><p>${s.nextCopy}</p><h3>${ko ? "최종 결과" : "Final results"}</h3>${result}</section>`;
+  };
+  p.contributions.sections = [{ title: "Procedural Ruin-Wall Tool", category: "Technical", htmlContent: makeCaseStudy("en") }];
+  p.localized.ko.contributions.sections = [{ title: "절차적 폐허 벽 파손 툴", category: "Technical", htmlContent: makeCaseStudy("ko") }];
+})();
+
+// Authorship correction: feature implementation and verification were AI-executed; the project owner
+// supplied the brief, iteration requests, and their own authored nodes. Keep this explicit for viewers.
+(() => {
+  const p = projectsData["10_RuinForge"];
+  if (!p) return;
+  p.experience.description = "Defined the project goal and gave iterative direction for the tool. I wrote some nodes myself; the broader feature implementation, renders, validation, and final integration were completed with AI assistance.";
+  p.localized.ko.experience.description = "프로젝트 목표와 툴의 개선 방향을 정하고 반복적으로 요구사항을 전달했습니다. 일부 노드는 직접 작성했으며, 그 외 기능 구현·렌더·검증·최종 통합은 AI의 도움으로 진행했습니다.";
+  const koOld = /<h3>AI 협업과 직접 구현 범위<\/h3>[\s\S]*?<h3>현재 한계와 다음 단계<\/h3>/;
+  const koNew = `<h3>작업 범위와 AI 협업</h3><h4>제가 맡은 부분</h4><ul><li>프로젝트 목표와 “아티스트가 어떤 조절을 할 수 있어야 하는가”에 대한 요구사항 정의</li><li>파손 방향, 원하는 결과, 반복 개선 사항을 AI에 지시하고 결과를 검토</li><li>페이지에 포함된 일부 Geometry Nodes를 직접 작성</li></ul><h4>AI의 도움으로 구현한 부분</h4><ul><li>벽돌 2단계 파손, 줄눈 정리, 벽 끝 클리핑, z-fighting 해결과 버텍스 최적화</li><li>보로노이 크랙 네트워크와 다수의 Geometry Nodes 구성·연결</li><li>렌더 결과, 토폴로지, 성능 수치 확인과 최종 노드 통합</li></ul><p class="engineering-note">이 작업은 AI를 구현 파트너로 사용한 개인 프로젝트입니다. 제가 목표와 개선 방향을 정하고 반복 피드백을 제공했으며, 구현·검증 과정의 상당 부분은 AI 도움으로 진행했습니다.</p><h3>현재 한계와 다음 단계</h3>`;
+  p.localized.ko.contributions.sections[0].htmlContent = p.localized.ko.contributions.sections[0].htmlContent.replace(koOld, koNew);
+  const enOld = /<h3>AI collaboration and individual ownership<\/h3>[\s\S]*?<h3>Current limits and next steps<\/h3>/;
+  const enNew = `<h3>Scope of work and AI collaboration</h3><h4>My contribution</h4><ul><li>Defined the project goal and what artist controls the tool should expose.</li><li>Directed damage behavior, target results, and iteration requests; reviewed the results.</li><li>Authored some Geometry Nodes included in the project.</li></ul><h4>Implemented with AI assistance</h4><ul><li>Two-stage brick damage, mortar cleanup, end-brick clipping, z-fighting fixes, and vertex optimization.</li><li>The Voronoi crack network and much of the Geometry Nodes construction and wiring.</li><li>Render, topology, and performance checks plus final node integration.</li></ul><p class="engineering-note">This personal project uses AI as an implementation partner. I set the goal and iteration direction, while AI assistance completed a substantial part of implementation and verification.</p><h3>Current limits and next steps</h3>`;
+  p.contributions.sections[0].htmlContent = p.contributions.sections[0].htmlContent.replace(enOld, enNew);
+})();
+
+// Specific user-authored Geometry Nodes correction.
+(() => {
+  const p = projectsData["10_RuinForge"];
+  if (!p) return;
+  p.experience.description = "Defined the project goal and gave iterative direction for the tool. I directly authored the Boolean-based mesh subtraction that creates the crack space and the logic that generates surrounding cracks. Other feature implementation, renders, validation, and final integration were completed with AI assistance.";
+  p.localized.ko.experience.description = "프로젝트 목표와 툴의 개선 방향을 정하고 반복적으로 요구사항을 전달했습니다. Boolean으로 메시를 빼서 균열 공간을 만드는 처리와 주변 크랙 생성 로직은 직접 작성했으며, 그 외 기능 구현·렌더·검증·최종 통합은 AI의 도움으로 진행했습니다.";
+  const ko = p.localized.ko.contributions.sections[0];
+  ko.htmlContent = ko.htmlContent
+    .replace("<li>페이지에 포함된 일부 Geometry Nodes를 직접 작성</li>", "<li><strong>Boolean 기반 균열 공간 생성</strong> — Boolean으로 벽 메시를 빼 실제 크랙이 들어갈 공간을 만드는 처리</li><li><strong>주변 크랙 생성 로직</strong> — 파손 주변으로 크랙이 자라도록 하는 로직</li>")
+    .replace("<li>보로노이 크랙 네트워크와 다수의 Geometry Nodes 구성·연결</li>", "<li>벽돌 파손·줄눈·클리핑을 포함한 나머지 Geometry Nodes 구성·연결</li>");
+  const en = p.contributions.sections[0];
+  en.htmlContent = en.htmlContent
+    .replace("<li>Authored some Geometry Nodes included in the project.</li>", "<li><strong>Boolean-based crack-space generation</strong> — subtracting mesh volume with a Boolean to create real space for the cracks.</li><li><strong>Surrounding-crack generation logic</strong> — logic that grows cracks around the damaged area.</li>")
+    .replace("<li>The Voronoi crack network and much of the Geometry Nodes construction and wiring.</li>", "<li>Remaining Geometry Nodes construction and wiring, including brick damage, mortar cleanup, and clipping.</li>");
+})();
+
+// Ruin Forge uses a game-page shell, but it is a tool case study rather than a game.
+(() => {
+  const p = projectsData["10_RuinForge"];
+  if (!p) return;
+  p.overviewLabel = "Tool overview";
+  p.featuresLabel = "Tool highlights";
+  p.overview = "An artist-facing Geometry Nodes tool for generating concrete shell damage, boundary-driven cracks, and damaged brickwork. DamageCtrl sets the damage location; modifier parameters then control the resulting damage range, depth, and variation.";
+  p.features = [
+    "DamageCtrl sets the damage location; modifier parameters tune damage range, depth, seed, and crack character",
+    "User-authored: Boolean mesh subtraction creates real crack space, with logic for generating surrounding cracks",
+    "Inner Break Influence / Depth move the same wall from mostly intact to partial and punched-through damage"
+  ];
+  p.localized.ko.overviewLabel = "툴 소개";
+  p.localized.ko.featuresLabel = "핵심 기능";
+  p.localized.ko.overview = "콘크리트 껍데기 파손, 실제 파손 경계에서 자라는 크랙, 손상된 내부 벽돌 구조를 만드는 Geometry Nodes 툴입니다. DamageCtrl은 파손 위치를 정하고, 모디파이어 파라미터가 파손 범위·깊이·변형을 조절합니다.";
+  p.localized.ko.features = [
+    "DamageCtrl로 파손 위치를 정하고, 모디파이어에서 범위·깊이·시드·크랙 성격을 조절",
+    "직접 작성: Boolean으로 실제 크랙 공간을 만들고 파손 주변 크랙을 생성하는 로직",
+    "Inner Break Influence / Depth로 거의 멀쩡한 벽부터 부분·관통 파손까지 조절"
+  ];
+})();
+
 function renderEngineeringCaseStudy({ metrics = [], architecture = [], architectureNote = "", cases = [], decisions = [], code = null, note = "", labels = {} }) {
   const copy = { systemMap: "System map", problem: "Problem", decision: "Decision", implementation: "Implementation", verification: "Verification", keyDecisions: "Key decisions I made", decisionLog: "Decision log", decisionTitle: "Why the systems were structured this way", system: "System", choice: "Choice", why: "Why", tradeoff: "Tradeoff", codeEvidence: "Code evidence", viewSource: "View source file ↗", ...labels };
   const metricsHTML = metrics.map(metric => `<article><span class="engineering-icon" aria-hidden="true">${metric.icon}</span><strong>${metric.value}</strong><small>${metric.label}</small></article>`).join("");
@@ -3884,6 +4076,15 @@ function renderEngineeringCaseStudy({ metrics = [], architecture = [], architect
   const decisionSpotlightHTML = decisions.length ? `<section class="decision-spotlight"><h3>${copy.keyDecisions}</h3><div>${decisions.slice(0, 4).map((item, index) => `<article><span>${String(index + 1).padStart(2, "0")}</span><span class="case-label">${item.system}</span>${item.problem ? `<p class="decision-problem">${item.problem}</p>` : ""}<strong>→ ${item.choice}</strong><p>${item.reason}</p><small>${copy.tradeoff}: ${item.tradeoff}</small></article>`).join("")}</div></section>` : "";
   const codeHTML = code ? `<details class="technical-deep-dive"><summary><span>${copy.codeEvidence}</span><strong>${code.title}</strong></summary><div class="technical-deep-dive-body"><p>${code.description}</p><pre><code>${code.snippet}</code></pre><a class="evidence-link" href="${code.url}" target="_blank" rel="noopener noreferrer">${copy.viewSource}</a></div></details>` : "";
   return `<div class="engine-evidence-group"><div class="engineering-summary" aria-label="Project evidence summary">${metricsHTML}</div><div class="system-map"><h3>${copy.systemMap}</h3>${architectureNote ? `<p class="system-map-note">${architectureNote}</p>` : ""}<ol style="--flow-steps:${architecture.length}">${architectureHTML}</ol></div></div><div class="engineering-case-grid">${casesHTML}</div>${decisions.length ? `<details class="technical-deep-dive"><summary><span>${copy.decisionLog}</span><strong>${copy.decisionTitle}</strong></summary><div class="technical-deep-dive-body"><div class="decision-table-wrap"><table class="decision-table"><thead><tr><th>${copy.system}</th><th>${copy.choice}</th><th>${copy.why}</th><th>${copy.tradeoff}</th></tr></thead><tbody>${decisionsHTML}</tbody></table></div></div></details>` : ""}${codeHTML}${note ? `<p class="engineering-note">${note}</p>` : ""}`;
+}
+
+// Image slots for pages whose renders aren't in yet (currently Ruin Forge). Each slot tries to load
+// `src`; while that file doesn't exist the <img> removes itself on error and the dashed placeholder
+// (showing the expected path) is left instead — so adding an image is just dropping the file at that
+// path, no code change. Placeholder slots are empty on purpose, not missing content.
+function renderMediaSlots(figures, lang = "en") {
+  const label = lang === "ko" ? "이미지 준비 중" : "Image coming soon";
+  return `<div class="media-slot-grid">${figures.map(fig => `<figure class="media-slot"><div class="media-slot__frame"><span class="media-slot__placeholder"><strong>${label}</strong><small>${fig.src.replace("../", "")}</small></span><img src="${fig.src}" alt="${fig.alt}" loading="lazy" onerror="this.remove()"></div><figcaption><span>${fig.label}</span><strong>${fig.caption}</strong></figcaption></figure>`).join("")}</div>`;
 }
 
 function renderNewManzoArtShowcase(lang = "en") {

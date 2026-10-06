@@ -239,9 +239,10 @@
 
     // Overview 섹션
     if (project.overview) {
-      // 게임 프로젝트는 "게임 소개"로, 그 외(테크/기획)는 "Overview"로 라벨 표시
-      const overviewLabel = project.type === 'game' ? t('Game Overview', '게임 소개') : t('Overview', 'Overview');
-      const featuresLabel = t('Features', '특징');
+      // A project can provide its own label when it is not a game even if it reuses the
+      // game-page shell (for example, a Geometry Nodes tool case study).
+      const overviewLabel = project.overviewLabel || (project.type === 'game' ? t('Game Overview', '게임 소개') : t('Overview', 'Overview'));
+      const featuresLabel = project.featuresLabel || t('Features', '특징');
       // overviewImage가 있으면 Overview/Features 옆에 표시
       const overviewImage = project.overviewImage || project.characterImage;
 
@@ -959,7 +960,11 @@
   }
 
   // Recruiters should see concrete work before leadership titles.
-  function prioritizeContributions() {
+  function prioritizeContributions(project) {
+    // Tool case studies can lead with a current visual result before the long
+    // engineering write-up. This keeps an artist-work sample immediately
+    // visible rather than burying it below a technical deep dive.
+    if (project && project.prioritizeContributions === false) return;
     const roundedSection = document.querySelector('.rounded-section');
     const contributions = roundedSection && roundedSection.querySelector('.contributions-tabs-section');
     if (roundedSection && contributions) {
@@ -1478,7 +1483,7 @@
       updateStreetTyperStack();
       updateTooHotStack();
       emphasizeOverviewCopy();
-      prioritizeContributions();
+      prioritizeContributions(project);
       placeExperience(project);
       renderWaypointNavigation(project);  // 이정표 네비게이션
       setupWaypointLightboxVisibility();
@@ -1742,7 +1747,9 @@
   }
 
   function enableAssetLightbox() {
-    document.querySelectorAll('.asset-showcase-grid, .asset-portrait-grid, .asset-frame-strips, .psk-figs').forEach(grid => {
+    // Media-slot grids are used by case studies such as Ruin Forge. Include them here so their
+    // renders, parameter panels, and node graphs behave like the template's other gallery assets.
+    document.querySelectorAll('.asset-showcase-grid, .asset-portrait-grid, .asset-frame-strips, .psk-figs, .media-slot-grid').forEach(grid => {
       if (grid.dataset.lightboxBound) return;
       grid.dataset.lightboxBound = 'true';
       const figures = Array.from(grid.querySelectorAll('figure'));

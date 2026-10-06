@@ -90,6 +90,7 @@ def styles():
         "gloss_def": ParagraphStyle("gloss_def", fontName="Malgun", fontSize=8.8, leading=13, textColor=NAVY, leftIndent=10),
         "code_title": ParagraphStyle("code_title", fontName="Malgun-Bold", fontSize=7.3, leading=9, textColor=CODE_ACCENT),
         "code_line": ParagraphStyle("code_line", fontName="Courier", fontSize=6.6, leading=8.4, textColor=CODE_FG),
+        "code_note": ParagraphStyle("code_note", fontName="Malgun", fontSize=7.8, leading=10.8, textColor=NAVY, leftIndent=2),
     }
 
 
@@ -110,6 +111,54 @@ def english_box(s, lines):
         ("TOPPADDING", (0, 1), (0, 1), 2),
         ("BOTTOMPADDING", (0, 1), (0, 1), 8),
     ]))
+    return t
+
+
+def render_snippet(s, snippet):
+    """snippet = (title, code_text) -> 기본 코드 박스, (title, line_pairs) -> 줄별 설명 박스."""
+    title, payload = snippet
+    if isinstance(payload, list):
+        return code_box_annotated(s, title, payload)
+    return code_box(s, title, payload)
+
+
+def code_box_annotated(s, title, pairs):
+    """코드를 한 줄(또는 몇 줄)씩 보여주고, 그 바로 아래에 한국어 설명을 붙이는 박스.
+    pairs: list of (code_line_or_lines: str, explanation: str|None)."""
+    esc = lambda t: t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    rows = [[Paragraph(title, s["code_title"])]]
+    kinds = ["title"]
+    for code, note in pairs:
+        for line in code.strip("\n").split("\n"):
+            html = esc(line).replace(" ", "&nbsp;") or "&nbsp;"
+            rows.append([Paragraph(html, s["code_line"])])
+            kinds.append("code")
+        if note:
+            rows.append([Paragraph(note, s["code_note"])])
+            kinds.append("note")
+    t = Table(rows, colWidths=[6.2 * inch])
+    style = [
+        ("LEFTPADDING", (0, 0), (-1, -1), 10),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+        ("TOPPADDING", (0, 0), (0, 0), 7),
+        ("BOTTOMPADDING", (0, 0), (0, 0), 4),
+        ("ROUNDEDCORNERS", [6, 6, 6, 6]),
+        ("BOTTOMPADDING", (0, -1), (0, -1), 9),
+    ]
+    for i, kind in enumerate(kinds):
+        if kind in ("title", "code"):
+            style += [
+                ("BACKGROUND", (0, i), (0, i), CODE_BG),
+                ("TOPPADDING", (0, i), (0, i), 1 if kind == "code" else 7),
+                ("BOTTOMPADDING", (0, i), (0, i), 1 if kind == "code" else 4),
+            ]
+        else:
+            style += [
+                ("BACKGROUND", (0, i), (0, i), colors.HexColor("#EEF2FF")),
+                ("TOPPADDING", (0, i), (0, i), 3),
+                ("BOTTOMPADDING", (0, i), (0, i), 7),
+            ]
+    t.setStyle(TableStyle(style))
     return t
 
 
@@ -149,8 +198,13 @@ def bullet_block(s, number, resume_line, what, why, how, likely_q, english_lines
         ("ALIGN", (0, 0), (-1, -1), "CENTER"),
         ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
     ]))
+    is_ascii = all(ord(ch) < 128 for ch in resume_line)
+    quoted = (
+        f'<font name="Helvetica-Oblique">"{resume_line}"</font>' if is_ascii
+        else f'<i>"{resume_line}"</i>'
+    )
     header_row = Table(
-        [[num_chip, Paragraph(f'{source_label}: <font name="Helvetica-Oblique">"{resume_line}"</font>', s["resume_line"])]],
+        [[num_chip, Paragraph(f'{source_label}: {quoted}', s["resume_line"])]],
         colWidths=[0.4 * inch, 6.0 * inch],
     )
     header_row.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "MIDDLE")]))
@@ -166,7 +220,7 @@ def bullet_block(s, number, resume_line, what, why, how, likely_q, english_lines
         flow.append(Paragraph(f"• {text}", s["body_tight"]))
         if snippet:
             flow.append(Spacer(1, 2))
-            flow.append(code_box(s, snippet[0], snippet[1]))
+            flow.append(render_snippet(s, snippet))
             flow.append(Spacer(1, 3))
     if likely_q:
         flow.append(Paragraph("예상 질문 &amp; 답변 포인트", s["label"]))
@@ -176,7 +230,7 @@ def bullet_block(s, number, resume_line, what, why, how, likely_q, english_lines
             flow.append(Paragraph(a, s["qa_a"]))
             if snippet:
                 flow.append(Spacer(1, 2))
-                flow.append(code_box(s, snippet[0], snippet[1]))
+                flow.append(render_snippet(s, snippet))
                 flow.append(Spacer(1, 3))
     flow.append(Spacer(1, 4))
     flow.append(english_box(s, english_lines))
@@ -494,38 +548,20 @@ def build_carboom():
         why=(
             "배경은 항상 아레나라는 고정된 시점에서만 보이기 때문에, 실제 3D 거리가 화면에 실제로 보이는 "
             "크기와 일치하지 않습니다. 단순 랜덤 배치로는 균형 잡힌 하늘이 안 나와서, '겉보기 크기' 기준으로 "
-            "배치 로직을 새로 설계했습니다."
+            "배치 로직을 새로 설계했습니다. 아래 2~5번 불릿은 포트폴리오 케이스 스터디에 나온 4개 항목"
+            "(구도 / 반복 개선 / 군집화 / 락)을 각각 더 깊이 설명합니다."
         ),
         how=[
             (f"{fn('뷰 공간(View-space) 구도', '3D 월드 좌표가 아니라, 특정 카메라/관측 지점에서 봤을 때의 각도·겉보기 크기를 기준으로 계산하는 방식. 이 프로젝트에서는 아레나라는 고정 시점에서 행성이 실제로 화면에 얼마나 크게/가깝게 보이는지를 기준으로 배치 간격과 밀도를 계산한다.')}: 실제 3D 거리 대신, 아레나에서 바라본 "
              "각도와 겉보기 크기를 기준으로 행성 간 최소 간격과 밀도를 계산해서, 멀리 있는 큰 행성과 "
              "가까운 작은 행성이 화면에서 비슷한 크기로 겹쳐 보이는 문제를 해결했습니다.", None),
-            ("처음엔 크기를 'ScaleDistribution' 커브 하나로 뽑았는데, 커브는 '이 거리대에 이 정도 크기의 "
-             "행성이 몇 개' 같은 조건을 표현할 수 없고, Blueprint DataAsset에서 거리 구간을 비율로 쪼개는 "
-             "방식도 한 항목을 수정하면 나머지가 다시 100%로 정규화되지 않아서 관리가 어려웠습니다. 그래서 "
-             f"{fn('ScaleZones 배열', '거리/크기 구간마다 개수·크기 범위·거리 범위를 각각 독립적으로 갖는 배열. 커브 하나로 전체를 표현하는 대신, 구간(zone)마다 아티스트가 숫자를 직접 넣게 해서 표현력과 편집 편의성을 둘 다 얻었다.')}로 바꿔서, 구간마다 "
-             "개수·크기 범위·거리 범위를 독립적으로 넣고 구간끼리 겹치는 것도 허용했습니다.", None),
-            ("군집(cluster) 로직도 처음엔 작은 행성이 이미 배치된 작은 행성 근처에만 계속 붙는 "
-             "'부익부' 현상이 있었고, 고친 뒤에도 같은 크기의 멤버들이 균등하게 흩어지면 알 무더기처럼 "
-             "부자연스러워 보였습니다. 그래서 군집을 미리 하나의 '원판'으로 묶어 배치하고, 그 안에서 대장-졸개 "
-             "크기 계층을 강제했습니다.", None),
-            (f"최근에는 {fn('락(Lock) 기능', '아티스트가 마음에 드는 행성 배치 결과 일부를 고정해두는 기능. 락 걸린 행성은 Clear에서 지워지지 않고 다음 Generate에 이미 배치된 것으로 다시 들어간다.')}을 추가했습니다 — 아티스트가 "
-             "마음에 드는 행성을 락으로 고정하면, 재생성할 때 그 행성은 그대로 두고 나머지만 다시 배치합니다.",
-             ("space_background.py 일부 — 체크박스 또는 태그로 락 상태 판별", """def is_locked(actor):
-    # BP planets use the Locked checkbox; old StaticMeshActor planets use a tag.
-    try:
-        if actor.get_editor_property(LOCK_PROPERTY):
-            return True
-    except Exception:
-        pass
-    return LOCK_TAG in actor_tags(actor)""")),
+            (f"{fn('ScaleZones 배열', '거리/크기 구간마다 개수·크기 범위·거리 범위를 각각 독립적으로 갖는 배열. 커브 하나로 전체를 표현하는 대신, 구간(zone)마다 아티스트가 숫자를 직접 넣게 해서 표현력과 편집 편의성을 둘 다 얻었다.')}로 아티스트가 '이 거리대에 이 크기의 행성 몇 개'를 직접 지정합니다.", None),
+            ("군집(cluster)은 미리 하나의 '원판'으로 묶어 배치하고, 그 안에서 대장-졸개 크기 계층을 "
+             "가우시안 분포로 강제해서 알 무더기처럼 보이지 않게 했습니다.", None),
+            (f"{fn('락(Lock) 기능', '아티스트가 마음에 드는 행성 배치 결과 일부를 고정해두는 기능. 락 걸린 행성은 Clear에서 지워지지 않고 다음 Generate에 이미 배치된 것으로 다시 들어간다.')}으로 아티스트가 마음에 드는 행성만 고정하고 나머지만 다시 "
+             "배치할 수 있게 했습니다 (자세한 코드는 아래 4번 불릿).", None),
         ],
         likely_q=[
-            ("왜 처음에 커브 대신 배열(ScaleZones)로 바꿨나요?",
-             "커브는 '이 거리대에 이 크기의 행성이 몇 개'라는 조건을 직접 표현할 수 없고, 구간을 비율로 "
-             "나누는 방식은 Blueprint DataAsset에서 한 항목만 수정해도 나머지가 자동으로 재정규화되지 않아서 "
-             "실제로 아티스트가 쓰기 어려웠습니다. 그래서 구간마다 독립된 숫자를 넣는 배열 구조로 바꿨습니다.",
-             None),
             ("아티스트 친화적인 툴을 만들 때 가장 신경 쓴 부분은?",
              "Python 코드를 전혀 몰라도 DataAsset의 숫자만 바꿔서 결과를 바로 확인할 수 있어야 한다는 "
              "점이었습니다. 그래서 Zone 범위와 개수를 Output Log에 매번 출력해서, 아티스트가 지금 입력한 "
@@ -537,12 +573,425 @@ def build_carboom():
             "never have to touch code.”",
             "“Because the background is only ever seen from one fixed arena viewpoint, I compute "
             "placement by apparent size and angle from that viewpoint, not raw 3D distance.”",
-            "“The first version used a single curve to sample planet sizes, but that couldn't "
-            "express 'this many planets of this size around this distance,' so I replaced it with "
-            "an explicit array of zones, each with its own count, scale range, and distance range.”",
-            "“I also added a Lock feature — locked planets survive Clear and get fed back into the "
-            "next Generate as already-placed, so an artist can keep what they like and re-roll only "
-            "the rest.”",
+        ],
+    ))
+
+    story.extend(bullet_block(
+        s, 2,
+        "구도 (Composition) — 실제 거리 대신 겉보기 크기로 배치하기",
+        source_label="포트폴리오 케이스 스터디",
+        what="행성을 3D 공간에 배치할 때, 실제 좌표가 아니라 '아레나에서 봤을 때 얼마나 크게 보이는가'를 "
+             "기준으로 간격과 밀도를 계산하는 부분입니다. 멀리 있는 큰 행성과 가까운 작은 행성이 화면에선 "
+             f"같은 크기로 보일 수 있기 때문입니다. {fn('입체각(Solid Angle)', '3D 공간의 한 점에서 어떤 도형이 시야에서 차지하는 면적 비율을 각도 단위로 표현한 것. 2D의 평면각(라디안)을 구면으로 확장한 개념으로, 이 프로젝트에서는 행성이 화면에서 차지하는 시각적 비중(visual mass)을 구하는 데 쓰인다.')} 기반 수식 3개"
+             "(겉보기 크기, 각거리, 시각적 질량)로 전체 구도를 통제합니다.",
+        why="단순 랜덤 3D 배치는 균형이 안 맞는 하늘을 만듭니다 — 아레나는 고정된 한 지점이라, 중요한 건 "
+            "3D 거리가 아니라 그 지점에서 본 결과물입니다.",
+        how=[
+            ("`to_view()`가 행성의 위치·반지름을 아레나 기준 방향 벡터와 겉보기 각반지름(alpha)으로 "
+             "변환합니다 — `asin(radius / distance)`로, 실제 크기가 아니라 시야각으로 크기를 표현합니다.",
+             ("space_background.py 일부 — 겉보기 크기/시각적 질량 계산", [
+                 ("def to_view(location, radius):",
+                  "아레나(원점)에서 본 행성의 '방향'과 '겉보기 각반지름'을 계산하는 함수. location은 "
+                  "행성의 3D 월드 좌표, radius는 행성의 실제 반지름(스케일 반영값). 이 둘을 '얼마나 멀리, "
+                  "얼마나 커 보이는가'로 바꾸는 게 이 함수의 목적 — 이후 모든 구도 계산이 3D 좌표 대신 "
+                  "이 함수가 반환하는 값만 쓴다."),
+                 ("    distance = vec_length(location)",
+                  "아레나(원점)에서 행성까지의 실제 3D 거리. location이 원점을 기준으로 한 벡터이므로, "
+                  "벡터의 길이(magnitude)가 곧 거리다."),
+                 ("    direction = tuple(value / distance for value in location)",
+                  "location 벡터의 각 성분(x, y, z)을 자신의 길이(distance)로 나눠서 길이가 정확히 1인 "
+                  "단위 벡터로 만든다. 거리 정보는 지워지고 '어느 방향에 있는지'만 남는다 — 뒤에서 두 "
+                  "행성의 각도 차이를 구할 때(angle_between) 이 단위 벡터끼리 내적(dot product)을 "
+                  "계산하면 되므로, 거리를 매번 다시 나눌 필요가 없어진다."),
+                 ("    alpha = math.asin(min(1.0, radius / distance))",
+                  "겉보기 각반지름을 구하는 핵심 줄. 아레나 → 행성 중심까지의 거리를 빗변, 행성의 반지름을 "
+                  "대변으로 하는 직각삼각형을 생각하면, asin(대변/빗변)이 바로 '행성 가장자리까지 벌어지는 "
+                  "각도'가 된다. min(1.0, ...)은 행성이 카메라에 거의 붙어서 radius/distance가 1을 넘는 "
+                  "예외 상황에서 asin의 정의역(−1~1)을 벗어나 에러가 나는 걸 막는 방어 코드다."),
+                 ("    return direction, alpha",
+                  "단위 방향 벡터와 겉보기 각반지름을 튜플로 반환한다. 이 둘만 있으면 실제 3D 좌표 없이도 "
+                  "간격·밀도·겹침을 전부 각도만으로 계산할 수 있다."),
+                 ("def view_mass(alpha):",
+                  "행성(또는 무리) 하나가 화면에서 차지하는 '시각적 비중'을 숫자 하나로 표현하는 함수. "
+                  "이름의 mass는 질량이 아니라 밀도 계산에서 쓰이는 '무게감'을 뜻한다."),
+                 ("    return math.pi * alpha * alpha",
+                  "원의 넓이 공식(π·r²)을 겉보기 각반지름 alpha에 그대로 적용한 것. alpha를 '각도 단위의 "
+                  "반지름'으로 보고 그 원이 차지하는 면적(입체각에 비례)을 근사한다. 값이 클수록 화면에서 "
+                  "크고 무겁게 느껴진다는 뜻이며, 이 값이 뒤에서 밀도 계산(local_mass 합산)에 그대로 "
+                  "쓰인다."),
+             ])),
+            ("`fits_composition()`이 두 가지 규칙을 검사합니다: (1) 기하평균 기반 간격 — 두 행성의 "
+             "겉보기 반지름의 기하평균만큼 여유를 더해서, 큰 것끼리는 멀리, 작은 것끼리는 거의 붙어도 "
+             "되게 하고, (2) 밀도 예산 — 주변이 이미 무거우면(큰 행성 근처) 확률적으로 배치를 거절하되, "
+             "딱 잘라 막지는 않아서(하드 컷오프 대신 확률) 큰 행성 주변이 텅 비는 걸 방지합니다.",
+             ("space_background.py 일부 — 간격/밀도 규칙", [
+                 ("def fits_composition(direction, alpha, layout, size_spacing, density_budget):",
+                  "지금 배치하려는 행성(방향 direction, 겉보기 크기 alpha)이 이미 배치된 것들(layout) "
+                  "사이에 '구도상' 들어갈 자리가 있는지 참/거짓으로 판단하는 함수. size_spacing, "
+                  "density_budget은 DataAsset에서 아티스트가 조절하는 간격/밀도 민감도 값이다."),
+                 ("    neighbor_angle = math.radians(NEIGHBOR_ANGLE)",
+                  "밀도를 계산할 때 '주변'으로 볼 각도 범위(NEIGHBOR_ANGLE, 도 단위 상수)를 라디안으로 "
+                  "변환해둔다. 아래 삼각함수 계산은 전부 라디안 기준이라 미리 바꿔두는 것."),
+                 ("    local_mass = 0.0",
+                  "지금 후보 위치 주변의 '누적 무게감'을 담을 변수. 아래 for 루프에서 가까운 이웃일수록 "
+                  "이 값에 더해진다."),
+                 ("    for other in layout:",
+                  "이미 배치된 모든 행성/무리(layout)를 하나씩 순회한다. 배치할 때마다 지금까지 놓인 "
+                  "전체와 비교하므로, 코드 주석에도 적혀있듯 이 함수는 호출될 때마다 O(n)이고 전체 배치는 "
+                  "O(n²)이다 — 지금 행성 개수에서는 문제없지만 개수가 크게 늘면 공간 분할 구조로 바꿔야 "
+                  "한다는 걸 인지하고 설계한 부분."),
+                 ("        theta = angle_between(direction, other[\"direction\"])",
+                  "후보 방향과 이미 놓인 행성의 방향 사이의 각도(라디안)를 구한다 — 두 단위 벡터의 "
+                  "내적에 acos를 취한 값."),
+                 ("        needed = alpha + other[\"alpha\"] + size_spacing * math.sqrt(alpha * other[\"alpha\"])",
+                  "두 행성이 화면에서 겹치지 않으려면 필요한 최소 각거리. 기본적으로 두 겉보기 반지름의 "
+                  "합(alpha + other.alpha)은 '딱 맞닿는' 거리이고, 여기에 기하평균(sqrt(alpha·other.alpha))에 "
+                  "size_spacing을 곱한 여유를 더한다. 기하평균을 쓰는 이유: 크다+크다는 기하평균도 커서 "
+                  "많이 벌어지고, 작다+작다는 기하평균도 작아서 거의 붙어도 되고, 크다+작다는 그 중간이 "
+                  "되어 '큰 것끼리는 멀리, 작은 것끼리는 촘촘히'가 수식 하나로 자연스럽게 나온다."),
+                 ("        if theta < needed:",
+                  "실제 각거리(theta)가 필요한 최소 거리(needed)보다 가까우면 — 즉 화면에서 겹치면."),
+                 ("            return False",
+                  "겹치는 게 확정이면 더 볼 것도 없이 즉시 '이 자리는 안 된다'고 반환해서, 뒤의 밀도 "
+                  "계산까지 가지 않고 함수를 끝낸다(조기 종료로 불필요한 계산을 줄임)."),
+                 ("        if theta < neighbor_angle:",
+                  "안 겹치더라도, 이 이웃이 '밀도 계산에 포함할 만큼 가까운지'(neighbor_angle 이내인지) "
+                  "확인한다."),
+                 ("            local_mass += other[\"mass\"] * (1.0 - theta / neighbor_angle)",
+                  "가까운 이웃일수록 밀도에 더 많이 기여하도록, 거리에 반비례하는 선형 가중치"
+                  "(1 - theta/neighbor_angle: theta가 0이면 가중치 1, neighbor_angle에 가까우면 0)를 "
+                  "그 이웃의 시각적 질량(other.mass)에 곱해서 local_mass에 누적한다."),
+                 ("    if local_mass <= 0.0:",
+                  "주변에 밀도에 기여할 이웃이 하나도 없었다면(누적 무게가 0이면)."),
+                 ("        return True",
+                  "주변이 전혀 붐비지 않는다는 뜻이므로 밀도 때문에 거절할 이유가 없어 바로 통과시킨다."),
+                 ("    kernel_area = math.pi * neighbor_angle * neighbor_angle / 3.0",
+                  "방금 쓴 선형 감쇠 가중치(1 - theta/neighbor_angle)를 반지름 neighbor_angle인 원 "
+                  "전체에 대해 적분하면 나오는 값(원뿔형 가중치의 '부피'에 해당) — 이걸로 local_mass를 "
+                  "나누면 단위 면적당 밀도로 정규화할 수 있다."),
+                 ("    local_density = local_mass / kernel_area",
+                  "누적된 무게(local_mass)를 커널 면적으로 나눠서, 절대적인 양이 아니라 '단위 면적당 "
+                  "얼마나 붐비는가'라는 밀도 값으로 변환한다."),
+                 ("    accept_chance = density_budget / local_density",
+                  "아티스트가 정한 밀도 예산(density_budget, '평균적으로 허용하는 밀도')을 지금 이 자리의 "
+                  "실제 밀도로 나눠서 수락 확률을 만든다. 주변이 평균보다 2배 붐비면 확률은 절반이 되는 "
+                  "식 — 밀도가 낮을수록 확률이 1을 넘을 수 있는데, 이는 아래 random() 비교에서 항상 "
+                  "참이 되므로 자연히 '항상 통과'로 처리된다."),
+                 ("    return random.random() < accept_chance  # chance, not a hard cutoff",
+                  "0~1 사이 난수를 뽑아서 accept_chance보다 작으면 통과시킨다. 딱 잘라 막는 if문(hard "
+                  "cutoff) 대신 확률을 쓴 이유: 큰 행성 근처를 완전히 막아버리면 그 주변이 영구히 텅 "
+                  "비어 보이는데, 확률로 '가끔은' 허용하면 큰 행성 곁에도 작은 행성이 드문드문 섞여서 "
+                  "하늘 전체가 더 자연스럽게 채워진다."),
+             ])),
+        ],
+        likely_q=[
+            ("왜 하드 컷오프 대신 확률(accept_chance)로 밀도를 제한했나요?",
+             "딱 잘라 막으면 이미 큰 행성이 있는 영역 주변이 영구히 텅 비게 됩니다. 확률로 '조금만' "
+             "허용하면 큰 행성 근처에도 가끔 작은 행성이 들어가서 하늘 전체가 자연스럽게 채워집니다.",
+             None),
+        ],
+        english_lines=[
+            "“Instead of raw 3D distance, I compute spacing and density as angles and solid angle "
+            "seen from the fixed arena viewpoint — apparent size, angular distance, and visual mass.”",
+            "“Spacing uses a geometric mean of the two apparent radii, and density is a probabilistic "
+            "budget rather than a hard cutoff, so crowded areas rarely accept more without leaving "
+            "visible gaps around big planets.”",
+        ],
+    ))
+
+    story.extend(bullet_block(
+        s, 3,
+        "반복 개선 (Iteration) — 커브로는 표현할 수 없었던 구도 요구사항",
+        source_label="포트폴리오 케이스 스터디",
+        what="행성 크기를 정하는 방식을 커브(Curve) 하나에서 ScaleZones 배열로 바꾼 설계 변경입니다.",
+        why="처음엔 ScaleDistribution 커브로 크기를 가중치 샘플링했는데, 커브로는 '이 거리대에 이 정도 "
+            "크기가 몇 개'라는 조건을 표현할 수 없었습니다. 거리 구간을 그래디언트 스톱처럼 비율(0~1)로 "
+            "나누는 것도 시도했지만, Blueprint DataAsset은 한 항목을 수정해도 나머지가 자동으로 "
+            "재정규화되지 않아 합이 1로 안 맞았습니다.",
+        how=[
+            ("구간마다 개수(Count)·스케일 범위·거리 범위를 독립적으로 갖는 `ScaleZones` 배열로 바꿔서, "
+             "구간끼리 겹치는 것도 허용했습니다 — 전체를 딱 맞게 나눌 필요가 없어서 아티스트가 훨씬 "
+             "직관적으로 편집할 수 있습니다.", None),
+            ("Blueprint 구조체(struct) 멤버가 `Count_2_ABCD...`처럼 내부적으로 이름이 맹글링되는 문제도 "
+             f"만났습니다. {fn('export_text() 폴백', 'Unreal Python API의 get_editor_property()가 Blueprint 구조체의 맹글링된 내부 이름 때문에 실패할 때, 액터/구조체를 텍스트로 직렬화하는 export_text()의 출력 문자열을 직접 파싱해서 값을 찾아내는 우회 방법.')}으로, `get_editor_property()`가 실패하면 "
+             "`export_text()`로 직렬화된 문자열을 직접 파싱해서 값을 찾아내는 폴백을 넣었습니다.",
+             ("space_background.py 일부 — 맹글링된 구조체 멤버 읽기 폴백", [
+                 ("def get_struct_value(struct, name):",
+                  "Blueprint에서 만든 구조체(struct)에서 이름이 name인 필드 값을 읽어오는 함수. "
+                  "DataAsset의 ScaleZones 배열 항목(Count, MinScale 등)을 읽을 때 전부 이 함수를 거친다."),
+                 ("    try:",
+                  "일단 정상적인 방법부터 시도한다."),
+                 ("        return struct.get_editor_property(name)",
+                  "Unreal Python API가 제공하는 표준 방법 — 구조체 필드 이름으로 직접 값을 가져온다. "
+                  "대부분의 경우 이 한 줄로 끝난다."),
+                 ("    except Exception:",
+                  "그런데 Blueprint 구조체는 내부적으로 'Count_2_ABCD1234...'처럼 고유 식별자가 붙은 "
+                  "이름으로 저장될 때가 있어서, 정확한 name 문자열을 몰라 위 호출이 예외를 던질 수 있다. "
+                  "그 예외를 여기서 잡는다."),
+                 ("        pass",
+                  "예외를 무시하고 아래의 대안 경로로 넘어간다 — 프로그램을 죽이지 않고 폴백을 시도하는 "
+                  "것이 이 함수의 핵심 설계."),
+                 ("    text = struct.export_text().strip(\"()\")",
+                  "구조체 전체를 'Count_2_ABCD=3,MinScale=1.0,...' 같은 텍스트로 직렬화하는 "
+                  "export_text()를 호출한다. 이 텍스트는 보통 괄호로 감싸져 있어서(예: \"(Count=3,...)\"), "
+                  "strip(\"()\")로 양 끝 괄호를 제거해 순수한 'key=value,key=value' 문자열만 남긴다."),
+                 ("    for pair in text.split(\",\"):",
+                  "콤마 기준으로 쪼개서 'key=value' 형태의 조각들을 하나씩 순회한다."),
+                 ("        key, _, value = pair.partition(\"=\")",
+                  "각 조각을 '=' 기준으로 왼쪽(key)과 오른쪽(value)으로 나눈다. partition은 split과 달리 "
+                  "구분자를 포함해 정확히 3개(앞부분, 구분자, 뒷부분)로 나눠주므로 가운데 값(구분자 자체)은 "
+                  "쓸 일이 없어 _로 버린다."),
+                 ("        if key == name or key.startswith(name + \"_\"):",
+                  "key가 찾던 이름과 정확히 같거나(맹글링 안 된 경우), 'name_' 으로 시작하면(맹글링된 "
+                  "경우, 예: name='Count'일 때 key='Count_2_ABCD') 찾은 것으로 간주한다."),
+                 ("            return float(value)",
+                  "찾은 값을 실수로 변환해 반환한다. export_text의 값은 전부 문자열이라 숫자로 쓰려면 "
+                  "변환이 필요하다."),
+                 ("    raise RuntimeError(f\"Could not find '{name}' in {text}\")",
+                  "두 경로(정상 프로퍼티 조회, 텍스트 파싱) 모두 실패하면, 조용히 잘못된 값을 쓰는 대신 "
+                  "명확한 에러 메시지와 함께 즉시 실패시킨다 — 아티스트가 DataAsset 필드 이름을 잘못 "
+                  "입력했을 때 원인을 바로 알 수 있게 하는 방어적 설계."),
+             ])),
+        ],
+        likely_q=[
+            ("왜 처음에 커브 대신 배열(ScaleZones)로 바꿨나요?",
+             "커브는 '이 거리대에 이 크기의 행성이 몇 개'라는 조건을 직접 표현할 수 없고, 구간을 비율로 "
+             "나누는 방식은 Blueprint DataAsset에서 한 항목만 수정해도 나머지가 자동으로 재정규화되지 "
+             "않아서 실제로 아티스트가 쓰기 어려웠습니다. 그래서 구간마다 독립된 숫자를 넣는 배열 구조로 "
+             "바꿨습니다.", None),
+            ("Blueprint 구조체 값을 읽을 때 왜 export_text() 같은 우회가 필요했나요?",
+             "Blueprint에서 만든 구조체 멤버는 내부적으로 고유 식별자가 붙은 이름(예: Count_2_ABCD)으로 "
+             "저장되는 경우가 있어서, 보통 쓰는 get_editor_property(name)가 정확한 이름을 몰라 실패합니다. "
+             "이 경우 구조체를 통째로 텍스트로 직렬화하는 export_text()의 출력을 파싱해서 우회했습니다.",
+             None),
+        ],
+        english_lines=[
+            "“A single sampling curve couldn't express 'this many planets of this size around this "
+            "distance,' so I replaced it with an explicit ScaleZones array — each zone has its own "
+            "count, scale range, and distance range, and zones can overlap.”",
+            "“I also hit Blueprint struct members getting mangled internal names, so I added a "
+            "fallback that parses the struct's export_text() output when the normal property lookup "
+            "fails.”",
+        ],
+    ))
+
+    story.extend(bullet_block(
+        s, 4,
+        "군집화 (Clustering) — '부익부' 뭉침과 알 무더기 문제 해결",
+        source_label="포트폴리오 케이스 스터디",
+        what="작은 행성들을 자연스러운 무리(cluster)로 묶어 배치하는 로직과, 두 번의 반복 개선 과정입니다.",
+        why="첫 로직은 작은 행성을 이미 놓인 작은 행성 근처에 확률적으로 떨어뜨렸는데, 이게 먼저 생긴 "
+            "무리로 계속 쏠려서(부익부) 화면이 큰 덩어리 하나 + 흩어진 큰 행성들로 2분할됐습니다. 이를 "
+            "고친 뒤에도, 크기가 비슷한 멤버를 원판에 고르게 뿌리니 알 무더기처럼 부자연스러워 보였습니다.",
+        how=[
+            ("무리를 배치 전에 미리 구성합니다 — `random_cluster_size()`가 무리 크기를 1/n 가중치로 "
+             "뽑아서(작은 무리는 많고 큰 무리는 가끔) 무리/큰 행성/중간 행성이 고르게 섞이게 하고, 각 "
+             "무리를 하나의 '원판'으로 보고 다른 큰 행성들과 똑같은 간격/밀도 규칙(`fits_composition`)으로 "
+             "배치합니다.",
+             ("space_background.py 일부 — 1/n 가중치로 무리 크기 뽑기", [
+                 ("def random_cluster_size():",
+                  "무리(cluster) 하나에 들어갈 멤버 수를 랜덤으로 결정하는 함수. 단순 균등 랜덤이 아니라 "
+                  "작은 무리가 더 자주 나오도록 가중치를 준다."),
+                 ("    sizes = list(range(CLUSTER_SIZE_MIN, CLUSTER_SIZE_MAX + 1))",
+                  "가능한 무리 크기 후보 목록. CLUSTER_SIZE_MIN~MAX(예: 2~7)를 전부 나열한다. "
+                  "range(..., MAX+1)인 이유는 range가 끝 값을 포함하지 않기 때문에 MAX까지 포함시키려면 "
+                  "+1이 필요하다."),
+                 ("    weights = [1.0 / size for size in sizes]",
+                  "각 크기 후보에 '크기의 역수'를 가중치로 준다 — 크기 2는 가중치 0.5, 크기 7은 가중치 "
+                  "약 0.14로, 작은 숫자일수록 가중치가 커진다. 그 결과 작은 무리가 자주, 큰 무리는 "
+                  "가끔 나오는 분포가 된다."),
+                 ("    return random.choices(sizes, weights=weights, k=1)[0]",
+                  "random.choices는 weights 비율에 따라 sizes에서 k개를 뽑아 리스트로 반환하는 함수. "
+                  "여기선 1개만 필요하므로 k=1로 뽑고 [0]으로 그 값을 꺼낸다."),
+             ])),
+            ("`build_clusters()`가 대장(가장 큰 것) 1개 + 가장 작은 것 1개 + 나머지 랜덤으로 무리를 "
+             "구성하고, 대장/최소 크기 비율이 `CLUSTER_MIN_SIZE_RATIO` 미만이면 가장 작은 멤버를 더 "
+             "줄여서라도 크기 계층을 강제합니다 — 멤버 크기가 다 비슷하면 알 무더기처럼 보이기 때문입니다.",
+             ("space_background.py 일부 — 대장/졸개 크기 계층 강제 (build_clusters 내부)", [
+                 ("leader = clustered.pop(0)       # largest remaining",
+                  "클러스터 후보 목록(clustered)은 이 지점에서 이미 크기 내림차순으로 정렬돼 있다 "
+                  "(정렬 코드는 바로 윗부분에 있음). pop(0)으로 맨 앞, 즉 '현재 남은 것 중 가장 큰 것'을 "
+                  "꺼내서 이 무리의 대장으로 삼는다."),
+                 ("smallest = clustered.pop()      # smallest remaining",
+                  "인자 없는 pop()은 리스트의 마지막 요소를 꺼낸다. 내림차순 정렬이므로 마지막 요소가 "
+                  "곧 '남은 것 중 가장 작은 것' — 이걸 졸개(최소 멤버)로 삼는다."),
+                 ("others = random.sample(clustered, min(size - 2, len(clustered)))",
+                  "대장과 최소 멤버를 뺀 나머지 자리(목표 무리 크기 size에서 2를 뺀 수)만큼, 남은 후보 "
+                  "중에서 무작위로 뽑는다. min(size-2, len(clustered))는 남은 후보 수가 부족한 극단적인 "
+                  "경우에도 범위를 벗어나는 요청(인덱스 에러)을 내지 않도록 하는 안전장치."),
+                 ("for item in others:\n    clustered.remove(item)",
+                  "방금 무작위로 뽑은 멤버들을 원래 후보 목록(clustered)에서 제거한다 — 다음 while 반복"
+                  "(다음 무리를 만들 때)에서 같은 행성이 중복으로 뽑히지 않게 하기 위함."),
+                 ("if leader[\"scale\"] / smallest[\"scale\"] < CLUSTER_MIN_SIZE_RATIO:",
+                  "대장과 최소 멤버의 크기 비율이 미리 정한 최소 비율(CLUSTER_MIN_SIZE_RATIO, 예: 3배)보다 "
+                  "작은지 확인한다 — 즉 '대장이 충분히 크지 않은지'를 검사."),
+                 ("    smallest[\"scale\"] = leader[\"scale\"] / CLUSTER_MIN_SIZE_RATIO",
+                  "비율이 부족하면, 최소 멤버 쪽의 크기를 강제로 더 줄여서 비율을 정확히 "
+                  "CLUSTER_MIN_SIZE_RATIO로 맞춘다. 대장을 키우지 않고 졸개를 줄이는 쪽을 택한 이유는, "
+                  "대장은 이미 그 구간(zone)에서 정해진 크기 범위를 따르고 있어서 건드리면 Zone 설정과 "
+                  "어긋나기 때문 — 대신 졸개는 '무리 안에서의 상대적 크기'일 뿐이라 조정 여지가 있다."),
+                 ("    smallest[\"radius\"] = planet_radius(smallest[\"scale\"])",
+                  "scale 값만 바꾸고 끝나는 게 아니라, 그 scale에 대응하는 실제 반지름(radius)도 다시 "
+                  "계산해서 갱신한다 — 이후 충돌 검사(has_space)나 겉보기 크기 계산(to_view)이 scale이 "
+                  "아니라 radius를 직접 쓰기 때문에, 이 줄을 빠뜨리면 충돌 판정이 예전 크기 기준으로 "
+                  "어긋나는 버그가 생긴다."),
+                 ("members = [leader] + others + [smallest]",
+                  "대장, 무작위로 뽑은 나머지, 최소 멤버를 하나의 리스트로 합쳐서 이 무리의 최종 멤버 "
+                  "목록을 만든다. 순서상 leader가 항상 0번 인덱스에 오는데, 이는 뒤의 place_cluster()가 "
+                  "'0번째 멤버 = 대장'이라고 가정하고 배치 순서를 정하기 때문이다."),
+             ])),
+            (f"{fn('가우시안 산포 (Gaussian scatter)', '무리 안에서 멤버들을 흩뿌릴 때, 원판 안에 균등하게 뿌리는 대신 중심은 밀도 높고 가장자리로 갈수록 밀도가 낮아지는 정규분포(가우시안)로 뽑는 방식. 균등 분포는 격자처럼 고르게 보여 부자연스럽고, 가우시안은 자연스러운 뭉침을 만든다.')}로 멤버를 흩뿌립니다 — 원판에 균등하게 뿌리면 간격이 고르게 꽉 차서 "
+             "격자처럼 보이지만, 가우시안은 중심에 밀집하고 가장자리로 갈수록 듬성해져서 자연스럽습니다. "
+             "여기에 무리마다 살짝 타원형(최대 1.8배 늘림)으로 비틀어서 모든 무리가 완벽한 원으로 보이지 "
+             "않게 했습니다.",
+             ("space_background.py 일부 — 가우시안 산포 + 타원 비틀기", [
+                 ("def cluster_offset(cluster, center, sigma):",
+                  "무리의 중심 방향(center)으로부터, 멤버 하나가 놓일 '살짝 벗어난 방향'을 하나 뽑는 "
+                  "함수. sigma는 얼마나 넓게 퍼질지를 정하는 표준편차(대장은 좁게, 나머지는 넓게 — "
+                  "호출하는 쪽에서 다르게 넘겨준다)."),
+                 ("    stretch = cluster[\"stretch\"]",
+                  "이 무리에 미리 정해둔 타원 비율(1.0~CLUSTER_MAX_STRETCH 사이 랜덤값, build_clusters "
+                  "에서 생성)을 가져온다. 1.0이면 완전한 원, 클수록 한쪽으로 길쭉해진다."),
+                 ("    limit = cluster[\"alpha_est\"]",
+                  "이 무리를 감싸는 '원판'의 반지름(각도 단위) — 이 범위를 넘는 멤버는 무리 밖으로 튀어나가 "
+                  "다른 행성과 충돌할 수 있으므로 버려야 한다."),
+                 ("    x = random.gauss(0.0, sigma) * stretch",
+                  "평균 0, 표준편차 sigma인 정규분포(가우시안)에서 난수를 뽑아 x좌표로 쓰고, 여기에 "
+                  "stretch를 곱해 한쪽 축을 길게 늘인다 — 이게 타원형으로 보이게 만드는 부분."),
+                 ("    y = random.gauss(0.0, sigma)",
+                  "y좌표는 늘이지 않고 그대로 가우시안에서 뽑는다 — x만 늘였으므로 x/y 두 축의 스케일이 "
+                  "달라져 결과적으로 타원이 된다."),
+                 ("    angle = math.hypot(x, y)",
+                  "hypot(x, y)는 sqrt(x²+y²), 즉 중심으로부터 이 점까지의 거리(여기서는 각도 단위 거리). "
+                  "가우시안 특성상 중심(0,0) 근처일수록 뽑힐 확률이 높고 멀어질수록 낮아지므로, 결과적으로 "
+                  "'중심은 촘촘, 가장자리는 듬성'한 자연스러운 분포가 만들어진다."),
+                 ("    if angle > limit:          # discard samples that land outside the disc",
+                  "가우시안은 이론상 아무리 멀리도 뽑힐 수 있으므로(꼬리가 무한히 이어짐), 무리의 반지름"
+                  "(limit)을 넘는 샘플은 무리 밖으로 나가는 것이니 버린다."),
+                 ("        return None",
+                  "호출하는 쪽(place_cluster)은 None을 받으면 '이번 샘플은 실패'로 보고 다시 뽑기를 "
+                  "시도한다 — 즉 limit을 넘는 샘플은 재시도로 걸러지고, 실제로 채택되는 값은 항상 "
+                  "원판 안쪽으로 보장된다."),
+                 ("    phi = math.atan2(y, x) + cluster[\"orient\"]",
+                  "atan2(y, x)로 (x, y) 지점의 방향(각도)을 구하고, 여기에 무리마다 미리 정해둔 무작위 "
+                  "회전값(orient)을 더한다 — 모든 무리의 타원이 전부 같은 방향으로만 늘어나면 부자연스럽게 "
+                  "반복되는 패턴처럼 보이므로, 무리마다 타원의 기울어진 방향을 다르게 하기 위함."),
+                 ("    return direction_from_axis(center, angle, phi)",
+                  "지금까지 구한 2D 극좌표(중심으로부터의 각도 거리 angle, 방향 phi)를, 무리 중심 방향"
+                  "(center)을 기준축으로 하는 실제 3D 단위 벡터로 변환해서 반환한다 — 이 변환 함수 덕분에 "
+                  "무리 중심이 하늘 어디에 있든(심지어 극 근처든) 같은 2D 산포 로직을 그대로 적용할 수 "
+                  "있다."),
+             ])),
+        ],
+        likely_q=[
+            ("무리 안에서 거리를 다 다르게 주면 안 되나요? 왜 대장 거리 근처로 맞췄나요?",
+             "멤버 거리가 제각각이면 멀리 있는 멤버는 원래 크기와 상관없이 화면에서 더 작게 보여서, "
+             "애써 만든 대장/졸개 크기 계층이 거리 차이에 묻혀 흐려집니다. 그래서 졸개들의 거리를 "
+             "`CLUSTER_DEPTH_JITTER`만큼의 좁은 범위로 대장 거리 근처에 고정해서, 크기 계층이 화면에서도 "
+             "그대로 드러나게 했습니다.", None),
+            ("최대 무리 크기를 12에서 7로 줄인 이유는?",
+             "에디터에서 시각적으로 확인했을 때 멤버가 12개면 너무 빽빽하게 뭉쳐서 알 무더기처럼 "
+             "부자연스러워 보였습니다. 수치적인 기준보다 실제로 눈으로 보고 판단한 결과였고, 7개로 "
+             "줄이니 훨씬 자연스러운 밀도로 보였습니다.", None),
+        ],
+        english_lines=[
+            "“Clusters are pre-built before placement with 1/n-weighted sizes, then placed as a "
+            "single disc under the same spacing/density rules as a big planet, so clusters, big and "
+            "medium planets mix evenly instead of splitting the sky in two.”",
+            "“Inside a cluster I force a leader-plus-followers size hierarchy, scatter members with "
+            "a Gaussian instead of a uniform fill, and stretch each cluster into a slight ellipse so "
+            "it doesn't read as a perfect, grid-like circle.”",
+        ],
+    ))
+
+    story.extend(bullet_block(
+        s, 5,
+        "락 (Lock) — 반복 작업 중 마음에 드는 행성을 고정하기",
+        source_label="포트폴리오 케이스 스터디",
+        what="재생성(Generate)할 때 특정 행성은 그대로 두고 나머지만 다시 배치할 수 있게 하는 기능입니다.",
+        why="매번 재생성하면 하늘 전체가 바뀌어서, 배치 결과의 90%가 마음에 들어도 나머지 10%를 고치려면 "
+            "전부 다시 굴려야 했습니다. 특정 행성만 그대로 두고 주변만 재배치할 방법이 없었습니다.",
+        how=[
+            ("최근에 만든 행성은 Blueprint의 Instance Editable bool(Details 패널 체크박스)로 Locked를 "
+             "저장하지만, 그 전에 StaticMeshActor로 만든 예전 행성은 해당 프로퍼티가 없습니다. "
+             "`is_locked()`가 프로퍼티 조회 실패 시 `BG_Locked` 태그로 대체해서, 두 세대의 행성 액터를 "
+             "동시에 지원합니다.",
+             ("space_background.py 일부 — 체크박스 또는 태그로 락 상태 판별", [
+                 ("def is_locked(actor):",
+                  "레벨에 있는 행성 액터 하나(actor)가 락(고정) 상태인지 아닌지를 True/False로 돌려주는 "
+                  "함수. 뒤에서 Clear/Generate 양쪽 모두 이 함수로 락 여부를 판단한다."),
+                 ("    try:",
+                  "먼저 '새 방식'(Blueprint 체크박스 프로퍼티)으로 조회를 시도한다."),
+                 ("        if actor.get_editor_property(LOCK_PROPERTY):",
+                  "LOCK_PROPERTY(\"Locked\")라는 이름의 Instance Editable bool 프로퍼티 값을 읽는다. "
+                  "이 프로퍼티는 최근에 만든 Blueprint 행성(BP_BGPlanet)에만 존재한다."),
+                 ("            return True",
+                  "프로퍼티가 존재하고 값이 True면 곧바로 락 상태로 확정하고 반환한다."),
+                 ("    except Exception:",
+                  "오래전에 StaticMeshActor로 만든 행성은 Locked라는 프로퍼티 자체가 없어서 "
+                  "get_editor_property 호출이 예외를 던진다. 그 예외를 여기서 잡는다."),
+                 ("        pass",
+                  "예외를 무시하고 아래의 '옛 방식' 확인으로 넘어간다 — 프로퍼티가 없다고 바로 False를 "
+                  "반환하면 안 되는 이유는, 옛날 행성도 태그로 락이 걸려있을 수 있기 때문."),
+                 ("    return LOCK_TAG in actor_tags(actor)",
+                  "새 방식으로 확인이 안 됐거나(또는 값이 False였거나) 애초에 프로퍼티가 없었던 경우, "
+                  "액터의 태그 목록에 LOCK_TAG(\"BG_Locked\")가 있는지로 대체 판단한다. 이렇게 "
+                  "'체크박스 우선 → 실패하면 태그' 순서로 설계해서, 새/구 두 세대의 행성 액터를 호출하는 "
+                  "쪽(Generate/Clear)은 신경 쓰지 않고 is_locked() 하나만 부르면 되게 만들었다."),
+             ])),
+            (f"락 걸린 행성은 {fn('BG_Zone 태그', '락 걸린 행성이 어느 ScaleZones 구간의 Count를 차지하고 있는지 기록해두는 액터 태그. 다음 Generate가 Count 예산을 다시 계산할 때, 이미 락으로 고정된 행성이 쓰고 있는 자리를 올바르게 빼고 계산하기 위해 필요하다.')}도 같이 가지고 있어서, 다음 Generate가 어느 구간(zone)의 Count에서 "
+             "그 행성을 빼야 하는지 알 수 있습니다. Zone 기능이 생기기 전에 락 걸린 행성은 태그가 없으므로, "
+             "`guess_zone()`이 스케일·거리 범위가 가장 잘 맞는 구간을 역으로 추정합니다 — 데이터가 없을 때 "
+             "기존 값으로부터 가장 그럴듯한 상태를 복원하는 방어적 설계입니다.",
+             ("space_background.py 일부 — 구간 태그가 없을 때 역으로 추정", [
+                 ("def guess_zone(zones, location, scale):",
+                  "BG_Zone_N 태그가 없는(=Zone 기능이 생기기 전에 락이 걸린) 행성이, zones 목록 중 "
+                  "어디에 속한다고 봐야 할지 역으로 추정하는 함수. 입력은 행성의 현재 위치와 크기뿐이고, "
+                  "정답을 알려주는 정보는 없다 — '가장 그럴듯한 것'을 점수로 골라낸다."),
+                 ("    distance = vec_length(location)",
+                  "이 행성의 현재 3D 위치로부터 아레나까지의 거리를 구한다 — 각 zone의 거리 범위와 "
+                  "비교하기 위함."),
+                 ("    best, best_score = None, None",
+                  "지금까지 찾은 '가장 점수가 높은 zone'과 그 점수를 담을 변수. 아직 아무것도 못 찾았으니 "
+                  "둘 다 None으로 초기화."),
+                 ("    for zone in zones:",
+                  "DataAsset에 정의된 모든 zone을 하나씩 검사한다."),
+                 ("        in_scale = zone[\"min_scale\"] <= scale <= zone[\"max_scale\"]",
+                  "이 행성의 scale이 해당 zone의 스케일 범위 안에 들어가는지 True/False로 확인."),
+                 ("        in_dist = zone[\"min_distance\"] <= distance <= zone[\"max_distance\"]",
+                  "이 행성까지의 거리가 해당 zone의 거리 범위 안에 들어가는지 True/False로 확인."),
+                 ("        score = int(in_scale) + int(in_dist)",
+                  "두 조건을 각각 0 또는 1로 바꿔서 더한다 — 둘 다 맞으면 2점, 하나만 맞으면 1점, 둘 다 "
+                  "안 맞으면 0점. zone들이 서로 겹칠 수 있어(코드 상단 설계 메모 참고) 완벽히 하나로 "
+                  "결정되지 않을 수 있으므로, '더 잘 맞는 쪽'을 점수로 비교하는 방식을 택했다."),
+                 ("        if best is None or score > best_score:",
+                  "아직 아무 zone도 선택 안 했거나(best is None), 지금 보는 zone의 점수가 지금까지 "
+                  "최고 점수보다 높으면."),
+                 ("            best, best_score = zone, score",
+                  "현재 zone을 '지금까지 중 가장 그럴듯한 정답'으로 갱신한다."),
+                 ("    return best",
+                  "모든 zone을 다 본 뒤, 점수가 가장 높았던 zone을 반환한다 — 정보가 불완전한 과거 "
+                  "데이터로부터 가장 그럴듯한 상태를 복원하는 '최선 추정(best-effort)' 방식의 전형적인 "
+                  "예시."),
+             ])),
+            ("Lock/Unlock은 되돌릴 수 있는 에디터 트랜잭션 하나로 실행되며 몇 개를 (언)락했는지 로그로 "
+             "남기고, Clear도 몇 개의 락 걸린 행성을 유지했는지 로그로 남겨서, 아티스트가 락 건 행성이 "
+             "실수로 사라지지 않았는지 바로 확인할 수 있게 했습니다.", None),
+        ],
+        likely_q=[
+            ("락 기능에서 가장 까다로웠던 부분은?",
+             "행성 액터가 두 세대(옛 StaticMeshActor와 새 Blueprint)로 섞여 있어서, 락 상태를 저장하는 "
+             "방식부터 둘로 나뉘어 있었다는 점입니다. 프로퍼티 조회 실패를 태그로 폴백하는 구조로 두 "
+             "세대를 하나의 API(`is_locked`/`set_locked`)로 통일해서, 호출하는 쪽(Generate/Clear)은 "
+             "행성이 어느 세대인지 신경 쓸 필요가 없게 만들었습니다.", None),
+        ],
+        english_lines=[
+            "“I added a per-planet Locked flag — locked planets survive Clear and get fed back into "
+            "the next Generate as already-placed, so an artist can keep what they like and re-roll "
+            "only the rest.”",
+            "“Since planet actors come from two generations — plain StaticMeshActors and a newer "
+            "Blueprint with a Locked checkbox — is_locked()/set_locked() fall back to an actor tag "
+            "when the property lookup fails, so both generations work through one API.”",
         ],
     ))
 
@@ -931,7 +1380,7 @@ void Render::AddDrawCall(std::unique_ptr<BaseDrawCall> drawCall) {
 }
 // RenderAll(): for each layer, for each call -> dynamic_cast to
 // DrawCall / LineDrawCall / LineDrawCallPro / CircleDrawCall, call the matching Draw*()""")),
-            (f"{fn('DrawCall 다형성 (polymorphism)', '하나의 베이스 타입(BaseDrawCall)을 상속받는 여러 구체 타입(일반 스프라이트, 선, 원)을 같은 레이어 큐에 섞어 넣고, 실제로 그릴 때 타입을 구분해서 처리하는 객체지향 설계. 렌더러 입장에서는 \"레이어 순서대로 그린다\"는 로직 하나만 알면 되고, 구체적으로 뭘 그리는지는 각 타입이 책임진다.')} 구조: `BaseDrawCall`을 상속한 `DrawCall`(스프라이트 또는 "
+            (f"{fn('DrawCall 다형성 (polymorphism)', '하나의 베이스 타입(BaseDrawCall)을 상속받는 여러 구체 타입(일반 스프라이트, 선, 원)을 같은 레이어 큐에 섞어 넣고, 실제로 그릴 때 타입을 구분해서 처리하는 객체지향 설계. 렌더러 입장에서는 레이어 순서대로 그린다는 로직 하나만 알면 되고, 구체적으로 뭘 그리는지는 각 타입이 책임진다.')} 구조: `BaseDrawCall`을 상속한 `DrawCall`(스프라이트 또는 "
              "일반 텍스처를 `std::variant<Sprite*, GLTexture*>`로 보관), `LineDrawCall`/`LineDrawCallPro`"
              "(충돌 디버그 선, 두께·알파 포함), `CircleDrawCall`(원형 UI)까지 한 큐에 섞어 넣을 수 있게 "
              "설계했습니다. 예를 들어 쿨타임 같은 원형 진행 UI(`DrawCircleProgress`)도 이 선 그리기 "
@@ -1094,10 +1543,138 @@ toi = end;""")),
     print(f"Wrote {out_path}")
 
 
+def build_thinkthink():
+    reset_footnotes()
+    s = styles()
+    out_path, doc, story = new_doc(
+        s, "InterviewPrep_ThinkThink.pdf",
+        "ThinkThink! — UIStyle 셰이더 시스템 Interview Prep", "ThinkThink!",
+    )
+
+    story.extend(bullet_block(
+        s, 1,
+        "UIStyle.shader / UIStyle.cs — 하나의 셰이더와 컴포넌트로 Inspector에서 모서리, 그림자, "
+        "그라디언트, 노이즈 등 9개 스타일 그룹을 조절할 수 있는 재사용 가능한 Unity URP UI 셰이더 "
+        "시스템. 스트리트 타이퍼로 이식되어 확장된, 원래 시작점이 된 시스템입니다.",
+        source_label="프로젝트 설명 (Street Typer 이력서 문장의 출처)",
+        what="버튼, 게이지, 카드 같은 UI 요소를 일일이 그림으로 그리는 대신, 셰이더 하나"
+             "(UIStyle.shader)와 그걸 제어하는 컴포넌트 하나(UIStyle.cs)만으로 모양·그림자·그라디언트·"
+             "노이즈 같은 9가지 스타일 그룹을 Inspector 값 조절만으로 완성할 수 있게 만든 시스템입니다. "
+             f"핵심은 {fn('SDF (Signed Distance Field)', '각 픽셀에서 도형 경계까지의 거리를 부호(안쪽/바깥쪽)로 저장해 도형을 표현하는 방식. 해상도에 독립적으로 매끄러운 둥근 모서리·캡슐 형태를 그릴 수 있어 UI 셰이더에서 널리 쓰인다.')} 기반으로 사각형과 캡슐(알약) 모양의 경계를 "
+             "수학적으로 계산해서, 해상도가 바뀌어도 모서리가 항상 매끄럽게 유지된다는 점입니다.",
+        why="프로젝트마다 버튼·게이지·카드를 새로 그리고 새 셰이더를 짜면 아트 리소스와 셰이더 작업 "
+            "시간이 매번 반복 소모됩니다. 하나의 범용 스타일링 셰이더를 만들어두면, 새 프로젝트에서는 "
+            "이미지 없이 Inspector 파라미터만 바꿔서 원하는 모양을 바로 만들 수 있고, 완성한 스타일은 "
+            "프리셋 에셋으로 저장해 재사용할 수 있습니다. 실제로 이 시스템은 ThinkThink에서 만든 뒤 "
+            "스트리트 타이퍼로 그대로 이식되어, 카드 전투 UI에 필요한 다이아몬드 모양·방사형 그래디언트· "
+            "윤곽선만 추가로 확장했습니다.",
+        how=[
+            (f"{fn('sdfRoundedRect', '2D 평면 위의 점 p가 둥근 사각형(라운디드 렉트) 경계로부터 얼마나 떨어져 있는지를 계산하는 함수. q = abs(p) - size + radius로 사각형 안쪽 기준점을 구한 뒤, 바깥쪽 성분은 length(max(q,0))로, 안쪽 오목한 부분은 min(max(q.x,q.y),0)으로 더해서 하나의 거리값을 만든다.')} 함수로 모서리를 둥글게 그립니다 — "
+             "`q = abs(p) - size + radius` 로 사각형 중심 기준 거리를 구한 뒤, 바깥쪽 거리와 안쪽 거리를 "
+             "조합해 부호 있는 거리값 하나를 반환합니다. 이 값이 0보다 작으면 도형 안쪽, 크면 바깥쪽이라서 "
+             "`smoothstep`으로 경계를 부드럽게 앤티앨리어싱할 수 있습니다.",
+             ("UIStyle.shader 일부 — 라운디드 렉트 SDF", """// Rounded rectangle SDF
+float sdfRoundedRect(float2 p, float2 size, float radius)
+{
+    float2 q = abs(p) - size + radius;
+    return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - radius;
+}""")),
+            (f"{fn('캡슐(Capsule/Pill) SDF', '좌우 또는 위아래 끝이 완전히 반원으로 둥근 알약 모양의 경계를 계산하는 SDF. 중앙의 직사각형 구간은 거리를 0으로 클리핑하고, 끝부분만 원 중심까지의 거리를 계산해서 자연스럽게 이어 붙인다.')} 두 종류를 만들고, 가로/세로 비율을 보고 자동으로 "
+             "고르는 `sdfCapsule`로 감쌌습니다 — if/else 분기 없이 하나의 함수만 호출해도 긴 쪽 방향에 "
+             "맞춰 알약 모양이 저절로 결정되어, UIStyle.cs 쪽에서는 가로/세로를 신경 쓸 필요가 없습니다.",
+             ("UIStyle.shader 일부 — 캡슐 SDF + 자동 방향 선택", """// Capsule/Pill SDF (Horizontal) — radius = height/2
+float sdfCapsuleHorizontal(float2 p, float2 size)
+{
+    float radius = size.y * 0.5;
+    float2 q = abs(p);
+    float2 capsuleCenter = float2(max(q.x - (size.x - radius), 0.0), q.y);
+    return length(capsuleCenter) - radius;
+}
+
+// Smart Capsule SDF — 가로/세로 비율에 따라 자동 선택
+float sdfCapsule(float2 p, float2 size)
+{
+    if (size.x > size.y) return sdfCapsuleHorizontal(p, size);
+    else                 return sdfCapsuleVertical(p, size);
+}""")),
+            ("Drop Shadow, Inner Shadow, Gradient(기본색/그라디언트/라이트/Hue-shift), Edge Highlight, "
+             "Material Type, Noise, Bottom Edge Line까지 총 9개 스타일 그룹을 같은 셰이더의 Properties "
+             "블록 하나에 모아서, 각 그룹을 독립적으로 켜고 끌 수 있게 설계했습니다. 그림자나 하이라이트는 "
+             "같은 SDF 거리값을 오프셋만 다르게 재계산해서 구하므로, 모양 함수(SDF)를 한 번만 정의해두면 "
+             "그림자·본체·이너섀도우가 전부 같은 모양 논리를 공유합니다.", None),
+            (f"{fn('OnValidate 라이브 프리뷰', 'Unity 에디터가 Inspector 값이 바뀔 때마다 자동으로 호출하는 콜백. Play 모드로 들어가지 않아도 인스펙터에서 슬라이더를 움직이는 즉시 결과를 씬 뷰에서 볼 수 있게 해준다.')}: UIStyle.cs의 `OnValidate()`가 Inspector 값이 바뀔 때마다 "
+             "`ApplyStyle()`을 호출해 머티리얼 프로퍼티를 다시 셰이더로 보내고, 에디터에서는 "
+             "`EditorUtility.SetDirty`와 `SceneView.RepaintAll()`까지 같이 호출해서 Play 모드 없이도 "
+             "씬 뷰가 바로 갱신되게 했습니다. 완성한 조합은 `ApplyPreset(UIStylePreset)`으로 저장해서 "
+             "다른 UI 오브젝트에도 한 번에 적용할 수 있습니다.",
+             ("UIStyle.cs 일부 — OnValidate 라이브 프리뷰 + 프리셋 적용", """private void OnValidate()
+{
+    if (!this || !gameObject) return;
+    #if UNITY_EDITOR
+    if (!Application.isPlaying)
+    {
+        if (_image != null)
+        {
+            ApplyStyle();
+            UnityEditor.EditorUtility.SetDirty(this);
+            UnityEditor.EditorUtility.SetDirty(_image);
+            if (UnityEditor.SceneView.lastActiveSceneView != null)
+                UnityEditor.SceneView.lastActiveSceneView.Repaint();
+            UnityEditor.SceneView.RepaintAll();
+        }
+    }
+    else
+    #endif
+    { if (_image) ApplyStyle(); }
+}
+
+public void ApplyPreset(UIStylePreset presetToApply)
+{
+    if (!presetToApply) return;
+    presetToApply.ApplyTo(this);
+    ApplyStyle();
+}""")),
+        ],
+        likely_q=[
+            ("왜 셰이더로 UI 모양을 그렸나요? 그냥 이미지(스프라이트)를 쓰면 안 되나요?",
+             "이미지는 해상도가 바뀌거나 크기를 늘리면 모서리가 깨지고, 색이나 모양을 바꾸려면 다시 "
+             "그려야 합니다. SDF 기반 셰이더는 수학적으로 거리를 계산하기 때문에 어떤 크기에서도 "
+             "모서리가 매끄럽고, Inspector 값만 바꾸면 색·모양·그림자를 실시간으로 바꿀 수 있어서 "
+             "아트 리소스 제작 시간을 크게 줄일 수 있었습니다.", None),
+            ("이 시스템을 어떻게 다른 프로젝트(Street Typer)로 그대로 옮길 수 있었나요?",
+             "UIStyle.shader와 UIStyle.cs 핵심 로직 자체는 프로젝트에 종속적인 부분이 없이 범용으로 "
+             "설계되어 있어서, .unitypackage로 묶어서 그대로 가져가기만 하면 됐습니다. Street Typer의 "
+             "카드 전투 UI에 필요했던 것(모서리 개별 둥글기, 다이아몬드 모양, 방사형 그래디언트, 전용 "
+             "윤곽선)만 셰이더에 새 분기로 추가해서 확장했고, 기존 9개 스타일 그룹과 OnValidate 라이브 "
+             "프리뷰, 프리셋 구조는 그대로 재사용했습니다.", None),
+        ],
+        english_lines=[
+            "“I built a reusable Unity URP UI shader system — one shader and one component expose "
+            "nine style groups (rounding, drop/inner shadow, gradients, edge highlight, material "
+            "type, noise, bottom edge line) as Inspector parameters, so new UI can be styled without "
+            "drawing new art.”",
+            "“The shapes are driven by signed-distance functions — a rounded-rect SDF and a capsule "
+            "SDF that auto-picks horizontal or vertical based on aspect ratio — so edges stay smooth "
+            "at any resolution.”",
+            "“OnValidate re-applies the style and forces a scene-view repaint whenever an Inspector "
+            "value changes, so you get a live preview without entering Play mode, and finished looks "
+            "save to a preset asset for reuse.”",
+            "“This system started in ThinkThink! and I carried it over to Street Typer as-is, only "
+            "adding what the new project needed — per-corner radii, a diamond shape, a radial "
+            "gradient, and a dedicated outline.”",
+        ],
+    ))
+
+    story.extend(glossary_section(s))
+    doc.build(story)
+    print(f"Wrote {out_path}")
+
+
 if __name__ == "__main__":
     build_poseidon_skate()
     build_carboom()
     build_street_typer()
     build_too_hot()
     build_new_manzo()
+    build_thinkthink()
     build_manzo()

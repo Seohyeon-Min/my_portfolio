@@ -126,6 +126,7 @@
             </a>
             <a class="proof-shot proof-shot--manzo" href="portfolio_planning/Dangling.html" data-proof-project="2">
               <img src="img/portfolio_thumbnails/Dangling.jpg" alt="" data-proof-project-image>
+              <video muted autoplay loop playsinline preload="metadata" data-proof-project-video hidden></video>
               <span><b data-proof-project-title>DANGLING*</b><small data-proof-project-meta>GAME JAM · EVENT OPERATIONS</small></span>
             </a>
             <a class="proof-shot proof-shot--street" href="portfolio_game/06_StreetTyper.html" data-proof-project="3">
@@ -154,8 +155,8 @@
                lists in that function's `groups` array (read it there for current grouping,
                category descriptions, and importance/collapse notes — this HTML list itself has
                no category info). The "★ Featured project" star marks this site's flagship/
-               most-emphasized work; CARBOOM below is (IN PRODUCTION / UNFINISHED — LOWER
-               CONFIDENCE), not a finished shipped project; PLUSH PRODUCTION and DANGLING* after
+               most-emphasized work; CARBOOM below is (IN PRODUCTION / UNFINISHED),
+               not a finished shipped project; PLUSH PRODUCTION and DANGLING* after
                the divider are the PRODUCTION category, which is (THIS IS DE-EMPHASIZED /
                COLLAPSED BY DEFAULT!) on mobile — see the groups array comment in js/index.js. -->
           <div class="link-archive-grid" id="archive-categories">
@@ -169,8 +170,10 @@
             <a href="portfolio_game/04_BirdStrike.html"><img src="img/portfolio_thumbnails/BirdStrike.png" alt=""><div class="archive-card__copy"><b>BIRD STRIKE</b><small>Rhythm Gameplay</small><i><strong>Project Lead</strong><span>Design · Producer</span></i></div></a>
             <a href="portfolio_game/05_ThinkThink.html"><img src="img/portfolio_thumbnails/ThinkThink.png" alt=""><div class="archive-card__copy"><b>THINK THINK</b><small>Tool Development · Visual</small><i><strong>Project Lead</strong><span>Art · Design · Production</span></i></div></a>
             <a href="portfolio_game/02_EdgeDirve.html"><img src="img/portfolio_thumbnails/EdgeDrive2.png" alt=""><div class="archive-card__copy"><b>EDGE DRIVE</b><small>Unreal Engine · VFX</small><i><strong>VFX Contributor</strong><span>Asset Setup · Modification</span></i></div></a>
-            <!-- (IN PRODUCTION / UNFINISHED — LOWER CONFIDENCE! placeholder thumbnail, no shipped build yet) -->
-            <a href="portfolio_game/09_Carboom.html"><img src="img/portfolio_thumbnails/Carboom_placeholder.svg" alt="Carboom, in production"><div class="archive-card__copy"><b>CARBOOM</b><small>Planet Auto-Placement Tool</small><i><strong>Gameplay / Tech Art</strong><span>Editor Tooling</span></i></div></a>
+            <!-- (IN PRODUCTION / UNFINISHED) editor workflow video, not a final-art still. -->
+            <a href="portfolio_game/09_Carboom.html"><video src="img/Carboom/TempHero_bg.mp4" muted autoplay loop playsinline preload="metadata" aria-label="Carboom editor workflow video"></video><div class="archive-card__copy"><b>CARBOOM</b><small>Planet Auto-Placement Tool</small><i><strong>Gameplay / Tech Art</strong><span>Editor Tooling</span></i></div></a>
+            <!-- RUIN FORGE: (IN PRODUCTION / UNFINISHED! personal Blender Geometry Nodes tool, placeholder thumbnail, renders not in yet) -->
+            <a href="portfolio_game/10_RuinForge.html"><img src="img/portfolio_thumbnails/RuinForge_placeholder.svg" alt="Ruin Forge, work in progress"><div class="archive-card__copy"><b>RUIN FORGE</b><small>Procedural Wall Damage Tool</small><i><strong>Tech Art</strong><span>Geometry Nodes</span></i></div></a>
             <div class="archive-grid-divider" role="separator" aria-hidden="true"></div>
             <!-- PRODUCTION category (this card + DANGLING* below) — (THIS IS DE-EMPHASIZED / COLLAPSED BY DEFAULT ON MOBILE!) -->
             <a href="portfolio_planning/PlushProduction.html"><img src="img/Plush/real1.jpg" alt="Four completed custom plush products"><div class="archive-card__copy"><b>PLUSH PRODUCTION</b><small>Vendor · Fulfillment</small><i><strong>Project Lead</strong><span>Designer · Coordinator</span></i></div></a>
@@ -572,10 +575,10 @@
   </div>
 </div>
 
-<!-- CARBOOM: (IN PRODUCTION / UNFINISHED — LOWER CONFIDENCE) team project, still being built. -->
+<!-- CARBOOM: (IN PRODUCTION / UNFINISHED) team project, still being built. -->
 <div class="portfolio-wrapper game">
   <a href="portfolio_game/09_Carboom.html" class="portfolio__item game">
-    <img src="img/portfolio_thumbnails/Carboom_placeholder.svg" alt="Carboom, in production" class="portfolio__img" />
+    <video src="img/Carboom/TempHero_bg.mp4" muted autoplay loop playsinline preload="metadata" class="portfolio__img" aria-label="Carboom editor workflow video"></video>
     <div class="portfolio__overlay">
       <h4 data-en="CARBOOM" data-ko="카붐">CARBOOM</h4>
       <p data-en="Team project · Artist-facing editor tools" data-ko="팀 프로젝트 · 아티스트용 에디터 툴">Team project · Artist-facing editor tools</p>
@@ -586,6 +589,24 @@
     <span class="tag year">2026</span>
     <span class="tag role">Gameplay Programmer · Technical Art</span>
     <span class="tag tool">Unreal Engine</span>
+    <span class="tag tool" data-en="In Development" data-ko="개발 중">In Development</span>
+  </div>
+</div>
+
+<!-- RUIN FORGE: (IN PRODUCTION / UNFINISHED) personal Blender Geometry Nodes tool, still being built. -->
+<div class="portfolio-wrapper game">
+  <a href="portfolio_game/10_RuinForge.html" class="portfolio__item game">
+    <img src="img/portfolio_thumbnails/RuinForge_placeholder.svg" alt="Ruin Forge, work in progress" class="portfolio__img" />
+    <div class="portfolio__overlay">
+      <h4 data-en="RUIN FORGE" data-ko="루인 포지">RUIN FORGE</h4>
+      <p data-en="Personal project · Procedural wall damage tool" data-ko="개인 프로젝트 · 절차적 벽 파손 툴">Personal project · Procedural wall damage tool</p>
+      <button class="btn-details" data-en="View Project" data-ko="프로젝트 보기">View Project</button>
+    </div>
+  </a>
+  <div class="project-tags">
+    <span class="tag year">2026</span>
+    <span class="tag role">Technical Art · Tools</span>
+    <span class="tag tool">Blender Geometry Nodes</span>
     <span class="tag tool" data-en="In Development" data-ko="개발 중">In Development</span>
   </div>
 </div>
@@ -1044,7 +1065,7 @@
         <a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a>
     </footer>
 
-    <script src="js/index.js?v=20260923aa"></script>
+    <script src="js/index.js?v=20261006b"></script>
 </body>
 
 </html>

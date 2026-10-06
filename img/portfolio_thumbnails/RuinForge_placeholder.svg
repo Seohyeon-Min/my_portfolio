@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <!-- Placeholder thumbnail for Ruin Forge, (IN PRODUCTION / UNFINISHED): no
+       renders yet. Same mobile-safe rule as Carboom_placeholder.svg: all text stays inside the
+       centered x 370-910 band, which is all a 3:4 cropped card shows on mobile. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5a5752"/>
+      <stop offset="60%" stop-color="#3a3835"/>
+      <stop offset="100%" stop-color="#1f1e1c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <path d="M260 120 L330 180 L300 230 L380 300 L350 360" fill="none" stroke="#1a1917" stroke-width="5" stroke-linejoin="bevel" opacity="0.7"/>
+  <path d="M1010 470 L960 520 L990 570 L930 640" fill="none" stroke="#1a1917" stroke-width="4" stroke-linejoin="bevel" opacity="0.7"/>
+  <path d="M1000 140 Q1080 110 1120 170 Q1150 240 1080 270 Q1000 280 975 220 Q960 170 1000 140 Z" fill="#8a5a44" opacity="0.45"/>
+  <text x="640" y="345" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="46" font-weight="700" fill="#f2efe9" letter-spacing="3">RUIN FORGE</text>
+  <text x="640" y="388" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="600" fill="#c9bfae" letter-spacing="2">WORK IN PROGRESS</text>
+  <text x="640" y="414" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="600" fill="#c9bfae" letter-spacing="2">RENDERS COMING SOON</text>
+</svg>

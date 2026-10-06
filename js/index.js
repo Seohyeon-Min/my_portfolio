@@ -12,7 +12,7 @@
 //   - "(THIS IS DE-EMPHASIZED / COLLAPSED BY DEFAULT!)" tags a section that a
 //     real visitor would have to click/tap to open — treat its content as
 //     present but secondary, not equal-weight with the always-open sections.
-//   - "(IN PRODUCTION / UNFINISHED — LOWER CONFIDENCE)" tags a project that
+//   - "(IN PRODUCTION / UNFINISHED)" tags a project that
 //     is not a finished, shipped piece — describe it as ongoing work, not as
 //     a completed shipped project.
 // ============================================================================
@@ -37,14 +37,14 @@ const portfolioTracks = {
     },
     // PROOF REEL (graphics track) — array order IS the emphasis order: card 0 renders biggest/
     // first in .proof-reel__projects, so it's the single most-emphasized project on the whole
-    // homepage for this track. Carboom (card 2) is (IN PRODUCTION / UNFINISHED — LOWER
-    // CONFIDENCE); the other three are finished/shipped.
+    // homepage for this track. Carboom (card 2) is (IN PRODUCTION / UNFINISHED);
+    // the other three are finished/shipped.
     proofProjects: [
       { key: 'poseidon', title: 'POSEIDON SKATE', lead: 'TECHNICAL ART / SHADER', meta: 'UNITY URP · HLSL · BLENDER · TEAM PROJECT', href: 'portfolio_game/08_PoseidonSkate.html', image: 'img/WaveSimulator/img1.png' }, // <- most-emphasized: card 0
       { key: 'manzo', title: 'MANZO · CUSTOM RENDERER', lead: 'GRAPHICS / ENGINE PROGRAMMER', meta: 'OPENGL · PING-PONG FBO · POST-PROCESSING', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' },
-      // (IN PRODUCTION / UNFINISHED — LOWER CONFIDENCE): swapped in for New Manzo. No finished
-      // screenshot yet, so this uses the same placeholder thumbnail as its ALL PROJECTS card.
-      { key: 'carboom', title: 'CARBOOM', lead: 'GAMEPLAY / TECH ART — TOOLS', meta: 'UNREAL ENGINE · PYTHON · PLANET AUTO-PLACEMENT', href: 'portfolio_game/09_Carboom.html', image: 'img/portfolio_thumbnails/Carboom_placeholder.svg' },
+      // (IN PRODUCTION / UNFINISHED): use the actual editor recording as the
+      // card media rather than a separate still image.
+      { key: 'carboom', title: 'CARBOOM', lead: 'GAMEPLAY / TECH ART — TOOLS', meta: 'UNREAL ENGINE · PYTHON · PLANET AUTO-PLACEMENT', href: 'portfolio_game/09_Carboom.html', video: 'img/Carboom/TempHero_bg.mp4' },
       { key: 'street', title: 'STREET TYPER', lead: 'VISUAL LEAD', meta: 'UI SHADERS · VFX · GAME FEEL', href: 'portfolio_game/06_StreetTyper.html', image: 'img/StreetTyper/title2.png' } // <- least-emphasized of these four: card 3, last
     ]
   },
@@ -99,7 +99,7 @@ const PROOF_HERO_MEDIA = {
   manzo: { video: 'img/MANZO/MANZO_trailer_bg.mp4', poster: 'img/portfolio_thumbnails/Manzo.png' },
   toohot: { video: 'img/TooHot/트레일러1_low_bg.mp4', poster: 'img/TooHot/hero.png' },
   street: { video: 'img/StreetTyper/STTrailer_ko1_bg.mp4', poster: 'img/StreetTyper/hero.png' },
-  carboom: { video: 'img/Carboom/TempHero_bg.mp4', poster: 'img/portfolio_thumbnails/Carboom_placeholder.svg' },
+  carboom: { video: 'img/Carboom/TempHero_bg.mp4' },
   newmanzo: { poster: 'img/portfolio_thumbnails/NewManzo.png' },
   doublehit: { poster: 'img/portfolio_thumbnails/DoubleHit.png' },
   dangling: { poster: 'img/portfolio_thumbnails/Dangling.jpg' },
@@ -140,9 +140,10 @@ const PROOF_SUMMARY = {
 // Whichever project was added to the site most recently gets a "NEW" badge — update BOTH of these
 // when adding a new project: the proof-reel key (matches a proofProjects `key` above) and the href
 // fragment (matches the actual page filename) for the ALL PROJECTS / archive grid cards. Currently
-// Carboom (09_Carboom.html), added while it's still (IN PRODUCTION / UNFINISHED — LOWER CONFIDENCE).
-const NEWEST_PROJECT_KEY = 'carboom';
-const NEWEST_PROJECT_HREF_FRAGMENT = '09_Carboom.html';
+// Ruin Forge (10_RuinForge.html), a personal tool added while still (IN PRODUCTION / UNFINISHED).
+// It isn't a Proof Reel card, so the key below matches no proof card on purpose.
+const NEWEST_PROJECT_KEY = 'ruinforge';
+const NEWEST_PROJECT_HREF_FRAGMENT = '10_RuinForge.html';
 function applyNewestProjectBadge() {
   document.querySelectorAll('.link-archive-grid a, .portfolio__item[href]').forEach(card => {
     card.classList.toggle('is-new-project', Boolean(card.getAttribute('href')?.includes(NEWEST_PROJECT_HREF_FRAGMENT)));
@@ -600,10 +601,10 @@ function refreshArchiveLayout(track) {
   // desktop); PRODUCTION is deliberately last and lower-emphasis (see its own note below).
   const groups = [
     ['SHADERS', 'Shaders and real-time rendering effects.', '셰이더를 활용한 그래픽 효과와 렌더링 실험들입니다.', ['07_TooHot.html', 'PoseidonSkate', '05_ThinkThink.html']],
-    // TOOLS currently holds only Carboom, which is (IN PRODUCTION / UNFINISHED — LOWER CONFIDENCE):
-    // an ongoing Unreal Engine team project, not a shipped/finished piece. Describe it as ongoing
-    // work-in-progress, not as a completed project.
-    ['TOOLS', 'Artist-facing editor tools that help artists work without touching code.', '코드를 몰라도 아티스트가 직접 다룰 수 있게 돕는 에디터 툴입니다.', ['09_Carboom.html']],
+    // TOOLS holds Carboom and Ruin Forge, BOTH (IN PRODUCTION / UNFINISHED):
+    // Carboom is an ongoing Unreal Engine team project, Ruin Forge an ongoing personal Blender
+    // Geometry Nodes tool. Neither is shipped/finished — describe them as work-in-progress.
+    ['TOOLS', 'Artist-facing editor tools that help artists work without touching code.', '코드를 몰라도 아티스트가 직접 다룰 수 있게 돕는 에디터 툴입니다.', ['09_Carboom.html', '10_RuinForge.html']],
     ['VISUALS', 'Art, UI, and VFX for interactive experiences.', '아트, UI/UX, 이펙트 등 비주얼 중심의 작업물입니다.', ['06_StreetTyper.html', '00_NewManzo.html', 'ArtGallery.html']],
     ['GAME PROGRAMMING', 'Gameplay, systems, and engine development.', '게임플레이, 시스템, 엔진 개발 등 프로그래밍 기반의 프로젝트입니다.', ['04_BirdStrike.html', '03_DoubleHit.html', '02_EdgeDirve.html']],
     ['RENDERING', 'Rendering pipelines and custom renderer experiments.', '렌더링 파이프라인과 커스텀 렌더러, 최적화 관련 프로젝트입니다.', ['01_Manzo.html']],
@@ -698,6 +699,7 @@ function applyPortfolioTrack(requestedTrack, updateUrl = true) {
     const card = document.querySelector(`[data-proof-project="${index}"]`);
     if (!card) return;
     const image = card.querySelector('[data-proof-project-image]');
+    const video = card.querySelector('[data-proof-project-video]');
     const title = card.querySelector('[data-proof-project-title]');
     const meta = card.querySelector('[data-proof-project-meta]');
     const projectUrl = new URL(project.href, window.location.href);
@@ -718,6 +720,19 @@ function applyPortfolioTrack(requestedTrack, updateUrl = true) {
       image.hidden = !project.image;
       if (project.image) image.src = project.image;
       image.alt = project.image ? project.title : '';
+    }
+    if (video) {
+      video.hidden = !project.video;
+      if (project.video) {
+        if (video.getAttribute('src') !== project.video) {
+          video.src = project.video;
+          video.load();
+        }
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+        video.removeAttribute('src');
+      }
     }
   });
   document.querySelectorAll('[data-proof-project]').forEach(card => {
@@ -833,7 +848,7 @@ function applyLanguage(language) {
     if (false && archiveGrid && activeTrack === 'graphics') {
     const groups = [
       ['SHADERS', ['07_TooHot.html', 'PoseidonSkate', '05_ThinkThink.html']],
-      ['TOOLS', ['09_Carboom.html']],
+      ['TOOLS', ['09_Carboom.html', '10_RuinForge.html']],
       ['VISUALS', ['00_NewManzo.html', '06_StreetTyper.html', 'ArtGallery.html']],
       ['GAME PROGRAMMING', ['04_BirdStrike.html', '03_DoubleHit.html', '02_EdgeDirve.html']],
       ['RENDERING', ['01_Manzo.html']],
@@ -863,6 +878,7 @@ function applyLanguage(language) {
     const projectTools = {
       '02_EdgeDirve.html': 'Unreal Engine GitHub',
       '09_Carboom.html': 'Unreal Engine C++ Python Perforce Jira',
+      '10_RuinForge.html': 'Blender Python',
       '00_NewManzo.html': 'C# FMOD HLSL Clip Studio Paint Aseprite Spriter Pro GitHub', '01_Manzo.html': 'C++ OpenGL GLSL Custom Engine Clip Studio Paint GitHub RenderDoc',
       '03_DoubleHit.html': 'C++ GLSL OpenGL Spriter Pro Clip Studio Paint GitHub', '04_BirdStrike.html': 'C++ Clip Studio Paint Cakewalk raylib GitHub',
       '05_ThinkThink.html': 'Unity HLSL C# GitHub', '06_StreetTyper.html': 'C# Unity Spriter Pro 2D Rigging Animation HLSL Clip Studio Paint GitHub',

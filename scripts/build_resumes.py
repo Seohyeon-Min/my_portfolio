@@ -117,10 +117,11 @@ RECOMMENDATION_QUOTE = (
 
 def build(path, role, summary, selected, additional, skill_rows, accent, education=True,
           selected_title="Experience", additional_title="Additional Evidence", quote=None,
-          bullet_size=7.8, project_gap=6.5, skill_pad=3.6):
+          bullet_size=7.8, project_gap=6.5, skill_pad=3.6,
+          top_margin=.34*inch, bottom_margin=.3*inch):
     s = styles(accent, bullet_size=bullet_size)
     content_width = 6.6*inch
-    doc = SimpleDocTemplate(str(path), pagesize=letter, rightMargin=.55*inch, leftMargin=.55*inch, topMargin=.34*inch, bottomMargin=.3*inch,
+    doc = SimpleDocTemplate(str(path), pagesize=letter, rightMargin=.55*inch, leftMargin=.55*inch, topMargin=top_margin, bottomMargin=bottom_margin,
                             title=f"Min Seohyeon - {role}", author="Min Seohyeon")
     story = [header(s, role, content_width), Spacer(1, 3), rule(accent, content_width), Paragraph(summary, s["summary"])]
     if quote:
@@ -230,24 +231,29 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
         item = ta_by_title[title]
         return (item[0], item[1], bullets, item[3], role, True)
 
-    # Technical Art / Graphics resume: projects are ordered newest-first as requested.
-    # Poseidon Skate replaces the former Wave Simulator entry and expands the evidence
-    # with Blender modeling/rigging, wave/ocean shaders, and a VFX shader.
+    # Activision-oriented Technical Art resume: lead with artist-facing procedural
+    # tools, then prove the real-time graphics knowledge needed to carry them into
+    # an engine workflow. This deliberately avoids presenting every discipline as
+    # an equal specialization.
     ta_selected = [
-        ("CARBOOM", "2026 – In Production", [
-            "Building an artist-facing Unreal Engine editor tool (Python) that places space-background planets by apparent size/clustering via an artist-editable DataAsset — no code required."
+        ("RUIN FORGE", "2026 - Present (In Progress)", [
+            "Building a Blender Geometry Nodes tool that lets environment artists reposition one control object to regenerate a two-layer concrete break, exposed inner surface, and crack placement instead of hand-modeling each variation."
+        ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/10_RuinForge.html",
+           "Technical Artist - Procedural Tools (Personal) | Blender Geometry Nodes / Python", True),
+        ("CARBOOM", "2026 - Oct 2026", [
+            "Built an artist-facing Unreal Engine Python placement tool that distributes space-background planets from artist-editable DataAsset parameters, enabling rapid visual iteration without code changes.",
+            "Translated composition intent - apparent size, density, and clustering - into reusable placement controls, bridging environment-art direction and procedural content generation.",
+            "Exposed placement controls through artist-editable DataAssets and presets, reducing engineering dependency during scene-composition iteration."
         ], "https://seohyeon-min.github.io/my_portfolio/portfolio_game/09_Carboom.html",
-           "Gameplay Programmer / Technical Art — Tools | Unreal Engine / Python / C++ / Perforce / Jira", True),
+           "Gameplay Programmer / Technical Art - Tools | Unreal Engine / Python / C++ / Perforce / Jira", True),
         ta_project("POSEIDON SKATE", [
             "Built ocean, wave, and tornado HLSL shaders (flow noise, domain warping, Voronoi caustics) as a rideable procedural water surface.",
             "Modeled and rigged a low-poly Poseidon character in Blender (25-bone skeleton) and integrated it into Unity via FBX.",
-            "Authored a VFX splash-ring shader with randomized per-bump timing and Voronoi facet detailing for landing impacts.",
-            "Coordinated a three-week team production using Jira for scheduling/priorities and Perforce for source control."
+            "Authored a VFX splash-ring shader with randomized per-bump timing and Voronoi facet detailing for landing impacts."
         ], "Technical Art / Shader Development · Character Modeling &amp; Rigging | Unity URP / HLSL / C# / Blender / Jira / Perforce"),
         ta_project("STREET TYPER", [
             "Owned original 2D art, UI composition, particles, outlines, camera shake, hit VFX, and animated feedback for a shipped bilingual typing-combat game.",
-            "Specified, evaluated, debugged, and integrated an AI-assisted reusable UI shader workflow for rounded forms, gradients, drop/inner shadows, blur, presets, and Inspector iteration.",
-            "Published a playable build on <link href='https://handalhandal.itch.io/streettyper'>itch.io</link> and prepared the game for a Steam release."
+            "Specified, evaluated, debugged, and integrated an AI-assisted reusable UI shader workflow for rounded forms, gradients, drop/inner shadows, blur, presets, and Inspector iteration."
         ], "Technical Art / UI / Art | Unity URP / C# / ShaderLab / Notion"),
         ta_project("TOO HOT!", [
             "Created and integrated the game's 2D shadow treatment, pattern-specific VFX, UI, animation, hit feedback, and visual hierarchy; tuned width and length controls for readable shadows across combat spaces.",
@@ -256,8 +262,7 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
         ], "Technical Art / Visual Integration | Unity / ShaderLab / VFX / Notion"),
         ta_project("NEW MANZO", [
             "Implemented procedural leg animation for a multi-legged boss using ground raycasts and step-arc motion.",
-            "Built raycasting-based underwater visibility and post-processing for atmospheric rendering.",
-            "Contributed fish-schooling AI and beat-linked hunting; built Unity editor tools for scene setup, area editing, and UI style presets. Repository lead contributor with 417 commits."
+            "Built raycasting-based underwater visibility and post-processing for atmospheric rendering."
         ], "C# Programmer / Technical Art | Unity / C# / Notion"),
         ta_project("MANZO", [
             "Built a custom C++/OpenGL renderer with layer-sorted draw queues and a framebuffer-based post-processing pipeline for bloom, underwater distortion, god rays, ripples, and transitions.",
@@ -270,28 +275,25 @@ def main(build_ta=True, build_prod=True, build_student=False, build_gameplay=Fal
     ]
 
     ta_add = [
-        ("DRAGON HEAD (ART STUDY)", "Sculpted, shaded, and rendered a stylized dragon head from base mesh through final render, demonstrating traditional 3D art fundamentals.",
+        ("REAL-TIME VISUAL INTEGRATION", "Too Hot!: custom 2D shadow treatment, VFX, UI, and visual integration. Street Typer: reusable Unity UI shader workflow, original art, and feedback systems.",
+         "https://seohyeon-min.github.io/my_portfolio/portfolio_game/07_TooHot.html"),
+        ("UNITY TOOLING & PROCEDURAL ANIMATION", "New MANZO: reusable Unity editor utilities and procedural crab-leg animation using ground raycasts and step arcs.",
+         "https://seohyeon-min.github.io/my_portfolio/portfolio_game/00_NewManzo.html"),
+        ("ART FUNDAMENTALS", "Dragon Head: modeled, sculpted, shaded, and rendered a stylized 3D asset from base mesh through final render.",
          "https://seohyeon-min.github.io/my_portfolio/portfolio_planning/ArtGallery.html"),
-        ("EDGE DRIVE", "Placed and adjusted existing VFX assets in Unreal Engine with basic Cascade and Niagara modifications.",
-         "https://seohyeon-min.github.io/my_portfolio/portfolio_game/02_EdgeDirve.html"),
-        ("DOUBLE HIT", "Implemented C++ texture/sprite management, collision, GameObject/GameComponent architecture, and shared engine services.",
-         "https://seohyeon-min.github.io/my_portfolio/portfolio_game/03_DoubleHit.html"),
-        ("BIRD STRIKE", "Implemented audio-timeline beat detection, rhythm-synchronized spawning, dynamic attack subdivision, movement, and original art/audio in a custom engine.",
-         "https://seohyeon-min.github.io/my_portfolio/portfolio_game/04_BirdStrike.html"),
     ]
     ta_skills = [
-        ("Graphics / Tools", "OpenGL, GLSL, Unity URP, ShaderLab, Unreal Engine (Python editor tooling, DataAsset-driven placement systems, Cascade/Niagara VFX), Blender (modeling, rigging), RenderDoc; UI shaders, framebuffer post-processing, procedural animation, C# editor tools and presets"),
-        ("Programming", "C++, C#, C, Python, JavaScript; object-oriented programming, gameplay/engine architecture, debugging, performance profiling"),
-        ("Workflow", "Git branching and merge review, Perforce, Jira, GitHub Projects/Issues, Notion, CMake, Visual Studio; technical feedback and visual integration"),
+        ("Procedural Tools", "Blender Geometry Nodes, Python, Unreal Engine editor tooling, DataAsset-driven workflows, procedural modeling, mesh Boolean and volume-remesh pipelines"),
+        ("Real-Time Visuals", "Unity URP, HLSL, ShaderLab, OpenGL, GLSL, UI shaders, framebuffer post-processing, procedural animation, RenderDoc"),
+        ("Engineering / Workflow", "C++, C#, Python, Git branching and merge review, Perforce, Jira, CMake, Visual Studio; debugging, profiling, technical feedback, and visual integration"),
     ]
     if build_ta:
-        ta_role = "TECHNICAL ARTIST | GRAPHICS PROGRAMMER"
-        ta_summary = "Technical artist and graphics programmer building real-time visual systems, content creation tools, and reusable shader workflows in Unity and C++/OpenGL. Combines hands-on art integration with rendering implementation, procedural animation, and performance debugging."
-        build(DOCS/"Resume_TA_Graphics.pdf", ta_role, ta_summary, ta_selected, ta_add, ta_skills, BLUE,
-              additional_title="Additional Projects", bullet_size=7.05, project_gap=1.6, skill_pad=2.2)
+        ta_role = "TECHNICAL ARTIST | PROCEDURAL TOOLS & REAL-TIME VISUALS"
+        ta_summary = "Technical artist focused on artist-facing procedural tools and real-time visual workflows. Builds reusable content-creation systems that reduce manual environment work, then connects them to production through shaders, rendering, and engine implementation."
         build(DOCS/"Resume.pdf", ta_role, ta_summary, ta_selected, ta_add, ta_skills, BLUE,
               additional_title="Additional Projects",
-              bullet_size=7.05, project_gap=1.6, skill_pad=2.2)
+              bullet_size=7.35, project_gap=0, skill_pad=1.5,
+              top_margin=.3*inch, bottom_margin=.1*inch)
 
     if build_gameplay:
         gameplay_selected = [

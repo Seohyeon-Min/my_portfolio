@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ruin Forge — Min Seohyeon Portfolio</title>
+  <link rel="icon" type="image/png" href="../img/icon.png">
+  <link rel="stylesheet" href="../external/normalize.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@200..900&family=Source+Sans+3:wght@200..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css?v=20261006a">
+</head>
+<body>
+<!-- CRAWLER NOTE: every element below (hero title/media, overview, bullets, contributions) is an empty/placeholder shell that js/project-template.js fills in at runtime from js/projects-data.js["10_RuinForge"] -- read that object for the real, current content, pinned/type flags, and any (IN PRODUCTION / UNFINISHED) or (THIS IS DE-EMPHASIZED / COLLAPSED BY DEFAULT!) notes on it. -->
+<section class="crawler-fallback visually-hidden" aria-hidden="false">
+  <h1>Ruin Forge &mdash; Procedural Ruined-Wall Tool</h1>
+  <p class="crawler-status"><strong>(IN PRODUCTION / UNFINISHED)</strong> A personal Blender Geometry Nodes project, still in progress. This portfolio page documents the current rendered and verified tool output; curved-surface support, reusable wall references, and final material work remain planned. <strong>Authorship:</strong> the project owner defined the target behavior, supplied iterative direction, reviewed the output, and authored some nodes. AI assistance completed substantial portions of implementation, rendering, validation, and node integration.</p>
+  <h2>Contribution</h2>
+  <p>Tool direction, iteration requests, review, and selected Geometry Nodes</p>
+  <h2>Tools</h2>
+  <p>Blender 5.2 (Geometry Nodes), Python</p>
+  <h2>Problem</h2>
+  <p>Environment artists building ruined or battle-damaged walls hand-model every break and crack, over and over. The goal is damage that reads like real concrete &mdash; a thin outer layer flaking away like an eggshell to reveal the wall underneath &mdash; instead of round holes or stamped, repeating patterns.</p>
+  <h2>Current tool output</h2>
+  <ul>
+    <li>Two-layer wall (WallOut / WallIn) with damage placed by a control object (DamageCtrl, Object Info in Relative mode, so it follows the wall)</li>
+    <li>Irregular cutters (noise-displaced curve &rarr; Curve to Mesh &rarr; Mesh to Volume &rarr; Volume to Mesh) cut into the outer wall with Mesh Boolean (Difference)</li>
+    <li>Real break boundary extracted from the Manifold Boolean's Intersecting Edges via Mesh to Curve selection</li>
+    <li>Corner detection: neighbor directions compared with a dot product, sharp points stored as a "corner" attribute, a random subset grows cracks</li>
+    <li>Zigzag cracks: instanced 12-segment template, index-parity alternating offsets with randomized bend and spacing, tapered diamond-section sweep for a V-groove</li>
+    <li>Topology fix: crack cutters merged via volume remesh and cut with the Manifold solver &mdash; 0 non-manifold edges</li>
+  </ul>
+  <h2>Artist controls</h2>
+  <p>Damage Size, Crack Probability / Threshold / Size, Voronoi Radius / Cell Size / Jaggedness, Inner Break Influence / Depth, Brick Jitter, Break Irregularity, Seed, and Mortar Keep are exposed through the modifier panel.</p>
+  <h2>Next steps</h2>
+  <p>Replace the fixed local axis with sampled surface normals for curved and side-facing walls; expose the referenced outer wall as a modifier input; strengthen broken surfaces with texture and normal-map materials.</p>
+</section>
+  <header class="navbar"><div class="navbar-logo">MSH</div><nav class="navbar-menu"><a href="../index.html#home">Home</a><a href="../index.html#projects">Projects</a><a href="../index.html#about">About</a><a href="../index.html#contact">Contact</a></nav></header>
+  <header class="video-hero"><img src="" alt="Poster" class="bird-image"><div class="video-overlay"><h1 class="game-title-bird">PROJECT TITLE</h1><p class="game-subtitle-bird">PROJECT SUBTITLE</p></div></header>
+  <main class="main-content"><section class="main-background-section"></section><section class="rounded-section"></section><button class="return-button" onclick="window.history.back()"><span class="arrow-icon">&larr;</span><span class="button-text">Return</span></button></main>
+  <footer class="footer"><a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a></footer>
+  <script src="../js/projects-data.js?v=20261006a"></script><script src="../js/project-template.js?v=20261006a"></script><script src="../js/index.js?v=20261005a"></script>
+</body>
+</html>

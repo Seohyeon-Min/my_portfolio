@@ -3631,8 +3631,8 @@ body .return-button.project-back-button:hover {
 .proof-shot:hover { transform: translateY(-0.35rem) scale(1.01); box-shadow: 0 2.2rem 5rem rgba(43,54,102,0.25); }
 .proof-shot:focus-visible { outline: none; transform: translateY(-0.35rem) scale(1.01); box-shadow: 0 2.2rem 5rem rgba(43,54,102,0.25); }
 .link-scene--proof.is-hovering .proof-shot:not(.is-hover-active) { opacity: .5; }
-.proof-shot img { width: 100%; height: 100%; object-fit: cover; transition: transform 500ms cubic-bezier(.2,.72,.18,1); }
-.proof-shot:hover img { transform: scale(1.045); }
+.proof-shot img, .proof-shot video { width: 100%; height: 100%; object-fit: cover; transition: transform 500ms cubic-bezier(.2,.72,.18,1); }
+.proof-shot:hover img, .proof-shot:hover video { transform: scale(1.045); }
 .proof-shot[data-project-key="framelab"] {
   background:
     radial-gradient(circle at 72% 35%, rgba(255,255,255,0.26) 0 2%, transparent 2.3%),
@@ -3841,8 +3841,8 @@ body .return-button.project-back-button:hover {
    ring (color follows the OS/browser accent setting — can render green, not just blue) on
    top of everything else. Replace it with the same border-color cue used on hover. */
 .link-archive-grid a:focus-visible { outline: none; z-index: 2; border-color: var(--ls-blue); }
-.link-archive-grid img { width: 100%; height: 100%; object-fit: cover; transition: transform 300ms ease; }
-.link-archive-grid a:hover img { transform: scale(1.04); }
+.link-archive-grid img, .link-archive-grid video { width: 100%; height: 100%; object-fit: cover; transition: transform 300ms ease; }
+.link-archive-grid a:hover img, .link-archive-grid a:hover video { transform: scale(1.04); }
 .archive-card__copy { position: absolute; inset: 42% 0 0; display: grid; align-content: end; gap: 0.1rem; padding: 0.48rem; background: linear-gradient(transparent, rgba(10,14,28,0.9)); color: #fff; }
 .link-archive-grid b { font-size: 0.72rem; }
 .archive-featured-star { color:#f1b83b; font-size:.82em; text-shadow:0 .12rem .4rem rgba(241,184,59,.35); }
@@ -5753,3 +5753,19 @@ body.simple-lightbox-open { overflow:hidden; }
      driven straight off aria-expanded, the same flag the click handler already keeps in sync. */
   .link-start-app[data-track="graphics"] .archive-category__header--toggle[aria-expanded="true"] .archive-category__chevron { transform:rotate(180deg); }
 }
+
+/* Image slots on pages whose renders aren't in yet (currently Ruin Forge) — see renderMediaSlots()
+   in js/projects-data.js. The dashed placeholder sits under the <img>; once the image file exists
+   it loads on top and covers it, and the frame drops its dashed border. */
+.media-slot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 1rem; margin: 1.25rem 0; }
+.media-slot { margin: 0; }
+.media-slot.is-clickable { cursor: zoom-in; }
+.media-slot__frame { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 0.8rem; border: 1.5px dashed rgba(127, 127, 127, 0.45); background: rgba(127, 127, 127, 0.08); }
+.media-slot__frame:has(img) { border-style: solid; border-color: transparent; }
+.media-slot__frame:has(img) .media-slot__placeholder { display: none; }
+.media-slot__frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.media-slot__placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.3rem; padding: 1rem; text-align: center; opacity: 0.7; }
+.media-slot__placeholder small { font-family: 'Source Code Pro', monospace; font-size: 0.75rem; word-break: break-all; }
+.media-slot figcaption { display: flex; flex-direction: column; gap: 0.15rem; margin-top: 0.5rem; }
+.media-slot figcaption span { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.65; }
+.media-slot figcaption strong { font-size: 0.95rem; font-weight: 600; }
