@@ -1300,10 +1300,13 @@ const projectsData = {
     videos: [{
       title: "Planet Lock Workflow",
       src: "../img/Carboom/planet-lock-workflow.mp4"
+    }, {
+      title: "Gameplay — Usage Example",
+      src: "../img/Carboom/GamePlay.mp4"
     }],
     gallery: {
-      title: "Planet Lock Workflow — Work in Progress",
-      subtitle: "The Planet Lock video shows an artist preserving a selected planet while re-generating the rest of the background. The project is still in production; this is an in-editor workflow recording, not final game art.",
+      title: "Planet Lock Workflow & Gameplay — Work in Progress",
+      subtitle: "The Planet Lock video shows an artist preserving a selected planet while re-generating the rest of the background. The gameplay video is a usage example: the generated space background as it appears in the game. The project is still in production; this is an in-editor workflow recording, not final game art.",
       images: []
     },
     contributions: {
@@ -2531,8 +2534,8 @@ def unlock_selected():
           description: "Unreal Engine 팀 프로젝트에서 게임플레이 코어와 테크니컬 아트를 담당하며, 함께 작업하는 아티스트 2명이 코드 없이 직접 쓸 수 있는 에디터 툴 — 아레나 시점의 화면 구도를 고려한 우주 배경 자동 배치 시스템 — 을 제작하고 있습니다."
         },
         gallery: {
-          title: "Planet Lock 워크플로우 — 작업 중",
-          subtitle: "Planet Lock 영상은 아티스트가 선택한 행성을 고정한 채 나머지 배경만 다시 생성하는 흐름을 보여줍니다. 게임은 아직 제작 중이며, 이 영상은 최종 게임 아트가 아닌 에디터 워크플로우 기록입니다.",
+          title: "Planet Lock 워크플로우 & 게임플레이 — 작업 중",
+          subtitle: "Planet Lock 영상은 아티스트가 선택한 행성을 고정한 채 나머지 배경만 다시 생성하는 흐름을 보여줍니다. 게임플레이 영상은 사용 예시로, 툴로 생성한 우주 배경이 실제 게임 안에서 보이는 모습입니다. 게임은 아직 제작 중이며, 이 영상은 최종 게임 아트가 아닌 에디터 워크플로우 기록입니다.",
           images: []
         },
         contributions: {
