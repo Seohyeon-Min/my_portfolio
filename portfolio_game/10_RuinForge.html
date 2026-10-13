@@ -15,26 +15,24 @@
 <!-- CRAWLER NOTE: every element below (hero title/media, overview, bullets, contributions) is an empty/placeholder shell that js/project-template.js fills in at runtime from js/projects-data.js["10_RuinForge"] -- read that object for the real, current content, pinned/type flags, and any (IN PRODUCTION / UNFINISHED) or (THIS IS DE-EMPHASIZED / COLLAPSED BY DEFAULT!) notes on it. -->
 <section class="crawler-fallback visually-hidden" aria-hidden="false">
   <h1>Ruin Forge &mdash; Procedural Ruined-Wall Tool</h1>
-  <p class="crawler-status"><strong>(IN PRODUCTION / UNFINISHED)</strong> A personal Blender Geometry Nodes project, still in progress. This portfolio page documents the current rendered and verified tool output; curved-surface support, reusable wall references, and final material work remain planned. <strong>Authorship:</strong> the project owner defined the target behavior, supplied iterative direction, reviewed the output, and authored some nodes. AI assistance completed substantial portions of implementation, rendering, validation, and node integration.</p>
-  <h2>Contribution</h2>
-  <p>Tool direction, iteration requests, review, and selected Geometry Nodes</p>
+  <p class="crawler-status"><strong>(IN PRODUCTION / UNFINISHED)</strong> Personal Blender 5.2 Geometry Nodes project, still in progress. <strong>Authorship, stated explicitly:</strong> I set the goal and iteration direction and directly authored the Boolean-based crack-space generation and the surrounding-crack logic. The rest of the implementation (two-stage brick damage, mortar cleanup, clipping, optimization), the renders, and validation were completed with AI assistance.</p>
+  <h2>Role</h2>
+  <p>Technical Artist &mdash; Procedural Tools (solo, AI-assisted)</p>
   <h2>Tools</h2>
   <p>Blender 5.2 (Geometry Nodes), Python</p>
-  <h2>Problem</h2>
-  <p>Environment artists building ruined or battle-damaged walls hand-model every break and crack, over and over. The goal is damage that reads like real concrete &mdash; a thin outer layer flaking away like an eggshell to reveal the wall underneath &mdash; instead of round holes or stamped, repeating patterns.</p>
-  <h2>Current tool output</h2>
+  <h2>What the tool does</h2>
+  <p>Environment artists place one control object (DamageCtrl) and adjust modifier values to generate concrete shell damage, cracks along the broken edge, and collapsed brickwork behind it, instead of hand-modeling each ruined wall.</p>
+  <h2>How it works</h2>
   <ul>
-    <li>Two-layer wall (WallOut / WallIn) with damage placed by a control object (DamageCtrl, Object Info in Relative mode, so it follows the wall)</li>
-    <li>Irregular cutters (noise-displaced curve &rarr; Curve to Mesh &rarr; Mesh to Volume &rarr; Volume to Mesh) cut into the outer wall with Mesh Boolean (Difference)</li>
-    <li>Real break boundary extracted from the Manifold Boolean's Intersecting Edges via Mesh to Curve selection</li>
-    <li>Corner detection: neighbor directions compared with a dot product, sharp points stored as a "corner" attribute, a random subset grows cracks</li>
-    <li>Zigzag cracks: instanced 12-segment template, index-parity alternating offsets with randomized bend and spacing, tapered diamond-section sweep for a V-groove</li>
-    <li>Topology fix: crack cutters merged via volume remesh and cut with the Manifold solver &mdash; 0 non-manifold edges</li>
+    <li>Two layers, one-way data: WallOut (concrete) and WallIn (brick) are separate objects; WallIn reads WallOut's damage values through mesh attributes and Attribute Statistic, so there is no circular reference.</li>
+    <li>Cracks from the real break: a Manifold Boolean cuts WallOut, Intersecting Edges extracts the actual cut boundary, and dot products plus a Raycast keep only concave corners as crack starts.</li>
+    <li>Two-stage brick damage: whole bricks are removed first, then only boundary bricks are fractured for the cross-section.</li>
+    <li>Validation: 0 non-manifold edges; about 116k &rarr; 30k vertices after hidden-brick and mortar cleanup; z-fighting removed.</li>
   </ul>
   <h2>Artist controls</h2>
-  <p>Damage Size, Crack Probability / Threshold / Size, Voronoi Radius / Cell Size / Jaggedness, Inner Break Influence / Depth, Brick Jitter, Break Irregularity, Seed, and Mortar Keep are exposed through the modifier panel.</p>
-  <h2>Next steps</h2>
-  <p>Replace the fixed local axis with sampled surface normals for curved and side-facing walls; expose the referenced outer wall as a modifier input; strengthen broken surfaces with texture and normal-map materials.</p>
+  <p>Damage Size, Crack Probability / Threshold / Size, Voronoi Radius / Cell Size / Jaggedness, Inner Break Influence / Depth, Brick Jitter, Break Irregularity, Seed, and Mortar Keep, exposed in the modifier panel.</p>
+  <h2>Limits and next steps</h2>
+  <p>Currently assumes a planar wall facing local +X. Next: sampled surface normals for curved and side-facing walls, the outer wall exposed as a modifier input for reuse, and texture/normal-map materials for broken surfaces.</p>
 </section>
   <header class="navbar"><div class="navbar-logo">MSH</div><nav class="navbar-menu"><a href="../index.html#home">Home</a><a href="../index.html#projects">Projects</a><a href="../index.html#about">About</a><a href="../index.html#contact">Contact</a></nav></header>
   <header class="video-hero"><img src="" alt="Poster" class="bird-image"><div class="video-overlay"><h1 class="game-title-bird">PROJECT TITLE</h1><p class="game-subtitle-bird">PROJECT SUBTITLE</p></div></header>
