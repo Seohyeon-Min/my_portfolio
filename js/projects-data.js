@@ -3768,6 +3768,135 @@ def unlock_selected():
     localized: { ko: { contributions: { sections: [] } } }
   },
 
+  // Primavis: finished thatgamecompany game-jam build (2 weeks, team of 5). Art direction project.
+  // Authorship is stated on the page: the owner set the art direction and made the look/performance
+  // decisions; shader and rendering code was implemented with AI assistance under that direction.
+  // 3D models, game design, gameplay programming and sound are credited to teammates by name.
+  "11_Primavis": {
+    type: "game",
+    title: "PRIMAVIS",
+    subtitle: "Watercolor art direction and real-time look development for a thatgamecompany game jam",
+    pageTitle: "Primavis — Min Seohyeon Portfolio",
+    heroType: "video",
+    heroMedia: "../img/Primavis/walkthrough.mp4",
+    heroLink: "https://handalhandal.itch.io/primavis",
+    heroPoster: "../img/Primavis/header.jpg",
+    overviewImage: "../img/Primavis/03_wing_umbrella.jpg",
+    overview: "A two-week, five-person Unity game made for thatgamecompany's game jam and shipped as a web build. You play a migratory bird who walks a child — spring itself — through a winter forest, using only left click to move and right click to cry. I set the art direction: a soft watercolor world where winter retreats one step at a time until spring arrives, and I drove the rendering decisions that carried that look into a browser.",
+    features: [
+      "Art direction: watercolor and gouache shading, pastel haze, and a palette that moves from winter to spring across the stages",
+      "Measured look choice: a full-screen Kuwahara filter cost about 14 ms at 1080p, so the watercolor moved into materials plus a 0.135 ms bilateral blur",
+      "Character modeling: the child, the bird and the animals, modeled by me (animation generated with AI)",
+      "Season change: a ring wipe that repaints trees, flowers and grass outward from the child",
+      "Forest dressing: procedural tree and grass placement with wind sway, so a large winter forest could be built in days",
+      "Web build: renderers cut from 75,755 to 40,272, and first-use shader compiles of up to about 690 ms moved into the first frames",
+      "Credits: Art Direction, Programming & Production on a five-person team"
+    ],
+    experience: {
+      role: "Art Direction · Programming · Production",
+      period: "2026 · thatgamecompany Game Jam · 2 weeks · team of 5",
+      description: "I set the art direction and visual targets, made the look and performance decisions recorded in the project's decision log, and directed and integrated the rendering work. I also modeled the characters and creatures (the child, the bird and the animals); their animation was generated with AI. Shader and rendering code was implemented with AI assistance under my direction. Background props such as trees and flowers were modeled by Tommy Ji, game design by Seungju Song, gameplay programming by Seungju Song and Sam Jeon, and sound design by Port Nugent."
+    },
+    tools: "Unity 6 URP · HLSL · C# · FMOD · WebGL",
+    trailers: [],
+    videos: [],
+    contributions: { sections: [] },
+    source: {
+      text: "Inspect the team project, shaders and decision records on GitHub.",
+      url: "https://github.com/Seohyeon-Min/ThatGameJam",
+      label: "GitHub"
+    },
+    localized: {
+      ko: {
+        subtitle: "댓게임컴퍼니 게임잼에서 맡은 수채화 아트 디렉션과 실시간 룩 개발",
+        overview: "댓게임컴퍼니 게임잼에서 5명이 2주 동안 만들어 웹 빌드로 출시한 Unity 게임입니다. 플레이어는 철새가 되어, 봄 그 자체인 아이가 겨울 숲을 지나가도록 곁을 지킵니다. 조작은 좌클릭(이동)과 우클릭(울음)뿐입니다. 저는 겨울이 한 단계씩 물러나 마침내 봄이 오는 부드러운 수채화 세계로 아트 방향을 정했고, 그 룩을 브라우저에서 그대로 돌리기 위한 렌더링 판단을 맡았습니다.",
+        features: [
+          "아트 디렉션: 수채화·과슈 셰이딩, 파스텔 헤이즈, 스테이지를 지날수록 겨울에서 봄으로 넘어가는 팔레트",
+          "측정으로 정한 룩: 전체 화면 Kuwahara 필터가 1080p에서 약 14ms라, 수채화를 머티리얼로 옮기고 0.135ms 바이래터럴 블러만 남김",
+          "캐릭터 모델링: 아이와 새, 동물을 직접 모델링 (애니메이션은 AI로 생성)",
+          "계절 변화: 아이를 중심으로 나무·꽃·풀이 바깥으로 다시 칠해지는 링 와이프",
+          "숲 구성: 바람에 흔들리는 나무·풀을 절차적으로 배치해 넓은 겨울 숲을 며칠 만에 완성",
+          "웹 빌드: 렌더러 75,755개 → 40,272개, 최대 약 690ms 걸리던 셰이더 첫 사용 컴파일을 첫 프레임으로 이동",
+          "크레딧: 5인 팀에서 아트 디렉션·프로그래밍·프로듀싱"
+        ],
+        experience: {
+          role: "아트 디렉션 · 프로그래밍 · 프로듀싱",
+          period: "2026 · 댓게임컴퍼니 게임잼 · 2주 · 5인 팀",
+          description: "아트 방향과 비주얼 목표를 정하고, 프로젝트 결정 기록에 남아 있는 룩과 성능 판단을 내렸으며, 렌더링 작업을 디렉팅하고 게임에 통합했습니다. 아이와 새, 동물 등 캐릭터·생명체 모델링도 직접 했으며, 애니메이션은 AI로 생성했습니다. 셰이더와 렌더링 코드는 제 디렉션에 따라 AI의 도움으로 구현했습니다. 나무와 꽃 등 배경 소품 모델은 Tommy Ji, 게임 디자인은 Seungju Song, 게임플레이 프로그래밍은 Seungju Song과 Sam Jeon, 사운드 디자인은 Port Nugent가 맡았습니다."
+        },
+        contributions: { sections: [] },
+        source: {
+          text: "GitHub에서 팀 프로젝트와 셰이더, 결정 기록을 확인할 수 있습니다.",
+          url: "https://github.com/Seohyeon-Min/ThatGameJam",
+          label: "GitHub"
+        }
+      }
+    }
+  },
+
+  // Sushi Dojo: finished 36-hour DubHacks 2026 hackathon build (team of 3). Art direction project.
+  // Authorship is stated on the page: image assets were AI-generated under the owner's art
+  // direction (style defined, results selected, edited and integrated by the owner); the owner's
+  // code was AI-assisted; networking, match flow, recipes and balance are credited to teammates.
+  "12_SushiDojo": {
+    type: "game",
+    title: "SUSHI DOJO",
+    subtitle: "Art direction for a two-player conveyor-belt cooking game, built in 36 hours at DubHacks 2026",
+    pageTitle: "Sushi Dojo — Min Seohyeon Portfolio",
+    heroType: "video",
+    heroMedia: "../img/SushiDojo/trailer.mp4",
+    heroPoster: "../img/SushiDojo/01_title_table.jpg",
+    overviewImage: "../img/SushiDojo/04_gameplay.jpg",
+    overview: "A two-player online cooking game made in 36 hours by a team of three at DubHacks 2026, the University of Washington hackathon. Ingredients ride a shared conveyor belt; both players grab what they need, combine ingredient cards on a chopping board into dishes, and lose points for every piece of food they waste. I owned how the game looks and feels, from the art direction to the menus, effects and trailer.",
+    features: [
+      "Art direction: one faceted, low-poly illustration style and a warm sushi-bar palette, so about 40 images made in 36 hours read as one game",
+      "AI-generated assets: 14 dishes, about 20 ingredients, title, UI panels and backgrounds, directed, selected, edited and integrated by me",
+      "Presentation: spotlit title table, cloche reveals, ingredient card hand, speech-bubble scores, dust-puff cooking and leaf transitions",
+      "2D + 3D shaders: fake-lit low-poly props, toon cloud puffs, soft fog, cross sparkles and a full-screen pixelate pass under Unity's 2D Renderer",
+      "Game feel: throwable ingredients, chopping-board physics and a jelly-bounce chef",
+      "Trailer: the one-minute trailer, cut in After Effects"
+    ],
+    experience: {
+      role: "Art Direction · Visual Implementation · Trailer",
+      period: "2026 · DubHacks · 36-hour hackathon · team of 3",
+      description: "I set the art direction and built the game's visuals, menus and feel in Unity. The image assets were generated with AI under my direction: I defined the style, selected and edited the results, and integrated them into the game. My code was written with AI assistance. Networking, match flow, recipes and balance were written by teammates Daniel Shin and Lance."
+    },
+    tools: "Unity URP (2D Renderer) · HLSL · C# · After Effects",
+    trailers: [],
+    videos: [],
+    contributions: { sections: [] },
+    source: {
+      text: "Inspect the hackathon project on GitHub.",
+      url: "https://github.com/BaLancelot/Dubhacks2026",
+      label: "GitHub"
+    },
+    localized: {
+      ko: {
+        subtitle: "DubHacks 2026에서 36시간 동안 만든 2인 컨베이어 벨트 요리 게임의 아트 디렉션",
+        overview: "워싱턴대학교 해커톤 DubHacks 2026에서 3명이 36시간 동안 만든 2인 온라인 요리 게임입니다. 재료가 공용 컨베이어 벨트를 타고 지나가면 두 플레이어가 필요한 재료를 가져와 도마 위에서 재료 카드를 조합해 요리를 완성하고, 버리는 음식만큼 점수를 잃습니다. 저는 아트 디렉션부터 메뉴, 이펙트, 트레일러까지 게임이 보이고 느껴지는 방식을 맡았습니다.",
+        features: [
+          "아트 디렉션: 36시간 만에 만든 이미지 약 40장이 하나의 게임으로 보이도록 면 분할 로우폴리 일러스트와 따뜻한 스시바 팔레트로 고정",
+          "AI 생성 에셋: 완성 요리 14종, 재료 약 20종, 타이틀, UI 패널, 배경을 디렉팅하고 직접 골라 수정해 적용",
+          "화면 연출: 조명이 비추는 타이틀 테이블, 클로슈 공개, 재료 카드 패, 말풍선 점수, 요리 연기, 나뭇잎 전환",
+          "2D + 3D 셰이더: Unity 2D Renderer에서 3D 소품이 어울리도록 가짜 조명 로우폴리, 툰 구름 연기, 안개, 십자 반짝임, 전체 화면 픽셀화",
+          "손맛: 던질 수 있는 재료, 도마 물리, 젤리처럼 튕기는 셰프",
+          "트레일러: After Effects로 1분짜리 트레일러 편집"
+        ],
+        experience: {
+          role: "아트 디렉션 · 비주얼 구현 · 트레일러",
+          period: "2026 · DubHacks · 36시간 해커톤 · 3인 팀",
+          description: "아트 방향을 정하고 Unity에서 게임의 비주얼과 메뉴, 손맛을 구현했습니다. 이미지 에셋은 제 디렉션에 따라 AI로 생성했으며, 스타일을 정의하고 결과물을 골라 수정한 뒤 게임에 적용했습니다. 제 코드는 AI의 도움으로 작성했습니다. 네트워킹과 매치 흐름, 레시피, 밸런스는 팀원 Daniel Shin과 Lance가 작성했습니다."
+        },
+        contributions: { sections: [] },
+        source: {
+          text: "GitHub에서 해커톤 프로젝트를 확인할 수 있습니다.",
+          url: "https://github.com/BaLancelot/Dubhacks2026",
+          label: "GitHub"
+        }
+      }
+    }
+  },
+
   "07_TooHot": {
     type: "game",
     pinned: true,
@@ -4053,6 +4182,223 @@ function renderEngineeringCaseStudy({ metrics = [], architecture = [], architect
 // `src`; while that file doesn't exist the <img> removes itself on error and the dashed placeholder
 // (showing the expected path) is left instead — so adding an image is just dropping the file at that
 // path, no code change. Placeholder slots are empty on purpose, not missing content.
+// Primavis + Sushi Dojo case studies (art-direction game-jam projects). Single source of truth for
+// both pages' Contributions, rendered in the stacked (no tabs) layout, visual-first, in this
+// reading order. Both are finished jam builds. Authorship is stated on each page: Primavis
+// characters/creatures were modeled by the owner (animation AI-generated), shader/rendering code
+// was AI-assisted under the owner's direction, background props are by Tommy Ji; Sushi Dojo image
+// assets were AI-generated under the owner's art direction and the owner's code was AI-assisted.
+(() => {
+  const slots = (dir, list) => renderMediaSlots(list.map(([file, label, caption, alt]) => ({ src: `../img/${dir}/${file}`, label, caption, alt: alt || caption })));
+  const table = (head, rows) => `<div class="decision-table-wrap"><table class="decision-table"><thead><tr>${head.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.map(([first, ...rest]) => `<tr><th scope="row">${first}</th>${rest.map(cell => `<td>${cell}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+  const summary = (label, items) => `<div class="engineering-summary" aria-label="${label}">${items.map(([icon, value, text]) => `<article><span class="engineering-icon" aria-hidden="true">${icon}</span><strong>${value}</strong><small>${text}</small></article>`).join("")}</div>`;
+  const chips = items => `<nav class="jam-chips">${items.map(([id, label]) => `<a href="#${id}">${label}</a>`).join("")}</nav>`;
+  const video = (src, poster, caption) => `<figure class="jam-video"><video src="${src}" poster="${poster}" controls playsinline preload="metadata"></video><figcaption style="margin-top:.55rem;color:var(--case-muted);font-size:.78rem">${caption}</figcaption></figure>`;
+  const pair = (a, b, arrow = true) => `<div class="jam-pair"><figure><img src="${a.src}" alt="${a.alt}" loading="lazy"><figcaption><b>${a.label}</b>${a.caption}</figcaption></figure><span class="jam-pair__arrow" aria-hidden="true">${arrow ? "→" : ""}</span><figure><img src="${b.src}" alt="${b.alt}" loading="lazy"><figcaption><b>${b.label}</b>${b.caption}</figcaption></figure></div>`;
+  const wide = (src, alt, caption, scroll) => `<figure class="jam-wide"><div class="${scroll ? "jam-scroll" : ""}"><img src="${src}" alt="${alt}" loading="lazy"></div><figcaption>${caption}</figcaption></figure>`;
+  const rules = items => `<div class="jam-rules">${items.map(([k, h, p]) => `<article><span>${k}</span><h3>${h}</h3><p>${p}</p></article>`).join("")}</div>`;
+  const timeline = items => `<ol class="jam-timeline">${items.map(([time, title, text]) => `<li><time>${time}</time><div><strong>${title}</strong><small>${text}</small></div></li>`).join("")}</ol>`;
+  const card = (id, kicker, title, body) => ({ title, category: kicker, htmlContent: `<section class="jam-case" id="${id}"><span class="jam-kicker">${kicker}</span><h2>${title}</h2>${body}</section>` });
+  const note = (label, text) => `<p class="case-study-note"><strong>${label}</strong> ${text}</p>`;
+
+  const primavis = projectsData["11_Primavis"];
+  if (primavis) {
+    const build = ko => [
+      card("pv-trailer", ko ? "2주 · 5인 팀 · 웹 출시" : "2 weeks · team of 5 · shipped to the web", ko ? "겨울에서 봄까지, 수채화로" : "Winter to spring, in watercolor",
+        `${summary(ko ? "프로젝트 규모" : "Project scale", ko ? [
+          ["◷", "2주", "댓게임컴퍼니 게임잼"],
+          ["◎", "5명", "아트 디렉션 · 프로그래밍 · 프로듀싱 담당"],
+          ["▦", "0.135ms", "수채화 후처리 비용 (1080p)"],
+          ["↻", "4단계", "겨울에서 봄으로 바뀌는 세계"]
+        ] : [
+          ["◷", "2 weeks", "thatgamecompany game jam"],
+          ["◎", "Team of 5", "I led art direction, programming and production"],
+          ["▦", "0.135 ms", "Watercolor post-processing cost at 1080p"],
+          ["↻", "4 steps", "From winter to spring"]
+        ])}${chips(ko ? [["pv-concept", "콘셉트 → 게임"], ["pv-color", "컬러 스크립트"], ["pv-look", "측정으로 정한 룩"], ["pv-web", "웹 출시"], ["pv-timeline", "2주 타임라인"], ["pv-gallery", "갤러리"]] : [["pv-concept", "Concept → game"], ["pv-color", "Color script"], ["pv-look", "Measured look"], ["pv-web", "Shipping to the web"], ["pv-timeline", "Two-week timeline"], ["pv-gallery", "Gallery"]])}${video("../img/Primavis/walkthrough.mp4", "../img/Primavis/header.jpg", ko ? "인트로부터 엔딩까지 이어지는 3분 플레이 영상입니다. 소리를 켜고 보세요." : "A three-minute playthrough from the intro to the ending. Best with sound on.")}`),
+      card("pv-concept", ko ? "콘셉트 → 게임" : "Concept → game", ko ? "한 장의 그림에서 시작한 룩" : "The look started from one painting",
+        `<p>${ko ? "아이 콘셉트를 먼저 그렸습니다. 차가운 청록빛 겨울 공기, 따뜻한 노란 머리와 크림색 옷, 검정 대신 색이 있는 부드러운 그림자. 이 한 장이 게임 전체의 팔레트와 셰이딩 규칙이 됐고, 아이와 새, 동물은 이 그림을 기준으로 직접 모델링했습니다." : "I painted the child first: cold cyan winter air, warm yellow hair and a cream dress, and soft colored shadows instead of black. That one painting became the palette and the shading rule for the whole game, and I modeled the child, the bird and the animals against it."}</p>${pair(
+          { src: "../img/Primavis/girl_concept.jpg", alt: ko ? "아이 콘셉트 페인팅" : "Concept painting of the child", label: ko ? "콘셉트" : "Concept", caption: ko ? "직접 그린 아이 콘셉트" : "My concept painting of the child" },
+          { src: "../img/Primavis/08_sunlit_spot.jpg", alt: ko ? "게임 속 햇살 아래의 아이" : "The child in a sunlit spot in game", label: ko ? "게임" : "In game", caption: ko ? "직접 모델링한 아이, 수채화 셰이딩 적용" : "The child as I modeled her, with the watercolor shading" }
+        )}${pair(
+          { src: "../img/Primavis/02_baby_wake.jpg", alt: ko ? "잠에서 깨는 아이 클로즈업" : "Close-up of the child waking", label: ko ? "클로즈업" : "Close-up", caption: ko ? "얼굴과 볼의 따뜻한 색은 콘셉트 그대로" : "The warm face and cheeks carried over from the concept" },
+          { src: "../img/Primavis/03_wing_umbrella.jpg", alt: ko ? "날개로 눈을 막는 새" : "The bird sheltering the child from snow", label: ko ? "플레이" : "Gameplay", caption: ko ? "푸른 그림자 속에서도 아이와 새가 먼저 읽힘" : "The child and the bird still read first inside blue shadows" }
+        , false)}`),
+      card("pv-color", ko ? "컬러 스크립트" : "Color script", ko ? "겨울은 한 단계씩 물러난다" : "Winter retreats in steps",
+        `<p>${ko ? "아이가 햇살 아래에서 잠들 때마다 세계가 봄으로 한 걸음 나아갑니다. 아래는 게임 진행 순서대로 고른 여섯 장면과 각 장면의 대표 색입니다. 푸른 겨울에서 라일락빛 숲과 분홍빛 안개를 지나 초록 봄으로 이동하는 흐름이 보입니다." : "Each time the child falls asleep in the sunlight, the world moves one step toward spring. Below are six moments in play order with each one's dominant colors; you can see the move from blue winter through a lilac forest and pink fog to green spring."}</p>${wide("../img/Primavis/color_script.jpg", ko ? "플레이 영상 전체의 컬러 스크립트" : "Color script sampled across the playthrough", ko ? "왼쪽에서 오른쪽으로 게임 진행 순서. 옆으로 스크롤할 수 있습니다." : "Left to right in play order. Scroll sideways to see it all.", true)}${rules(ko ? [
+          ["01 · 질감", "렌더링이 아니라 칠한 그림처럼", "그림자는 검정 대신 색으로, 스페큘러 대신 안료 얼룩으로. 안료는 월드 공간에 고정해 카메라가 움직여도 미끄러지지 않습니다."],
+          ["02 · 시간", "계절은 아이에게서 퍼진다", "눈이 그치고, 토끼가 나타나고, 눈이 녹고, 마지막엔 아이를 중심으로 꽃과 초록이 링처럼 번집니다."],
+          ["03 · 가독성", "빛이 곧 목표", "옅은 세상에서 밝은 건 프리즘 같은 새뿐이고, 쉬는 곳은 늘 따뜻한 햇살 웅덩이입니다. UI 없이 길을 읽게 했습니다."]
+        ] : [
+          ["01 · Surface", "Painted, not rendered", "Colored shadows instead of black, pigment variation instead of specular. Pigment is anchored in world space, so it never slides when the camera moves."],
+          ["02 · Time", "Spring spreads from the child", "The snow stops, rabbits appear, the snow melts, and finally flowers and green ripple out from the child in a ring."],
+          ["03 · Readability", "Light is the goal", "The prismatic bird is the only bright thing in a pale world, and every rest spot is a warm pool of sunlight, so the way reads without UI."]
+        ])}${pair(
+          { src: "../img/Primavis/04_snow_forest.jpg", alt: ko ? "겨울 숲" : "Winter forest", label: ko ? "겨울" : "Winter", caption: ko ? "옅은 파랑과 라일락, 길고 푸른 그림자" : "Pale blue and lilac, long blue shadows" },
+          { src: "../img/Primavis/09_spring.jpg", alt: ko ? "봄 들판" : "Spring meadow", label: ko ? "봄" : "Spring", caption: ko ? "같은 숲이 따뜻한 초록과 꽃으로" : "The same forest in warm green and flowers" }
+        )}`),
+      card("pv-look", ko ? "측정으로 정한 룩" : "Measured look", ko ? "전체 화면 필터 대신 머티리얼로" : "Watercolor from materials, not a full-screen filter",
+        `<p>${ko ? "첫 버전은 Blender의 Anisotropic Kuwahara를 참고한 전체 화면 필터로, 화면을 붓 터치 같은 색 영역으로 바꿨습니다. 목표 플랫폼이 웹 브라우저라 직접 측정해 비교했고, 너무 무겁다고 판단해 수채화 느낌은 각 머티리얼에서 만들고 후처리는 비슷한 색끼리만 섞는 가벼운 블러 하나만 남겼습니다." : "The first version was a full-screen filter modeled on Blender's Anisotropic Kuwahara, which turns the frame into brush-like color regions. The target was a web browser, so we measured it; I judged it too heavy and moved the watercolor feel into the materials, keeping only a light blur that mixes similar colors."}</p>${table(ko ? ["방식", "GPU 시간 (1080p, RTX 3050 Ti 노트북)"] : ["Approach", "GPU time (1080p, RTX 3050 Ti Laptop)"], ko ? [
+          ["Kuwahara, 전체 해상도", "약 14ms (Kuwahara 패스만 11.8ms)"],
+          ["Kuwahara High / Medium / Low (절반 해상도)", "1.25 / 0.95 / 0.60ms"],
+          ["바이래터럴 블러 3x3", "<strong>0.135ms</strong> (채택)"],
+          ["바이래터럴 블러 3x3 + 깊이", "0.26ms"]
+        ] : [
+          ["Kuwahara, full resolution", "about 14 ms (11.8 ms for the Kuwahara pass alone)"],
+          ["Kuwahara High / Medium / Low (half resolution)", "1.25 / 0.95 / 0.60 ms"],
+          ["Bilateral blur 3x3", "<strong>0.135 ms</strong> (chosen)"],
+          ["Bilateral blur 3x3 + depth", "0.26 ms"]
+        ])}<p>${ko ? "덕분에 그림자 색, 안료 강도, 붓 텍스처를 머티리얼마다 조절할 수 있게 됐습니다. 대신 모든 모델을 수채화 머티리얼로 바꿔야 했고, 스페큘러가 없어 비스듬한 면이 진해지는 부분은 Base Color로 맞췄습니다." : "It also gave per-material control of shadow color, pigment strength and brush texture. The cost: every model had to move to the watercolor material, and without specular, grazing surfaces read darker, which we tuned with base color."}</p>`),
+      card("pv-web", ko ? "웹 출시" : "Shipping to the web", ko ? "룩을 지키면서 끊김 없애기" : "Removing stalls without touching the look",
+        `<p>${ko ? "웹 빌드에서 게임 시작, 계절 전환, 안개, 엔딩마다 소리가 끊겼습니다. FMOD가 메인 스레드에서 믹싱해서 프레임이 멈추면 소리도 멈춥니다. 프로파일링해 보니 대부분 셰이더를 처음 쓸 때 GPU 프로그램을 만드는 비용이었고, 계절이 바뀌는 한 프레임은 836ms가 걸렸습니다." : "In the web build the sound broke up at the start, at each season change, in the fog and at the ending; FMOD mixes on the main thread, so a stalled frame stalls the sound. Profiling showed most spikes were GPU programs built on a shader's first use, and one season-change frame took 836 ms."}</p>${summary(ko ? "웹 빌드 최적화 결과" : "Web build results", ko ? [
+          ["▦", "75,755 → 40,272", "씬의 렌더러 수 (꽃·풀 메시 병합)"],
+          ["◆", "141", "첫 3프레임에 미리 그려두는 머티리얼"],
+          ["↻", "150 / 400", "계절 전환 시 프레임당 바꾸는 나무 / 꽃·풀"],
+          ["✦", "~7MB", "로딩 중 임시 할당 제거"]
+        ] : [
+          ["▦", "75,755 → 40,272", "Renderers in the scene (flower and grass meshes merged)"],
+          ["◆", "141", "Materials pre-drawn in the first 3 frames"],
+          ["↻", "150 / 400", "Trees / flowers and grass switched per frame in a season change"],
+          ["✦", "~7 MB", "Load-time allocation removed"]
+        ])}<ul>${(ko ? [
+          "<strong>계절 전환 분산:</strong> 아이와의 거리순으로 정렬해 프레임마다 일정 개수만 바꾸고, 링 안쪽은 즉시 바꿔서 보이는 결과는 같게 유지했습니다.",
+          "<strong>셰이더 첫 사용 비용 이동:</strong> 머티리얼 141개를 첫 3프레임에 보이지 않게 한 번씩 그려, 최대 약 690ms 걸리던 컴파일을 로딩 시점으로 옮겼습니다.",
+          "<strong>룩은 건드리지 않음:</strong> 안개와 구름 수는 끊김의 원인이 아니었고 줄이면 룩이 바뀌어서 그대로 뒀습니다."
+        ] : [
+          "<strong>Spread the season change:</strong> sorted by distance from the child, a fixed number change each frame, and anything inside the ring changes at once, so it looks the same.",
+          "<strong>Move first-use shader cost:</strong> all 141 materials are drawn once, invisibly, in the first 3 frames, moving compiles of up to about 690 ms into loading.",
+          "<strong>Leave the look alone:</strong> fog and cloud counts were not causing the stalls and cutting them would change the look, so they stayed."
+        ]).map(item => `<li>${item}</li>`).join("")}</ul>`),
+      card("pv-timeline", ko ? "2주 타임라인" : "Two-week timeline", ko ? "2주 동안 룩이 만들어진 순서" : "How the look came together in two weeks",
+        `${timeline(ko ? [
+          ["10/25", "시작", "아이 콘셉트와 Unity URP 프로젝트 세팅"],
+          ["10/27", "수채화 1차 + 측정", "Kuwahara 필터 vs 머티리얼 방식 측정, 머티리얼로 결정"],
+          ["10/29", "물과 과슈", "수채화 물 셰이더, 과슈 모드, 환경광"],
+          ["10/30", "계절 전환", "링 와이프, 눈을 걷어내는 바람, 발자국, 깨어나는 컷씬"],
+          ["11/01", "하늘과 캐릭터", "절차적 구름 인트로, 칠한 느낌의 캐릭터 셰이딩"],
+          ["11/02", "숲 채우기", "나무·풀 생성기, 바람 흔들림, 계절별 색"],
+          ["11/04", "안개", "안개 구간 룩, 화면 원형 계절 와이프"],
+          ["11/06", "엔딩", "엔딩 연출과 마지막 숏"],
+          ["11/07", "웹 출시", "끊김 제거(렌더러 47% 감소, 셰이더 프리웜) 후 제출"]
+        ] : [
+          ["Oct 25", "Kickoff", "Child concept and the Unity URP project set up"],
+          ["Oct 27", "Watercolor v1 + measurement", "Kuwahara filter vs materials measured; materials chosen"],
+          ["Oct 29", "Water and gouache", "Watercolor water shader, gouache mode, environment light"],
+          ["Oct 30", "Season change", "Ring wipe, snow-clearing gust, footprints, the wake-up cutscene"],
+          ["Nov 1", "Sky and characters", "Procedural cloud intro, painted character shading"],
+          ["Nov 2", "Dressing the forest", "Tree and grass generators, wind sway, seasonal tints"],
+          ["Nov 4", "Fog", "Fog section look, screen-circle season wipe"],
+          ["Nov 6", "Ending", "Ending staging and final shots"],
+          ["Nov 7", "Shipped to the web", "Stall fixes (47% fewer renderers, shader prewarm), then submitted"]
+        ])}`),
+      card("pv-gallery", ko ? "갤러리" : "Gallery", ko ? "장면들" : "Scenes",
+        `${slots("Primavis", ko ? [
+          ["01_sky_intro.jpg", "인트로", "구름 위에서 아이를 찾는 새"],
+          ["05_fog.jpg", "스테이지 3", "핑크빛 안개"],
+          ["06_above_clouds.jpg", "엔딩", "구름 위로 올라간 새"],
+          ["07_cloud_break.jpg", "엔딩", "구름을 뚫고 들어오는 햇살"],
+          ["header.jpg", "키 아트", "헤더 아트 (팀원 제작)"],
+          ["cover.jpg", "커버 이미지", "핑크빛 안개를 나는 새 (직접 제작)"]
+        ] : [
+          ["01_sky_intro.jpg", "Intro", "The bird searching for the child above the clouds"],
+          ["05_fog.jpg", "Stage 3", "Pink fog"],
+          ["06_above_clouds.jpg", "Ending", "The bird above the clouds"],
+          ["07_cloud_break.jpg", "Ending", "Sunlight breaking through the clouds"],
+          ["header.jpg", "Key art", "Header art (made by a teammate)"],
+          ["cover.jpg", "Cover image", "The bird flying through pink fog (made by me)"]
+        ])}${note(ko ? "기여 범위:" : "Authorship:", ko ? "아트 방향과 비주얼 목표, 룩과 성능에 대한 판단은 제가 정했습니다. 아이 콘셉트를 그렸고 아이와 새, 동물을 직접 모델링했으며, 애니메이션은 AI로 생성했습니다. 셰이더와 렌더링 코드는 제 디렉션에 따라 AI의 도움으로 구현했습니다. 나무와 꽃 등 배경 소품 모델은 Tommy Ji, 게임 디자인은 Seungju Song, 게임플레이 프로그래밍은 Seungju Song과 Sam Jeon, 사운드는 Port Nugent가 맡았습니다. 측정값은 저장소의 결정 기록(ADR 0017, 0039, 0040)에서 가져왔습니다." : "I set the art direction, visual targets, and the look and performance calls. I painted the child concept and modeled the child, the bird and the animals; their animation was generated with AI. Shader and rendering code was implemented with AI assistance under my direction. Background props such as trees and flowers are by Tommy Ji, game design by Seungju Song, gameplay programming by Seungju Song and Sam Jeon, and sound by Port Nugent. Measurements come from the repository's decision records (ADR 0017, 0039, 0040).")}`)
+    ];
+    primavis.contributions = { layout: "stacked", sections: build(false) };
+    primavis.localized.ko.contributions = { layout: "stacked", sections: build(true) };
+  }
+
+  const sushi = projectsData["12_SushiDojo"];
+  if (sushi) {
+    const build = ko => [
+      card("sd-trailer", ko ? "DubHacks 2026 · 36시간 · 3인 팀" : "DubHacks 2026 · 36 hours · team of 3", ko ? "36시간, 이미지 40장, 하나의 스타일" : "36 hours, 40 images, one style",
+        `${summary(ko ? "프로젝트 규모" : "Project scale", ko ? [
+          ["◷", "36시간", "DubHacks 2026 해커톤"],
+          ["◎", "3명", "아티스트는 저 한 명"],
+          ["▦", "~40장", "요리, 재료, 타이틀, UI, 배경"],
+          ["◆", "9개", "2D와 3D를 묶는 셰이더"]
+        ] : [
+          ["◷", "36 hours", "DubHacks 2026 hackathon"],
+          ["◎", "Team of 3", "I was the only artist"],
+          ["▦", "~40 images", "Dishes, ingredients, title, UI, backgrounds"],
+          ["◆", "9 shaders", "Tying 2D and 3D together"]
+        ])}${chips(ko ? [["sd-style", "스타일 규칙"], ["sd-before", "플레이스홀더 → 최종"], ["sd-blend", "2D + 3D"], ["sd-feel", "손맛"], ["sd-timeline", "36시간 타임라인"]] : [["sd-style", "Style rules"], ["sd-before", "Placeholder → final"], ["sd-blend", "2D + 3D"], ["sd-feel", "Game feel"], ["sd-timeline", "36-hour timeline"]])}${video("../img/SushiDojo/trailer.mp4", "../img/SushiDojo/01_title_table.jpg", ko ? "After Effects로 직접 편집한 1분 트레일러입니다." : "The one-minute trailer I cut in After Effects.")}`),
+      card("sd-style", ko ? "스타일 규칙" : "Style rules", ko ? "처음 몇 시간 안에 고정한 규칙 세 가지" : "Three rules, locked in the first hours",
+        `<p>${ko ? "아티스트는 저 한 명인데 게임에는 이미지가 40장 가까이 필요했습니다. 손으로 다 그리는 건 불가능해서 스타일 규칙부터 정하고 AI 이미지 생성으로 세트를 만든 뒤, 규칙에서 벗어난 결과는 버리거나 직접 고쳤습니다." : "I was the only artist, and the game needed close to forty images. Drawing them all was not possible, so I set the style rules first, produced the set with AI image generation, and threw out or fixed anything that broke the rules."}</p>${rules(ko ? [
+          ["01 · 형태", "면 분할 로우폴리", "모든 음식과 소품을 삼각 면으로 쪼갠 일러스트로. 3D 도마와 셰프도 플랫 노멀로 같은 면 느낌을 냅니다."],
+          ["02 · 색", "따뜻한 스시바", "나무색 바닥, 붉은 벽, 쌀과 연어의 크림·주황 계열. 차가운 색은 접시 줄무늬와 김에만 씁니다."],
+          ["03 · 시점", "같은 카메라", "모든 요리와 재료를 같은 3/4 위쪽 시점, 배경 없는 컷아웃으로 맞춰서 벨트와 도마 위에 함께 놓여도 어색하지 않습니다."]
+        ] : [
+          ["01 · Form", "Faceted low-poly", "Every dish and prop is an illustration broken into triangular facets. The 3D board and chef use flat normals to match."],
+          ["02 · Color", "Warm sushi bar", "Wood floor, red wall, cream and orange from rice and salmon. Cool colors only on plate stripes and seaweed."],
+          ["03 · Camera", "One shared angle", "Every dish and ingredient uses the same three-quarter top-down view as a transparent cut-out, so they sit together naturally on the belt and the board."]
+        ])}${wide("../img/SushiDojo/dishes.jpg", ko ? "같은 규칙으로 맞춘 완성 요리 8종" : "Eight finished dishes following the rules", ko ? "완성 요리 14종 중 8종." : "Eight of the fourteen finished dishes.")}`),
+      card("sd-before", ko ? "플레이스홀더 → 최종" : "Placeholder → final", ko ? "시스템이 먼저, 그림은 나중에 갈아끼우기" : "Systems first, art swapped in later",
+        `<p>${ko ? "팀원들이 레시피와 카드 시스템을 만드는 동안에는 글자만 있는 플레이스홀더 카드로 작업했고, 최종 아트가 준비되는 대로 같은 자리에 갈아끼웠습니다. 아트를 기다리느라 개발이 멈추지 않았습니다." : "While teammates built the recipe and card systems, the game ran on text-only placeholder cards, and final art was swapped into the same slots as it was ready. Development never waited on art."}</p>${wide("../img/SushiDojo/placeholder_vs_final.jpg", ko ? "위: 플레이스홀더 카드, 아래: 최종 아트" : "Top: placeholder cards. Bottom: final art", ko ? "위: 개발 중 쓰던 플레이스홀더 카드. 아래: 같은 자리에 들어간 최종 아트." : "Top: placeholder cards used during development. Bottom: the final art that replaced them.")}`),
+      card("sd-blend", "2D + 3D", ko ? "2D와 3D를 한 그림으로" : "Making 2D and 3D read as one picture",
+        `<p>${ko ? "게임은 Unity 2D Renderer로 돌아가는데 도마, 벨트, 셰프는 3D였습니다. 2D 조명은 3D 메시에 닿지 않아서, 둘을 같은 그림처럼 보이게 하는 작은 셰이더들을 만들었습니다." : "The game runs on Unity's 2D Renderer, but the board, belt and chef are 3D. 2D lights do not shade 3D meshes, so I added small shaders that make both read as one picture."}</p>${pair(
+          { src: "../img/SushiDojo/01_title_table.jpg", alt: ko ? "조명 아래 회전 테이블" : "Spotlit turntable", label: ko ? "타이틀" : "Title", caption: ko ? "3D 테이블에 가짜 조명, 2D 로고와 손" : "Fake-lit 3D table under a 2D logo and hand" },
+          { src: "../img/SushiDojo/02_cooking_puff.jpg", alt: ko ? "요리 중 툰 연기" : "Toon puff while cooking", label: ko ? "요리" : "Cooking", caption: ko ? "3D 도마 위로 피어오르는 툰 구름 연기" : "Toon cloud puff rising over the 3D board" }
+        , false)}${table(ko ? ["셰이더", "역할"] : ["Shader", "What it does"], ko ? [
+          ["FakeLit", "고정된 가짜 방향광과 플랫 노멀로 3D 소품을 로우폴리 일러스트처럼 셰이딩"],
+          ["FlatUnlit", "깊이를 쓰지 않아 벨트 같은 평평한 3D 면이 스프라이트처럼 정렬 순서로 겹침"],
+          ["ToonPuff", "3단 툰 셰이딩과 노이즈 디졸브로 만든 만화풍 구름 연기"],
+          ["SoftFog · CrossSparkle", "천천히 흐르는 부드러운 안개, 끝이 가늘어지는 십자 반짝임"],
+          ["SpriteColorTint", "명암을 살린 채 색을 바꿔 잘못된 조작에 빨간 표시"],
+          ["PixelatePost", "전체 화면 픽셀화와 포스터라이즈로 2D와 3D의 질감 통일"]
+        ] : [
+          ["FakeLit", "A fixed fake directional light and flat normals shade 3D props like the illustrations"],
+          ["FlatUnlit", "Writes no depth, so flat 3D surfaces such as the belt sort by order like sprites"],
+          ["ToonPuff", "Cartoon cloud puffs with three-band toon shading and a noise dissolve"],
+          ["SoftFog · CrossSparkle", "Slowly flowing soft fog and tapered cross twinkles"],
+          ["SpriteColorTint", "Repaints a sprite while keeping its shading, for the red flash on an illegal move"],
+          ["PixelatePost", "Full-screen pixelation and posterize to unify 2D and 3D texture"]
+        ])}`),
+      card("sd-feel", ko ? "손맛" : "Game feel", ko ? "음식을 버리면 바로 느껴지게" : "Make waste felt immediately",
+        `<ul>${(ko ? [
+          "재료를 마우스로 던지고, 도마 위에서 튕기고, 테이블 밖으로 떨어지면 다시 돌아오는 물리",
+          "부딪히면 찌그러졌다 돌아오는 젤리 셰프 (애니메이션 클립 없이 감쇠 스프링으로 계산)",
+          "음식을 버리면 말풍선 점수와 음식 얼룩으로 즉시 반응"
+        ] : [
+          "Ingredients you throw with the mouse, bounce on the board, and that respawn when they fall off the table",
+          "A jelly chef that squashes on impact and settles back, driven by a damped spring instead of animation clips",
+          "Immediate reactions to waste: speech-bubble score changes and food splatter"
+        ]).map(item => `<li>${item}</li>`).join("")}</ul>${pair(
+          { src: "../img/SushiDojo/04_gameplay.jpg", alt: ko ? "게임 플레이 화면" : "Gameplay", label: ko ? "플레이" : "Gameplay", caption: ko ? "벨트, 레시피 카드, 말풍선 점수" : "Belt, recipe cards, speech-bubble score" },
+          { src: "../img/SushiDojo/05_lobby.jpg", alt: ko ? "로비 화면" : "Lobby", label: ko ? "로비" : "Lobby", caption: ko ? "요리가 돌아가며 보이는 로비" : "Lobby with a rotating dish preview" }
+        , false)}`),
+      card("sd-timeline", ko ? "36시간 타임라인" : "36-hour timeline", ko ? "커밋 기록으로 본 제작 순서" : "The build, by commit",
+        `${timeline(ko ? [
+          ["1일 13:00", "시작", "2D URP 씬 세팅"],
+          ["14:44", "컨베이어 벨트", "벨트 시스템과 첫 재료 이미지"],
+          ["18:08", "3D 도마 + 셰이더", "FakeLit, FlatUnlit, ToonPuff, SoftFog, CrossSparkle, PixelatePost"],
+          ["19:58", "재료 세트", "오이, 양파, 돈가스, 간장, 튀김, 계란"],
+          ["22:36", "셰프 + 요리", "젤리 셰프와 완성 요리 이미지"],
+          ["2일 01:37", "메인 메뉴", "타이틀 로고, UI 패널, 테이블"],
+          ["04:44", "레시피 UI", "레시피·카드 UI와 카드 미리보기"],
+          ["06:42", "던지기 + 손맛", "재료 던지기, 레시피 큐, 빨간 경고 틴트"],
+          ["07:28", "마무리", "옵션 메뉴, 결과 화면, 그다음 제출"]
+        ] : [
+          ["Day 1 13:00", "Kickoff", "2D URP scene set up"],
+          ["14:44", "Conveyor belt", "Belt system and the first ingredient images"],
+          ["18:08", "3D board + shaders", "FakeLit, FlatUnlit, ToonPuff, SoftFog, CrossSparkle, PixelatePost"],
+          ["19:58", "Ingredient set", "Cucumber, onion, pork cutlet, soy sauce, tempura, egg"],
+          ["22:36", "Chef + dishes", "Jelly chef and the finished dish images"],
+          ["Day 2 01:37", "Main menu", "Title logo, UI panels, the table"],
+          ["04:44", "Recipe UI", "Recipe and card UI, card preview"],
+          ["06:42", "Throwing + feel", "Ingredient throwing, recipe queue, red warning tint"],
+          ["07:28", "Wrap-up", "Options menu and results screen, then submission"]
+        ])}${note(ko ? "기여 범위:" : "Authorship:", ko ? "이미지 에셋은 제 아트 디렉션에 따라 AI로 생성했고, 스타일 규칙 정의와 선별, 수정, 적용은 제가 했습니다. 셰이더와 연출 코드는 AI의 도움으로 작성했고, 트레일러는 After Effects로 직접 편집했습니다. 네트워킹과 매치 흐름, 레시피와 밸런스는 팀원 Daniel Shin과 Lance가 맡았습니다." : "The image assets were generated with AI under my art direction; defining the style rules, selecting, editing and integrating them was my work. The shader and presentation code was written with AI assistance, and I cut the trailer in After Effects. Networking, match flow, recipes and balance were written by teammates Daniel Shin and Lance.")}`)
+    ];
+    sushi.contributions = { layout: "stacked", sections: build(false) };
+    sushi.localized.ko.contributions = { layout: "stacked", sections: build(true) };
+  }
+})();
+
 function renderMediaSlots(figures, lang = "en") {
   const label = lang === "ko" ? "이미지 준비 중" : "Image coming soon";
   return `<div class="media-slot-grid">${figures.map(fig => `<figure class="media-slot"><div class="media-slot__frame"><span class="media-slot__placeholder"><strong>${label}</strong><small>${fig.src.replace("../", "")}</small></span><img src="${fig.src}" alt="${fig.alt}" loading="lazy" onerror="this.remove()"></div><figcaption><span>${fig.label}</span><strong>${fig.caption}</strong></figcaption></figure>`).join("")}</div>`;

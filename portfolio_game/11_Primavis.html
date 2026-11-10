@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Primavis — Min Seohyeon Portfolio</title>
+  <meta name="description" content="Primavis: art direction and watercolor look development for a two-week thatgamecompany game jam game, plus the rendering and web-build performance work that carried the look into a browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PRIMAVIS — Min Seohyeon Portfolio">
+  <meta property="og:description" content="Art direction and watercolor look development for a two-week thatgamecompany game jam game.">
+  <meta property="og:image" content="https://seohyeon-min.github.io/my_portfolio/img/Primavis/header.jpg">
+  <meta property="og:url" content="https://seohyeon-min.github.io/my_portfolio/portfolio_game/11_Primavis.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="../img/icon.png">
+  <link rel="stylesheet" href="../external/normalize.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@200..900&family=Source+Sans+3:wght@200..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css?v=20261110d">
+</head>
+<body>
+<!-- CRAWLER NOTE: every element below (hero title/media, overview, bullets, contributions) is an empty/placeholder shell that js/project-template.js fills in at runtime from js/projects-data.js["11_Primavis"] -- read that object for the real, current content. Primavis is a finished, shipped game-jam build (not in production). -->
+<section class="crawler-fallback visually-hidden" aria-hidden="false">
+  <h1>Primavis</h1>
+  <p class="crawler-status"><strong>Authorship, stated explicitly:</strong> I set the art direction and visual targets and made the look and performance decisions. I modeled the characters and creatures (the child, the bird and the animals); their animation was generated with AI. Shader and rendering code was implemented with AI assistance under my direction. Background props (trees, flowers): Tommy Ji. Game design: Seungju Song. Programming: Seungju Song, Sam Jeon. Sound: Port Nugent.</p>
+  <h2>Role</h2>
+  <p>Art Direction &middot; Programming &middot; Production (credited in the game's ending credits)</p>
+  <h2>Event</h2>
+  <p>thatgamecompany game jam, 2026 &middot; two weeks &middot; team of five</p>
+  <h2>Tools</h2>
+  <p>Unity 6 URP, HLSL, C#, FMOD, WebGL</p>
+  <h2>What I did</h2>
+  <ul>
+    <li>Set a watercolor / gouache / pastel art direction where winter visibly retreats in steps until spring arrives.</li>
+    <li>Measured a full-screen Anisotropic Kuwahara watercolor filter (about 14 ms at 1080p) against material-based watercolor plus a 3x3 bilateral blur (0.135 ms), and chose the material approach for the web build.</li>
+    <li>Season change shown as a ring wipe that repaints trees, flowers and grass outward from the child.</li>
+    <li>Web-build stalls: renderers cut from 75,755 to 40,272; first-use shader compiles (up to about 690 ms in one frame) moved into the game's first frames by drawing all 141 materials once.</li>
+  </ul>
+</section>
+  <header class="navbar"><div class="navbar-logo">MSH</div><nav class="navbar-menu"><a href="../index.html#home">Home</a><a href="../index.html#projects">Projects</a><a href="../index.html#about">About</a><a href="../index.html#contact">Contact</a></nav></header>
+  <header class="video-hero"><img src="" alt="Poster" class="bird-image"><div class="video-overlay"><h1 class="game-title-bird">PRIMAVIS</h1><p class="game-subtitle-bird">Watercolor art direction for a thatgamecompany game jam</p></div></header>
+  <main class="main-content"><section class="main-background-section"></section><section class="rounded-section"></section><button class="return-button" onclick="window.history.back()"><span class="arrow-icon">&larr;</span><span class="button-text">Return</span></button></main>
+  <footer class="footer"><a href="mailto:weare1842@gmail.com" class="footer__link">weare1842@gmail.com</a></footer>
+  <script src="../js/projects-data.js?v=20261110b"></script><script src="../js/project-template.js?v=20261110a"></script><script src="../js/index.js?v=20261110a"></script>
+</body>
+</html>

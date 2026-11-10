@@ -140,10 +140,10 @@ const PROOF_SUMMARY = {
 // Whichever project was added to the site most recently gets a "NEW" badge — update BOTH of these
 // when adding a new project: the proof-reel key (matches a proofProjects `key` above) and the href
 // fragment (matches the actual page filename) for the ALL PROJECTS / archive grid cards. Currently
-// Ruin Forge (10_RuinForge.html), a personal tool added while still (IN PRODUCTION / UNFINISHED).
+// Primavis (11_Primavis.html), a finished thatgamecompany game-jam build (art direction).
 // It isn't a Proof Reel card, so the key below matches no proof card on purpose.
-const NEWEST_PROJECT_KEY = 'ruinforge';
-const NEWEST_PROJECT_HREF_FRAGMENT = '10_RuinForge.html';
+const NEWEST_PROJECT_KEY = 'primavis';
+const NEWEST_PROJECT_HREF_FRAGMENT = '11_Primavis.html';
 function applyNewestProjectBadge() {
   document.querySelectorAll('.link-archive-grid a, .portfolio__item[href]').forEach(card => {
     card.classList.toggle('is-new-project', Boolean(card.getAttribute('href')?.includes(NEWEST_PROJECT_HREF_FRAGMENT)));
@@ -605,7 +605,7 @@ function refreshArchiveLayout(track) {
     // Carboom is an ongoing Unreal Engine team project, Ruin Forge an ongoing personal Blender
     // Geometry Nodes tool. Neither is shipped/finished — describe them as work-in-progress.
     ['TOOLS', 'Artist-facing editor tools that help artists work without touching code.', '코드를 몰라도 아티스트가 직접 다룰 수 있게 돕는 에디터 툴입니다.', ['09_Carboom.html', '10_RuinForge.html']],
-    ['VISUALS', 'Art, UI, and VFX for interactive experiences.', '아트, UI/UX, 이펙트 등 비주얼 중심의 작업물입니다.', ['06_StreetTyper.html', '00_NewManzo.html', 'ArtGallery.html']],
+    ['VISUALS', 'Art, UI, and VFX for interactive experiences.', '아트, UI/UX, 이펙트 등 비주얼 중심의 작업물입니다.', ['06_StreetTyper.html', '11_Primavis.html', '12_SushiDojo.html', '00_NewManzo.html', 'ArtGallery.html']],
     ['GAME PROGRAMMING', 'Gameplay, systems, and engine development.', '게임플레이, 시스템, 엔진 개발 등 프로그래밍 기반의 프로젝트입니다.', ['04_BirdStrike.html', '03_DoubleHit.html', '02_EdgeDirve.html']],
     ['RENDERING', 'Rendering pipelines and custom renderer experiments.', '렌더링 파이프라인과 커스텀 렌더러, 최적화 관련 프로젝트입니다.', ['01_Manzo.html']],
     // PRODUCTION is last on purpose and is (THIS IS DE-EMPHASIZED / COLLAPSED BY DEFAULT!) on
@@ -851,7 +851,7 @@ function applyLanguage(language) {
     const groups = [
       ['SHADERS', ['07_TooHot.html', 'PoseidonSkate', '05_ThinkThink.html']],
       ['TOOLS', ['09_Carboom.html', '10_RuinForge.html']],
-      ['VISUALS', ['00_NewManzo.html', '06_StreetTyper.html', 'ArtGallery.html']],
+      ['VISUALS', ['00_NewManzo.html', '06_StreetTyper.html', '11_Primavis.html', '12_SushiDojo.html', 'ArtGallery.html']],
       ['GAME PROGRAMMING', ['04_BirdStrike.html', '03_DoubleHit.html', '02_EdgeDirve.html']],
       ['RENDERING', ['01_Manzo.html']],
       ['PRODUCTION', ['Dangling.html', 'PlushProduction.html']]
@@ -881,6 +881,8 @@ function applyLanguage(language) {
       '02_EdgeDirve.html': 'Unreal Engine GitHub',
       '09_Carboom.html': 'Unreal Engine C++ Python Perforce Jira',
       '10_RuinForge.html': 'Blender Python',
+      '11_Primavis.html': 'Unity HLSL C# FMOD GitHub',
+      '12_SushiDojo.html': 'Unity HLSL C# GitHub',
       '00_NewManzo.html': 'C# FMOD HLSL Clip Studio Paint Aseprite Spriter Pro GitHub', '01_Manzo.html': 'C++ OpenGL GLSL Custom Engine Clip Studio Paint GitHub RenderDoc',
       '03_DoubleHit.html': 'C++ GLSL OpenGL Spriter Pro Clip Studio Paint GitHub', '04_BirdStrike.html': 'C++ Clip Studio Paint Cakewalk raylib GitHub',
       '05_ThinkThink.html': 'Unity HLSL C# GitHub', '06_StreetTyper.html': 'C# Unity Spriter Pro 2D Rigging Animation HLSL Clip Studio Paint GitHub',
@@ -981,13 +983,15 @@ function applyLanguage(language) {
       'portfolio_game/03_DoubleHit.html': 'DOUBLE HIT',
       'portfolio_game/05_ThinkThink.html': 'THINK THINK',
       'portfolio_game/02_EdgeDirve.html': 'EDGE DRIVE',
+      'portfolio_game/11_Primavis.html': 'PRIMAVIS',
+      'portfolio_game/12_SushiDojo.html': 'SUSHI DOJO',
       'portfolio_planning/Dangling.html': 'DANGLING*',
       'portfolio_planning/PlushProduction.html': 'PLUSH PRODUCTION'
     };
     const archiveOrder = {
-      graphics: ['07_TooHot', '08_PoseidonSkate', '01_Manzo', '06_StreetTyper', '00_NewManzo', '04_BirdStrike', '03_DoubleHit', '05_ThinkThink', '02_EdgeDirve', 'PlushProduction', 'Dangling'],
-      software: ['06_StreetTyper', '07_TooHot', '08_PoseidonSkate', '01_Manzo', '04_BirdStrike', '00_NewManzo', '03_DoubleHit', '05_ThinkThink', '02_EdgeDirve', 'PlushProduction', 'Dangling'],
-      product: ['PlushProduction', 'Dangling', '06_StreetTyper', '07_TooHot', '01_Manzo', '00_NewManzo', '08_PoseidonSkate', '04_BirdStrike', '03_DoubleHit', '05_ThinkThink', '02_EdgeDirve']
+      graphics: ['07_TooHot', '08_PoseidonSkate', '01_Manzo', '06_StreetTyper', '11_Primavis', '12_SushiDojo', '00_NewManzo', '04_BirdStrike', '03_DoubleHit', '05_ThinkThink', '02_EdgeDirve', 'PlushProduction', 'Dangling'],
+      software: ['06_StreetTyper', '07_TooHot', '08_PoseidonSkate', '01_Manzo', '04_BirdStrike', '00_NewManzo', '03_DoubleHit', '05_ThinkThink', '02_EdgeDirve', '11_Primavis', '12_SushiDojo', 'PlushProduction', 'Dangling'],
+      product: ['PlushProduction', 'Dangling', '06_StreetTyper', '07_TooHot', '01_Manzo', '00_NewManzo', '08_PoseidonSkate', '11_Primavis', '12_SushiDojo', '04_BirdStrike', '03_DoubleHit', '05_ThinkThink', '02_EdgeDirve']
     };
     const allProjects = (archiveOrder[track] || archiveOrder.graphics).map(key => {
       const href = Object.keys(projectTitles).find(path => path.includes(key));
@@ -1150,6 +1154,8 @@ const graphicsCategoryByProject = {
   '05_ThinkThink.html': ['shader', 'visual'],
   '06_StreetTyper.html': ['shader', 'visual'],
   '07_TooHot.html': ['shader', 'visual'],
+  '11_Primavis.html': ['shader', 'visual'],
+  '12_SushiDojo.html': ['visual'],
   '08_demo_fun.html': ['shader', 'visual', 'renderer']
 };
 
