@@ -3788,6 +3788,7 @@ def unlock_selected():
       "Measured look choice: a full-screen Kuwahara filter cost about 14 ms at 1080p, so the watercolor moved into materials plus a 0.135 ms bilateral blur",
       "Character modeling: the child, the bird and the animals, modeled by me (animation generated with AI)",
       "Season change: a ring wipe that repaints trees, flowers and grass outward from the child",
+      "Artist tool: a Maya leaf-card generator (AI-written from my prompts) that our prop artist used to build the spring trees",
       "Forest dressing: procedural tree and grass placement with wind sway, so a large winter forest could be built in days",
       "Web build: renderers cut from 75,755 to 40,272, and first-use shader compiles of up to about 690 ms moved into the first frames",
       "Credits: Art Direction, Programming & Production on a five-person team"
@@ -3815,6 +3816,7 @@ def unlock_selected():
           "측정으로 정한 룩: 전체 화면 Kuwahara 필터가 1080p에서 약 14ms라, 수채화를 머티리얼로 옮기고 0.135ms 바이래터럴 블러만 남김",
           "캐릭터 모델링: 아이와 새, 동물을 직접 모델링 (애니메이션은 AI로 생성)",
           "계절 변화: 아이를 중심으로 나무·꽃·풀이 바깥으로 다시 칠해지는 링 와이프",
+          "아티스트 툴: 배경 소품 담당 팀원이 봄 나무를 만들 때 쓴 Maya 잎 카드 생성기 (제 프롬프트로 AI가 작성)",
           "숲 구성: 바람에 흔들리는 나무·풀을 절차적으로 배치해 넓은 겨울 숲을 며칠 만에 완성",
           "웹 빌드: 렌더러 75,755개 → 40,272개, 최대 약 690ms 걸리던 셰이더 첫 사용 컴파일을 첫 프레임으로 이동",
           "크레딧: 5인 팀에서 아트 디렉션·프로그래밍·프로듀싱"
@@ -4215,7 +4217,7 @@ function renderEngineeringCaseStudy({ metrics = [], architecture = [], architect
           ["◎", "Team of 5", "I led art direction, programming and production"],
           ["▦", "0.135 ms", "Watercolor post-processing cost at 1080p"],
           ["↻", "4 steps", "From winter to spring"]
-        ])}${chips(ko ? [["pv-concept", "콘셉트 → 게임"], ["pv-color", "컬러 스크립트"], ["pv-look", "측정으로 정한 룩"], ["pv-web", "웹 출시"], ["pv-timeline", "2주 타임라인"], ["pv-gallery", "갤러리"]] : [["pv-concept", "Concept → game"], ["pv-color", "Color script"], ["pv-look", "Measured look"], ["pv-web", "Shipping to the web"], ["pv-timeline", "Two-week timeline"], ["pv-gallery", "Gallery"]])}${video("../img/Primavis/walkthrough.mp4", "../img/Primavis/header.jpg", ko ? "인트로부터 엔딩까지 이어지는 3분 플레이 영상입니다. 소리를 켜고 보세요." : "A three-minute playthrough from the intro to the ending. Best with sound on.")}`),
+        ])}${chips(ko ? [["pv-concept", "콘셉트 → 게임"], ["pv-color", "컬러 스크립트"], ["pv-leaf", "잎 카드 툴"], ["pv-look", "측정으로 정한 룩"], ["pv-web", "웹 출시"], ["pv-timeline", "2주 타임라인"], ["pv-gallery", "갤러리"]] : [["pv-concept", "Concept → game"], ["pv-color", "Color script"], ["pv-leaf", "Leaf-card tool"], ["pv-look", "Measured look"], ["pv-web", "Shipping to the web"], ["pv-timeline", "Two-week timeline"], ["pv-gallery", "Gallery"]])}${video("../img/Primavis/walkthrough.mp4", "../img/Primavis/header.jpg", ko ? "인트로부터 엔딩까지 이어지는 3분 플레이 영상입니다. 소리를 켜고 보세요." : "A three-minute playthrough from the intro to the ending. Best with sound on.")}`),
       card("pv-concept", ko ? "콘셉트 → 게임" : "Concept → game", ko ? "한 장의 그림에서 시작한 룩" : "The look started from one painting",
         `<p>${ko ? "아이 콘셉트를 먼저 그렸습니다. 차가운 청록빛 겨울 공기, 따뜻한 노란 머리와 크림색 옷, 검정 대신 색이 있는 부드러운 그림자. 이 한 장이 게임 전체의 팔레트와 셰이딩 규칙이 됐고, 아이와 새, 동물은 이 그림을 기준으로 직접 모델링했습니다." : "I painted the child first: cold cyan winter air, warm yellow hair and a cream dress, and soft colored shadows instead of black. That one painting became the palette and the shading rule for the whole game, and I modeled the child, the bird and the animals against it."}</p>${pair(
           { src: "../img/Primavis/girl_concept.jpg", alt: ko ? "아이 콘셉트 페인팅" : "Concept painting of the child", label: ko ? "콘셉트" : "Concept", caption: ko ? "직접 그린 아이 콘셉트" : "My concept painting of the child" },
@@ -4237,6 +4239,11 @@ function renderEngineeringCaseStudy({ metrics = [], architecture = [], architect
           { src: "../img/Primavis/04_snow_forest.jpg", alt: ko ? "겨울 숲" : "Winter forest", label: ko ? "겨울" : "Winter", caption: ko ? "옅은 파랑과 라일락, 길고 푸른 그림자" : "Pale blue and lilac, long blue shadows" },
           { src: "../img/Primavis/09_spring.jpg", alt: ko ? "봄 들판" : "Spring meadow", label: ko ? "봄" : "Spring", caption: ko ? "같은 숲이 따뜻한 초록과 꽃으로" : "The same forest in warm green and flowers" }
         )}`),
+      card("pv-leaf", ko ? "아티스트를 위한 툴" : "A tool for a teammate", ko ? "잎 카드를 손으로 놓지 않게" : "Leaf cards without hand placement",
+        `<p>${ko ? "봄이 오면 숲의 나무에 잎이 돋아야 했는데, 배경 소품 담당인 Tommy가 나무마다 잎 카드를 손으로 하나씩 배치해야 하는 상황이었습니다. 이 병목을 보고 Maya용 잎 빌보드 제너레이터를 만들어 넘겼습니다. 중심과 반경만 정하면 수관 모양으로 카드를 배치하는 Volume 모드, 가지 끝 로케이터마다 잎 뭉치를 붙이는 Branch 모드가 있고, 결과물은 Unity로 바로 보낼 수 있는 일반 메시입니다. Tommy가 이 툴로 봄의 잎 있는 나무들을 만들었고, 정말 편했다고 했습니다." : "When spring arrives the forest's trees grow leaves, and Tommy, who modeled the background props, was facing placing every leaf card by hand. I saw the bottleneck and handed him a Maya leaf-billboard generator: a Volume mode that fills a crown shape from a center and radius, and a Branch mode that puts a leaf clump on each branch-tip locator, exporting plain meshes straight to Unity. Tommy built the spring trees with it and said it made the work far easier."}</p>${pair(
+          { src: "../img/Primavis/leaf_tool_maya.jpg", alt: ko ? "Maya에서 툴로 만든 잎 카드 나무" : "Leaf-card tree made with the tool in Maya", label: "Maya", caption: ko ? "Volume 모드: 단면 카드 20장으로 만든 수관" : "Volume mode: a crown from 20 single-sided cards" },
+          { src: "../img/Primavis/leaf_tool_ingame.jpg", alt: ko ? "게임 속 봄 숲의 잎 있는 나무들" : "Leafy trees in the spring forest in game", label: ko ? "게임" : "In game", caption: ko ? "같은 방식으로 만든 봄 숲의 나무들" : "Spring trees built the same way" }
+        )}${note(ko ? "기여 범위:" : "Authorship:", ko ? "툴 코드는 제가 요구사항을 프롬프트로 주고 AI가 전부 작성했습니다. 제 몫은 팀원의 병목을 찾고, 툴이 무엇을 해야 하는지 정하고, 결과를 팀 파이프라인에 넣은 것입니다." : "The tool's code was written entirely by AI from my prompts. My part was spotting the teammate's bottleneck, deciding what the tool needed to do, and getting it into the team's pipeline.")}`),
       card("pv-look", ko ? "측정으로 정한 룩" : "Measured look", ko ? "전체 화면 필터 대신 머티리얼로" : "Watercolor from materials, not a full-screen filter",
         `<p>${ko ? "첫 버전은 Blender의 Anisotropic Kuwahara를 참고한 전체 화면 필터로, 화면을 붓 터치 같은 색 영역으로 바꿨습니다. 목표 플랫폼이 웹 브라우저라 직접 측정해 비교했고, 너무 무겁다고 판단해 수채화 느낌은 각 머티리얼에서 만들고 후처리는 비슷한 색끼리만 섞는 가벼운 블러 하나만 남겼습니다." : "The first version was a full-screen filter modeled on Blender's Anisotropic Kuwahara, which turns the frame into brush-like color regions. The target was a web browser, so we measured it; I judged it too heavy and moved the watercolor feel into the materials, keeping only a light blur that mixes similar colors."}</p>${table(ko ? ["방식", "GPU 시간 (1080p, RTX 3050 Ti 노트북)"] : ["Approach", "GPU time (1080p, RTX 3050 Ti Laptop)"], ko ? [
           ["Kuwahara, 전체 해상도", "약 14ms (Kuwahara 패스만 11.8ms)"],
@@ -4272,7 +4279,7 @@ function renderEngineeringCaseStudy({ metrics = [], architecture = [], architect
       card("pv-timeline", ko ? "2주 타임라인" : "Two-week timeline", ko ? "2주 동안 룩이 만들어진 순서" : "How the look came together in two weeks",
         `${timeline(ko ? [
           ["10/25", "시작", "아이 콘셉트와 Unity URP 프로젝트 세팅"],
-          ["10/27", "수채화 1차 + 측정", "Kuwahara 필터 vs 머티리얼 방식 측정, 머티리얼로 결정"],
+          ["10/27", "수채화 1차 + 측정", "Kuwahara 필터 vs 머티리얼 방식 측정, 머티리얼로 결정. Tommy용 Maya 잎 카드 툴 전달"],
           ["10/29", "물과 과슈", "수채화 물 셰이더, 과슈 모드, 환경광"],
           ["10/30", "계절 전환", "링 와이프, 눈을 걷어내는 바람, 발자국, 깨어나는 컷씬"],
           ["11/01", "하늘과 캐릭터", "절차적 구름 인트로, 칠한 느낌의 캐릭터 셰이딩"],
@@ -4282,7 +4289,7 @@ function renderEngineeringCaseStudy({ metrics = [], architecture = [], architect
           ["11/07", "웹 출시", "끊김 제거(렌더러 47% 감소, 셰이더 프리웜) 후 제출"]
         ] : [
           ["Oct 25", "Kickoff", "Child concept and the Unity URP project set up"],
-          ["Oct 27", "Watercolor v1 + measurement", "Kuwahara filter vs materials measured; materials chosen"],
+          ["Oct 27", "Watercolor v1 + measurement", "Kuwahara filter vs materials measured; materials chosen. Maya leaf-card tool handed to Tommy"],
           ["Oct 29", "Water and gouache", "Watercolor water shader, gouache mode, environment light"],
           ["Oct 30", "Season change", "Ring wipe, snow-clearing gust, footprints, the wake-up cutscene"],
           ["Nov 1", "Sky and characters", "Procedural cloud intro, painted character shading"],

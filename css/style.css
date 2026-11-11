@@ -3561,8 +3561,7 @@ body .return-button.project-back-button:hover {
    rendering after the hover-video backdrop was added and needed a z-index bump. */
 .link-scene--proof .scene-vine { z-index: 1; }
 .link-scene--proof .proof-reel { position: relative; z-index: 1; }
-.link-scene--proof.is-hovering .scene-vine,
-.link-scene--proof.is-hovering .proof-reel__header { opacity: 0; transition: opacity 320ms ease; }
+.link-scene--proof.is-hovering .scene-vine { opacity: 0; transition: opacity 320ms ease; }
 .link-scene--proof .scene-vine,
 .link-scene--proof .proof-reel__header { transition: opacity 320ms ease; }
 .proof-reel {
@@ -3605,6 +3604,19 @@ body .return-button.project-back-button:hover {
   min-height: 0;
 }
 .proof-reel__projects.is-four { grid-template-columns: repeat(4, 1fr); }
+/* Hover expansion (see initProofReelHover in index.js): the hovered card's column is set inline to
+   2.4fr and the rest to 0.75fr, and this eases between the two layouts. */
+.proof-reel__projects { transition: grid-template-columns 520ms cubic-bezier(.2,.72,.18,1); }
+.proof-shot__hover-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 420ms ease, transform 500ms cubic-bezier(.2,.72,.18,1); }
+.proof-shot__hover-video.is-active { opacity: 1; }
+.proof-shot__hover-info { position: absolute; z-index: 2; top: 1rem; left: 1rem; right: 1rem; display: flex; flex-direction: column; align-items: center; gap: .55rem; pointer-events: none; }
+.proof-shot__hover-info .proof-skills,
+.proof-shot__hover-info .proof-summary { position: static; max-width: 100%; }
+.proof-shot__hover-info .proof-skills { transform: none; }
+.proof-shot__hover-info .proof-summary { transform: translateY(-.6rem); }
+.proof-shot__hover-info .proof-summary.is-visible { transform: none; }
+/* The chips are <span>s, so undo .proof-shot span (the card title block) for them. */
+.proof-shot .proof-skills__chip { position: static; display: inline-block; z-index: auto; }
 .proof-shot[data-project-key="wave"] { background:linear-gradient(145deg,#102657 0%,#1b6c9f 52%,#54d5d0 100%); }
 .proof-shot[data-project-key="wave"] img { object-fit:cover; mix-blend-mode:screen; opacity:.62; }
 .archive-category { grid-column:1 / -1; min-height:0; height:auto; margin:0; padding:0; }

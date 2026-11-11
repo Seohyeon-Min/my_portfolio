@@ -42,9 +42,9 @@ const portfolioTracks = {
     proofProjects: [
       { key: 'poseidon', title: 'POSEIDON SKATE', lead: 'TECHNICAL ART / SHADER', meta: 'UNITY URP · HLSL · BLENDER · TEAM PROJECT', href: 'portfolio_game/08_PoseidonSkate.html', image: 'img/WaveSimulator/img1.png' }, // <- most-emphasized: card 0
       { key: 'manzo', title: 'MANZO · CUSTOM RENDERER', lead: 'GRAPHICS / ENGINE PROGRAMMER', meta: 'OPENGL · PING-PONG FBO · POST-PROCESSING', href: 'portfolio_game/01_Manzo.html', image: 'img/portfolio_thumbnails/Manzo.png' },
-      // (IN PRODUCTION / UNFINISHED): use the actual editor recording as the
-      // card media rather than a separate still image.
-      { key: 'carboom', title: 'CARBOOM', lead: 'GAMEPLAY / TECH ART — TOOLS', meta: 'UNREAL ENGINE · PYTHON · PLANET AUTO-PLACEMENT', href: 'portfolio_game/09_Carboom.html', video: 'img/Carboom/TempHero_bg.mp4' },
+      // (IN PRODUCTION / UNFINISHED): card still is an editor viewport frame of tool-placed planets
+      // (same as its ALL PROJECTS card); the editor recording plays inside the card on hover.
+      { key: 'carboom', title: 'CARBOOM', lead: 'GAMEPLAY / TECH ART — TOOLS', meta: 'UNREAL ENGINE · PYTHON · PLANET AUTO-PLACEMENT', href: 'portfolio_game/09_Carboom.html', image: 'img/Carboom/hero.jpg' },
       { key: 'street', title: 'STREET TYPER', lead: 'VISUAL LEAD', meta: 'UI SHADERS · VFX · GAME FEEL', href: 'portfolio_game/06_StreetTyper.html', image: 'img/StreetTyper/title2.png' } // <- least-emphasized of these four: card 3, last
     ]
   },
@@ -99,7 +99,7 @@ const PROOF_HERO_MEDIA = {
   manzo: { video: 'img/MANZO/MANZO_trailer_bg.mp4', poster: 'img/portfolio_thumbnails/Manzo.png' },
   toohot: { video: 'img/TooHot/트레일러1_low_bg.mp4', poster: 'img/TooHot/hero.png' },
   street: { video: 'img/StreetTyper/STTrailer_ko1_bg.mp4', poster: 'img/StreetTyper/hero.png' },
-  carboom: { video: 'img/Carboom/TempHero_bg.mp4' },
+  carboom: { video: 'img/Carboom/TempHero_bg.mp4', poster: 'img/Carboom/hero.jpg' },
   newmanzo: { poster: 'img/portfolio_thumbnails/NewManzo.png' },
   doublehit: { poster: 'img/portfolio_thumbnails/DoubleHit.png' },
   dangling: { poster: 'img/portfolio_thumbnails/Dangling.jpg' },
@@ -172,9 +172,11 @@ function maybeShineNewBadge(scene) {
   }, 1000);
 }
 
-// Hovering a Proof Reel card: the vine graphic and the section's own title/summary fade out,
-// the other cards dim to ~50% opacity, and the hovered project's hero video (or poster, if it
-// has none) fades in behind everything. Delegated on the scene itself rather than bound per
+// Hovering a Proof Reel card: the hovered card's grid column widens while the others narrow (so
+// it grows toward wherever its neighbours are: the last card grows only leftward, the third of four
+// mostly left and a little right), the other cards dim to ~50% opacity, and the project's hero video
+// plays inside the card itself, with the skill chips and one-line summary laid over its top.
+// Desktop only: on phones the cards are stacked one per row, so there is no width to grow into. Delegated on the scene itself rather than bound per
 // card, so it keeps working after applyPortfolioTrack relabels the same 3-4 card elements for a
 // different track — nothing here needs rebinding when the track changes.
 let proofReelHoverClear = null;
@@ -182,40 +184,51 @@ function initProofReelHover() {
   const scene = document.querySelector('.link-scene--proof');
   const backdrop = document.querySelector('.proof-backdrop');
   if (!scene || !backdrop) return;
-  const img = backdrop.querySelector('.proof-backdrop__img');
   const skillsBox = scene.querySelector('.proof-skills');
   const summaryBox = scene.querySelector('.proof-summary');
 
+  const grid = scene.querySelector('.proof-reel__projects');
+  // Chips + summary share one top-of-card column so a chip row that wraps pushes the summary down
+  // instead of overlapping it.
+  const hoverInfo = document.createElement('div');
+  hoverInfo.className = 'proof-shot__hover-info';
+  if (skillsBox) hoverInfo.appendChild(skillsBox);
+  if (summaryBox) hoverInfo.appendChild(summaryBox);
+  const canExpand = window.matchMedia('(min-width: 769px) and (hover: hover)');
   let current = null;
+  let clearTimer = 0;
   const clear = () => {
+    window.clearTimeout(clearTimer);
     scene.classList.remove('is-hovering');
     scene.querySelectorAll('.proof-shot').forEach(card => card.classList.remove('is-hover-active'));
-    backdrop.classList.remove('is-visible');
+    if (grid) grid.style.gridTemplateColumns = '';
     if (skillsBox) skillsBox.classList.remove('is-visible');
     if (summaryBox) summaryBox.classList.remove('is-visible');
     current = null;
     showProofVideo(null);
   };
+  // Short grace period so crossing the gap between two cards doesn't snap the columns back and
+  // forth; a new activate() cancels it.
+  const scheduleClear = () => { window.clearTimeout(clearTimer); clearTimer = window.setTimeout(clear, 140); };
   // Exposed so activateScene() can force this shut (video included) the instant the user scrolls
   // away from the Proof Reel scene — a hover that's still "on" when the scene changes would
   // otherwise keep its video playing silently behind whatever scene comes next.
   proofReelHoverClear = clear;
   const activate = card => {
+    window.clearTimeout(clearTimer);
     const key = card.dataset.projectKey;
     if (!key || key === current) return;
     current = key;
     const media = PROOF_HERO_MEDIA[key];
     scene.classList.add('is-hovering');
-    scene.querySelectorAll('.proof-shot').forEach(other => other.classList.toggle('is-hover-active', other === card));
-    backdrop.classList.add('is-visible');
-    if (media && media.video) {
-      backdrop.classList.remove('is-image-only');
-      showProofVideo(media.video);
-    } else {
-      backdrop.classList.add('is-image-only');
-      showProofVideo(null);
-      img.src = (media && media.poster) || '';
+    const cards = [...scene.querySelectorAll('.proof-shot')];
+    cards.forEach(other => other.classList.toggle('is-hover-active', other === card));
+    if (grid && canExpand.matches) {
+      grid.style.gridTemplateColumns = cards.map(other => (other === card ? '2.4fr' : '0.75fr')).join(' ');
     }
+    showProofVideo(media && media.video ? media.video : null, card);
+    // Chips and summary sit inside the hovered card now (over its video), not over a full-screen backdrop.
+    card.appendChild(hoverInfo);
     if (skillsBox) {
       const skills = PROOF_SKILLS[key] || [];
       skillsBox.innerHTML = skills
@@ -242,10 +255,10 @@ function initProofReelHover() {
   scene.addEventListener('pointerout', event => {
     // Only clear once the pointer actually leaves every card (not just moving between two
     // children of the same card), so hovering a card's inner elements doesn't flicker the backdrop.
-    if (event.target.closest('.proof-shot') && !event.relatedTarget?.closest('.proof-shot')) clear();
+    if (event.target.closest('.proof-shot') && !event.relatedTarget?.closest('.proof-shot')) scheduleClear();
   });
   scene.addEventListener('focusout', event => {
-    if (!event.relatedTarget || !scene.contains(event.relatedTarget) || !event.relatedTarget.closest('.proof-shot')) clear();
+    if (!event.relatedTarget || !scene.contains(event.relatedTarget) || !event.relatedTarget.closest('.proof-shot')) scheduleClear();
   });
 
   // Not called here: at this point applyPortfolioTrack() hasn't labeled the cards with
@@ -307,7 +320,7 @@ function ensureProofVideos() {
     const media = PROOF_HERO_MEDIA[key];
     if (!media?.video || proofVideos.has(media.video)) return;
     const video = document.createElement('video');
-    video.className = 'proof-backdrop__video';
+    video.className = 'proof-shot__hover-video';
     video.muted = true;
     video.loop = true;
     video.playsInline = true;
@@ -325,12 +338,18 @@ function ensureProofVideos() {
 // one is paused only after the 420ms opacity transition, so it fades while still moving instead of
 // freeze-framing — and that pending pause is cancelled if the same video is shown again before it
 // fires (previously an uncancelled setTimeout paused a video that had just been re-hovered).
-function showProofVideo(url) {
+// The <video> elements start parked (hidden) in .proof-backdrop and are moved into whichever card
+// is hovered; moving an element keeps what it has already buffered.
+function showProofVideo(url, card) {
   proofVideos.forEach(entry => {
     const { video } = entry;
     if (entry.url === url) {
       window.clearTimeout(entry.pauseTimer);
       loadProofVideo(entry);
+      if (card && video.parentElement !== card) {
+        const anchor = card.querySelector('span');
+        card.insertBefore(video, anchor);
+      }
       video.classList.add('is-active');
       video.play().catch(() => {});
     } else if (video.classList.contains('is-active')) {
